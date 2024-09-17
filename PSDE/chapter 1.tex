@@ -1,5 +1,95 @@
+% !TeX spellcheck = en_US
 \documentclass[crop=false, class=article]{standalone}
 \usepackage{pacco}
 \begin{document}
 \section{Introduction}
+This course will deal with two main topics: \emph{Stochastic Differential Equations} (SDE) and \emph{Partial Differential Equations} (PDE). It will be mostly theoretical so fuck you. Recommended book is \textit{Brownian motion: an introduction to stochastic processes} by Renè Schilling.
+\section{Introduction to stochastic differential equations}
+\subsection{What is a stochastic differential equation?}
+Imagine that we want to describe a \rp{} that involves time.
+\begin{equation*}
+	{(X_{t})}_{t\geq0}=X_{t}
+\end{equation*}
+Where $t\mapsto X_{t}(\omega)$. This is the evolution of our \rp{}. But what if we are interested in the \textit{variation} of the process? The we would have to consider
+\begin{equation*}
+	\underbrace{\dif X_{t}}_{X_{t+\dif t}-X_{t}}=c \dif t
+\end{equation*}
+where $c$ is a constant and $\dif t$ stands for ``an infinitesimally small amount of $t$''. Of course this notion is strictly heuristic and it is all but a rigorous definition. What the fuck does "infinitesimally small" mean anyway?\\
+In this version the variation of the process is proportional to $\dt$ which is the variation of time. But what if the constant $c$ depends on the current value of $X_{t}$? Then it would become a function of $X_{t}$ and we would have
+\begin{equation*}
+	\dif X_{t}=c(X_{t})\dt.
+\end{equation*}
+Up to now there is nothing random in this. Random variables are just functions and thus are deterministic. We may want to add an aspect of randomness by adding an amount of noise dictated by the \rv{} $Y_{t}$. We may further add a coefficient $\sigma$ that tells us the amplitude of the effect of $Y_{t}$ on the variation of $X_{t}$. Of course, $\sigma$ may be dependent on the current value of $X_{t}$. So we will have
+\begin{equation*}
+	\dif X_{t}=c(X_{t})\dt+\sigma(X_{t})Y_{t}.
+\end{equation*}
+But what is $Y_{t}$? We could characterize it as a noise, that is the sum of a finite amount of quantities $Z_{n}$, each one of which affects very little $Y_{t}$ but there is a shitload of them.
+\[Y_{t}\approx\sum_{k}^{n}\frac{Z_{k}}{n}\]
+with $n$ approaching $\infty$. If the quantities $Z_{k}$ are independent then by the Central Limit Theorem we get
+\begin{equation*}
+	Y_{t}\underset{n\to\infty}{\approx}N(0,\dt).
+\end{equation*} 
+The mean of the normal process is generally arbitrary, unless we specifically choose a value based on some information that we have. Otherwise choose 0. The variance is proportional to the interval of time we are considering, since a bigger interval will cause the random noise to have more effect on the variation of the process.\\
+We also know that in a given \brm{} $B$
+\begin{equation*}
+	B_{t+\dt}-B_{t}\sim N(0,\dt)
+\end{equation*}
+So we could write our variation as
+\begin{equation*}
+	\dif X_{t}=\underbracket{c(X_{t})\dt}_{\mathclap{\text{deterministic}}}+\underbracket{\sigma(X_{t})B_{t}}_{\mathclap{\text{random}}}.
+\end{equation*}
+We may still add more complexity by letting the constant being dependent on time:
+\begin{equation*}
+	\dif X_{t}=c_{t}(X_{t})\dif t+\sigma_{t}(X_{t})\dif B_{t}
+\end{equation*}
+but let's keep it relatively simple and try to avoid the unavoidable eerie question: \textit{this thing is totally heuristic, so this definition means absolutely nothing. What is this?}\\
+Well, maybe we could take the derivative of each side...
+\begin{equation*}
+	\begin{array}{c}
+		\dif X_{t}=c(X_{t})\dif t+\sigma(X_{t})\dif B_{t}\\
+		\downarrow\\
+		\frac{\dif}{\dt}X_{t}=c(X_{t})+\sigma(X_{t})\frac{\dif}{\dt}B_{t}.
+\end{array}
+\end{equation*}
+But what the actual fuck?? We CANNOT differentiate \brm! So we need to define this quantity in another way. But first, a little refresh on integration.
+	Think about the fundamental theorem of calculus:
+\begin{equation*}
+	X_{t}-X_{0}=\int_{0}^{t}c(X_{s})\ds+\int_{0}^{t}\sigma(X_{s})\dif B_{s}.
+\end{equation*}
+\begin{revise}
+	When we do Riemann integrals we know that the definition is 
+	\begin{equation*}
+		\int_{0}^{t}f_{s}\ds=\lim_{|\Pi|\to 0}\sum_{i=1}^{f}f(x_{i})\Delta s_{i}
+	\end{equation*}
+	where $|\Pi|$ is the partition of the domain getting smaller and smaller up to infinitesimally fine.\\
+	Recall, now the Riemann-Steltjes integral:
+	\begin{equation*}
+		\int_{0}^{t}f_{s}\dif f_{s}=\lim_{n\to\infty}\sum_{i=1}^{\infty}f(x_{i})\Delta f(s_{i})
+	\end{equation*}
+\end{revise}
+	So by this notion we should be able to define the quantity
+	\begin{equation*}
+		\int_{0}^{t}\sigma(X_{s})\dif B_{s}
+	\end{equation*}
+	but we can't. Remember that $B$ is continuous but not differentiable! This is why it doesn't make sense to use it as an integrator. The Riemann-Stieltjes integral is computed by weighing the function by the variation of the integrator, but the \brm{} has unbounded variation (this is why it doesn't have any derivative) so it doesn't make sense to use it to weigh another function. \\
+	This is why we need a new defintion of integral: the \emph{It\^o integral}.
+\subsection{The It\^o integral}
+Consider the \textit{parabolic differential equation}:
+\begin{equation*}
+	\frac{\partial}{\partial t}q(x,t)=Lq(x,t)\qquad\text{with }q(x,0)=u(x),\;x\in\R.
+\end{equation*}
+Typically 
+\begin{equation*}
+	L=a(x)\frac{\partial}{\partial x}+b(x)\frac{\partial^{2}}{\partial x^{2}}.
+\end{equation*}
+Parabolic differential equations are typically used to model the behavior of heat waves or particle dispersion. $a(x)$ is normally advection (or transport) and $b(x)$ is normally the diffusion rate. What is important is that in order for it to be a parabolic differential equation the term $L$ has to contain first and second partial differentials.\\
+The problem is that there is no analitical solution $q(x,t)$ such that
+\begin{equation*}
+	\frac{\partial}{\partial t}q(x,t)=\frac{\partial^{2}}{\partial x^{2}}q(x,t)
+\end{equation*}
+as it is often the case with heat equations, but we can write it using expectation:
+\begin{equation*}
+	q(x,t)=\ev_{X}u(X_{t})
+\end{equation*}
+which is basically the multiplication of the expected value of the process by its initial condition. It is like... the average of the random process!
 \end{document}

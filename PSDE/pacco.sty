@@ -26,6 +26,7 @@
 \usepackage{minted}
 \usepackage{mleftright}
 \usepackage{fancybox}
+\usepackage{abraces}
 \usepackage{standalone}
 \usepackage{microtype}
 \usepackage{csquotes}
@@ -312,12 +313,12 @@
 								
 \newtcolorbox{revise}{
 	enhanced jigsaw,
-	colback=red!5!white,sharp corners, colframe=LightSteelBlue4!75!black,
+	colback=red!5!white,sharp corners, colframe=Coral2!75!black,
 	breakable,
 	drop shadow,
 	fonttitle=\bfseries,
-	interior style={left color=CadetBlue3!30,right color=white!29},
-	frame style={left color=DodgerBlue4,right color=DodgerBlue1},
+	interior style={left color=Sienna2!30,right color=white!29},
+	frame style={left color=IndianRed2,right color=Sienna1},
 	title={Revise with Kotatsu!}}
 	\newtcolorbox{insult}{
 		enhanced jigsaw,
@@ -377,7 +378,7 @@
 									\renewcommand{\labelitemiii}{$\textcolor{SkyBlue4}{\diamond}$}
 									\renewcommand{\labelitemiv}{$\textcolor{SkyBlue4}{\ast}$}
 									
-									\newcommand{\enf}[1]{\textcolor{DodgerBlue3}{\textbf{#1}}} %enf sta per enfasi
+									\newcommand{\enf}[1]{\textcolor{IndianRed2}{\textbf{#1}}} %enf sta per enfasi
 					\let\emph\enf
 									\newcommand{\sott}[1]{\setulcolor{SkyBlue3}\ul{#1}}
 									\let\underline\sott
@@ -478,6 +479,8 @@
 		\newcommand{\pr}{\mathbb{P}}
 		\newcommand{\indi}{\mathbb{1}}
 		\newcommand{\sa}{$\sigma$-algebra}	\newcommand{\rv}{random variable}
+		\newcommand{\rp}{random process}
+		\newcommand{\brm}{Brownian motion}
 		\titleformat{\section}{\color{SkyBlue4}}{\color{red}\thesection}{1em}{}
 		\subsectionfont{\color{SkyBlue4!90!black}\bfseries}
 									\pretitle{\begin{center}\LARGE\color{SkyBlue2}}

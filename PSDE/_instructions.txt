@@ -30,4 +30,6 @@ i also recommend looking into pacco.sty for some useful macros i have defined. i
     - \ev for expected value
     - \indi for indicator function
     - \var and \cov for variance and covariance
+	- \R, \N, \Rline, \Nstar for the sets
     - \E, \F, \HS, \G are respectively calligraphic E, F, H and G
+	- \dt, \dx, \dy, \ds, \dw (that is an omega) are the differential symbol (\dif) plus the corresponding symbol
