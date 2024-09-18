@@ -91,5 +91,32 @@ as it is often the case with heat equations, but we can write it using expectati
 \begin{equation*}
 	q(x,t)=\ev_{X}u(X_{t})
 \end{equation*}
-which is basically the multiplication of the expected value of the process by its initial condition. It is like... the average of the random process!
+which is basically the multiplication of the expected value of the process by its initial condition. It is like... the average of the random process! The connection here should be
+\begin{equation*}
+	\arraycolsep=1.4pt
+	\begin{array}{cccccc}
+		\dif X_{t}&=&b(X_{t})&\dt+&\sigma(X_{t})&\dif B_{t}\\
+		&&\uparrow&&\uparrow&\\
+		L&=&a(X)&\frac{\partial}{\partial x}+&b(X)&\frac{\partial^{2}}{\partial X^{2}}
+	\end{array}
+\end{equation*}
+But how is $q(x,t)=\ev_{X}u(X_{T})$ useful to us? Well, thinking about Monte-Carlo methods we can say that
+\begin{equation*}
+	q(x,t)\approx\frac{1}{N}\sum_{t=1}^{N}u(X^{\star}_{t})
+\end{equation*}
+where we simulate the process $N$ times in order to get $X^{\star}$ and do the average. \\
+In general, applying numerical schemes to 
+\begin{equation*}
+	b(X_{t})\dt+\sigma(X_{t})\dif B_{t}
+\end{equation*}
+is much easier than applying them to L.
+\subsection{Revise random processes}
+Take $(E,\E)$ and $(F,\F)$ being two measurable spaces. Then
+\begin{equation*}
+	E\times F+\{(x,y):x\in E,y\in R\}.
+\end{equation*}
+Now take $A\subset E,B\subset F$ and $x\in A,y\in B$. Then
+\begin{equation*}
+	\E\otimes\F=\sigma(\text{measurable rectangles})
+\end{equation*}
 \end{document}
