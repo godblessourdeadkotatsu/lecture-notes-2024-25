@@ -381,7 +381,6 @@
 									\newcommand{\enf}[1]{\textcolor{IndianRed2}{\textbf{#1}}} %enf sta per enfasi
 					\let\emph\enf
 									\newcommand{\sott}[1]{\setulcolor{SkyBlue3}\ul{#1}}
-									\let\underline\sott
 
 									\newcommand{\prob}{\mathbb{P}}
 									\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
@@ -414,6 +413,8 @@
 \newcommand{\dw}{\dif\omega}
 \newcommand{\dmu}{\dif\mu}
 \newcommand{\dpr}{\dif\pr}
+\newcommand{\dbs}{\dif B_{s}}
+\newcommand{\dbt}{\dif B_{t}}
 \newcommand{\E}{\mathscr{E}}
 \newcommand{\B}{\mathscr{B}}
 \newcommand{\F}{\mathscr{F}}
@@ -487,7 +488,7 @@
 		\sectionfont{\color{Cyan2!50!black}\bfseries}
 										\pretitle{\begin{center}\LARGE\color{SkyBlue2}}
 											\newcommand{\prefacename}{Preface}
-	\newcommand{\cinlar}{Çinlar }
+	\newcommand{\gnorm}[1]{\norm{\cdot}_{#1}}
 											\newenvironment{preface}{
 												\vspace*{\stretch{2}}
 												{\noindent \bfseries \huge\color{SkyBlue4} \prefacename}
