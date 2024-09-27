@@ -370,6 +370,7 @@ Well, we know that  \brm{} has almost surely unbounded total variation so that i
 	With probability 1 there is no interval $[a,b]\subset(0,\infty)$ where $t\mapsto B_{t}$ is monotone.
 \end{proposition}
 This means that we canno pick an interval where the trajectory is always (weakly) decreasing or increasing. This is related to the \textit{fractal property} of \brm.\\
+\subsection{Defining the Ito integral}
 But why did we spent al of this time with Brownian motion? Remember that we want to arrive at the point where we study
 \begin{equation*}
 	\begin{array}{ccc}
@@ -497,4 +498,33 @@ We need to change the mode of convergence. $\lim_{|\Pi|\to 0}\sum_{t_i\in\Pi}f(t
 	\end{equation*}
 	If both are $\infty$ then the Lebesgue integral is undefined.
 \end{revise}
+The Ito integral is similar, but we can't use pointwise operations due to the fact that we are dealing with a \brm{}. We need to adapt this construction to take place in $L^{2}$ on a Weiner space.
+\begin{definition}
+	We take the compact interval $[S,T]\in\R$ and let $\F^{B}_{t}$ be the natural filtration of the \brm. We call ${(f(t))}_{f\in[S,T]}$ a \emph{random step process} if there is a sequence
+	\begin{equation*}
+		S=t_{0}<t_1<\ldots<t_n=T
+	\end{equation*}
+	and \rv s $\eta_0,\eta_1,\ldots,\eta_{n-1}\in L^{2}(\Omega,\dif P)$ (which is the Weiner space) such that $\eta_j$ are $\F_{t_j}$-adapted and
+	\begin{equation*}
+		f_{t}=\sum_{j=0}^{n-1}\eta_j\indi_{[t_j,t_j+1)}(t).
+	\end{equation*}
+\end{definition}
+This is like a ``random'' step function. At the time $t$ this functions depends on the trajectory of the \brm{} only up to $t_{j}$. We denote as 
+\begin{equation*}
+	M_{\mathrm{step}}^{2}([S,T])
+\end{equation*}
+the class of random step processes. In this attempt we mimic what happens with the Lebesgue integral.
+\begin{definition}
+	Let $f_t\in M_{\mathrm{step}}^2([S,T])$. We define the \emph{Ito integral} of $f_t$ by
+	\begin{align*}
+		I(f) & :=\int_{S}^{T}f_{t}\dbt \\
+		 & :=\sum_{j=0}^{n-1}\eta_j(B_{t_{j+1}}-B_{t_{j}}).
+	\end{align*}
+\end{definition}
+\begin{proposition}
+	\emph{First property of Ito integrals}: for every $f_t\in M^{2}_{\mathrm{step}}([S,T])$ we have
+	\begin{equation*}
+		I(f)\in L^2(\Omega, \dif P).
+	\end{equation*}
+\end{proposition}
 \end{document}
