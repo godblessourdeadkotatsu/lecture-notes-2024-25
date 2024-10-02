@@ -506,7 +506,7 @@ The Ito integral is similar, but we can't use pointwise operations due to the fa
 	\end{equation*}
 	and \rv s $\eta_0,\eta_1,\ldots,\eta_{n-1}\in L^{2}(\Omega,\dif P)$ (which is the Weiner space) such that $\eta_j$ are $\F_{t_j}$-adapted and
 	\begin{equation*}
-		f_{t}=\sum_{j=0}^{n-1}\eta_j\indi_{[t_j,t_j+1)}(t).
+		f_{t}=\sum_{j=0}^{n-1}\eta_j\indi_{[t_j,t_{j+1})}(t).
 	\end{equation*}
 \end{definition}
 This is like a ``random'' step function. At the time $t$ this functions depends on the trajectory of the \brm{} only up to $t_{j}$. We denote as 
@@ -527,4 +527,227 @@ the class of random step processes. In this attempt we mimic what happens with t
 		I(f)\in L^2(\Omega, \dif P).
 	\end{equation*}
 \end{proposition}
+Remember that in this context $I(f)$ is another \rv! If we want to compute the $L^2$-norm we get the following \emph{Ito isometry}:
+\begin{equation*}
+	\begin{array}{ccc}
+		\ev[I(f)]^{2}&=&\ev\int_{S}^Tf_{t}^{2}\dt\\
+		\downarrow&&\downarrow\\
+		\norm{I(f)}^{2}_{L^2(\Omega)}&&\norm{f}^{2}_{L^{2}(\Omega\times[S,T])}.
+	\end{array}
+\end{equation*}
+This is one of the most important result in stochastic calculus and everything will proceed from this.
+\begin{fancyproof}
+	We know that $\Delta_j B=B_{t_{j+1}}-B_{t_{j}}$ and that $\Delta_j t=t_{j+1}-t_j$. Now,
+	\begin{align*}
+		[I(f)]^{2} & =\left[\sum_{j=0}^{n-1}\eta_j\left(B_{t_{j+1}}-B_{t_{j}}\right)\right]^{2} \\
+		 & =\sum_{j=0}^{n}\sum_{k=1}^{n-1}\eta_j\eta_k\Delta_jB\Delta_kB\\
+		 &=\sum_{j=0}^{n-1}\eta_j^2\left(\Delta_jB\right)^{2}+2\sum_{k>j}\eta_j\eta_k\Delta_jB\Delta_kB
+	\end{align*}
+	where the last equation is caused by the fact that the sum is the same when $k>j$ or $k<j$. For $j<k$ we have
+	\begin{equation*}
+		\ev\left[\eta_j\eta_k\Delta_jB\Delta_kB\right]=\ev\left[\left[\eta_j\eta_k\Delta_jB\Delta_kB|\F^{B}_{t_{k}}\right]\right].
+	\end{equation*}
+	But by conditional determinism we get
+	\begin{equation*}
+			\ev\left[\left[\eta_j\eta_k\Delta_jB\Delta_kB|\F^{B}_{t_{k}}\right]\right] = \underbracket{\ev\eta_j\Delta_jB\eta_k\ev\big[\underbrace{\Delta_kB|\F^{B}_{t_{k}}}_{\underbracket{\ev\Delta_kB}_{=0}}\big] }_{=0}
+	\end{equation*}
+	So
+	\begin{align*}
+		\ev[I(f)]^{2}&=\ev\sum_{j=0}^{n-1}\eta_j^{2}\left(\Delta_jB\right)^{2}+0\\
+		&=\sum_{j=0}^{n-1}\ev\left[\eta_j^{2}\left(\Delta_jB\right)^{2}\right]\\
+		&=\sum_{j=0}^{n-1}\ev\ev\left[\eta_j^{2}\left(\Delta_jB\right)^{2}|\F^{B}_{t_{j}}\right]\\
+		&=\sum_{j=0}^{n-1}\ev\eta_j^{2}\ev\left[\left(\Delta_jB\right)^{2}|\F^{B}_{t_{j}}\right]\\
+		&=\sum_{j=0}^{n-1}\ev\eta_j^{2}\ev\left(\Delta_{j}B\right)^{2}\\
+		&=\sum_{j=0}^{n-1}\ev\eta_j^{2}\Delta_{j}t.
+	\end{align*}
+	Since $\eta_j\in L^{2}$, this means that $\ev\eta_j^2<\infty$ so $\ev\left[I(f)\right]^2<\infty$. We now need to check the Ito isometry:
+	\begin{align*}
+		f^{2}_{t} & =\sum_{j=0}^{n-1}\sum_{k=0}^{n-1}\eta_j\eta_k\indi_{[t_{j},t_{j+1}]}(t)\indi_{[t_{k},t_{k+1}]}(t) \\
+		 & =\sum_{j=0}^{n-1}\eta_j^2\indi_{[t_{j},t_{j+1}]}(t).
+	\end{align*}
+	So
+	\begin{align*}
+		\ev\int_S^Tf_{t}^{2}\dt & =\ev\underbracket{\int_{S}^T \sum_{j=0}^{n-1}\eta_j^2\indi_{[t_j,t_{j+1})}(t)}_{\mathclap{\text{explicit integral that we can compute}}}\\
+		 & =\sum_{j=0}^{n-1}\ev\eta_j^2\Delta_jt.
+	\end{align*}
+\end{fancyproof}
+We now must generalize this process.
+\begin{definition}
+	We define the class of processes $M^{2}(S,T)\ni f$ for $f:\R^{d}\times\Omega\mapsto\R$ such that:
+	\begin{itemize}
+		\item $(u,\omega)\mapsto f_u(\omega)$ is measurable for every $u\in[S,T]$ with respect to 
+		\begin{equation*}
+			\left([S,u]\times\Omega,\B({S,u})\right)\otimes\F^{B}_{u}\mapsto(\R,\B(\R)).
+		\end{equation*}
+		This is called \emph{progressive measurability}.
+		\item $\ev\int_S^{T}f_{t}^2\dt<\infty$.
+	\end{itemize}
+\end{definition}
+First condition is about $L^{2}$-regularity: not only does the function have to be adapted to the \brm, but it also has to be regular with respect to the ``time axis''.
+\begin{proposition}
+	Let $X$ be a right-continuous process adapted to $\F^{B}_{t}$. Then it is \emph{progressively measurable.}
+\end{proposition}
+So consider $Y_{t}=\int_{0}^{t}X_{s}\ds$ with $X=\left(\Omega,\F,\F_{t},X_{t},\ell\right)$ (what the fuck? I am not sure this is correct) and with the map $\omega\mapsto Y_{t}(\omega)$. Is $\omega$ a \rv{} in $\F_{t}$?
+\begin{equation*}
+	(\omega,s)\mapsto X_{s}(\omega)\in\F_{t}\otimes\B([0,t])
+\end{equation*}
+is $\F_{t}$-measurable by means of Fubini's theorem.
+\begin{revise}
+	\begin{theorem}
+		\emph{Fubini's theorem}: let $\mu_1$ and $\mu_2$ be measures on $(E_1,\E_1)$ and $(E_2,\E_2)$ and $f:E_1\times E_2\mapsto\R$ be measurable with respect to $\E_1\otimes\E_2$. Suppose that at least one of the following is true:
+		\begin{enumerate}[\circnum]
+			\item $f$ is integrable with respect to $\mu_1\otimes\mu_2$;
+			\item $f$ is positive.
+		\end{enumerate}
+		Then it is true that
+		\begin{enumerate}
+			\item we have that:
+			\begin{align*}
+				X_1\mapsto & \int f(X_1,z),\mu_2(\dz)\in\E_1 \\
+				X_2\mapsto & \int f(z,X_2),\mu_1(\dz)\in\E_2;
+			\end{align*}
+			\item we have that:
+			\begin{align*}
+				 \int_{E\times E} f\dif\mu_1\otimes\dif\mu_2 & +\int\mu(\dif X_{1})\int f(X_1,X_2)\mu(\dif X_{2}) \\
+				 & =\int\mu(\dif X_{2})\int f(X_{1},X_{2})\mu(\dif X_{1});
+			\end{align*}
+		\end{enumerate}
+	\end{theorem}
+\end{revise}
+Why do we even care about all of this shit? Well, it is true that half of our stochastic differential equation needs a new type of integral... But the other half is a normal Riemann/Lebesgue integral.
+\begin{corollary}
+	$M^{2}_{\mathrm{step}([S,T])}\subset M^{2}([S,T])$.
+\end{corollary}
+\begin{lemma}
+	If ${(f_{t})}_{t\in[S,T]}\in M^{2}([S,T])$ then there exists a sequence
+	\begin{equation*}
+		{(\phi^{n})}_{n\in\N}\subset M^{2}_{\mathrm{step}}([S,T])
+	\end{equation*}
+	such that
+	\begin{equation*}
+		\ev\left[\int_S^T|f_{t}-\phi^n_t|^2\right]\xrightarrow[n\to\infty]{}0.\textit{}
+	\end{equation*}
+	then
+	\begin{equation*}
+		\norm{f_t-\phi_t^{n}}_{L^2(\Omega\times[S,T])}\xrightarrow[n\to\infty]{}0.
+	\end{equation*}
+\end{lemma}
+So, for any process in $M^2$ if this sequence ${\phi^{n}}_{n\in\N}$ exists then we can find a function $f$ that converges in $L^2$. Here's a sketch of proof, in three steps.
+\begin{fancyproof}
+	\begin{enumerate}
+		\item Take a process $Y_t\in M^2([S,T])$ bounded and such that $t\mapsto y_{t}(\omega)$ is continuous $\every \omega\in\Omega$. Consider
+		\begin{equation*}
+			\phi_t^n=sum_jY_{t_{j}}(\omega)\indi_{[t_{j},t_{j+1}]}(t)
+		\end{equation*}
+		such that $L^2(\Omega\times[S,T])\hyphen\lim_{n \rightarrow +\infty}\phi^n_t=Y_t$.
+		\item We try to get rid of the assumption of continuity. Take $h_t\in M^2([S,T])$ bounded and let $\psi^n(s)$ be non-negative, continuous and supported on $K\subset[-u_n,0]$ and such that
+		\begin{equation*}
+			\int_{t}^{n}\psi^n(s)=1.
+		\end{equation*}
+		Then $Y_t(\omega)=\int_0^t\psi(s-t)h_{s}(\omega)\ds$ is continuous and bounded and 
+		\begin{equation*}
+			L^2(\Omega\times[S,T])\hyphen\lim_{n \rightarrow +\infty} Y_t^n(\omega)=h_t.
+		\end{equation*}
+		\item We get rid of boundedness. Take $f\in M^2([S,T])$. Define
+		\begin{equation*}h^{n}_{t}(\omega)
+			\begin{cases}
+				n &f_t(\omega)<n\\
+				f_t(n)&-n<f_t(\omega)<n\\
+				n&f_t)\omega>n.
+			\end{cases}
+		\end{equation*}
+		This sequence makes the process bounded. Then
+		\begin{equation*}
+			L^2(\Omega\times[S,T])\hyphen\lim_{n \rightarrow +\infty}h^n_t(\omega)=f_t.
+		\end{equation*}
+	\end{enumerate}
+\end{fancyproof}
+Remember that we are still talking about sequence of integrals. The sequence of integrals
+\begin{equation*}
+	{\left(\int_S^T\phi_t^n\dbt\right)}_{n\in\N}\;\text{with }{\phi_t^n}_{n\in\N}\in M^2_\mathrm{step}
+\end{equation*}
+is such that picking $f_t\in M^2$ implies that I will find a sequence $\phi$ such that
+\begin{equation*}
+	\phi_t^n\xrightarrow{L^2(\Omega\times[S,T])}f_t.
+\end{equation*}
+But consider
+\begin{equation*}
+	I(f)=\lim_{n}\int_S^T\phi_t^n\dbt.
+\end{equation*}
+Is this limit convergent in $L^2$? To understand this, we must check whether this sequence has a limit and a typical approach to this problem is checking whether it is a $L^2(\Omega)$-Cauchy sequence. To understand this we should use the following lemma:
+\begin{lemma}
+	The Ito integral on $M^{2}_\mathrm{step}$ is linear:
+	\begin{equation*}
+		I(\alpha_1f_1+\alpha_2f_2)=\alpha_1I(f_1)+\alpha_2I(f_2).
+	\end{equation*}
+\end{lemma}
+So we should check 
+\begin{equation*}
+	\ev\left[\left(\int_{S}^T\phi_t^n\dbt-\int_S^T\phi_t^m\dbt\right)^2\right]\xrightarrow[n,m\to\infty]{}0.
+\end{equation*}
+But 
+\begin{equation*}
+		\ev\left[\left(\int_{S}^T\phi_t^n\dbt-\int_S^T\phi_t^m\dbt\right)^2\right]=\ev\left[\left(\int_S^T\left(\phi_t^n-\phi_t^m\right)\right)^2\right].
+\end{equation*}
+Both $\phi$'s are  step functions so I can apply Ito isometry:
+\begin{equation*}
+	\ev\left[\left(\int_S^T\left(\phi_t^n-\phi_t^m\right)\right)^2\right]=\underbracket[0.6pt][8pt]{\norm{\phi_t^n-\phi_t^m}_{L^2(\Omega\times[S,T])}}_{\mathclap{\text{this is going to 0 because we picked $\phi^n_t\to f_n$}}}
+\end{equation*}
+and any converging sequence is cauchy.
+\begin{definition}
+	Let ${f_t}_{t\in[S,T]}\in M^2(S,T)$ and ${(\phi^n)}_{n\in\N}\subset M^2_\mathrm{step}(S,T)$ such that 
+	\begin{equation*}
+		\phi^n\xrightarrow{L^2(\Omega\times[S,T])}f.
+	\end{equation*}
+	We define the \emph{Ito integral} of $f$ on $[S,T]$
+	\begin{equation*}
+		I(f):=\int_S^Tf_t\dbt:=L^2(\Omega)\hyphen\lim_{n}\int_S^T\phi_t^n\dbt.
+	\end{equation*}
+\end{definition}
+\subsection{Ito isometry for $M^2$ processes}
+If $f={(f_t)}_{t\in[S,T]}\in M^2(S,T)$ then
+\begin{align*}
+	\ev\left[\intst f_s\dbs\right]^2 &= \ev\intst f_s^2\ds \\
+	\norm{I(f)}_{L^2(\Omega)} &= \norm{f_s}_{L^2(\Omega\times[S,T])}.
+\end{align*}
+\begin{fancyproof}
+	\begin{equation*}
+		\ev\left[\intst f_s\dbs\right]^2=\lim_{n}\left(\intst\phi_s^n\dbs\right)^2
+	\end{equation*}
+	but then by property of $L^p$ convergence we have
+	\begin{equation*}
+		I(f)=L^2(\Omega)\hyphen\lim_{n}I(\phi^n).
+	\end{equation*}
+	We now use Ito Isometry for $M^2_{\mathrm{step}}$.
+	\begin{equation*}
+		\lim_{n \to \infty}\ev\intst{(\phi_s^n)}^2\ds=\norm{\phi_{s}^n}_{L^2(\Omega\times[S,T])}
+	\end{equation*}
+	So $\phi_{s}^t\xrightarrow{L^2(\Omega\times[S,T])}f$ and 
+	\begin{equation*}
+		\norm{\phi_{s}^n}_{L^2(\Omega\times[S,T])}=\norm{f_n}_{L^2(\Omega\times[S,T])}=\ev\intst f_s^2\ds.
+	\end{equation*}
+\end{fancyproof}
+The point now is that when we work with the stochastic differential equation is something that should be true not for only one $t$ but for any $t\in T$. The value that we look for that would satisfy the SDE is
+\begin{equation*}
+	X_t-X_0=\intot b(s)(X_s)\ds+\intot\sigma_s(X_s)\dbs\qquad t\in[0,T].
+\end{equation*}
+We define the Ito integral for any $t$ but then we have to consider the sequence of Ito integrals
+\begin{equation*}
+	{\left(\intot f_s\dbs\right)}_{t\in[0,T]}.
+\end{equation*}
+We need to study the properties of this process. Is it adapted? Is it continuous? Is this a martingale/a Markov process/a \brm? Consider for $f\in M^2(S,T)$
+\begin{equation*}
+	I_t=\intst f_s\dbs.
+\end{equation*}
+We have:
+\begin{enumerate}[a)]
+	\item $\intot f_n\dif B_{n}-\int_0^n f_n\dif B_{n}=\intst f_n \dif B_n$;
+	\item $I_{t}\in\F^{B}_{t}$: let $I^{n}_{t}\xrightarrow{L^{2}}I_{t}$. By definition $I_t^n\in\F^{B}_t$ since it is adapted to \brm{} since it is just a linear combination of measurable functions of $\F_{t}^B$ (that are incrementes of a \brm). But if $I_t^n\xrightarrow{L^{2}}I_t$ then there exists a set 
+	$$\Omega_0:\lim_{k\to\infty} I^{n_{k}}_{t}(\omega)=I_t(\omega)\;\every\omega\in\Omega_0$$
+	and it is measurable since it is the point-wise limit of a measurable function.
+	\item What about continuity? Continuity is not trivial but take $f\in M^{2}_{\mathrm{step}}$. For step processes it is obvious since it is a sum of constants
+	\begin{equation*}
+		t\mapsto\intst f_s\dbs=\sum_{j=0}^{n-1}\eta_j(B_{t_{j+1}\wedge T}-B_{t_{j}\wedge T}).
+	\end{equation*}
+\end{enumerate}
 \end{document}
