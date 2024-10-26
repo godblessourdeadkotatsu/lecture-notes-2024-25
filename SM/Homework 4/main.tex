@@ -1,0 +1,297 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{times}              
+% Use Times New Roman
+\usepackage{graphicx}           
+% Enhanced support for images
+\usepackage{float}              
+% Improved interface for floating objects
+\usepackage{booktabs}           
+% Publication quality tables
+\usepackage{xcolor}             
+% Driver-independent color extensions
+\usepackage{geometry}           
+% Customize document dimensions
+\usepackage{fullpage}           
+% all 4 margins to be either 1 inch or 1.5 cm
+\usepackage{comment}            
+% Commenting
+\usepackage{mathtools}
+\usepackage{minted}             
+% Highlighted source code. Syntax highlighting
+\usepackage{listings}           
+% Typeset programs (programming code) within LaTeX
+\usepackage{lastpage}           
+% Reference last page for Page N of M type footers.
+\usepackage{fancyhdr}           
+% Control of page headers and footers
+\usepackage{hyperref}           
+% Cross-referencing 
+\usepackage[small,bf]{caption}  
+% Captions
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage{tikz}               
+% Creating graphic elements
+\usepackage{circuitikz}         
+% Creating circuits
+\usepackage{verbatim}          
+% Print exactly what you type in
+\usepackage{cite}               
+% Citation
+\usepackage[us]{datetime} 
+% Various time format
+\usepackage{blindtext}
+% Generate blind text
+\usepackage[utf8]{inputenc}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\input{defs.tex}
+\setminted{style=monokai}
+\usepackage{pygmentex}
+
+
+\begin{document}
+	\textcolor{UM_Brown}{
+		\begin{center}
+			\textbf{\Large Simulations}\\
+			\vspace{5pt}
+			Homework 4 \\
+			\vspace{5pt}
+			\textbf{M.S. in Stochastics and Data Science}\\
+			\vspace{20pt}
+			\textit{Andrea Crusi, Lorenzo Sala} \\
+			\vspace{5pt}
+			\today
+		\end{center}
+		\vspace{10pt}
+		\hrule
+	}
+	
+	
+	
+	%%%%%%%%%%%%%%% NEW SECTION %%%%%%%%%%%%%%% 
+	\section*{Exercise 1}
+	\begin{enumerate}
+		\item To obtain the explicit expression for the distribution we need to substitute $m=2$ in the probability distribution formula:
+		\begin{equation*}
+			p(n)=\begin{cases}
+				p(0)\left(\dfrac{\lambda}{\mu}\right)^{n}\dfrac{1}{n!}&\text{for }0\leqslant n\leqslant 2\\
+				p(0)\left(\dfrac{\lambda}{\mu}\right)^{n}\dfrac{1}{2!2^{n-2}}=	p(0)\left(\dfrac{\lambda}{\mu}\right)^{n}\dfrac{1}{2^{n-1}}&\text{for }n> 2.\\
+			\end{cases}
+		\end{equation*}
+		\item We can use the fact that 
+		\[\sum_{n=0}^Np(n)=1\]
+		to find an analytical solution for $p(0)$. A simple way to do this is to check how $p(n)$ behaves for $N\to\infty$. 
+		\begin{equation*}
+			\sum^2_{n=0}p(0)\left(\frac{\lambda}{\mu}\right)^{n}\frac{1}{n!}+\sum_{n=3}^{\infty}p(0)\left(\frac{\lambda}{\mu}\right)^{n}\frac{1}{2!2^{n-2}}=1.
+		\end{equation*}
+		By explicitly computing the first sum and rearranging the second one so that it starts from $n=0$ we can get
+		\begin{align*}
+			&p(0)\left[1+\frac{\lambda}{\mu}+\frac{\lambda^{2}}{2\mu^{2}}+\sum_{n=3}^{\infty}\left(\frac{\lambda}{\mu}\right)^{n}\frac{1}{2^{n-1}}\right]=1\\
+			\implies p(0)&=\frac{1}{1+\frac{\lambda}{\mu}+\frac{\lambda^{2}}{2\mu^{2}}+\sum_{n=3}^{\infty}\left(\frac{\lambda}{\mu}\right)^{n}\frac{1}{2^{n-1}}}=\\
+			&=\frac{1}{1+\frac{\lambda}{\mu}+\frac{1}{2}\left(\frac{\lambda}{\mu}\right)^{2}+\sum_{n=3}^{\infty}\left(\frac{\lambda}{\mu}\right)^{n}\frac{1}{2^{n-1}}}=\\
+			&=\frac{1}{1+\frac{\lambda}{\mu}\left[1+\frac{\frac{\lambda}{\mu}}{2}+\sum_{n=3}^{\infty}\left(\frac{\frac{\lambda}{\mu}}{2}\right)^{n-1}\right]}=\\
+			&=\frac{1}{1+\frac{\lambda}{\mu}\left[\underbracket{\sum_{n=0}^{\infty}\left(\frac{\frac{\lambda}{\mu}}{2}\right)^{n-1}}_{\text{geometric series}}\right]}=\\
+			&=\frac{1}{1+\frac{\lambda}{\mu}\left[\frac{1}{1-\frac{\frac{\lambda}{\mu}}{2}}\right]}=\\
+			&=\frac{1}{1+\frac{\lambda}{\mu}\left[\frac{2}{2-\frac{\lambda}{\mu}}\right]}=\\
+			&=\frac{2-\frac{\lambda}{\mu}}{2+\frac{\lambda}{\mu}}.
+		\end{align*}
+		So our new distribution becomes
+		\begin{align*}
+			p(n)&=\begin{cases}
+				\frac{2-\frac{\lambda}{\mu}}{2+\frac{\lambda}{\mu}}\left(\dfrac{\lambda}{\mu}\right)^{n}\dfrac{1}{n!}&\text{for }0\leqslant n\leqslant 2\\
+				\frac{2-\frac{\lambda}{\mu}}{2+\frac{\lambda}{\mu}}\left(\dfrac{\lambda}{\mu}\right)^{n}\dfrac{1}{2^{n-1}}&\text{for }n> 2\\
+			\end{cases}\\
+			&=\begin{cases}
+				\frac{2-\frac{\lambda}{\mu}}{2+\frac{\lambda}{\mu}}\left(\dfrac{\lambda}{\mu}\right)^{n}\dfrac{1}{n!}&\text{for }0\leqslant n\leqslant 2\\
+				\frac{2-\frac{\lambda}{\mu}}{2+\frac{\lambda}{\mu}}\left(\dfrac{\lambda}{\mu}\right)^{n}\dfrac{1}{2^{n-1}}&\text{for }n> 2\\
+			\end{cases}
+		\end{align*}
+		which can also be expressed, by denoting $\frac{\lambda}{\mu}=\rho$ as the load of the server, as
+		\begin{equation*}
+			p(n)=\begin{cases}
+				\frac{2-\rho}{2+\rho}\left(\rho\right)^{n}\dfrac{1}{n!}&\text{for }0\leqslant n\leqslant 2\\
+				\frac{2-\rho}{2+\rho}\left(\rho\right)^{n}\dfrac{1}{2^{n-1}}&\text{for }n> 2.\\
+			\end{cases}
+		\end{equation*}
+	\end{enumerate}
+	\section*{Exercise 2}
+	We know that when a network comprises load independent stations the recursive equation for utilization in a station $i$ is
+	\begin{equation*}
+		\overline{n_{i}}(n)=U_{i}[1+\overline{n_{i}}(n-1)].
+	\end{equation*}
+	We are interested in what happens when $n$ goes to $\infty$ so
+	\begin{equation*}
+		\overline{n_{i}}=U_i[1+\overline{n_{i}}]\implies\overline{n_{i}}-U_i\overline{n_{i}}=U_i\implies \overline{n_{i}}=\frac{U_i}{1-U_i}.
+	\end{equation*}
+	In bottleneck stations $b$, where the utilization $U_b$ tends to 1 due to the saturation of the system, the queue length will tend to infinity.
+	Moreover, we know that, by consistency laws,
+	\begin{equation*}
+		\frac{U_b}{U_i}=\frac{V_bS_b}{V_iS_i}=\frac{D_{b}}{D_b}\implies U_i=\frac{D_iU_b}{D_b}
+	\end{equation*}
+	and therefore
+	\begin{equation*}
+		\overline{n_{i}}=\frac{\frac{D_iU_b}{D_b}}{\frac{D_b-D_iU_b}{D_b}}=\frac{D_iU_b}{D_b-D_iU_b}
+	\end{equation*}
+	but since as load increases $U_b\to1$ we get
+	\begin{equation*}
+		\overline{n_{i}}=\frac{D_i}{D_b-D_i}
+	\end{equation*}
+	for non-bottleneck stations.\\
+	Let's turn to average waiting time. Little's Law tells us that 
+	\begin{equation*}
+		\overline{n_{i}}=\overline{w_i}X_i\implies\overline{w_i}=\frac{\overline{n_i}}{X_i}
+	\end{equation*}
+	but we know that as the load increases $\overline{n_{i}}\to U_i[1+\overline{n_{i}}]$ so 
+	\begin{equation*}
+		\overline{w_i}=\frac{U_i[1+\overline{n_{i}}]}{X_i}.
+	\end{equation*}
+	In bottleneck stations, as the queue goes to $\infty$, so does the average waiting time. Remember that for load independent stations we have $U_i=X_i(n)\cdot S_i$, so
+	\begin{equation*}
+		\overline{w_i}=\frac{\cancel{X_i(n)}S_i[1+\overline{n_{i}}]}{\cancel{X_i(n)}}=S_i[1+n_i].
+	\end{equation*}
+	Now let's take into account the throughput. As we said before, by Little's Formula we know that 
+	\begin{equation*}
+		\overline{n_{i}}=\overline{w_i}X_i\implies X_i(n)=\frac{\overline{n_i}}{\overline{w_i}}
+	\end{equation*}
+	and by substituting we get
+	\begin{equation*}
+		X_i(n)=\frac{\overline{n_{i}}}{S_i[1+n_i]}.
+	\end{equation*}
+	In bottleneck stations, as $\overline{n_{i}}$ becomes increasingly larger, $[1+\overline{n_i}]$ becomes closer and closer to $\overline{n_{i}}$ so that the throughput for bottleneck stations will tend to
+	\begin{equation*}
+		\frac{1}{S_i}.
+	\end{equation*}
+	\section*{Exercise 3}
+	The normalization constant is defined in two ways:
+	\begin{equation*}
+		\underbracket[0.6pt]{g(n,m)=\sum_{\mathbf{n}\in S(n,m)}\prod_{i=1}^{m}f_i(n_i)}_{\text{definition}}\qquad\underbracket[0.6pt]{\sum_{k=0}^{n}f_{m}(k)g(n-k,m-1).}_{\text{manipulation}}
+	\end{equation*}
+	The service function $f_i(k)$ is defined as
+	\begin{equation*}
+		f_{i}(k)=\begin{cases}
+			1&k=0\\
+			V_iS_if_i(k-1) &k>0.
+		\end{cases}
+	\end{equation*}
+	We know that the distribution of $p_i(k)$, which is the fraction of time the station $i$ spends with $k$ customers inside, can be computed as
+	\begin{align*}
+		p_i(k)&=\sum_{\mathclap{\stackrel{\mathbf{n}\in S(n,i)}{n_i=k}}}P(\mathbf{n})\\
+		&=\sum_{\stackrel{\mathbf{n}\in S(n,i)}{n_i=k}}\frac{1}{g(n,i)}\prod_{j=1}^{M}f_j(n_j)\\
+		&=\frac{1}{g(n,i)}\sum_{\stackrel{\mathbf{n}\in S(n,i)}{n_i=k}}\prod_{j=1}^{M}f_j(n_j)\\
+		&=\frac{f_i(k)}{g(n,i)}\underbrace{\sum_{\mathbf{n}\in S(n-k,i-1)}\prod_{j=1}^{i-1}f_j(n_j)}_{g(n-k,i-1)}\qquad\text{\tiny since $n_i=k$ for all states we can take it out of the sum}\\
+		&=\frac{f_i(k)g(n-k,i-1)}{g(n,i)}
+	\end{align*}
+	To get $p_i(k,N)$ we must sum the probabilities for station $i$ to have $k$ customers over all possible distribution in the other station with a maximum of $N$ customers. This happens over the reduced state space 
+	\begin{equation*}
+		S^{[-i]}(N,M)
+	\end{equation*}
+	(which is basically the whole state space of $N$ maximum clients and $M$ stations but with the number of customers in $i$-th station fixed to 0) and with the reduced normalization constant with the $i$-th station missing over the reduced state space
+	\begin{equation*}
+		g^{[-i]}(N,M)=\sum_{\mathbf{n}\in S^{[-i]}(N,M)}\prod_{{j\neq i}}f_j(n_j).
+	\end{equation*}
+	So, in a similar manner as before, we get
+	\begin{align*}
+		p_i(k,N)&=\sum_{\mathclap{\mathbf{n}\in S^{[-i]}(N,i)}}P(\mathbf{n})\\
+		&=\frac{f_i(k)}{g(N,i)}\underbrace{\sum_{\mathbf{n}\in S^{[-i]}(N-k,i-1)}\prod_{j=1}^{i-1}f_j(n_j)}_{g^{[-i]}(N-k,i-1)}\\
+		&=\frac{f_i(k)g^{[-i]}(N-k,i-1)}{g(N,i)}.
+	\end{align*}
+	The service function $f_i(k)$ is defined as
+	\begin{equation*}
+		f_{i}(k)=\begin{cases}
+			1&k=0\\
+			V_iS_if_i(k-1) &k>0.
+		\end{cases}
+	\end{equation*}
+	This allows us to write
+	\begin{align*}
+		p_i(k,N) &= \frac{f_i(k)g^{[-i]}(N-k,i-1)}{g(N,i)} \\
+		&= 	V_iS_if_i(k-1)\cdot\frac{g^{[-i]}(N-k,i-1)}{g(N,i)}\\
+		&=V_iS_if_i(k-1)\cdot\frac{g^{[-i]}(N-k,i-1)}{g(N,i)}\cdot\color{red}\frac{g(N-1,i)}{g(N-1,i)}\\
+		&=\underbrace{V_i\frac{g(N-1,i)}{g(N,i)}}_{X_i(N)}\cdot S_i\cdot\underbrace{\frac{ f_i(k-1)g^{[-i]}(\overbrace{(N-1)-(k-1)}^{N-k},i-1)}{g(N-1,i)}}_{p_i(k-1,N-1)}\\
+		&=X_i(N)S_ip_i(k-1,N-1).
+	\end{align*}
+	\section*{Exercise 4}
+	Sto coso è ancora senza input, però
+	\begin{minted}[linenos,autogobble,breaklines,bgcolor=black!90!blue!80]{c}
+	#include <stdio.h>
+	
+	// Constants
+	#define M 4     // Number of servers (stations)
+	#define N 80  // Maximum number of customers
+	
+	// Input parameters
+	double Z = 10.0;  // Think time for delay station (there is only one)
+	double S[M] = {0, 0.04, 0.06, 0.04};  // Service times
+	char ST[M] = {'D','C', 'C', 'C',};  // Station types ('C' for computational, 'D' for delay)
+	//delay station is reference
+	// Visiting ratios (Vi)
+	double V[M] = {1.0, 10, 5.5, 3.5};
+	
+	// Arrays for results
+	double X[M][N+1], U[M][N+1], n[M][N+1], w[M][N+1];
+	
+	int main() {
+		// Initialization
+		for (int i = 0; i < M; i++) {
+			n[i][0] = 0.0;  // put 0 as the value for all stations
+		}
+		
+		// Compute performance measures for each population size k (from 1 to N)
+		for (int k = 1; k <= N; k++) {
+			
+			// Compute the waiting time w_i[k] for each station i
+			for (int i = 0; i < M; i++) {
+				if (ST[i] == 'D') {
+					w[i][k] = Z;  // Delay station
+				} else {
+					w[i][k] = S[i] * (1 + n[i][k - 1]);  // Queue station
+				}
+			}
+			double sum = 0.0; // initialize sum
+			
+			// Compute the sum of Vi * wi[k] across all stations
+			for (int i = 0; i < M; i++) {
+				sum += V[i] * w[i][k];
+			}
+			
+			// Compute throughput for reference job
+			double Xref = k / sum;
+			
+			// Compute performance metrics for each station i
+			for (int i = 0; i < M; i++) {
+				X[i][k] = V[i] * Xref;  // Throughput for station i
+				
+				if (ST[i] == 'D') {
+					// Delay station
+					n[i][k] = Z * X[i][k];
+					U[i][k] = n[i][k] / k;
+				} else {
+					// Computational station
+					U[i][k] = S[i] * X[i][k];  // Utilization
+					n[i][k] = U[i][k] * (1 + n[i][k - 1]);  // Number of customers
+				}
+			}
+		}
+		int n_customers[2] = {1,80};
+		// Print results for N = 1 and N = 80;
+		for (int j=0; j<=1; j++){
+			printf("Simulation with %d customers\n\n", n_customers[j]);
+			for (int i = 0; i < M; i++) {
+				printf("Station %d results:\n", i);
+				printf("Throughput (X[%d])\t\t= %f\n", n_customers[j], X[i][n_customers[j]]);
+				printf("Utilization (U[%d])\t\t= %f\n", n_customers[j], U[i][n_customers[j]]);
+				printf("Avg number of jobs (n[%d])\t= %f\n", n_customers[j], n[i][n_customers[j]]);
+				printf("\n");
+			}
+			printf("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
+		}
+		
+		getchar();
+		return 0;
+	}
+	\end{minted}
+\end{document}
