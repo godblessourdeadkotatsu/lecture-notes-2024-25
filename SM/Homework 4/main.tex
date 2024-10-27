@@ -542,7 +542,7 @@ Finally, for the bottleneck analysis (where we have $N\to\infty$) we obtain:\par
 \end{tabular}\par
 \vspace{10pt}
 We know that the bottleneck of the system is station 1, since it has the highest service demand. We can see how results for $N=80$ for the MVA computations are consistent with the bottleneck analysis: the mean queue length $\overline{n_1}$ tends to $\infty$ as $N$ grows while the other values of performance tend to their respective value in the bottleneck analysis.\par
-We now plot the data gained from the simulation along with the expected asymptotes. 
+We now plot the data gained from the simulation along with the expected asymptotes. The value $N^{\star}=27.175000$ is obtained from the simulation, being simply the point of intersection of the two asymptotes in either case. In other words. this is what we would expect if our calculations are correct.
 \newcommand*{\ShowIntersection}{
 	\fill 
 	[name intersections={of=GraphCurve and HorizontalLine, name=i, total=\t}] 
@@ -553,18 +553,23 @@ We now plot the data gained from the simulation along with the expected asymptot
 \begin{figure}[H]
 	\centering
 	\includegraphics{graph1.pdf}
+	\caption{Evolution of throughput $X_0(N)$ as $N$ increases. The point of saturation is $N^{\star}=27.175000$. We can see how the throughput reaches a plateau after the saturation point.}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics{graph2.pdf}
+	\caption{Evolution of mean response time $R_0(N)$ as $N$ increases. The point of saturation is $N^{\star}=27.175000$. On the contrary here the response time explodes after the saturation point}
 \end{figure}
-The value $N^{\star}=27.175000$ is obtained from the simulation, being simply the point of intersection of the two asymptotes in either case.
 \begin{figure}[H]
 	\centering
 	\includegraphics{graph3.pdf}
+	\caption{Behaviour of the average queue length of the four stations.}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics{graph4.pdf}
+	\caption{Behaviour of the utilization of the four stations.}
 \end{figure}
+Station 1 (the CPU) is the bottleneck station: we can see how, in comparison to the other stations, the queue becomes infinitely large in average while the other queues converge to a plateau.\\
+As expected, in the fourth graph the bottleneck station reaches utilization 1 after the saturation point. It is interesting to note that the utilization of the delay station keeps getting smaller even after the bottleneck stations is saturated and the others have converged to a steady value. This is not a surprise, since in our bottleneck analysis we got that the utilization should have been equal to 0 as $N\to\infty$.
 \end{document}
