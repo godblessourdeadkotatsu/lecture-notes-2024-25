@@ -1,0 +1,33 @@
+\documentclass{standalone}
+\usepackage[x11names,table]{xcolor}
+\usepackage{tikz}   
+\usetikzlibrary{intersections,external}    
+\usepackage{pgfplots}   
+\pgfplotsset{compat=1.18}  
+\begin{document}
+\begin{tikzpicture}
+	\begin{axis}[
+		xmin=0,
+		ymin=0,
+		xmax=81,
+		ymax=1,
+		samples=500,
+		xlabel={Number of customers $N$},
+		ylabel={Utilization $U_i(N)$},
+		width=0.8\textwidth,
+		scale only axis,
+		height=8cm
+		]
+		\draw (27.175,0)--(27.175,1) node[pos=0.2]{$N^{\star}$};
+		%\foreach \queue in {0,1,2,3}{
+			%\addplot+[] table[x=n, y=station\queue] {queue.csv} %node[midway,above,label:{station \queue}]{};
+			%}
+		\foreach [evaluate=\i as \queue] \i in {0,1,2,3} {%
+			\edef\temp{%
+				\noexpand
+				\addplot+[thick,mark size=1pt] table[x=n, y=station\queue] {utilization.csv} node[midway,below]{Station \queue};
+			}\temp
+		}       
+	\end{axis}
+\end{tikzpicture}
+\end{document}

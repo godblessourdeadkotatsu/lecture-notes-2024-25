@@ -1,0 +1,28 @@
+\documentclass{standalone}
+\usepackage[x11names,table]{xcolor}
+\usepackage{tikz}   
+\usetikzlibrary{intersections,external}    
+\usepackage{pgfplots}   
+\pgfplotsset{compat=1.18}  
+\begin{document}
+	\begin{tikzpicture}
+	\begin{axis}[
+		xmin=0,
+		ymin=-5,
+		xmax=81,
+		ymax=25,
+		samples=500,
+		xlabel={Number of customers $N$},
+		ylabel={Mean response time $R_0(N)$},
+		width=0.8\textwidth,
+		scale only axis,
+		height=8cm
+		]
+		\addplot[red,name path=orizzontale ,domain=0:80,dashed] {0.87} node[pos=1,above left] {$\frac{1}{V_b\cdot S_b}$};
+		\addplot[blue,name path=slanted,domain=0:80,dashed] {0.4*x-10} node[near end,below left,sloped] {$N\cdot(V_{b}\cdot S_{b})-Z$};
+		\fill[name intersections={of=orizzontale and slanted,by={E1}}](E1)node[circle,inner sep=1pt,fill,label=above:$N^{\star}$]{};
+		\draw (27.175,-5)--(E1);
+		\addplot[SpringGreen4,mark size=1pt,mark=star,thick] table {R0.csv} node[midway,above]{$R_0(N)$};
+	\end{axis}
+\end{tikzpicture}
+\end{document}
