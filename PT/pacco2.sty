@@ -1,0 +1,549 @@
+\usepackage[T1]{fontenc}%
+%\usepackage{fontspec} %I want to be a XeLaTeX bitch but my heard is in pdftex...
+\usepackage{lmodern}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+
+\usepackage[scr=euler,cal=dutchcal,frak=euler,bb=dsfontserif,bbsymbols]{mathalfa}
+\usepackage{amsmath,amssymb,bbm}
+\usepackage{graphicx}
+\usepackage[x11names,table]{xcolor}
+\usepackage[colorlinks=true, allcolors=DarkOrchid4]{hyperref}
+\usepackage{lipsum} 
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm}   
+\usepackage{array}
+\usepackage{pdfpages}
+%\usepackage{tipa} %perchè si stai zitto 
+\usepackage{minted}
+\usepackage{mleftright}
+\usepackage{fancybox}
+\usepackage{standalone}
+\usepackage{microtype}
+\usepackage{csquotes}
+\usepackage{titlesec}
+\usepackage{forest}
+\usepackage{censor}
+\usepackage{movement-arrows}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[makeroom]{cancel}
+\usepackage[many]{tcolorbox}
+\tcbuselibrary{skins,raster,theorems}
+\usepackage{mathtools}
+\usepackage{soul}
+\usepackage{multicol}
+\usepackage{caption}
+\usepackage{wrapfig}
+\usepackage{authblk}
+\usepackage{sectsty,titling}
+\usepackage{float}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,patterns,arrows.meta, bending, shadings,intersections,shadows,decorations,fit,backgrounds,circuits.ee.IEC,shapes.callouts}
+\usepackage{pgfplots,pgfplotstable}
+\pgfplotsset{compat=1.16}
+\usepgfplotslibrary{fillbetween}
+
+
+\newcounter{dummy}
+
+
+\theoremstyle{remark}
+\newtcbtheorem[number within=section]{rema}{Remark}{
+	enhanced, breakable, sharp corners,
+	colframe=white, coltitle=black, colbacktitle=gray!24,
+	colback=white,
+	interior style={top color=LightSteelBlue2, bottom color=white},
+	boxed title style={interior style={left color=LightSteelBlue2,right color=white!35}, sharpish corners,
+		frame style={right color=LightSteelBlue2,left color=white!35},drop fuzzy shadow=gray},
+	attach boxed title to top left,
+	drop fuzzy shadow=gray,
+	boxed title style={boxrule=0.5mm, sharp corners},
+	separator sign={:},
+	description formatter=\newline,
+	theorem hanging indent/.try=0pt,
+}{}
+
+\newenvironment{remark}[1][]{
+	\ifstrempty{#1}{%   
+		\begin{rema*}{}{}%                     
+		}{%        
+			\begin{rema*}{}{}%                 
+			}%
+		}{%
+		\end{rema*}% 
+	}
+
+	
+	\newminted{python}{mathescape, linenos, numbersep=5pt, frame=single, breaklines,bgcolor=gray!9, fontfamily=courier,python3,rulecolor=red!39!black,numbersep=5pt,label=Python,xleftmargin=0pt}
+		\newenvironment{py}{\VerbatimEnvironment\begin{pythoncode}}{\end{pythoncode}}
+			
+	\newcounter{defi}
+	
+	\newtcbtheorem[number within=section]{nition}{Definition}{
+		enhanced, 
+		breakable, sharp corners,
+		interior style={left color=SkyBlue4!60,right color=white!29},
+		title style={left color=white,right color=white!35},
+		% boxed title style={boxrule=5mm, colframe=black,sharp corners},
+		colframe=white, coltitle=SkyBlue4!60!black, colbacktitle=blue!34,
+		colback=white,
+		titlerule=0mm,
+		drop fuzzy shadow=gray,
+		borderline={0.5mm}{0mm}{SkyBlue4},
+		separator sign={:},
+		description formatter=\newline,
+		theorem hanging indent/.try=0pt,
+	}{}
+	
+	\newenvironment{definition}[1][]{
+		\stepcounter{defi}
+		\ifstrempty{#1}{%   
+			\begin{nition}{}{\thedefi\thedummy}%                     
+			}{%        
+				\begin{nition}{}{\thedefi eheh}%                 
+				}%
+			}{%
+			\end{nition}% 
+		}{\addvspace{\baselineskip}}
+		
+		\newcounter{theo}
+		
+		\newtcbtheorem[number within=section]{thrm}{Theorem}{
+			enhanced, 
+			breakable,
+			sharp corners,
+			interior style={left color=PaleTurquoise3!60,right color=Turquoise4!50},
+			title style={right color=LemonChiffon1,left color=Aquamarine4!90!black},
+			frame style={right color=SpringGreen4,left color=Turquoise4},
+			colframe=white, coltitle=white, colbacktitle=SkyBlue4,
+			colback=SkyBlue4,
+			drop fuzzy shadow=Cyan4!50!black,
+			titlerule=0mm,
+			separator sign={:},
+			description formatter=\newline,
+			theorem hanging indent/.try=0pt,
+		}{}
+		
+		\newenvironment{theorem}[1][]{ 
+			\stepcounter{theo}
+			\stepcounter{dummy}
+			\ifstrempty{#1}{%   
+				\begin{thrm}{}{\thetheo,\thedummy}%                     
+				}{%        
+					\begin{thrm}{}{\thetheo aa}%                 
+					}%
+				}{%
+				\end{thrm}% 
+			}
+			
+			\newtcolorbox{corollary}{
+			enhanced, 
+			breakable,
+			sharp corners,
+			interior style={left color=Thistle1,right color=LightSteelBlue4!50},
+			title style={right color=LightSteelBlue4,left color=Thistle1},
+			frame style={right color=LightSteelBlue4,left color=Thistle1},
+			colframe=white, coltitle=LightSteelBlue4, colbacktitle=SkyBlue4,
+			colback=SkyBlue4,
+			drop fuzzy shadow=Cyan4!50!black,
+			titlerule=0mm,
+			separator sign={:},
+			description formatter=\newline,
+			title={Corollary}
+			}{}
+			
+			%lemma lemma lemmaaa
+			\newcounter{lem}
+			
+			\newtcbtheorem[number within=section]{lemm}{Lemma}{
+				enhanced, 
+				breakable,
+				interior style={left color=SkyBlue4!20,right color=Cyan4!10},
+				title style={left color=SkyBlue4!70,right color=Cyan4!10},
+				frame style={left color=SkyBlue4!70,right color=Cyan4!10},
+				colframe=white, coltitle=white, colbacktitle=SkyBlue4,
+				colback=SkyBlue4,
+				drop fuzzy shadow=gray,
+				titlerule=0mm,
+				separator sign={:},
+				description formatter=\newline,
+				theorem hanging indent/.try=0pt,
+			}{}
+			
+			\newenvironment{lemma}[1][]{ 
+				\stepcounter{lem}
+				\stepcounter{dummy}
+				\ifstrempty{#1}{%   
+					\begin{lemm}{}{\thetheo,\thedummy}%                     
+					}{%        
+						\begin{lemm}{}{\thetheo aa}%                 
+						}%
+					}{%
+					\end{lemm}% 
+				}
+				
+				
+				
+				\newcounter{propos}
+				%now making the proposition
+				\newtcbtheorem[number within=section]{prp}{Proposition}{
+					enhanced, 
+					breakable,
+					sharp corners,
+					interior style={left color=RoyalBlue4!40!Aquamarine1,right color=RoyalBlue4!40},
+					frame style={left color=RoyalBlue4!80!Aquamarine1,right color=RoyalBlue4},
+					colframe=white, coltitle=RoyalBlue4, title style={left color=white!60, right color=RoyalBlue4!80},
+					colback=Maroon1,
+					drop fuzzy shadow=gray,
+					titlerule=0mm,
+					separator sign={:},
+					description formatter=\newline,
+					theorem hanging indent/.try=0pt,
+				}{}
+				
+				\newenvironment{proposition}[1][]{ 
+					\ifstrempty{#1}
+					{%   
+						\begin{prp}{}{\thepropos\thedummy eeeheheh\thedefi}%                     
+						}{%        
+							\hfill
+							\begin{prp}{}{\thetheo,\thepropos ahah}%                 
+							}%
+						}{%
+						\end{prp}% 
+					}
+					
+					
+					\newenvironment{diagram}[1][]{
+						\ifstrempty{#1}
+						{%   
+								\begin{tikzpicture}[circuit ee IEC,x=2cm,y=0.8cm,semithick,
+									every info/.style={font=\small},
+									set resistor graphic=var resistor IEC graphic,
+									set diode graphic=var diode IEC graphic,
+									set make contact graphic= var make contact IEC graphic]
+							}{%        
+									\begin{tikzpicture}[circuit ee IEC,x=2cm,y=0.8cm,semithick,
+										every info/.style={font=\small},
+										set resistor graphic=var resistor IEC graphic,
+										set diode graphic=var diode IEC graphic,
+										set make contact graphic= var make contact IEC graphic]  
+								}%
+							}{
+							\end{tikzpicture}
+						}
+						
+			
+							
+						\newcounter{algor}
+						%now making the proposition
+						\newtcbtheorem{algo}{Complexity analysis}{
+							enhanced, 
+							breakable,
+							interior style={left color=red!30,right color=white!29},
+							title style={left color=red!30,right color=red!80},
+							colframe=white, coltitle=black, colbacktitle=red!60,
+							colback=red!80!black,
+							titlerule=0mm,
+							separator sign={:},
+							description formatter=\newline,
+							theorem hanging indent/.try=0pt,
+						}{}
+						
+						\newenvironment{complexity}[1][]{
+							{\par\noindent\ignorespaces}
+							{\ignorespacesafterend} 
+							\hfill   
+							\stepcounter{algor}
+							\stepcounter{dummy}
+							\ifstrempty{#1}
+							{%   
+								\hfill
+								\begin{algo}{}{\thealgor\thedummy eeeheheh\thedefi}%                     
+								}{%        
+									\hfill
+									\begin{algo}{}{\thetheo,\thealgor ahah\thedummy}%                 
+									}%
+								}{%
+								\end{algo}% 
+							}
+							
+							
+							\newcounter{exampl}
+							
+							\newtcbtheorem[number within=section]{exa}{Example}{
+								enhanced jigsaw, 
+								frame empty, breakable,
+								colframe=white, coltitle=black,
+								colback=white,
+								opacityback=0,
+								sharp corners,
+								borderline west={1mm}{0mm}{CadetBlue4},
+								attach boxed title to top left,  
+								boxed title style={boxrule=0.5mm,drop fuzzy shadow=gray, colframe=CadetBlue4, sharp corners, interior style={left color=white, right color=CadetBlue4!50}},
+								separator sign={:},
+								opacityframe=.5,
+								description formatter=\newline,
+								theorem hanging indent/.try=0pt,
+							}{}
+							
+							\newenvironment{example}[1][]{
+								\stepcounter{exampl}
+								\ifstrempty{#1}{%   
+									\begin{exa}{}{\theexer\theexampl}%                     
+									}{%       
+										\begin{exa}{}{\theexampl}%                 
+										}%
+									}{%
+									\end{exa}% 
+								}
+								
+								\newcounter{exer}
+								
+\newtcolorbox{revise}{
+	enhanced jigsaw,
+	colback=red!5!white,sharp corners, colframe=LightSteelBlue4!75!black,
+	breakable,
+	drop shadow,
+	fonttitle=\bfseries,
+	interior style={left color=CadetBlue3!30,right color=white!29},
+	frame style={left color=DodgerBlue4,right color=DodgerBlue1},
+	title={Revise with me!}}
+	\newtcolorbox{insult}{
+		enhanced jigsaw,
+		colback=red!5!white,sharp corners, colframe=red,
+		breakable,
+		drop shadow={red!80!black},
+		fonttitle=\bfseries,
+		interior style={left color=red!70,right color=white!29},
+		title={You fucking prick}}
+		
+	\newtcolorbox{notation}{
+		enhanced jigsaw,
+		opacityback=0,
+		colback=white, colframe=Aquamarine4!80!SteelBlue2,
+		attach boxed title to top left ={yshift=-\tcboxedtitleheight/2,yshifttext=-\tcboxedtitleheight/2,xshift=0.3cm},
+		boxed title style={%
+			colback=Aquamarine4!80!SteelBlue2,
+			opacityback=1
+		},
+		boxrule=0.5mm,top=0mm,bottom=0mm,
+		rounded corners,
+		coltitle=white,
+		drop shadow,
+		fonttitle=\bfseries,
+		title={Note the notation!}}	
+	
+			
+	
+	\newtcolorbox{proofbox}{
+		enhanced,
+		attach boxed title to top left,
+		colback=red!5!white,sharp corners, colframe=white,
+		breakable,
+		drop shadow,
+		boxed title style={interior style={fill overzoom image=scrapped},sharp corners},
+		coltitle=black,
+		fonttitle=\bfseries\itshape,
+		interior style={fill tile image*={width=1.1\linewidth}{squares}},
+		frame style={white},
+		title={Proof}}	
+		
+		\newenvironment{fancyproof}[1][]{
+			\ifstrempty{#1}{%   
+				\begin{proofbox} \begin{proof}[\unskip\nopunct]                   
+				}{%        
+					\begin{proofbox} \begin{proof}[\unskip\nopunct]%                 
+					}%
+				}{%
+				\end{proof}\end{proofbox}% 
+			}					
+									\let\oldemptyset\emptyset
+									\let\emptyset\varnothing
+									
+									
+									\renewcommand{\labelitemi}{$\textcolor{SteelBlue4}{\bullet}$}
+									\renewcommand{\labelitemii}{$\textcolor{blue}{\cdot}$}
+									\renewcommand{\labelitemiii}{$\textcolor{SkyBlue4}{\diamond}$}
+									\renewcommand{\labelitemiv}{$\textcolor{SkyBlue4}{\ast}$}
+									
+									\newcommand{\enf}[1]{\textcolor{DodgerBlue3}{\textbf{#1}}} %enf sta per enfasi
+					\let\emph\enf
+									\newcommand{\sott}[1]{\setulcolor{SkyBlue3}\ul{#1}}
+									\let\underline\sott
+
+									\newcommand{\prob}{\mathbb{P}}
+									\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+									\newcommand{\ev}{\mathbb{E}}
+									\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+									\newcommand{\Z}{\mathbb{Z}}
+									\newcommand{\R}{\mathbb{R}}
+									\newcommand{\N}{\mathbb{N}}
+									\newcommand{\T}{\mathbb{T}}
+									\newcommand{\Tbar}{\overline{\T}}
+									\newcommand{\Nstar}{\N^{*}}
+									\newcommand{\Rext}{\overline{\R}}
+									\newcommand{\io}{\text{ i.o.}}
+									\newcommand{\equalexpl}[1]{%
+										\underset{\substack{\uparrow\\\mathrlap{\text{\vspace{-3cm}\hspace{-1em}#1}}}}{=}}
+									\newcommand{\dif}{\mathop{}\!\mathrm{d}}
+									\newcommand{\convas}{\xrightarrow[]{\text{a.s.}}}
+									\newcommand{\convpr}{\xrightarrow[]{\pr}}
+									\newcommand{\convd}{\xrightarrow[]{\text{d}}}
+									\newcommand{\convlp}{\xrightarrow[]{\lp}}
+									\newcommand{\convw}{\xrightarrow[]{\mathrm{weak}}}
+									\newcommand{\as}{\text{ a.s.}}
+									\newcommand{\asstnr}{\sim N(0,1)}
+									%\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+\newcommand{\dx}{\dif x}
+\newcommand{\dy}{\dif y}
+\newcommand{\dt}{\dif t}
+\newcommand{\du}{\dif u}
+\newcommand{\ds}{\dif s}
+\newcommand{\dw}{\dif\omega}
+\newcommand{\dmu}{\dif\mu}
+\newcommand{\dpr}{\dif\pr}
+\newcommand{\E}{\mathscr{E}}
+\newcommand{\B}{\mathscr{B}}
+\newcommand{\F}{\mathscr{F}}
+\newcommand{\G}{\mathscr{G}}
+\newcommand{\HS}{\mathscr{H}}
+\newcommand{\Zn}{\mathscr{Z}}
+\newcommand{\D}{\mathscr{D}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\rbar}{\overline{\R}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\xxbar}{\overline{\xbar}}
+\newcommand{\xtilde}{\widetilde{X}}
+\newcommand{\ifonly}{\underline{if and only if}}
+
+		
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+		\node[shape=circle,draw,
+		shading=ball, ball color=SkyBlue1!70,
+		,inner sep=1.5pt] (char) {\scriptsize\bfseries #1};}}
+\newcommand{\circnum}{\protect\circled{\arabic*}}
+\newcommand{\circlet}{\protect\circled{\alph*}}	
+\newcommand{\bbg}[1]{%
+	\ooalign{$#1$\cr\raisebox{-.2pt}{$#1$}\cr\raisebox{.2pt}{$#1$}\cr\textcolor{white}{$\mkern0.2mu#1$}}%
+}
+\newcommand{\leb}{\bbg{\lambda}}
+			
+									%i comandi di MERDA di stefano
+									\newcommand{\ra}{\rightarrow}
+									\newcommand{\iy}{\infty}
+									\newcommand{\mE}{\mathbb{E}}
+									\newcommand{\mP}{\mathbb{P}}
+									\newcommand{\mB}{\mathcal{B}(\mathbb{R})}
+									\newcommand{\mL}{\mathbb{L}}
+									\newcommand{\mLL}{\mathbb{L}^2(0,T)}
+									\newcommand{\mR}{\mathbb{R}}
+									\newcommand{\mC}{\mathcal{C}}
+									\newcommand{\mRd}{\mathbb{R}^d}
+									\newcommand{\mN}{\mathbb{N}}
+									%\newcommand{\m1}{\mathbf{1}}
+									\newcommand{\mF}{\mathcal{F}}
+									\newcommand{\mM}{\mathcal{M}}
+									\newcommand{\mW}{\mathcal{W}}
+									\newcommand{\mV}{\mathcal{V}}
+									\newcommand{\mA}{\mathcal{A}}
+									\newcommand{\mez}{\frac{1}{2}}
+									\newcommand{\intT}{\int_{0}^{T}}
+									\newcommand{\ninf}{n \ra \iy}
+									\newcommand{\nN}{n \in \mathbb{N}}
+									\newcommand{\mmN}{\mathcal{N}}
+									\newcommand{\BM}{(B_t)_{t\geq 0}}
+									\newcommand{\PX}{(X_t)_{t\geq 0}}
+									\newcommand{\var}{\mathbb{V}\mathrm{ar}\,}
+									\newcommand{\cov}{\mathbb{C}\mathrm{ov}\,}
+									\newcommand{\lp}{L^{p}}
+									\newcommand{\BMF}{\left((B_t)_{t\geq 0},\mathcal{F}_t \right)}
+									\newcommand{\mFt}{\mathcal{F}_t}
+									\newcommand{\every}{\forall\,}
+									\newcommand{\dyadic}{\mathcal{d}}
+									\newcommand{\norm}[1]{\left|\negthinspace\left|#1\right|\negthinspace\right|}
+		\newcommand{\pr}{\mathbb{P}}
+		\newcommand{\indi}{\mathbb{1}}
+		\newcommand{\sa}{$\sigma$-algebra}	\newcommand{\rv}{random variable}
+		\titleformat{\section}{\color{SkyBlue4}}{\color{red}\thesection}{1em}{}
+		\subsectionfont{\color{SkyBlue4!90!black}\bfseries}
+									\pretitle{\begin{center}\LARGE\color{SkyBlue2}}
+		\sectionfont{\color{Cyan2!50!black}\bfseries}
+										\pretitle{\begin{center}\LARGE\color{SkyBlue2}}
+											\newcommand{\prefacename}{Preface}
+	\newcommand{\cinlar}{Çinlar }
+											\newenvironment{preface}{
+												\vspace*{\stretch{2}}
+												{\noindent \bfseries \huge\color{SkyBlue4} \prefacename}
+												\begin{center}
+													% \phantomsection \addcontentsline{toc}{chapter}{\prefacename} % enable this if you want to put the preface in the table of contents
+													\thispagestyle{plain}
+												\end{center}%
+											}
+											{\vspace*{\stretch{5}}}
+											
+											
+											\newenvironment{closethedeal}{
+												\vspace*{\stretch{2}}
+												{\noindent \bfseries \huge\color{SkyBlue4} That's all, folks}
+												\begin{center}
+													% \phantomsection \addcontentsline{toc}{chapter}{\prefacename} % enable this if you want to put the preface in the table of contents
+													\thispagestyle{plain}
+												\end{center}%
+											}
+											{\vspace*{\stretch{5}}}
+\pgfkeys{%
+	/calloutquote/.cd,
+	width/.code                   =  {\def\calloutquotewidth{#1}},
+	position/.code                =  {\def\calloutquotepos{#1}}, 
+	author/.code                  =  {\def\calloutquoteauthor{#1}},
+	/calloutquote/.unknown/.code   =  {\let\searchname=\pgfkeyscurrentname
+		\pgfkeysalso{\searchname/.try=#1,                                
+			/tikz/\searchname/.retry=#1},\pgfkeysalso{\searchname/.try=#1,
+			/pgf/\searchname/.retry=#1}}
+}  
+
+
+\newcommand\calloutquote[2][]{%
+	\pgfkeys{/calloutquote/.cd,
+		width               = 5cm,
+		position            = {(0,-1)},
+		author              = {}}
+	\pgfqkeys{/calloutquote}{#1}                   
+	\node [rectangle callout,draw,callout relative pointer={\calloutquotepos},text width=\calloutquotewidth,/calloutquote/.cd,
+	#1] (tmpcall) at (0,0) {#2};
+	\node at (tmpcall.pointer){\calloutquoteauthor};    
+}  		
+
+
+\newcommand\lemmethink[2][]{%
+	\pgfkeys{/calloutquote/.cd,
+		width               = 5cm,
+		position            = {(0,-1)},
+		author              = {}}
+	\pgfqkeys{/calloutquote}{#1}                   
+	\node [cloud callout,draw,callout relative pointer={\calloutquotepos},text width=\calloutquotewidth,/calloutquote/.cd,
+	#1] (tmpcall) at (0,0) {#2};
+	\node at (tmpcall.pointer){\calloutquoteauthor};    
+}  											
+							
+
+\renewcommand\leq\leqslant
+\renewcommand\geq\geqslant			
+
+						\usepackage[
+						backend=biber,
+						style=authoryear,
+						sorting=nyt
+						]{biblatex}			\posttitle{\par\end{center}\vskip 0.5em}
+						
