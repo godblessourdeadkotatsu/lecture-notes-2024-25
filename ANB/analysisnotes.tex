@@ -1,0 +1,87 @@
+\documentclass{article}
+\usepackage{pacco}
+
+\title{This Should Help Your Lazy Ass In Analisys B}
+\author{Charles A. Mongus, world famous jazz composer and bassist}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\section{Normed Spaces}
+\begin{proposition}
+    A subset $C\subset X$ is a closed subset of $(X,\norm{\cdot})$ whenever the limit of any convergent sequence ${(x_n)}_n\subset C$ belongs to $C$. 
+\end{proposition}
+In other words, $C$ is closed if and only if once a sequence of elements of $C$ is converging, the limit cannot escape $C$.
+\begin{fancyproof}
+    \begin{enumerate}[\circnum]
+        \item \textbf{$C$ closed and ${(x_n)}_n\subset C$ $\implies$ $\lim_nx_n=x\in C$}.\\
+        We argue by contradiction that $x\not\in C$: then $x$ must be in $X\setminus C$ which must be open. But if that is an open set then there must exist a ball of $x$ for some $r>0$ such that $B(x,r)\subset X\setminus C$. But due to the definition of convergence there must exist a $N$ such that $\norm{x_n-x}<r\;\every n\geq N$, but then that $x_n$ should be outside $C$ which is a contradiction!
+        \item \textbf{$\lim_nx_n=x\in C$ $\implies$ $C$ closed  and ${(x_n)}_n\subset C$}. \\
+        We argue by contradiction that $C$ is not closed, so $X\setminus C$ must be not open. Not open sets are such that there exist $x\in X\setminus C$ such that for every $r>0$ you can't find a ball that it is entirely in $X\setminus C$ which means $B(x,r)\cap C\neq\emptyset$. Then pick $x_n\in B(x,\frac{1}{n})\cap C$ so that every $x_n$ also belongs to $C$. Clearly this is a sequence of $n$ such that for any $n\geq1$ we have $\norm{x_n9-x}<\frac{1}{n}$ and this means that $\lim_nx_n=x$. We picked $x\in X\setminus B$ so we have found a limit of a sequence of elements of $C$ that doesn't belong to $C$ which is a contradiction!
+    \end{enumerate}
+\end{fancyproof}
+\begin{theorem}
+    \emph{Holder Inequality.} Let $1\leq p\leq\infty$ and $\frac{1}{p}+\frac{1}{q}=1$. Assume that $f\in \Lp(S,\mu)$ and $g\in\Lq(S,\mu)$. Then $f\cdot g\in\Lone$ and
+    \begin{equation*}
+        \norm{fg}_1\leq\norm{f}_p\norm{g}_q.
+    \end{equation*}
+\end{theorem}
+\begin{fancyproof}
+    The proof is trivial if $p=1$ and $q=1$. Remember Young's inequality 
+    \[
+    ab\leq\frac{1}{p}a^p+\frac{1}{q}b^q.
+    \]
+    Now let's say $a=|f(s)|$ and $b=|g(s)|$. Now our inequality becomes
+    \[
+    |f(s)g(s)|\leq\frac{1}{p}|f(s)|^p+\frac{1}{q}|g(s)|^q\qquad\maes{S}.
+    \]
+    Now we integrate over $S$ and we get
+    \begin{align*}
+        &\int_S|f(s)g(s)|\leq\frac{1}{p}\int_S|f(s)|^p+\frac{1}{q}\int_S|g(s)|^q\\
+        \implies&\norm{fg}_1\leq\frac{1}{p}\norm{f}_p^p+\frac{1}{q}\norm{g}_q^q
+    \end{align*}
+    which means that $\norm{fg}_1$ is finite and therefore $fg\in\Lone(S,\mu)$. To end the proof let's substitute $f$ with $\lambda f,\;\every\lambda>0$. We get
+    \begin{align*}
+        &\lambda\norm{fg}_1\leq\frac{\lambda^p}{p}\norm{f}_p^p+\frac{1}{q}\norm{g}_q^q\qquad\every\lambda>0\\
+        \implies&\frac{\lambda}{\color{red}\lambda}\norm{fg}_1\leq\frac{\lambda^p}{p\color{red}\lambda}\norm{f}_p^p+\frac{1}{q\color{red}\lambda}\norm{g}_q^q\qquad\every\lambda>0\\
+        \implies&\norm{fg}_1\leq\frac{\lambda^{p-1}}{p}\norm{f}_p^p+\frac{1}{\lambda q}\norm{g}_q^q\qquad\every\lambda>0.\\
+    \end{align*}
+    Now choose $\lambda=\frac{1}{\norm{f}_p}\cdot\norm{g}^{\frac{q}{p}}_q$. When we substitute this value for \( \lambda \), we get:
+    \[
+\frac{\lambda^p}{p} \|f\|_p^p = \frac{\left( \frac{1}{\|f\|_p} \cdot \|g\|_q^{\frac{p}{q}} \right)^p}{p} \|f\|_p^p.
+\]
+Expanding \( \left( \frac{1}{\|f\|_p} \cdot \|g\|_q^{\frac{p}{q}} \right)^p \), we get:
+\[
+\left( \frac{1}{\|f\|_p} \cdot \|g\|_q^{\frac{p}{q}} \right)^p = \frac{\|g\|_q^p}{\|f\|_p^p}.
+\]
+
+Substituting this, we have:
+\[
+\frac{\lambda^p}{p} \|f\|_p^p = \frac{\frac{\|g\|_q^p}{\cancel{\|f\|_p^p}}}{p} \cancel{\|f\|_p^p} = \frac{\|g\|_q^p}{p}.
+\]
+
+Substitute back into the inequality:
+\[
+\lambda \|fg\|_1 \leq \frac{\|g\|_q^p}{p} + \frac{1}{q} \|g\|_q^q.
+\]
+
+Since \( \frac{\|g\|_q^p}{p} + \frac{\|g\|_q^q}{q} = \|g\|_q^p \left( \frac{1}{p} + \frac{1}{q} \right) \) and \( \frac{1}{p} + \frac{1}{q} = 1 \), we get:
+\[
+\lambda \|fg\|_1 \leq \|g\|_q^p.
+\]
+
+
+Dividing by \( \lambda = \frac{1}{\|f\|_p} \|g\|_q^{\frac{p}{q}} \):
+\[
+\|fg\|_1 \leq \|f\|_p \|g\|_q.
+\]
+
+This is Hölder’s inequality:
+\[
+\|fg\|_1 \leq \|f\|_p \|g\|_q.
+\]
+
+\end{fancyproof}
+\end{document}
