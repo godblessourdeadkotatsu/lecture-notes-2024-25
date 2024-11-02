@@ -398,7 +398,7 @@
 		\newtcolorbox{stripbox}{
 			enhanced,
 			frame code={},
-			interior code={
+			interior titled code={
 				\path[
 				draw=white,
 				sharp corners,
@@ -408,7 +408,8 @@
 				hatchcolor=Coral1!10,
 				]
 				(interior.south east) rectangle (interior.north west);
-			}
+			},
+			title={Proof}
 		}
 	
 	\newtcolorbox{proofbox}{
