@@ -1,3 +1,4 @@
+% !TeX spellcheck = en_US
 \documentclass{article}
 \usepackage{pacco}
 
@@ -22,6 +23,12 @@ In other words, $C$ is closed if and only if once a sequence of elements of $C$ 
         We argue by contradiction that $C$ is not closed, so $X\setminus C$ must be not open. Not open sets are such that there exist $x\in X\setminus C$ such that for every $r>0$ you can't find a ball that it is entirely in $X\setminus C$ which means $B(x,r)\cap C\neq\emptyset$. Then pick $x_n\in B(x,\frac{1}{n})\cap C$ so that every $x_n$ also belongs to $C$. Clearly this is a sequence of $n$ such that for any $n\geq1$ we have $\norm{x_n9-x}<\frac{1}{n}$ and this means that $\lim_nx_n=x$. We picked $x\in X\setminus B$ so we have found a limit of a sequence of elements of $C$ that doesn't belong to $C$ which is a contradiction!
     \end{enumerate}
 \end{fancyproof}
+\begin{lemma}
+		\emph{Young's inequality.} Let $p>1$ and let $q<1$ be its conjugate exponent. Then, for any nonnegative $a,b\in\R$ it holds
+		\begin{equation*}
+			ab\leq\frac{1}{p}a^{p}+\frac{1}{b}b^q.
+		\end{equation*}
+\end{lemma}
 \begin{theorem}
     \emph{Holder Inequality.} Let $1\leq p\leq\infty$ and $\frac{1}{p}+\frac{1}{q}=1$. Assume that $f\in \Lp(S,\mu)$ and $g\in\Lq(S,\mu)$. Then $f\cdot g\in\Lone$ and
     \begin{equation*}
@@ -83,5 +90,18 @@ This is Hölder’s inequality:
 \|fg\|_1 \leq \|f\|_p \|g\|_q.
 \]
 
+\end{fancyproof}
+\begin{theorem}
+	For any $1\leq p\leq\infty$, $\Lp(S,\mu)$ is a vector space and $\norm{\cdot}_{p}$ is a norm.
+\end{theorem}
+\begin{remark}
+	For $1<p<\infty$ the triangular inequality
+	\begin{equation*}
+		\norm{f+g}_p\leq\norm{f}_p+\norm{g}_p\qquad\every f,g\in\Lp(S,\mu)
+	\end{equation*}
+	is known as \emph{Minkowski's Inequality}.
+\end{remark}
+\begin{fancyproof}
+	We already know that if $f\in\Lp(S,\mu)$ then $\lambda f\in\Lp(S,\mu)$. 
 \end{fancyproof}
 \end{document}
