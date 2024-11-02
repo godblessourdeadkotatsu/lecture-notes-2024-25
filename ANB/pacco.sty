@@ -1,7 +1,8 @@
 \usepackage[T1]{fontenc}%
 %\usepackage{fontspec} %I want to be a XeLaTeX bitch but my heard is in pdftex...
 \usepackage{lmodern}
-
+%\usepackage{fontspec}
+%\setmainfont{Aptos}
 % Language setting
 % Replace `english' with e.g. `spanish' to change the document language
 \usepackage[english]{babel}
@@ -21,7 +22,7 @@
 \usepackage[shortlabels]{enumitem}
 \usepackage{amsthm}   
 \usepackage{array}
-\usepackage[scaled]{helvet}
+%\usepackage{hfbright}
 \renewcommand\familydefault{\sfdefault}
 %\usepackage[sfdefault]{roboto}
 \usepackage{pdfpages}
@@ -51,6 +52,7 @@
 \usepackage{sectsty,titling}
 \usepackage{float}
 
+
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,positioning,patterns,arrows.meta, bending, shadings,intersections,shadows,decorations,fit,backgrounds,circuits.ee.IEC,shapes.callouts}
 \usepackage{pgfplots,pgfplotstable}
@@ -66,12 +68,13 @@
 	enhanced, breakable, sharp corners,
 	colframe=white, coltitle=black, colbacktitle=gray!24,
 	colback=white,
-	interior style={top color=LightSteelBlue2, bottom color=white},
-	boxed title style={interior style={left color=LightSteelBlue2,right color=white!35}, sharpish corners,
-		frame style={right color=LightSteelBlue2,left color=white!35},drop fuzzy shadow=gray},
+	interior style={top color=Coral1!60, bottom color=white},
+	boxed title style={interior style={left color=Coral1!60,right color=white!35}, sharpish corners,
+		frame style={right color=Coral1!60,left color=white!35}},
 	attach boxed title to top left,
-	drop fuzzy shadow=gray,
 	boxed title style={boxrule=0.5mm, sharp corners},
+	halign title=flush center, 
+	fonttitle=\bfseries,
 	separator sign={:},
 	description formatter=\newline,
 	theorem hanging indent/.try=0pt,
@@ -103,6 +106,8 @@
 		colback=white,
 		titlerule=0mm,
 		drop fuzzy shadow=gray,
+		halign title=flush center, 
+		fonttitle=\bfseries,
 		borderline={0.5mm}{0mm}{SkyBlue4},
 		separator sign={:},
 		description formatter=\newline,
@@ -131,6 +136,8 @@
             fontupper=\color{white},
 			colframe=IndianRed4, coltitle=white, colbacktitle=SkyBlue4,
 			colback=SkyBlue4,
+			halign title=flush center, 
+			fonttitle=\bfseries,
 			titlerule=0mm,
 			separator sign={:},
 			description formatter=\newline,
@@ -157,6 +164,8 @@
 			title style={right color=LightSteelBlue4,left color=Thistle1},
 			frame style={right color=LightSteelBlue4,left color=Thistle1},
 			colframe=white, coltitle=LightSteelBlue4, colbacktitle=SkyBlue4,
+			halign title=flush center, 
+			fonttitle=\bfseries,
 			colback=SkyBlue4,
 			drop fuzzy shadow=Cyan4!50!black,
 			titlerule=0mm,
@@ -171,12 +180,13 @@
 			\newtcbtheorem[number within=section]{lemm}{Lemma}{
 				enhanced, 
 				breakable,
-				interior style={left color=SkyBlue4!20,right color=Cyan4!10},
-				title style={left color=SkyBlue4!70,right color=Cyan4!10},
-				frame style={left color=SkyBlue4!70,right color=Cyan4!10},
-				colframe=white, coltitle=white, colbacktitle=SkyBlue4,
+				interior style={left color=Chocolate1!20,right color=Chocolate1!50},
+				title style={left color=Chocolate1!20,right color=Chocolate1!50},
+				colframe=Tan3, coltitle=black, colbacktitle=SkyBlue4,
+				halign title=flush center, 
+				fonttitle=\bfseries,
 				colback=SkyBlue4,
-				drop fuzzy shadow=gray,
+				sharp corners,
 				titlerule=0mm,
 				separator sign={:},
 				description formatter=\newline,
@@ -207,6 +217,8 @@
 					colframe=Gold3!60, coltitle=DarkGoldenrod3, title style={right color=white!60, left color=Gold3!60},
 					colback=white,
                     borderline west={1mm}{0mm}{Gold3!60},
+                    halign title=flush center, 
+                    fonttitle=\bfseries,
                     titlerule=0mm,
 					separator sign={:},
 					description formatter=\newline,
@@ -255,6 +267,8 @@
 							interior style={left color=red!30,right color=white!29},
 							title style={left color=red!30,right color=red!80},
 							colframe=white, coltitle=black, colbacktitle=red!60,
+							halign title=flush center, 
+							fonttitle=\bfseries,
 							colback=red!80!black,
 							titlerule=0mm,
 							separator sign={:},
@@ -293,6 +307,8 @@
 								borderline west={1mm}{0mm}{CadetBlue4},
 								attach boxed title to top left,  
 								boxed title style={boxrule=0.5mm,drop fuzzy shadow=gray, colframe=CadetBlue4, sharp corners, interior style={left color=white, right color=CadetBlue4!50}},
+								halign title=flush center, 
+								fonttitle=\bfseries,
 								separator sign={:},
 								opacityframe=.5,
 								description formatter=\newline,
