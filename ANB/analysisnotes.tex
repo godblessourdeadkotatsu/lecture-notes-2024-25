@@ -142,7 +142,12 @@ This is Hölder’s inequality:
 	\end{equation*}
 	And this means that $|\psi|^{q}\in\Lone(S,\mu)\implies\psi\in\Lq(S,\mu)$. We also know that $|f|\in\Lp(S,\mu)$ so we can apply Holder's inequality with $f$ and $\psi$ so that
 	\begin{equation*}
-		\int_S|f||f+g|^{p-1}\dmu=\norm{f\psi}_1\leq\norm{f}_p\norm{\psi}
+		\int_S|f||f+g|^{p-1}\dmu=\norm{f\psi}_1\leq\norm{f}_p\norm{\psi}_q=\norm{f}_p\norm{f+g}_p^{\frac{p}{q}}
 	\end{equation*}
+	and
+	\begin{equation*}
+		\int_S|g||f+g|^{p-1}\dmu\leq\norm{g}_p\norm{f+g}_p^{\frac{p}{q}}
+	\end{equation*}
+	So that
 \end{fancyproof}
 \end{document}
