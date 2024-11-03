@@ -395,27 +395,38 @@
 			\pgfusepath{stroke}
 		}
 		
-		\newtcolorbox{stripbox}{
-			enhanced,
-			sharp corners,
-			frame code={},
-			interior titled code={
-				\path[
-				draw=white,
-				sharp corners,
-				pattern=custom north east lines,
-				hatchspread=12pt,
-				hatchthickness=4pt,
-				hatchcolor=Coral1!10,
-				]
-				(interior.south east) rectangle (interior.north west);
-			},
-			title={Proof},
-			coltitle=white,
-			fonttitle=\bfseries,
-			colbacktitle=Coral1
-		}
-	
+\newtcolorbox{stripbox}{
+	enhanced,
+	sharp corners,
+	frame code={},
+	breakable, % allows the box to break across pages
+	before break={
+		\path[
+		draw=white,
+		sharp corners,
+		pattern=custom north east lines,
+		hatchspread=12pt,
+		hatchthickness=4pt,
+		hatchcolor=Coral1!10,
+		]
+		(interior.south east) rectangle (interior.north west);
+	},
+	after break={
+		\path[
+		draw=white,
+		sharp corners,
+		pattern=custom north east lines,
+		hatchspread=12pt,
+		hatchthickness=4pt,
+		hatchcolor=Coral1!10,
+		]
+		(interior.south east) rectangle (interior.north west);
+	},
+	title={Proof},
+	coltitle=white,
+	fonttitle=\bfseries,
+	colbacktitle=Coral1
+}
 	\newtcolorbox{proofbox}{
 		enhanced,
 		attach boxed title to top center,
