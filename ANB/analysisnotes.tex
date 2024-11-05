@@ -188,4 +188,23 @@ Cool!
 	\end{equation*}
 	then $\left(\ell^p(\N),\norm{\cdot}_p\right)$ is a normed space.
 \end{proposition}
+\subsection{The space of linear applications}
+\begin{proposition}
+	Let $(X,\norm{\cdot}_X)$ and $(Y,\norm{\cdot}_Y)$ be two normed spaces and let $L;X\mapsto Y$ be a linear application. The following are equivalent:
+	\begin{enumerate}[\circnum]
+		\item\label{prop121}$L$ is continuous on $X$;
+		\item \label{prop122}$L$ is continuous at $x=0$;
+		\item\label{prop123}there is a positive constant $C>0$ such that
+		\[
+		\norm{L(x)}_Y\leq C\norm{x}_X\qquad\every x\in X.
+		\]
+	\end{enumerate}
+\end{proposition} 
+\begin{fancyproof}
+	Of course $\ref{prop121}\implies\ref{prop122}$, but now let's prove \ref{prop123}. Consider the definition of continuity at 0 for the function $L$: this means that for any $\varepsilon>
+	0$ there exists a constant $\delta>0$ such that
+	\[
+	\norm{x-0_X}_X\leq\delta\implies\norm{L(x)-L(0_Y)}_Y\leq\varepsilon.
+	\]
+\end{fancyproof}
 \end{document}
