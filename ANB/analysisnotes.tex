@@ -223,6 +223,9 @@ Cool!
 		\norm{L(y)}_Y=\norm{L\left(\frac{\delta}{\norm{x}_X}x\right)}_Y=\frac{\delta}{\norm{x}_X}\norm{L(x)}_Y=\frac{\delta}{\norm{x}_X}\norm{L(x)}_Y<1\implies\norm{L(x)}_Y<\frac{1}{\delta}\norm{x}_X.
 	\end{equation*}
 	So, setting $C=\frac{1}{\delta}$ proves $\ref{prop123}$. We still need to prove \ref{prop121}$\implies$\ref{prop123}: 'tis easy, since by linearity we have
-	$\norm{L(x)-L(y)}_{X}=\norm{L(x-y)}_X$
+	\begin{equation*}
+		\norm{L(x)-L(y)}_{X}=\norm{L(x-y)}_X\leq C\norm{x-y}_Y
+	\end{equation*}
+	and this clearly the continuity
 \end{fancyproof}
 \end{document}
