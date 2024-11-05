@@ -204,12 +204,16 @@ Cool!
 	Of course $\ref{prop121}\implies\ref{prop122}$, but now let's prove \ref{prop123}. Consider the definition of continuity at 0 for the function $L$: this means that for any $\varepsilon>
 	0$ there exists a constant $\delta>0$ such that
 	\[
-	\norm{x-0_X}_X\leq\delta\implies\norm{L(x)-L(0_Y)}_Y\leq\varepsilon.
+	\norm{x-0_X}_X\leq\delta\implies\norm{L(x)-L(0_Y)}_Y<\varepsilon.
 	\]
 	We know that $L$ is linear, so $L(0_X)=0_Y$ and therefore we get
 	\begin{equation*}
-		\norm{x}_X\leq\delta\implies\norm{L(x)}_Y\leq\epsilon.
+		\norm{x}_X\leq\delta\implies\norm{L(x)}_Y<\epsilon.
 	\end{equation*}
-	Choose $\epsilon=1$
+	Choose $\epsilon=1$ so that we get 
+	\begin{equation*}
+		\norm{x}_X\leq\delta\implies\norm{L(x)}_Y<1.
+	\end{equation*}
+	
 \end{fancyproof}
 \end{document}
