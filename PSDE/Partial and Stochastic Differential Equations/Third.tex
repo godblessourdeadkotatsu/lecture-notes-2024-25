@@ -200,8 +200,9 @@ It reduces to normal expected value in conditional probability if we consider th
 		Now take the following expectation for a function $u\in\mathcal{B}_b(\R)$:
 		\begin{align*}
 			&\ev{u(X_t^{0,\xi})|\mathcal{F}_s}\\
-			=&\ev{u\left(\Phi\left(X_s^{0,\xi},s,t,\cdot\right)\right)\big|\mathcal{F}_s}
+			=&\ev{u\left(\Phi\left(X_s^{0,\xi},s,t,\cdot\right)\right)\Big|\mathcal{F}_s}.
 		\end{align*}
+		Notice how we used ad $\cdot$ instead of $\omega$ because inside the expectation we effectively sum all the distribution mass up to $\omega$.
         We need to state a lemma, which is equivalent to the Freezing Lemma
         \begin{PropBox}
             \begin{Lemma}[Lemma A3 page 363, Schilling BM]
