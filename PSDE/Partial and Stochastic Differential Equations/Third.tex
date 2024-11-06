@@ -263,6 +263,8 @@ Moreover, this means that
 The $x$ over the expectation is just a starting point. Since different $x$ causes different measures, this is a family of measures. We can write
 \begin{align*}
 	\ev{u(X_{t})|X_s}&=\int \underbracket{u(y)\cdot p(s,x;t,\dif y)}_{\mathclap{\text{\tiny because of time homogeneity}}}\Big|_{x=X_s}\\
-	&=\underbracket{\int u(y)\cdot p(0,x;t-s,\dif y)\Big|_{x=X_s}}_{\mathclap{\text{Kolmogorov measure at time }0}}
+	&=\underbracket{\int u(y)\cdot p(0,x;t-s,\dif y)\Big|_{x=X_s}}_{\mathclap{\text{Kolmogorov measure at time }0}}\\
+	&=\mE^{x}\left[u(X_{t-2})\right]\big|_{x=X_s}\\
+	&=\mE^{X_{s}}\left[u(X_{t-s})\right]
 \end{align*}
 
