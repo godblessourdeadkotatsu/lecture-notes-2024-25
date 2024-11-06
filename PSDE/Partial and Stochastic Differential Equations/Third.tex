@@ -217,8 +217,9 @@ It reduces to normal expected value in conditional probability if we consider th
         The dot in the third line stands for the function which acts to the last components and does not care about the first one (now called $y$) since the latter has been frozen. \\
         So now we can compute the expectation first using $y$ as a simple number and only after we plug in the random variable $X_s^{0,\xi}$ (which, remember, is the starting point). Now we get
         \begin{equation*}
-        	\ev{u\left(X_t^{s,y}|_{y=X_s^{0,\xi}}\right)}.
+        	\ev{u\left(X_t^{s,y}\right)}|_{y=X_s^{0,\xi}}.
         \end{equation*}
+        This is not exactly the Markov statement, but we can get it neverthele
     \end{proof}
 \end{ProofBox}
 Consider the family of measures, depending on $t,s$ and $x$ for $t \geq s$
