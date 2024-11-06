@@ -1,0 +1,199 @@
+\documentclass[a4paper, 11pt, openright]{report}
+\RequirePackage[utf8]{inputenc} % input unicode
+\RequirePackage[english]{babel}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amscd}
+\usepackage{array}
+%\usepackage{multicol}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{mathrsfs}
+\usepackage{standalone}
+\usepackage{cancel}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[toc]{appendix}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, 
+    linktoc=all,    
+    linkcolor=black}
+\usepackage{minted}
+\usepackage{subfig}
+\usepackage{mathtools} %necessario per \mathclap
+\usepackage[rgb,hyperref,dvipsnames]{xcolor} % necessario per \definecolor
+\usepackage[most]{tcolorbox} % fa qualcosa che ammetto non ricordo, però previene problemi di compatibilità con xcolor
+\usepackage[framemethod=default]{mdframed}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage[scr=rsfs]{mathalpha}
+\usepackage[final]{pdfpages}
+\usepackage{pgfplots,pgfplotstable}%per disegni
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.16}
+\usepackage{float}%per posizionamento disegni
+\usetikzlibrary{shapes,patterns,arrows,positioning,calc,arrows.meta, bending, graphs, shadings,quotes,intersections,decorations}
+\newcommand{\indep}{\perp \!\!\! \perp}
+\newcommand{\prob}{\mathbb{P}}
+\newcommand{\ev}[1]{\mathbb{E}\left[{#1}\right]}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\renewcommand{\CancelColor}{\color{red}}
+\definecolor{Th}{rgb}{0.8, 0.33, 0.5}
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=false,
+backgroundcolor=Th!10,
+linecolor=Th,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=0pt,
+innerbottommargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=1pt]{ThBox}
+\newtheorem{Th}{Theorem}
+\newtheorem{Cor}{Corollary}
+\newtheorem{Lemma}{Lemma}
+\newtheorem*{Note}{Note}
+\definecolor{Prop}{rgb}{0.3, 0.8, 0.5}
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=false,
+backgroundcolor=Prop!10,
+linecolor=Prop,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=0pt,
+innerbottommargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=1pt]{PropBox}
+\newtheorem*{Prop}{Property}
+\newtheorem*{remark}{Remark}
+\newtheorem*{recall}{Recall}
+\newtheorem{Proposition}{Proposition}
+\definecolor{Def}{rgb}{0.3, 0.5, 0.5} 
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=false,
+backgroundcolor=Def!10,
+linecolor=Def,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=0pt,
+innerbottommargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=1pt]{DefBox}
+\newtheorem{Def}{Definition}
+\definecolor{Proof}{rgb}{0.5, 0.3, 0.5}
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=false,
+backgroundcolor=Proof!10,
+linecolor=Proof,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=5pt,
+innerbottommargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=1pt]{ProofBox}
+\newtheorem*{Proof}{Proof}
+\renewcommand{\thefootnote}{\arabic{footnote}}
+%\newtheorem*{Impor}{Concetto}
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=false,
+backgroundcolor=orange!10,
+linecolor=orange,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=0pt,
+innerbottommargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=1pt]{AlgoBox}
+\newtheorem{algo}{Algorithm}
+\newenvironment{algorithm}[1][]{
+
+   \begin{AlgoBox}%                  
+      \ifstrempty{#1}{%                         
+         \begin{algo}%                     
+      }{%                                       
+         \begin{algo}[#1]%                 
+      }%
+}{%
+      \end{algo}%                          
+   \end{AlgoBox}%
+}
+\newcommand{\dif}{\mathop{}\!\mathrm{d}}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\iy}{\infty}
+\newcommand{\mE}{\mathbb{E}}
+\newcommand{\mP}{\mathbb{P}}
+\newcommand{\mB}{\mathcal{B}(\mathbb{R})}
+\newcommand{\mL}{\mathbb{L}}
+\newcommand{\mLL}{\mathbb{L}^2(0,T)}
+\newcommand{\mR}{\mathbb{R}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mRd}{\mathbb{R}^d}
+\newcommand{\mN}{\mathbb{N}}
+%\newcommand{\m1}{\mathbf{1}}
+\newcommand{\mF}{\mathcal{F}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\mW}{\mathcal{W}}
+\newcommand{\mV}{\mathcal{V}}
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mez}{\frac{1}{2}}
+\newcommand{\intT}{\int_{0}^{T}}
+\newcommand{\ninf}{n \ra \iy}
+\newcommand{\nN}{n \in \mathbb{N}}
+\newcommand{\mmN}{\mathcal{N}}
+\newcommand{\BM}{(B_t)_{t\geq 0}}
+\newcommand{\PX}{(X_t)_{t\geq 0}}
+\newcommand{\var}{\text{Var}}
+\newcommand{\cov}{\text{Cov}}
+\newcommand{\BMF}{\left((B_t)_{t\geq 0},\mathcal{F}_t \right)}
+\newcommand{\mFt}{\mathcal{F}_t}
+
+\usepackage{geometry}
+\geometry{a4paper, top=2.5cm, bottom=2cm, left=2cm, right=2cm} % heightrounded, bindingoffset=5mm}
+\title{Partial and Stochstic Differential Equations}
+\author{il Priorato di Sion illuminati da lui}
+\begin{document}
+	\maketitle
+	\newpage
+	\tableofcontents
+    \newpage
+
+    \section*{Introduction for the reader}
+    The course is divided into two parts:
+    \begin{itemize}
+        \item SDEs: 3 CFU with professor B.Toaldo
+        \item PDEs: 3 CFU with professor M.Badiale
+    \end{itemize}
+    These notes will follow the lectures given by the professors cited above and the notes of Professor Toaldo. We will also refer to the textbook "Brownian Motion", R.Schilling.\\
+    \include{First} 
+    \include{Second}
+    \include{Third}
+\end{document}
