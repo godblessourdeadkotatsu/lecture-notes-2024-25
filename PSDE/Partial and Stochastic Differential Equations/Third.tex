@@ -4,22 +4,22 @@
 The goal is to obtain 
 \begin{equation}
     \begin{split}
-        dX_t= b_t(X_t) dt + \sigma (X_t)dB_t\\
-        X_t = X_0 + \int_0^t b_s ds + \int_0^t \sigma_s dB_s
+        dX_t= b_t(X_t) dt + \sigma (X_t)\dif B_t\\
+        X_t = X_0 + \int_0^t b_s ds + \int_0^t \sigma_s \dif B_s
     \end{split}
 \end{equation}
 $h(B_t)=: X_t$ what happens if we differentiate? We already did this calculation explicitly, and we found all the differentiation rules, at the end 
 \begin{equation*}
-	X_t -X_0 = \int_0^t [\partial_t h(s, B_s)+ \frac{1}{2} \partial^2_x h(s, B_0)]ds + \int_0^t \partial_x  h(s, B_s) dB_s
+	X_t -X_0 = \int_0^t [\partial_t h(s, B_s)+ \frac{1}{2} \partial^2_x h(s, B_0)]ds + \int_0^t \partial_x  h(s, B_s) \dif B_s
 \end{equation*}
 and this is the Ito formula. We didn't prove this one but it is the same as the following 
 \begin{equation*}
-	X_t-X_0 = \int_0^t h''(B_s)ds + \frac{1}{2}\int_0^t h'(B_s)dB_s
+	X_t-X_0 = \int_0^t h''(B_s)ds + \frac{1}{2}\int_0^t h'(B_s)\dif B_s
 \end{equation*}
 \begin{Th}
 	Let $h: \mR_+ \times \mR \to \mR $ be $C'$ in $h(\cdot, x)$ and $C^2$ in  $h(t,\cdot)$ . Define $X_t:=h(t,B_t)$. Then $X_t$ is an Ito process and 
 	\begin{equation*}
-			X_t -X_0 = \int_0^t [\partial_t h(s, B_s)+ \partial^2_x h(s, B_s)]ds + \int_0^t \partial_x  h(s, B_s) dB_s 
+			X_t -X_0 = \int_0^t [\partial_t h(s, B_s)+ \partial^2_x h(s, B_s)]ds + \int_0^t \partial_x  h(s, B_s) \dif B_s 
 	\end{equation*}
 \end{Th}
 \begin{proof}
@@ -28,17 +28,17 @@ and this is the Ito formula. We didn't prove this one but it is the same as the 
 \begin{Th}
 	Let $(X_t)_{t\geq 0}$ be an Ito process with drift $b_t$ and diffusion $\sigma_t$. Let $h: \mR_+ \times \mR \to \mR$ such that $h$ is in $\mC'$ in $h(\cdot, x)$ and $C^2$ in  $h(t,\cdot)$. Let $Y_t:= h(t, X_t)$. Then $Y_t$ is an Ito process and 
 	\begin{equation*}
-		Y_t -Y_0 = \int_0^t [\partial_t h(s, X_s)+ b_s \partial_x h(s, X_s)+ \frac{1}{2}\sigma^2 _s \partial^2_x h(s, X_s]ds + \int_0^t \sigma_s \partial_x  h(s, X_s) dB_s 
+		Y_t -Y_0 = \int_0^t [\partial_t h(s, X_s)+ b_s \partial_x h(s, X_s)+ \frac{1}{2}\sigma^2 _s \partial^2_x h(s, X_s]ds + \int_0^t \sigma_s \partial_x  h(s, X_s) \dif B_s 
 	\end{equation*}
 \end{Th}
 comment: \\
 $b_s \partial_x h(s, X_s)$ in compact notation this will be non ha mei detto cosa sarebbe.
 \begin{equation*}
-	 dY_t = [\partial _t h(t,X_t) + \frac{1}{2}\sigma^2_t \partial_x^2h(t,X_t)]dt + \underbrace{b_t \partial_x h(t,X_t) dt + \sigma_t \partial :x b(t, X_t) dB_t}_{***}
+	 dY_t = [\partial _t h(t,X_t) + \frac{1}{2}\sigma^2_t \partial_x^2h(t,X_t)]dt + \underbrace{b_t \partial_x h(t,X_t) dt + \sigma_t \partial :x b(t, X_t) \dif B_t}_{***}
 \end{equation*}
 forse ha scritto qualcos'altro in compact notation 
 \begin{equation*}
-	dX_t = b_t dt + \sigma_t dB_t =: \int_0^t \partial_x h(s, X_s) dX_s 
+	dX_t = b_t dt + \sigma_t \dif B_t =: \int_0^t \partial_x h(s, X_s) dX_s 
 \end{equation*}
 immagine we want to integrate not against BM but using an ito process, you will need to redo all the computation. Rebember that is just noise. 
 so $***$ became 
@@ -48,14 +48,14 @@ so $***$ became
 Rules of differientiation:
 \begin{equation*}
 	\begin{split}
-		dtdt=0 \hspace{2 cm} dB_t dt& = 0= dtdB_t \\
-		(dB_t)^2&= dt
+		dtdt=0 \hspace{2 cm} \dif B_t dt& = 0= dt\dif B_t \\
+		(\dif B_t)^2&= dt
 	\end{split}
 \end{equation*}
 Find a random process $(X_t){t\geq 0}$ satisfying 
 \begin{equation*}
 	\begin{cases}
-		dX_t = \underbrace{b_t(X_t)dt }_{\text{Riemann}}+ \underbrace{\sigma_t (X_t)dB_t } _{Ito}\\
+		dX_t = \underbrace{b_t(X_t)dt }_{\text{Riemann}}+ \underbrace{\sigma_t (X_t)\dif B_t } _{Ito}\\
 		X_0=x
 	\end{cases}
 \end{equation*}
@@ -114,7 +114,7 @@ the filtration is not necessary the natural it just need to be such that $X_t$ i
 \section{Lecture 14}
 In the previous lecture we proved a result concerning the existence and the uniqueness of
 \begin{equation*}
-    dX_t = b_t(X_t) dt + \sigma_t(X_t) dB_t
+    dX_t = b_t(X_t) dt + \sigma_t(X_t) \dif B_t
 \end{equation*}
 Let us revise the heuristic discussion we already made at the beginning of the course. \\
 The point is that the behavior of
@@ -126,7 +126,7 @@ IMMAGINE \\
 So the infinitesimal increment depends on the increment of time through a number which is dependent on the current position $X_t$. \\
 To add randomness, we insert the second term, obtaining the initial differential equation: 
 \begin{equation*}
-    dX_t = b_t(X_t) dt + \sigma_t(X_t) dB_t
+    dX_t = b_t(X_t) dt + \sigma_t(X_t) \dif B_t
 \end{equation*}
 If we are in the current position and we want to understand what happens in the future, the only thing we need is ... 
 
@@ -136,7 +136,7 @@ Recall that there exist homogeneous and non-homogeneous processes. Heuristically
 If we also want space-homogeneity, that is the behavior does not depend on the current position, $b$ and $\sigma$ are going to be just constant functions. \\
 Therefore, with the two homogeneities, the local behavior does not depend on anything. \\
 \begin{equation*}
-    dX_t = b dt + \sigma dB_t
+    dX_t = b dt + \sigma \dif B_t
 \end{equation*}
 \begin{equation*}
     X_t = bt + \sigma B_t
@@ -160,7 +160,7 @@ It reduces to normal expected value in conditional probability if we consider th
     \begin{proof}[Sketch of proof]
         Fix $t > s, s \geq 0$ and write the following SDE:
         \begin{equation*}
-            X_t^{s,x} = x + \int_s^t (b(r,X_r^{s,x}) dr + \int_s^t \sigma(s,X_s^{s,x}) dB_s.
+            X_t^{s,x} = x + \int_s^t (b(r,X_r^{s,x}) dr + \int_s^t \sigma(s,X_s^{s,x}) \dif B_s.
         \end{equation*}
         This is just the same SDE as above but with the additional inclusion of $s$.
         Even if the process does not start from $0$, this is not a problem. We just specify that $x$ is the spatial starting point and $s$ is the starting time. \\
@@ -170,11 +170,11 @@ It reduces to normal expected value in conditional probability if we consider th
         \end{equation*}
         Fix $\xi \in \mR_+$
         \begin{equation*}
-            X_t^{0,\xi} = \xi + \int_0^t b(r,X_r^{0,\xi}) dr + \int_0^t b(r,X_r^{0,\xi})dB_r
+            X_t^{0,\xi} = \xi + \int_0^t b(r,X_r^{0,\xi}) dr + \int_0^t b(r,X_r^{0,\xi})\dif B_r
         \end{equation*}
         so
         \begin{equation*}
-            X_t^{0,\xi}=X_n^{0,\xi}+\int_s^tb(r,X^{0,\xi}_r)
+            X_t^{0,\xi}=X_n^{0,\xi}+\int_s^tb(r,X^{0,\xi}_r)\dif r
         \end{equation*}
         The two assertions (equation e UNIQUENESS) have the following consequence:
         \begin{equation*}
