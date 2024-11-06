@@ -219,7 +219,11 @@ It reduces to normal expected value in conditional probability if we consider th
         \begin{equation*}
         	\ev{u\left(X_t^{s,y}\right)}|_{y=X_s^{0,\xi}}.
         \end{equation*}
-        This is not exactly the Markov statement, but we can get it neverthele
+        This is not exactly the Markov statement, but we can get it nevertheless. Take
+        \begin{align*}
+        	\ev{\ev{u\left(X_t^{0,\xi}\right)|\mathcal{F}_s}|X_s^{0,\xi}}&=\ev{u\left(X_t^{0,\xi}|X_s^{0,\xi}\right)}\\
+        	&=
+        \end{align*}
     \end{proof}
 \end{ProofBox}
 Consider the family of measures, depending on $t,s$ and $x$ for $t \geq s$
