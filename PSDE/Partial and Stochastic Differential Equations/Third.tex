@@ -267,5 +267,10 @@ The $x$ over the expectation is just a starting point. Since different $x$ cause
 	&=\mE^{x}\left[u(X_{t-s})\right]\big|_{x=X_s}\\
 	&=\mE^{X_{s}}\left[u(X_{t-s})\right].
 \end{align*}
-Now let $\alpha>0$ and $\sigma\in\R$.
+Now let $\alpha>0$ and $\sigma\in\R$. The Langevin equation is written as
+\begin{equation*}
+	\begin{cases}
+		\dif X_{t}=-\alpha X_t\dif t+\sigma \dif B_{t}
+	\end{cases}
+\end{equation*}
 
