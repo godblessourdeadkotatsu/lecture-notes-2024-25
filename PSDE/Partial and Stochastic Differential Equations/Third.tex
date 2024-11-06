@@ -212,11 +212,10 @@ It reduces to normal expected value in conditional probability if we consider th
         \begin{equation*}
         	\ev{u\left(\Phi\left(X_s^{0,\xi},s,t,\cdot\right)\right)\Big|\mathcal{F}_s}=\ev{u\left(\Phi(y,s,t,\cdot)\right)}\Big|_{y=X_s^{0,\xi}}
         \end{equation*}
-        If we take the mapping $\omega\mapsto\Phi(y,s,t,\omega)$ then we know that it is $\mathcal{G}$-measurable. But if we look at the expectation then the dependence from $\omega$ has nothing to do with $\mathcal{F}_s$. $X_s^{0,\xi}$, on the other hand, \textit{is} dependent from 
-        We cannot remove the condition because of the presence of $X_s$ which depends on $\omega$ too!
-        Since it is measurable (completely determined by the filtration), we can freeze it since it is a number, and move on with the proof. \\
-        The dot in the third line stands for the function which acts to the last components and does not care about the first one (now called y) since the latter has been frozen. \\
-        FOTO ELENA
+        If we take the mapping $\omega\mapsto\Phi(y,s,t,\omega)$ then we know that it is $\mathcal{G}$-measurable. But if we look at the expectation then the dependence from $\omega$ has nothing to do with $\mathcal{F}_s$. $X_s^{0,\xi}$, on the other hand, \textit{is} dependent from $\mathcal{F}_t$.
+        Since it is measurable (completely determined by the filtration), we can "freeze" it since it is a number, get an unconditioned expectation and move on with the proof. \\
+        The dot in the third line stands for the function which acts to the last components and does not care about the first one (now called $y$) since the latter has been frozen. \\
+        So now we can compute the expectation first 
     \end{proof}
 \end{ProofBox}
 Consider the family of measures, depending on $t,s$ and $x$ for $t \geq s$
