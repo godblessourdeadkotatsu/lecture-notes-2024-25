@@ -283,4 +283,42 @@ This is also known as the \textbf{Ornstein-Uhleibeck process}. We can write
 	\underbracket[0.6pt]{e^{\alpha t}X_{t}}_{\mathclap{\text{call this $Y$}}}-x=\sigma\int_0^te^{\alpha s}\dif B_{s}.
 \end{equation*}
 $Y$ in this case is an Ito process with drift $0$ and diffusion coefficient $\sigma e^{\alpha s}$. Now consider the following form
-
+\begin{equation*}
+    h(t,Y_t)=\underbracket[0.6pt]{e^{-\alpha t}\cdot Y_t}_{X_t}
+\end{equation*}
+and now compute derivatives in order to apply Ito lemma:
+\begin{equation*}
+    h(t,z)=e^{-\alpha t}z\Longrightarrow\begin{array}{l}
+         \partial_th=-\alpha e^{-\alpha t}z  \\
+         \partial_zh=e^{-\alpha t}\\
+          \partial_z^2=0
+    \end{array}.
+\end{equation*}
+Remember that here our drift $b$ is equal to 0. Now we can actually apply the Ito lemma:
+\begin{align*}
+    \underbrace{\dif h(t,Y_t)}_{\dif X_t}&=(\partial_th+\underbracket[0.3pt]{b_t}_0\partial_zh+\frac{1}{2}\underbracket[0.3pt]{\partial_z^2}_0h)\dif t*\sigma\partial_zh\dif B_t\\
+    &=-\alpha\underbracket[0.3pt]{e^{-\alpha t}Y_t}_{X_t}\dif t+\sigma\cancel{e^{\alpha t}}\cdot\cancel{e^{-\alpha t}}\dif B_t.
+\end{align*}
+So we reached the conclusion that
+\begin{equation*}
+    \dif X_t=-\alpha X_t\dif t*\sigma\dif B_t.
+\end{equation*}
+So we have proved that the Langevin equiation satisfies the conditions.\par
+Now fix $t>0,\; a,b\in\R$ and set
+\begin{equation*}
+    \dif X_t=\frac{b-X_t}{T-t}\dif t+\dif B_t.
+\end{equation*}
+What we have here is a process whose drift gets stronger as $t$ approaches $T$. Define the processes
+\begin{align*}
+    X_t^a&=a\left(1-\frac{t}{T}\right)+\frac{bt}{T}+(T-t)\int_0^t\frac{1}{T-s}\dif B_s\\
+    Y_t&=(T-t)\int_0^t\frac{1}{T-s}\dif B_s\\
+    Z_t&=\int_0^t\frac{1}{T-s}\dif B_s.\\
+\end{align*}
+We can see that 
+\begin{equation*}
+    Y_t=(T-t)Z_t\qquad h(t,X)=(T-t)X
+\end{equation*}
+Huh? I am not sure, but anyways. Apply Ito formula (remember: our drift is 0 even here):
+\begin{equation*}
+    \dif Y_t=\underbracket[0.3pt]{-Z_t}_{\partial_th}\dif t+(T-t)\underbracket[0.3pt]{\dif Z_t}_{\mathclap{\text{drift=0}}}=-Z_t\dif t+\dif B_t.
+\end{equation*}
