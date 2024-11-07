@@ -330,5 +330,6 @@ which means
 \begin{align*}
 	\dif X_t & =\frac{b-a}{T}\dif t+\dif Y?t \\
 	 & =\frac{b-a}{T}\dif t-Z_t\dif t+\dif B_t\\
-	 &=\frac{b-a}{T}\dif t-\frac{X_t^{a}-a\left(1-\frac{t}{T}\right)}{den}
+	 &=\frac{b-a}{T}\dif t-\frac{X_t^{a}-a\left(1-\frac{t}{T}\right)-n\frac{t}{T}}{T-t}\dif t+\dif B_t
+	 &=\frac{b-X_t^a}{T-t}\dif t+\dif B_T
 \end{align*}
