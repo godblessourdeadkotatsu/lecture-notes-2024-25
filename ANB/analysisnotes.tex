@@ -229,6 +229,28 @@ Cool!
 	and this clearly implies the continuity of $L$ at any $x\in X$ (actually, the uniform continuity).
 \end{fancyproof}
 \begin{definition}
-	If $(X,\dnorm_X)$ and $(Y,\dnorm_Y)$ are two normed spaces, we denote by $\mathcal{L}(X,Y)$ the space of continuous linear applications from $X$ to $Y$. If $X=Y$ se simply denote $\mathcal{L}(X)$.
+	If $(X,\dnorm_X)$ and $(Y,\dnorm_Y)$ are two normed spaces, we denote by $\mathcal{L}(X,Y)$ the space of continuous linear applications from $X$ to $Y$. If $X=Y$ we simply denote $\mathcal{L}(X)=\mathcal{L}(X,X)$.
 \end{definition}
+\begin{proposition}
+	If $(X,\dnorm_X)$ and $(Y,\dnorm_Y)$ are two vector spaces and $X$ is of finite dimension, any linear application $L:X\mapsto Y$ is continuous.
+\end{proposition}
+\begin{remark}
+	If $\mathrm{dim}(X)=n$ and $\mathrm{dim}(Y)=p$, the space $\mathscr{L}(X,Y)$ can be identified with the space $\mathscr{M}_{n\times p}(\R)$ of matrices with $n$ lines and $p$ rows.
+\end{remark}
+\subsection{Compactness}
+\begin{definition}
+	Let $(X,\dnorm_X)$ be a normed space and let $K\subset X$. We say that $K$ is \emph{compact} if every sequence ${(x_n)}_n$ contains a subsequence which converges to some $x\in K$.
+\end{definition}Of course if $K$ is compact then it is closed.\begin{lemma}
+If $K$ is a compact subset of a normed space $(X,\dnorm_X)$ then $K$ is closed and there exists $M>0$ such that $\sup_{x\in K}\norm{x}\leq M$ which means that $K$ is bounded.
+\end{lemma}\begin{proposition}
+\emph{Product of compact spaces}. Let $(X_1,\dnorm_1)$ and $(X_2,\dnorm_2)$ be two compact normed spaces and let $X=X_1\times X_2$. Then $(X,\dnorm_+)$ and $(X,\dnorm_{\max })$ are compact normed spaces.
+\end{proposition}
+Remember that 
+\begin{equation*}
+	\norm{\mathbf{x}}_+=\norm{x_1}_1+\norm{x_2}_2
+\end{equation*}
+and
+\begin{equation*}
+	\norm{\mathbf{x}}_{\max}=\max(\norm{x_1}_1,\norm{x_2}_2)
+\end{equation*}
 \end{document}
