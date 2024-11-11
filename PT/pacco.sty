@@ -309,9 +309,59 @@
 								}
 								
 								\newcounter{exer}
+	\newlength{\hatchspread}
+\newlength{\hatchthickness}
+\newlength{\hatchshift}
+\newcommand{\hatchcolor}{}
+% declaring the keys in tikz
+\tikzset{hatchspread/.code={\setlength{\hatchspread}{#1}},
+	hatchthickness/.code={\setlength{\hatchthickness}{#1}},
+	hatchshift/.code={\setlength{\hatchshift}{#1}},% must be >= 0
+	hatchcolor/.code={\renewcommand{\hatchcolor}{#1}}}
+% setting the default values
+\tikzset{hatchspread=3pt,
+	hatchthickness=0.4pt,
+	hatchshift=0pt,% must be >= 0
+	hatchcolor=black}
+% declaring the pattern
+\pgfdeclarepatternformonly[\hatchspread,\hatchthickness,\hatchshift,\hatchcolor]% variables
+{custom north east lines}% name
+{\pgfqpoint{\dimexpr-2\hatchthickness}{\dimexpr-2\hatchthickness}}% lower left corner
+{\pgfqpoint{\dimexpr\hatchspread+2\hatchthickness}{\dimexpr\hatchspread+2\hatchthickness}}% upper right corner
+{\pgfqpoint{\dimexpr\hatchspread}{\dimexpr\hatchspread}}% tile size
+{% shape description
+	\pgfsetlinewidth{\hatchthickness}
+	\pgfpathmoveto{\pgfqpoint{0pt}{\dimexpr\hatchspread+\hatchshift}}
+	\pgfpathlineto{\pgfqpoint{\dimexpr\hatchspread+0.15pt+\hatchshift}{-0.15pt}}
+	\ifdim \hatchshift > 0pt
+	\pgfpathmoveto{\pgfqpoint{0pt}{\hatchshift}}
+	\pgfpathlineto{\pgfqpoint{\dimexpr0.15pt+\hatchshift}{-0.15pt}}
+	\fi
+	\pgfsetstrokecolor{\hatchcolor}
+	%    \pgfsetdash{{1pt}{1pt}}{0pt}% dashing cannot work correctly in all situation this way
+	\pgfusepath{stroke}
+}
+
 \newtcolorbox{exercise}{
-enhanced jigsaw,
-}	
+	enhanced standard jigsaw,
+	sharp corners,
+	breakable=true,
+	interior titled code={
+		\path[
+		draw=white,
+		sharp corners,
+		pattern=custom north east lines,
+		hatchspread=12pt,
+		hatchthickness=4pt,
+		hatchcolor=SkyBlue1,
+		]
+		(interior.south east) rectangle (interior.north west);
+	},
+	title={Proof},
+	coltitle=white,
+	fonttitle=\bfseries,
+	colbacktitle=Coral1
+}
 \newtcolorbox{revise}{
 	enhanced jigsaw,
 	colback=red!5!white,sharp corners, colframe=LightSteelBlue4!75!black,
