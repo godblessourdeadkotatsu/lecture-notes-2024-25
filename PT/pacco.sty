@@ -342,7 +342,8 @@
 	\pgfusepath{stroke}
 }
 
-\newtcolorbox{exercise}{
+\newtcolorbox{exercise}[auto counter, 
+number within=subsection]{
 	enhanced standard jigsaw,
 	sharp corners,
 	breakable=true,
@@ -357,7 +358,7 @@
 		]
 		(interior.south east) rectangle (interior.north west);
 	},
-	title={Exercise},
+	title={Exercise~\thetcbcounter},
 	coltitle=black,
 	fonttitle=\bfseries,
 	colbacktitle=SkyBlue1!20
