@@ -341,8 +341,8 @@
 	%    \pgfsetdash{{1pt}{1pt}}{0pt}% dashing cannot work correctly in all situation this way
 	\pgfusepath{stroke}
 }
-
-\newtcolorbox[auto counter, number within=subsection]{exercise}{
+\newcounter{exercise}[subsection]
+\newtcolorbox[use counter=exercise]{exercise}{
 	enhanced standard jigsaw,
 	sharp corners,
 	breakable=true,
