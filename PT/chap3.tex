@@ -115,7 +115,13 @@
 		\item \begin{itemize}
 			\item We show that $\emptyset\in\F$. Notice that $\pr(\Omega)=1$ and so $\Omega\in\F$. notice that $\F$ is closed under complementation because if $F\in\F$ then either $\pr(F)=0$ or $\pr(F)=1$. Hence $\pr(F^{c})=1-\pr(F)\in\{0,1\}$. Thus $\Omega^{c}\in\F\implies\emptyset\in\F$.
 			\item We show that if $F\in\F$ then $F^{c}\in\F$... but we already did that.
-			\item We show that if $F_n\in\F$ then $\bigcup_n F_n\in\F$ 
+			\item We show that if $F_n\in\F$ then $\bigcup_n F_n\in\F$. We consider two cases:
+			\begin{itemize}
+				\item if $\pr(F_n)=0\;\every n$ then $\pr(\bigcup_n F_n)\leq\sum_n\pr(F_n)=0$ and therefore 
+				\begin{equation*}
+					\bigcup_n F_n\in\F
+				\end{equation*}
+			\end{itemize} 
 		\end{itemize}
 	\end{enumerate}
 	\subsection{Exercise class 2}
