@@ -446,7 +446,7 @@
 	\begin{exercise}
 		Let $c$ be a cumulative \textit{distribution function}, that is
 		\begin{equation*}
-			c:[0,1]\to\R\qquad\text{incresaing, right continuous.}
+			c:[0,1]\to\R\qquad\text{increasing, right continuous.}
 		\end{equation*}
 		Let $q$ be the corresponding \textit{quantile function}, that is 
 		\begin{align*}
@@ -460,14 +460,162 @@
 			\item Show that for any cumulative distribution function on $\overline{\R}$ there exists a unique probability measure $\mu$ on $(\overline{\R},\B(\overline{\R})$ and vice versa.
 		\end{enumerate}
 	\end{exercise}
-	
-	\subsection{Exercise class 3}
-	\subsection{Exercise class 4}
-	\subsection{Exercise class 5}
-	\subsection{Exercise class 6}
-	\subsection{Exercise class 7}
-	\subsection{Exercise class 8}
-	\section{Questions for the oral examination}
+	Set
+	\begin{equation*}
+		\lambda=\leb_{(0,1)}.
+	\end{equation*}
+\begin{enumerate}[\circlet]
+	\item First we show that $\mu$ is a measure since it is the composition of a Borel function ($q^{-1}$, since $q$ is Borel) with a measure. To show it is a probability measure we calculate
+	\begin{align*}
+		\mu(\overline{\R}&=\lambda(q^{-1}(\overline{\R})))\\
+		&=\lambda(\{x\in[0,1]:q(x)\in\Rext\})\\
+		&=\lambda(0,1)=1.
+	\end{align*}
+	\item Consider the following:
+	\begin{align*}
+		\mu((\infty,x])&=\lambda(q^{-1}((-\infty,x]))\\
+		&=\lambda(\left\{u\in[0,1]:q(u)\in(-\infty,x]\right\})\\
+		&=\ubracketthin{1-\lambda(\{u\in[0,1]:q(u)\notin(-\infty,x]\})}_{\lambda\text{ is a probability measure!}}\\
+		&=1-\lambda(\{u\in[0,1]:q(u)>x\})\\
+		&=\ubracketthin{1-\lambda(\{u\in[0,1]:c(x)\leq u\})}_{\text{notice that }u\in(0,1):q(u)>x\iff u\in[0,1]:c(x)\leq u}\\
+		&=1-\lambda([c(x),1))\\
+		&=1-(1-c(x))\\
+		&=c(x).
+	\end{align*}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\linewidth]{screenshot021}
+		\caption[Whatever. I hate exercises]{Ok but tikz are hard and long... ;) that is WHY i use them.}
+		\label{fig:screenshot021}
+	\end{figure}
+	\item We construct $\mu$ as in the previous two points. That $\mu$ is unique thanks to the theorem on uniqueness of measures (since $\mu$ is defined on the p-system $(-\infty,x]$). Vice versa, given the probability measure $\mu$ on $\left(\Rext,\B\left(\Rext\right)\right)$ we define
+	\begin{align*}
+		c:&\R\to[0,1]\\
+		&x\mapsto c(x)=\mu([\infty,x]).
+	\end{align*}
+	We notice that $c$ is a cumulative distribution function. Indeed:
+	\begin{itemize}
+		\item $c$ is increasing (it is non-decreasing but whatever):
+		\begin{equation*}
+			\every x_1\leq x_2\qquad c(x_1)=\mu[\infty,x_1]\leq\mu[-\infty,x_2]=c(x_2)
+		\end{equation*}
+		since $[-\infty,x_1]\subseteq[-\infty,x_2]$.
+		\item $c$ is right continuous: let $x\in\R$ be fixed and let $A_n=[-\infty,x+\frac{1}{n}],\;\every n\geq1$. Clearly $A_n\in\B(\R)$ and $A_n\searrow a:=[-\infty,x]$. Then by properties of measures we know that 
+		\begin{equation*}
+			\lim_{n \to \infty}\mu(A_n)=\mu(A)
+		\end{equation*}
+		and since $\mu(A_n)=c(x+\frac{1}{n})$ and $\mu(A)=c(x)$ we conclude
+		\begin{equation*}
+			\lim_{n \to \infty}c\left(x+\frac{1}{n}\right)=c(x).
+		\end{equation*}
+	\end{itemize}
+\end{enumerate}
+\begin{exercise}
+	Let $X_1,X_2,\ldots,X_n\in L^{1}$. Show that $\{X_1,X_2,\ldots,X_n\}$ is uniformly integrable.
+\end{exercise}
+We know that a \rv{} is uniformly integrable if $\lim_{b\to\infty}\sup_{X\in K}\ev\left[|X|\indi_{\{(|X|>b)\}}\right]=0$. So, since we are operating over a finite set, we can swap $\lim$ and $\max$ to conclude that this is equivalent to showing
+\begin{equation}
+	\max_{i=1,\ldots,n}\lim_{b\to\infty}\ev\left[|X_i|\indi_{\{X>b\}}\right]=0\tag{$\ast$}\label{session2ex31}
+\end{equation}
+Let's fix $i$. We have
+\begin{equation}
+	\lim_{b\to\infty}\ev\left[|X_i|\indi_{\{|X_i|>b\}}\right]=\ev\ubracketthin{\left[\lim_{b\to\infty}|X_i|\indi_{\{|X_i|>b\}}\right]}_{\mathclap{\text{this is $0$ because $|X_i|\in L^{1}$. }}}=0.\tag{$\ast\ast$}\label{session2ex32}
+\end{equation}
+Here we can swap expectation and limit thanks to the dominated convergence theorem, since $|X_i|$ (weakly) dominates $|X_i|\indi_{\{|X_i|>b\}}$. Moreover, $\lim_{b\to\infty}|X_i|\indi_{\{|X_i|>b\}}$ is 0 because being in $L^{1}$ means having "low" tails. So \ref{session2ex32} holds for all $i$ and therefore \ref{session2ex31} holds.
+\begin{exercise}
+	Let $\{X_i\}$ be a family of uniformly integrable variables on $(\Omega,\F,\pr)$ and let $X\in\lone$. Show that the family $\{X_i-X\}$ is uniformly integrable.
+\end{exercise}
+Let $K:=\{X_i-X\}$. We use the $\varepsilon-\delta$ characterization for uniform integrability. So we should check that:
+\begin{enumerate}
+	\item $\sup_{Y\in K}\ev[Y]$;
+	\item $\every\varepsilon\exists\delta:\text{if $F\in\F$ with $\pr(F)\leq\delta$}$ then $\sup_{Y\in K}\ev\left[|Y|\indi_F\leq\varepsilon\right]$.
+\end{enumerate}
+\begin{enumerate}
+	\item We have
+	\begin{align*}
+		\sup_{Y\in K}\ev|Y|&=\sup_i\ev\left|X_i-X\right|\\
+		&\leq\sup_i\left(\ev\left|X_i\right|+\ev\left|X\right|\right)\\
+		&\leq\ubracketthin{\ev\left|X\right|}_{<\infty\text{ bc U.I.}}+\sup_i\ubracketthin{\ev\left|X_i\right|}_{<\infty\text{ bc $\in\lone$}}<\infty
+	\end{align*}
+	The third step is simple triangle inequality...
+	\item Since $\{X_i\}$ is uniformly integrable, for any $\varepsilon_1$ there exists a $\delta_1$ such that if $\pr(F)<\delta_1$ then $\sup_i\ev\left[|X_{i}|\right]\leq1\varepsilon_1$. On the other hand, the fact that $X$ is in $\lone$ means that $\{X\}$ is uniformly integrable because $\lim_{b\to\infty}\ev\left[|X|\indi_{\{|X|>b\}}\right]$, so for each $\varepsilon_2$ we can find a $\delta_2$ such that if $\pr(F)\leq\delta_2$ then $\sup_i\ev\left[|X|\indi_F\right]\leq\varepsilon_2$. Then, for any $\varepsilon>0$, choose $\varepsilon_1=\varepsilon_2=\frac{\varepsilon}{2}$. We need to find our $\delta$ so we say $\delta=\min\{\delta_1,\delta_2\}$. In this way, for $F\in\F$ such that $\pr(F)\leq\delta$ (which means that is also $\leq\delta_1$ and $\leq\delta_2$) we have
+	\begin{align*}
+		\sup_{Y\in K}\ev\left[|Y|\indi_F\right]&=\sup_i\ev\left[|X_i+X|\indi_F\right]\\
+		&\leq\sup_i\ev\left[|X_i|\indi_F\right]+\ev\left[|X|\indi_F\right]\\
+		&\leq\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon.
+	\end{align*}
+\end{enumerate}
+\begin{exercise}
+	Let $X$ and $Y$ be \rv s with values in $(\R_+,\B(\R_+))$ and $(\R,\B(\R))$ respectively. Let $Z=(X,Y)$ and 
+	\begin{equation*}
+		\pr_Z(\dx,\dy)=\lambda\frac{e^{-\lambda x}}{\sqrt{2\pi x}}e^{-\frac{y^{2}}{2x}}\dx\dy\qquad x\in\R_+,y\in\R
+	\end{equation*}
+	be the joint density function.
+	\begin{enumerate}[\circnum]
+		\item Find the marginal distribution $\pr_X$ of $X$.
+		\item Find the transition kernel $K$ from $(\R_{+}),\B(\R_+)$ to $(\R,\B(\R))$ such that 
+		\begin{equation*}
+			\pr_Z=\pr_X\times K\qquad\left(\pr_Z(\dx,\dy)=\pr_X(\dx)\cdot K(x,\dy)\right).
+		\end{equation*}
+		Prove that $K$ is a Markov transition kernel.
+		\item Find the marginal distribution $\pr_Y$ of $Y$. Hint: use that
+		\begin{equation*}
+			\int_0^\infty\frac{1}{\sqrt{x}}\cdot e^{-\gamma x}\cdot e^{-\frac{\beta}{x}}\dx=\sqrt{\frac{\pi}{\gamma}}\cdot e^{-2\sqrt{\beta\gamma}}\qquad\gamma>0,\beta\geq0.
+		\end{equation*}
+		\item Determine whether $X$ and $Y$ are independent.
+	\end{enumerate}
+\end{exercise}
+\begin{enumerate}[\circnum]
+	\item Let's find $\pr_X(A)$ for each $A\in\B(\R_+)$.
+	\begin{align*}
+		\pr_X(A)&=\pr_Z(A\times\R)=\int_{A\times\R}\pr_Z(\dx,\dy)\\
+		&=\int_{A}\int_\R\lambda\frac{e^{-\lambda x}}{\sqrt{2\pi x}}e^{\frac{-y^{2}}{2x}}\dx\dy\\
+		&=\int_A\lambda e^{-\lambda x}\ubracketthin{\int_\R\frac{1}{\sqrt{2\pi x}}e^{-\frac{y^{2}}{2x}}\dy}_{\text{density of }\mathcal{N}(0,x)}\,\dx\\
+		&=\int_A\lambda e^{-\lambda x}\cdot1\cdot\dx.
+	\end{align*}
+	So $\pr_X(\dx)=\lambda e^{-\lambda x}\sim\mathsf{Exp}(\lambda)$.
+	\item Since we can now write
+	\begin{equation*}
+		\pr_Z(\dx,\dy)=\pr_X(\dx)\frac{1}{\sqrt{2\pi x}}e^{-\frac{y^{2}}{2x}}\dy
+	\end{equation*}
+	then we see that \[K(x,\dy)=\frac{1}{\sqrt{2\pi x}}e^{-\frac{y^{2}}{2x}}\dy\]
+	or, more formally, for $B\in\B(\R)$ we have
+	\begin{equation*}
+		K(x,B)=\int_B\frac{1}{\sqrt{2\pi x}}e^{-\frac{y^{2}}{2x}}\dy.
+	\end{equation*}
+	Let's now check that $K(x,B)$ is a Markov transition kernel:
+	\begin{itemize}
+		\item it is a transition kernel because
+		\begin{enumerate}
+			\item for $B\in\B(\R)$ fixed, $K(\cdot,B)$ is positive and measurable (it is even continuous);
+			\item for $x\in\R_{+}$ fixed, $K(x,\cdot)$ is a measure on $\B(\R)$: in particular by inspection we see that it is a Gaussian measure with mean 0 and variance $x$.
+		\end{enumerate}
+		\item It is a Markov kernel because $K(x,\R)=1\,\every x$ since $K(x,\cdot)$ is a probability measure $\every x\in\R$.
+	\end{itemize}
+	\item Let's find $\pr_Y(B)$ for every $B\in\B(\R)$.
+	\begin{align*}
+		\pr_B(B)&=\pr_Z(\R_+\times B)=\int_{\R_+\times B}\lambda e^{-\lambda x}\frac{e^{\frac{y^{2}}{2x}}}{\sqrt{2\pi x}}\dx\dy\\
+		&=\int_{B}\left(\int_{\R_{+}}\lambda\frac{e^{-\lambda x}}{\sqrt{2\pi x}}e^{\frac{-y^{2}}{2x}}\dx\right)\dy\\
+	\end{align*}
+	Now use the hint with $\gamma=\lambda,\,\beta=\frac{y^{2}}{2}$ to get
+	\begin{align*}
+		\frac{1}{\sqrt{2\pi}}\lambda\int_{\R_+}e^{-\lambda x}\frac{1}{\sqrt{x}}e^{\frac{y^{2}}{2x}}\dx&=\frac{\lambda}{\sqrt{2\pi}}\cdot\frac{\sqrt{\pi}}{\sqrt{\lambda}}\cdot e^{-2\sqrt{\lambda\cdot\frac{y^{2}}{2}}}\\
+		&=\sqrt{\frac{\lambda}{2}}e^{-\sqrt{2\lambda}\cdot|y|}.
+	\end{align*}
+	So our function becomes
+	\begin{equation*}
+		\int_B\frac{1}{2}\sqrt{2\lambda}e^{-\sqrt{2\lambda|y|}}\dy.
+	\end{equation*}
+	Which is the probability density function of a two-sided exponential \rv. Thus $\pr_Y(\dy)=\frac{1}{2}\sqrt{2\lambda}e^{-\sqrt{2\lambda}|y|}\dy$.
+	\item We observe that $\pr_X\cdot\pr_Y\neq \pr_Z$ so $X$ and $Y$ are not independent.
+\end{enumerate}
+\subsection{Exercise class 3}
+\subsection{Exercise class 4}
+\subsection{Exercise class 5}	
+\subsection{Exercise class 6}
+\subsection{Exercise class 7}
+\subsection{Exercise class 8}
+\section{Questions for the oral examination}
 	Here I will try and answer to the questions that were on the moodle site about the year 2022-2023. I hope that they will be valid for the years to come as well.
 	\subsection{Transition kernels: definition, example, and their usage in the extension of measures to
 		product spaces}
