@@ -1461,4 +1461,96 @@
 		So ${(\ev_{n}X_{n})}_{n}$ converges to $\ev X_{\infty}$ almost surely and in $L^{1}$.
 	\end{theorem}
 	To prove we should use Borel-cantelli somehow.
+	\chapter{Miscellanea: an integration (eheh)}
+	\section{Gaussian \rv s}.
+	\begin{definition}
+		A \emph{standard Gaussian \rv{}} (of one dimension) is a \rv{} $Z$ with density
+		\begin{equation*}
+			f_Z(z)=\frac{1}{\sqrt{2\pi}}e^{-\frac{z^{2}}{2}},\qquad z\in\R.
+		\end{equation*}
+	\end{definition}
+	\begin{definition}
+		A \emph{Gaussian \rv{}} with parameters $\mu$ and $\sigma^2$ is a \rv{} $X$ with density
+		\begin{equation*}
+			f_X(x)=\frac{1}{\sqrt{2\pi\sigma^{2}}}e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}},\qquad x\in\R.
+		\end{equation*}
+	\end{definition}
+	\begin{proposition}
+		We have $\ev X=\mu,\var X=\sigma^{2}$ and in particular $\ev Z=0,\var Z=1$.
+	\end{proposition}
+	\begin{proposition}
+		Let $Z\sim\mathcal{N}(0,1)$ and $\mu,\sigma\in\R,\;\sigma>0$. Then
+		\begin{equation*}
+			X:=\mu+\sigma Z\sim\mathcal{N}(\mu,\sigma^{2}).
+		\end{equation*}
+	\end{proposition}
+	\begin{proposition}
+		The characteristic function of $X$ is
+		\begin{equation*}
+			\ev\left[e^{i\lambda X}\right]=e^{i\lambda\mu}\cdot e^{-\frac{1}{2}\sigma^{2}\lambda^{2}}
+		\end{equation*}
+		\ifonly{} we have $X\sim\mathcal{N}(\mu,\sigma^{2})$.
+	\end{proposition}
+	Let's generalize this to $n$-dimensional \rv s.
+	\begin{definition}
+		Let $X=(X_1,\ldots,X_n)$ be a $n$-dimensional vector of \rv s. We say that $X$ is Gaussian if for every vector $r\in\R^{n}$ we have that $r\cdot X=\sum_{i=1}^{n}r_iX_i$ is Gaussian.
+	\end{definition}
+	\begin{proposition}
+		Let $Z=(Z_1,\ldots,Z_k)$ be $k$-dimensional vector of independent \rv s $Z_i\sim\mathcal{N}(0,1)$. Let $\mu\in\R^{n}$ and $A$ be a $(n
+		\times k)$-dimensional matrix $A=\underset{\mathclap{\substack{\scriptscriptstyle i=1,\dots,n\\ \scriptscriptstyle j=1,\ldots,k}}}{{(a_{ij})}_{ij}}$. We set
+		\begin{equation*}
+			\underset{\scriptscriptstyle (n\times 1)}{\vphantom{\mu}{X}}:=\underset{\scriptscriptstyle (n\times 1)}{\mu}+\underset{\scriptscriptstyle (n\times k)}{\vphantom{\mu}\mathbf{A}}\underset{\scriptscriptstyle (k\times 1)}{\vphantom{\mu}Z}.
+		\end{equation*}
+		In particular, 
+		\begin{equation*}
+			X_i:=\mu_i+\sum_{j=1}^{k}a_{ij}Z_j.
+		\end{equation*}
+		In this case, $X$ is Gaussian.
+	\end{proposition}
+	The $n$-dimensional Gaussian \rv s have the following properties:
+	\begin{enumerate}
+		\item the characteristic function of $X$ is given by
+		\begin{equation*}
+			\ev\left[e^{i r\cdot X}\right]=\ev\left[e^{i\sum_{i=1}^{n}r_iX_i}\right]=e^{ia(r)-\frac{1}{2}b(r)},\qquad r\in\R^{n}
+		\end{equation*}
+		where
+		\begin{align*}
+			a(r)&:=\ev[r\cdot X]\\
+			b(r)&:=\var(r\cdot X).
+		\end{align*}
+		Yeah, why not. Why not making my life even more miserable.
+		\item Setting $\mu_i:=\ev X_i$ and $\Gamma_{ij}=\cov(X_i,X_j)$, then 
+		\begin{equation*}
+			a(r)=r\cdot\mu \qquad\text{and}\qquad b(r)=\underset{\scriptscriptstyle (n\times1 )}{r}\cdot\underset{\scriptscriptstyle (n\times n)}{\mathbf{\Gamma}}\underset{\scriptscriptstyle (n\times 1)}{\vphantom{\mathbf{\Gamma}}\trns{r}}.
+		\end{equation*}
+		What the fuck does this mean? The Gaussian vector $X$ is determined by its mean $\mu$ and covariance matrix $\Gamma$, because they determine the characteristic function of $X$. We write
+		$$X\sim\mathcal{N}(\mu,\Gamma)$$
+		where $X$ is a $n$-dimensional vector (and also $\mu$).
+	\end{enumerate}
+	\begin{proposition}
+		Any Gaussian \rv{} $X$ can be written as $X=\mu+\mathbf{A}Z$ with $\mu\in\R^{n},A\in\R^{n\times k}$ and $Z=(Z_i,\ldots,Z_k)$ with $Z_i\iid\mathcal{N}(0,1)$
+	\end{proposition}\par
+	Let's now talk about independence. Since any Gaussian vector $X$ can be written as $X=\mu+\mathbf{A}Z$ where the $Z_i\independent Z_j,i\neq j,\,i,j=1,\ldots,k$, what can we say about the independence of $X_i,X_j,i\,i,j=1,\ldots n$? To see this, calculate $\cov(X_i,X_j)$:
+		\begin{align*}
+		\cov(X_i,X_j)&=\ev\left[(Xi-\ev X_i)(X_j-\ev X_j)\right]\\
+		&=\ev\left[(X_i-\mu_i)(X_j-\mu_j)\right]\\
+		&=\ev\left[(\mu_i+\sum_{l=1}^{k}a_{il}z_{l}-\mu_i)(\mu_j+\sum_{m=1}^{k}a_{jm}z_{m}-\mu_j)\right]\\
+		&=\ev[(\sum_{l=1}^{k}a_{il}z_{l})(\sum_{m=1}^{k}a_{jm}z_{m})]\\
+		&=\sum_{l=1}^{k}\sum_{m=1}^{k}a_{il}a_{jm}\ev\left[Z_{l}Z_{m}\right]\\
+		&=\sum_{l=1}^{k}a_{il}a_{jl}\ubracketthin{\ev(Z_{l}^{2})}_{\mathclap{=1\text{ since }Z_{l}\sim\mathcal{N}(0,1)}}=(\mathbf{A}\trns{\mathbf{A}})_{ij}.
+		\end{align*}
+		Since it is necessary (but not sufficient) that $\cov(X_i,X_j)=0$ to have $X_i\independent X_j$ then $X_i$ is not independent from $X_j$ in general.
+		\begin{notation}
+			We proved that $\cov(X_i,X_j)=(\mathbf{A}\trns{\mathbf{A}})_{ij}$, hence with the notation above we get
+			\begin{equation*}
+				\underset{\scriptscriptstyle n\times n}{\mathbf{\Gamma}}=\underset{\scriptscriptstyle n\times k}{\mathbf{A}}\underset{\scriptscriptstyle k\times n}{\trns{\mathbf{A}}}.
+			\end{equation*}
+		\end{notation}
+		\begin{proposition}
+			If $\Gamma$ is invertible (i.e. $\mathsf{rank}(\Gamma)=n$) then $X=\mu+\mathbf{A}Z$ has density given by
+			\begin{equation*}
+				f_X(x)=\frac{1}{(2\pi)^{\frac{k}{2}}}\cdot\frac{1}{\sqrt{\mathsf{det}(\Gamma)}}\cdot e^{-\unmezz\underset{\scriptscriptstyle(n\times 1)}{(x-\mu)}\cdot\underset{\scriptscriptstyle(n\times n)}{\vphantom{\mu}\Gamma^{-1}}\cdot\underset{\scriptscriptstyle(n\times 1)}{(x-\mu)}}
+			\end{equation*}
+		\end{proposition}
+		Note that if $\Gamma$ is singular (i.e. $\mathsf{rank}(\Gamma)=r<n$) then the distribution of $X$ is not absolutely continuous with respect to the Lebesgue Measure (and so $X$ has no density). Indeed, the distribution lives on a hyperplane of $\R^{n}$ and at least on component of $X$ is a linear combination of the others\footnote{What the fuck? This is absolutely heinous.}.
 \end{document}

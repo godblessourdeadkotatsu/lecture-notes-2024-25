@@ -11,7 +11,7 @@
 			\begin{equation*}
 				(\ubracketthin{E}_{\text{set}},\ubracketthin{\E}_{\text{\sa}},\ubracketthin{\nu}_{\text{measure}})
 			\end{equation*}
-				An example is given by discrete spaces ($E$ is finit and countable) or the real spaces $(E=\R),\;(E=\R^{n})$.
+				An example is given by discrete spaces ($E$ is finite and countable) or the real spaces $(E=\R),\;(E=\R^{n})$.
 				\item \emph{Measurable functions} form $(E,\E)$ to $(F,\F)$. It is a function $f:E\mapsto F$ such that $\every B\in\F$ we have $f^{-1}(B)\in\E$. This is the least possible ``regularity'' we can ask for to still be able to do some analysis (it is much less restrictive than continuity).\\
 				Property: if $f_n$ are measurable, also $\liminf_nf_n,\,\limsup_nf_n,\,f_1+f_2,\,f_1\cdot f_2,\,\lambda f_1$ are measurable.
 				\item \emph{Probability spaces}: special case of a measure space where $\nu(E)=1$. Given a real \rv{} $X:\Omega\mapsto\R$ we can consider the probability space $(\R,\B(\R),\mathcal{L}_{X})$ where $\mathcal{L}_{X}$ is the law of $X$ given by
@@ -610,6 +610,83 @@ Let $K:=\{X_i-X\}$. We use the $\varepsilon-\delta$ characterization for uniform
 	\item We observe that $\pr_X\cdot\pr_Y\neq \pr_Z$ so $X$ and $Y$ are not independent.
 \end{enumerate}
 \subsection{Exercise class 3}
+\begin{exercise}
+	Let $X,Y$ be independent \rv s $\sim\normale(0,1)$. Compute the joint distribution of $(X+Y,X-Y)$.
+\end{exercise}
+The vector is Gaussian, since it is a linear combination of Gaussian \rv s.
+\begin{align*}
+	W&:=(X+Y,X-Y)=(W_1,W_2)\\
+	Z&:=(X,Y).
+\end{align*}
+We write $W$ in terms of $Z$:
+\begin{equation*}
+	W=\mu+\mathbf{A}Z\qquad\text{for some }\mu=(\mu_1,\mu_2)\text{ and }\mathbf{A}=\begin{bmatrix}
+		a_{11}&a_{12}\\a_{21}&a_{22}
+	\end{bmatrix}.
+\end{equation*}
+Clearly $\mu=(0,0)$ because
+\begin{align*}
+	\ev W_1&=\ev X+Y=\ev X+\ev Y=0\\
+	\ev W_2&=\ev X-Y=\ev X-\ev Y=0
+\end{align*}
+So now we have
+\begin{equation*}
+	\begin{array}{l}
+		W_1=X+Y=a_{11}X+a_{12}Y\\
+		W_2=X-Y=a_{21}X+a_{22}Y
+	\end{array}\implies\mathbf{A}=\begin{bmatrix}
+	a_{11}&a_{12}\\a_{21}&a_{22}
+	\end{bmatrix}=\begin{bmatrix}
+	1&1\\1&-1
+	\end{bmatrix}
+\end{equation*}
+Let's calculate the covariance matrix $\Gamma$ of $W$, given by
+\begin{equation*}
+	\Gamma=\mathbf{A}\trns{\mathbf{A}}=\begin{bmatrix}
+		1&1\\1&-1
+	\end{bmatrix}\begin{bmatrix}
+	1&1\\1&-1
+	\end{bmatrix}=\begin{bmatrix}
+	2&0\\0&2
+	\end{bmatrix}
+\end{equation*}
+Since $\mathsf{det}(\Gamma)=4\neq0$ then $\Gamma$ has full rank so the \rv{} $W$ has density given by
+\begin{equation*}
+	f_W(W_1,W_2)=\frac{1}{(2\pi)^{\frac{2}{2}}}\cdot\frac{1}{\sqrt{\mathsf{det}(\Gamma)}}e^{-\unmezz(\begin{smallmatrix}
+			W_1&W_2
+	\end{smallmatrix})\Gamma^{-1}\left(\begin{smallmatrix}
+	W_1\\W_2
+\end{smallmatrix}\right)}.
+\end{equation*}
+Compute $\Gamma^{-1}$:
+\begin{equation*}
+	\Gamma^{-1}=\frac{1}{\mathsf{det}(\Gamma)}\begin{bmatrix}
+		2&-0\\-0&2
+	\end{bmatrix}=\begin{bmatrix}
+	\unmezz&0\\0&\unmezz
+	\end{bmatrix}
+\end{equation*}
+And now plug the results inside the density formula:
+\begin{align*}
+	f_W(W_1,W_2)&=\frac{1}{(2\pi)^{\frac{2}{2}}}\cdot\frac{1}{\sqrt{\mathsf{det}(\Gamma)}}e^{-\unmezz(\begin{smallmatrix}
+			W_1&W_2
+		\end{smallmatrix})\Gamma^{-1}\left(\begin{smallmatrix}
+			W_1\\W_2\end{smallmatrix}\right)}\\
+		&=\frac{1}{(2\pi)^{\frac{2}{2}}}\cdot\frac{1}{2}e^{-\unmezz(\begin{smallmatrix}
+				W_1&W_2
+			\end{smallmatrix})\left(\begin{smallmatrix}
+			\unmezz&0\\0&\unmezz
+			\end{smallmatrix}\right)\left(\begin{smallmatrix}
+				W_1\\W_2\end{smallmatrix}\right)}\\
+			&=\frac{1}{4\pi}e^{-\unmezz(\unmezz W^{2}_{1}+\unmezz W^{2}_{2})}.
+\end{align*}
+So this is the density of the \rv{} $W=(X+Y,X-Y)$.
+\begin{remark}
+	Since $\Gamma_{12}=\Gamma_{21}=0$ we have $W_1\independent W_2$. We can see this also because the joint distribution factorizes in the product of the marginal distributions.
+		\begin{equation*}
+		f_W(W_1,W_2)=\underbrace{\frac{1}{\sqrt{2\pi\cdot 2}}e^{-\frac{1}{4}W^{2}_1}}_{\sim\normale(0,2)}\cdot\underbrace{\frac{1}{\sqrt{2\pi\cdot 2}}e^{-\frac{1}{4}W^{2}_2}}_{\sim\normale(0,2)}
+		\end{equation*}
+\end{remark}
 \subsection{Exercise class 4}
 \subsection{Exercise class 5}	
 \subsection{Exercise class 6}
@@ -714,8 +791,7 @@ Let $K:=\{X_i-X\}$. We use the $\varepsilon-\delta$ characterization for uniform
 			\item If $\{X_n\}$ converges almost surely to $X$, then $\{X_n\}$ also converges to $X$ in probability.
 			\item Almost sure convergence implies convergence in distribution, but not necessarily vice versa.
 		\end{itemize}
-		
-		\item \textbf{Closure Under Linear Operations:}
+		\textbf{Closure Under Linear Operations:}
 		\begin{itemize}
 			\item \textbf{Addition:} If $X_n \to X$ a.s. and $Y_n \to Y$ a.s., then $X_n + Y_n \to X + Y$ a.s.
 			\item \textbf{Multiplication:} If $X_n \to X$ a.s. and $Y_n \to Y$ a.s., then $X_n Y_n \to XY$ a.s. (provided $X$ and $Y$ are bounded or measurable in a compatible way).
