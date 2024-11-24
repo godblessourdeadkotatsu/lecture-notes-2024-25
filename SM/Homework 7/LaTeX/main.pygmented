@@ -1,0 +1,7 @@
+% -*- mode: latex -*-
+
+\makeatletter
+
+\newdimen\LineNumberWidth
+
+\makeatother
