@@ -687,7 +687,311 @@ So this is the density of the \rv{} $W=(X+Y,X-Y)$.
 		f_W(W_1,W_2)=\underbrace{\frac{1}{\sqrt{2\pi\cdot 2}}e^{-\frac{1}{4}W^{2}_1}}_{\sim\normale(0,2)}\cdot\underbrace{\frac{1}{\sqrt{2\pi\cdot 2}}e^{-\frac{1}{4}W^{2}_2}}_{\sim\normale(0,2)}
 		\end{equation*}
 \end{remark}
+\begin{exercise}
+	Let $X,Y$ be independent real \rv s with distributions $\mu_{X}$ and $\mu_{Y}$ respectively. Show that the distribution of $Z:=X+Y$ denoted $\mu_{Z}$ is given by 
+	\begin{equation*}
+		\mu_Z(B)=\int_\R\mu_{X}(B-x)\mu_Y(\dx)\qquad\every B\in\B(\R)
+	\end{equation*}
+	where
+	\begin{equation*}
+		\{B-x\}:=\{y-x\in\R\text{ s.t. }y\in B\}.
+	\end{equation*}
+	Note that since $X+Y=Y+X$ we also have 
+	\begin{equation*}
+		\mu_Z(B)=\int_\R\mu_Y(B-x)\mu_X(\dx)
+	\end{equation*}
+\end{exercise}
+Take $B\in\B(\R)$. We have
+\begin{align*}
+	\mu_Z(B)&=\pr(Z\in B)\\
+	&=\pr(X+Y\in B)\\
+	&=\ev\left[\indi_{\{X+Y\in B\}}\right].
+\end{align*}
+We know that $\mu_{(X,Y)}=\mu_X\cdot\mu_Y$ since $X\independent Y$, so whe have that
+\begin{align*}
+		\mu_Z(B) &=\pr(X+Y\in B)\\
+		&=\ev\left[\indi_{\{X+Y\in B\}}\right]\\
+				&=\int_\R\int_\R\indi_{\{X+Y\in B\}}\mu_{(X,Y)}(\dx,\dy)\\
+	 &=\int_\R\int_\R\indi_{\{X+Y\in B\}}\mu_X(\dx)\mu_Y(\dy)\\
+	 &=\int_\R\int_\R\indi_{B}(x+y)\mu_X(\dx)\mu_{Y}(\dy).\tag{$\ast$}\label{funziona}
+\end{align*}
+Now consider
+\begin{equation*}
+	\indi_{B}(x+y)=\indi_{\{B-x\}}(y)=\begin{cases}
+		1 &\text{ if }x+y\in B\iff y\in\{B-x\}\\
+		0 &\text{ if }x+y\notin B\iff y\notin\{B-x\}
+	\end{cases}.
+\end{equation*}
+Now consider \ref{funziona}:
+\begin{align*}
+	\int_\R\int_\R\indi_{B}(x+y)\mu_X(\dx)\mu_{Y}(\dy)&=\int_\R\int_\R\indi_{\{B-x\}}(y)\mu_{X}(\dx)\mu_Y(\dy)\\
+	&=\int_\R\Biggl(\ubracketthin{\int_\R\indi_{\{B-x\}}(y)\mu_{Y}(\dy)}_{\mathclap{\int_{\{B-x\}}\mu_{Y}(\dy)=\mu_Y(B-x)}}\Biggr)\mu_{X}(\dx)\\
+	&=\int_\R\mu_{Y}(B-x)\mu_{X}(\dx)
+\end{align*}\begin{exercise}
+Let $X,Y$ be independent \rv s with densities $f_X,f_Y$. Show that $Z:=X+Y$ also has a density function given by
+\begin{equation*}
+	f_Z(z):=\int_\R f_{X}(x)f_Y(z-x)\dx,\qquad z\in\R.
+\end{equation*}
+\end{exercise}
+Take $B\in\B(\R)$. The law of $Z$, $\mu_Z$, is such that
+\begin{equation*}
+	\mu_Z(B)=\pr(Z\in B)
+\end{equation*}
+and we want to show that indeed
+\begin{equation*}
+	\pr(Z\in B)=\int_{B}f_Z(z)\dz.
+\end{equation*}
+Using what we found in exercise 2 we have that
+\begin{align*}
+	\mu_Z(B)&=\int_\R\mu_Y(B-x)\mu_X(\dx)\\
+	&=\int_\R\int_{B-x}f_Y(y)\dy f_X(x)\dx.
+\end{align*}
+If $y\in\{B-x\}$ it means that $y=t-x$ for some $t\in B$. So we can make a change of variable $y=t-x$:
+\begin{equation*}
+	\int_{\{B-x\}}f_Y(y)\dy=\int_{B}f_Y(t-x)\dt
+\end{equation*}
+which implies
+\begin{align*}
+	\mu_Z(B)&=\int_\R\int_B f_Y(y)(t-x)\dt f_X(x)\dx\\
+	&=\int_B\left(\int_\R f_Y(t-x)f_X(x)\dx\right)\dt\\
+	&=\int_B f_Z(t)\dt.
+\end{align*}
+\begin{exercise}
+	Let $(X_n)$ be a sequence of independent \rv s. Show that if $\lim_{n\to\infty}X_n=X\;\pr\as$ then $X=c\;\pr\as$ for some $c\in\R$.
+\end{exercise}
+Start from this set:
+\begin{align*}
+	A&=\left\{\omega:\lim_{n}X_{n}(\omega)\text{ exists}\right\}\\
+	&=\left\{\omega:\liminf_{n}X_n(\omega)=\limsup_{n}X_n(\omega)\right\}.
+\end{align*}
+We know that $\pr(A)=1$ because we know that $X_n$ always converges and we want to show that $A\in\tau$ because this (together with independence) would allow us to apply Kolmogorov's 0-1 law's corollary that tells us that if an event is part of a tail \sa{} then it is a constant\footnote{If you have already read the theory then you know how this thing caused me a mental breakdown.}. Let's show that $\limsup_n X_n$ is $\tau$-measurable.
+\begin{align*}
+	\limsup_nX_n&=\inf_n\ubracketthin{\sup_{m\geq n}X_m}_{\mathclap{\text{is measurable with respect to }\bigvee_{m\geq n}\sigma(X_m)=\tau_n}}
+\end{align*}
+Thus $\inf_n\sup_{m\geq n}X_m$ is measurable with respect to 
+\begin{equation*}
+	\bigcap_{n\geq1}\bigvee_{m\geq n}\sigma(X_m)=\bigcap_{n\geq1}\tau_n=\tau
+\end{equation*} 
+so $\limsup_nX_n$ is $\tau$-measurable. Similarly for $\liminf$ we get that is is $\tau$-measurable so $A\in\tau$. \\
+We recall that $X$ is such that
+\begin{equation*}
+	X(\omega)=\lim_{n\to\infty}X_{n}(\omega)\qquad\every\omega\in A\in\tau.
+\end{equation*}
+Introduce
+\begin{equation*}
+	Y(\omega)=\begin{cases}
+		X(\omega)&\text{if }\omega\in A\\
+		0&\text{if }\omega\notin A.\\
+	\end{cases}
+\end{equation*}
+We introduced this new \rv{} because we are technically working with the \textit{limit} of $X_n$ (which is a sequence) and measurability of limits is not a beautiful thing to handle.
+By definition $X=Y$ $\pr-\as$ (because $\pr(A^{c})=0$) and $Y$ is $\tau$-measurable because $A\in\tau$. This implies that $X$ is $\tau$-measurable. By corollary of the Kolmogorov's 0-1 law, $X=c$ $\pr-\as$ for some $c\in\R$.
+\begin{exercise}
+	Let $(X_n)$ be a sequence of i.i.d. \rv s with $X_n\sim\mathsf{Exp}(1)$ with density
+	\begin{equation*}
+		f(x)=\begin{cases}
+			e^{-x}&\text{if }x\geq 0\\
+			0&\text{else.}
+		\end{cases}
+	\end{equation*}
+	Determine whether
+	\begin{equation*}
+		\frac{1}{n}\max\left\{X_1,X_2,\ldots,X_n\right\}\convas0.
+	\end{equation*}
+\end{exercise}
+We guess yes because why not. Let $\varepsilon>0$. Take the set
+\begin{equation*}
+	B_n:=\left\{\omega:X_n(\omega)\geq n\varepsilon\right\}.
+\end{equation*}
+This gives us
+\begin{align*}
+	\pr(B_n)&=\ev\left[\indi_{B_{n}}\right]\\
+	&=\int_{n\varepsilon}^{+\infty}e^{-x}\dx=e^{-n\varepsilon}.
+\end{align*}
+Thus $\sum_{n}\pr(B_{n})=\sum_{n}e^{-n\varepsilon}<\infty$. By Borel-Cantelli 1 we have 
+\begin{equation*}
+	\pr\left(\left\{B_{n}\;\io\right\}\right)=0.
+\end{equation*}
+Take the complement:
+\begin{equation*}
+	\pr(\{B^{c}_{n}\;\text{f.o.}\})=1.
+\end{equation*}
+For every $\omega\in\left\{B_n^c\;\text{f.o.}\right\}$ there exists $m(\omega,\varepsilon)$ such that $\every n>m(\omega,\varepsilon)$ then $\ubracketthin{X_n(\omega)<n\varepsilon}_{B_n^c}$.
+Set 
+\begin{equation*}
+	M(\omega,\varepsilon):=\max\left\{X_1(\omega),X_2(\omega),\ldots,X_{m(\omega,\varepsilon)}(\omega)\right\}
+\end{equation*}
+so that for $\every n$ we have
+\begin{equation*}
+	\max\{X_1(\omega),X_2(\omega),\ldots,X_n(\omega)\}\leq M+n\varepsilon
+\end{equation*}
+so
+\begin{equation*}
+	\frac{1}{n}\max\{X_1(\omega),X_2(\omega),\ubracketthin{\ldots}_{\mathclap{X_m(\omega),X_{m+1}(\omega),\ldots}},X_n(\omega)\}\leq\frac{M(\omega,\varepsilon)}{n}+\varepsilon.
+\end{equation*}
+Check the limit:
+\begin{align*}
+	\limsup_{n}\frac{1}{n}\max\{X_1(\omega),\ldots,X_n(\omega)\}&\leq \limsup_{n}\frac{M(\omega,\varepsilon)}{n}+\varepsilon\\
+	&=\lim_{n}\frac{M(\omega,\varepsilon)}{n}+\varepsilon=\varepsilon.
+\end{align*}
+Now we take the limit as $\varepsilon\to0$:
+\begin{equation*}
+	\limsup_{n}\frac{1}{n}\max\{X_1(\omega),\ldots,X_n(\omega)\}\leq\lim_{e\to0}\varepsilon=0
+\end{equation*}
+Thus, using the fact that $X_i$ are positive, we conclude
+\begin{equation*}
+	\lim_{n\to\infty}\frac{1}{n}\max\{X_1(\omega),\ldots,X_n(\omega)\}=0.
+\end{equation*}
+Since this holds for $\every \omega\in\{B_{n}^x\text{ ev.}\}$ and $\pr(\{B^c_n\text{ ev.}\})=1$ we have
+\begin{equation*}
+	\frac{1}{n}\max\{X_1,\ldots,X_n\}\to0\qquad \as{}
+\end{equation*}
+\begin{exercise}
+	Let $(X_i)$ be independent \rv s non negative such that
+	\begin{equation*}
+		\pr(X_i\geq\delta)\geq\varepsilon,\qquad\every i
+	\end{equation*}
+	for some fixed $\delta,\varepsilon>0$. Determine whether $S_n=\sum_{i=1}^{n}X_i$ converges a.s. as $n\to\infty$.
+\end{exercise}
+Guess: $S_n$ diverges to $+\infty$ because the \rv s $X_i$ are such that $\{X_i>\delta\}$ has positive probability. We claim
+\begin{equation}
+	\limsup_n\{X_i\geq\delta\}\subset\{\lim_{n\to\infty}S_n=\infty\}\tag{\FiveFlowerOpen}\label{proviamoilfiore}
+\end{equation}
+Let's prove it.
+\begin{align*}
+	\omega\in\limsup_{i}\{X_i\geq\delta\}&=\bigcap_{i\geq1}\bigcup_{m\geq i}\{X_m\geq\delta\}\\
+	&=\{X_i\geq\delta\;\io\}.
+\end{align*}
+This means that $\exists$ a subsequence $i_{k}$ such that $X_{i_{k}}(\omega)\geq\delta$. Summing over $k$ we get
+\begin{equation*}
+	\sum_{k=1}^{\infty}X_{i_{k}}(\omega)\geq\sum_{k=1}^{\infty}X_{i}(\omega)=\infty.
+\end{equation*}
+So taking the limit we obtain
+\begin{align*}
+	\lim_{n\to\infty}S_n^{(\omega)}&=\lim_{n\to\infty}\sum_{i=1}^{n}X_i(\omega)\\
+	&=\sum_{i=1}^{\infty}X_i(\omega)\\
+	&\geq\sum_{k=1}^\infty X_{i_{k}}(\omega)=\infty\implies\lim_{n \to \infty}S_n(\omega)=\infty
+\end{align*}
+hence \ref{proviamoilfiore}\footnote{Yes, I have ONLY NOW discovered dingbats. My future endeavours will have more of them, do not worry. Even if they look like shit with this font, on god.} holds. We now apply Borel-Cantelli 2.
+\begin{revise}
+	\begin{proposition}
+		\emph{``\textit{Divergence}''}. Let ${(A_{n})}_{n}$ be a sequence of pairwise independent events. 
+		\begin{equation*}
+			\text{If }\sum_{n=1}^{\infty}\pr(A_n)=+\infty\text{ then }\ubracketthin{\sum_{n=1}^{\infty}\indi_{A_{n}}}_{\mathclap{=\pr(\{A_n\,\io\})}}=\infty\;\as{}
+		\end{equation*}
+	\end{proposition}
+	An equivalent formulation of Borel-Cantelli 2 is:
+	\begin{proposition}
+		Take a sequence of Bernoulli \rv s $B_{n}$ defined as
+		\begin{equation*}
+			B_n=\begin{cases}
+				1&\text{on }A_n\\
+				0&\text{on }A_n^c\\
+			\end{cases}\qquad(\text{or, more simply, }B_n=\indi_{A_{n}})
+		\end{equation*}
+		so that $B_n$ is a Bernoulli \rv{} and we have 
+		\begin{equation*}
+			\ev B_{n}=\pr(A_{n}).
+		\end{equation*}
+		The $B_n$ are pairwise independent.
+		\begin{equation*}
+			\text{If }\sum_{n=1}^{\infty}\ev B_{n}=\infty\text{ then }\sum_{n=1}^{\infty}B_n=\infty\;\as{}
+		\end{equation*}
+	\end{proposition}
+	Remember that $\limsup_n\{X_n=1\}$ is the same as saying that $\{X_n=1\;\io\}$.
+\end{revise}
+In our case we have $B_i=\{X_i\geq\delta\}$. We know that $\pr(B_i)\geq\epsilon$ by assumption, so
+\begin{equation*}
+	\sum_{i=1}^\infty \pr(B_i)=\infty.
+\end{equation*}
+Moreover, the $B_i$ are independent. Hence we can apply BC-2 and say that
+\begin{equation*}
+	\pr(\{X_i\geq\delta\}\,\io)=1\iff\pr(\limsup_{i}\{X_i\geq\delta\})=1.
+\end{equation*}
+By \ref{proviamoilfiore} we have
+\begin{equation*}
+	1=\pr(\limsup\{X_i\geq\delta\})\leq\pr(\lim_{n}S_n=\infty)
+\end{equation*}
+hence 
+\begin{equation*}
+	\pr(\lim_n S_n=\infty)=1
+\end{equation*}
+which means that we have almost sure divergence of the sum.
 \subsection{Exercise class 4}
+\begin{revise}
+	Hi bitch. Remember all the types of convergence? Me neither!
+		\begin{enumerate}[\HandRight]
+			\item \emph{Convergence in $\lp$}:
+			\begin{equation*}
+				X_n\convlp X
+			\end{equation*}
+			if $X_n,X\in\lp$ and $$\ev|X_n-X|^{p}\to0 \text{ as }  n\to\infty.$$\\
+			A necessary (but not sufficient...) condition for convergence in $\lp$ is that 
+			 \begin{equation*}
+				\ev|X_n|^{p}\to\ev|X|^{p}.
+			\end{equation*}
+			\item \emph{Convergence in probability}:
+			\begin{equation*}
+				X_n\convpr X
+			\end{equation*}
+			if $\every\varepsilon>0$ we have \\
+			\begin{equation*}
+				\pr(|X_n-X|>\varepsilon)\to0\qquad\text{as }n\to\infty.
+			\end{equation*}
+			\item \emph{Almost sure convergence}:
+			\begin{equation*}
+				X_n\convas X
+			\end{equation*}
+			if $\exists\Omega'\subset\Omega$ with $\pr(\Omega')=1$ such that
+			\begin{equation*}
+				X_n(\omega)\to X(\omega)\qquad\every\omega\in\Omega'.
+			\end{equation*}
+			\item \emph{Convergence in distribution}:
+			\begin{equation*}
+				X_n\convd X
+			\end{equation*}
+			if $F_n(x)\to F(x)$ for any point $x$ such that $F(x)$ is continuous. Here $F_n$ and $F$ denote the cumulative distribution functions of $X_n$ and $X$.
+			\item[\PencilRightDown] \emph{Link between different convergence modes}:
+			\begin{equation*}
+				\begin{array}{ccccc}
+					X_{n}\convlp X&\implies&X_n\convpr X&\impliedby&X_n\convas X\\
+					&&\Downarrow&&\\
+					&&X_n\convd X.&&
+				\end{array}
+			\end{equation*}
+			\item[\PencilRightDown]\emph{Properties:}
+			\begin{enumerate}[\ArrowBoldRightStrobe]
+				\item if $X_n\convpr X$ and $X_n\convpr Y$ then $X=Y$ \as{};
+				\item if $X_n\convlp X$ and $\lim_n X_n$ exists \as, then $X_n\convas X$.
+			\end{enumerate}
+		\end{enumerate}
+\end{revise}
+\begin{exercise}
+	Let $X_n$ be a sequence of independent \rv s with $X_n\sim\mathsf{Be}(\frac{1}{n})$. Determine whether $X_n$ converges \as{} or in $\lp$ for some $p\geq1$. 
+\end{exercise}
+I will now stop\footnote{This is a lie.} with the stupid \LaTeX{}  symbols.
+\begin{enumerate}[\faPaperPlane]
+	\item $\lp$ convergence: note that 
+	$$\ev|X_n|^{p}=\ev X_n^{p}=1^{p}\cdot\frac{1}{n}
+	+0^{p}\cdot(1-\frac{1}{n})
+	=\frac{1}{n}\xrightarrow[]{n\to\infty}=0,\qquad\every p>0.$$
+	Hence the candidate limit is $X=0$. Let's check
+	\begin{equation*}
+		\ev|X_n-0|^{p}=\ev|X_n|^{p}=\frac{1}{n}\to0
+	\end{equation*}
+	so \begin{equation*}
+		X_n\convlp X,\qquad\every p\geq1.
+	\end{equation*}
+	\item Almost sure convergence: we note that 
+	\begin{equation*}
+		\sum_{n=1}^{\infty}\pr(X_n=1)=\sum_{n=1}^{\infty}\frac{1}{n}=+\infty
+	\end{equation*}
+	hence by BC-2 we have that
+	\begin{equation*}
+		\pr(\limsup_n\{X_n=1\})=1.
+	\end{equation*}
+	This implies that we cannot have $X_n\convas 0$.
+\end{enumerate}
 \subsection{Exercise class 5}	
 \subsection{Exercise class 6}
 \subsection{Exercise class 7}

@@ -1,5 +1,5 @@
 %THIS IS PROBTHOERY%
-\usepackage[lining,semibold,scaled=1]{ebgaramond}% Latex BOLD renders with ebgaramond semibold
+\usepackage[lining,semibold,scaled=1.05]{ebgaramond}% Latex BOLD renders with ebgaramond semibold
 \usepackage[T1]{fontenc} % best for Western European languages
 
 \usepackage{amsmath,amsthm}% must be loaded before newtxmath
@@ -18,7 +18,8 @@
 \usepackage[cmintegrals,cmbraces]{newtxmath}
 %\usepackage{ebgaramond-maths}
 
-\usepackage[scr=euler,cal=pxtx,frak=euler,bb=dsfontserif,bbsymbols]{mathalfa}
+\usepackage{bbding}
+\usepackage[scr=euler,cal=dutchcal,frak=euler,bb=dsfontserif,bbsymbols]{mathalfa}
 \usepackage{bbm}
 \usepackage{bm}
 %\usepackage{amsmath,amssymb,bbm}
@@ -53,7 +54,7 @@
 \usepackage{authblk}
 \usepackage{sectsty,titling}
 \usepackage{float}
-
+\usepackage{fontawesome5}
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,positioning,patterns,arrows.meta, bending, shadings,intersections,shadows,decorations,fit,backgrounds,circuits.ee.IEC,shapes.callouts}
 \usepackage{pgfplots,pgfplotstable}
@@ -98,7 +99,7 @@
 	
 	\newtcbtheorem[number within=section]{nition}{Definition}{
 		enhanced, 
-		breakable, sharp corners,
+	 breakable, sharp corners,
 		interior style={left color=SkyBlue4!60,right color=white!29},
 		title style={left color=white,right color=white!35},
 		% boxed title style={boxrule=5mm, colframe=black,sharp corners},
@@ -473,6 +474,7 @@
 \newcommand{\du}{\dif u}
 \newcommand{\ds}{\dif s}
 \newcommand{\dw}{\dif\omega}
+\newcommand{\dz}{\dif z}
 \newcommand{\dmu}{\dif\mu}
 \newcommand{\dpr}{\dif\pr}
 \newcommand{\E}{\mathscr{E}}
