@@ -26,18 +26,8 @@
 	
 	%%%%%%%%%%%%%%% NEW SECTION %%%%%%%%%%%%%%% 
 	\section{Exercise 1}
-	We know that the negative exponential distribution has the following cumulative distribution function $F_X(x)$ and probability density function $f_X(x)$:
+	Negative exponential distribution:
 	\begin{equation*}
-		F_X(x)=\pr(X\leq x)=1-e^{\lambda x}\qquad f_X(x)=\frac{\dif F_X}{\dx}=\lambda e^{-\lambda x}.
+		F_X(x)=\pr(X\leq x)=1-e^{-\lambda x}\qquad f_X(x)=\frac{\dif F_X}{\dx}=\lambda e^{-\lambda x}
 	\end{equation*}
-	Since the expected value of this distribution is
-	\begin{equation*}
-		\ev[X]=\frac{1}{\lambda}
-	\end{equation*}
-	We can thus easily find the parameter $\lambda$ for the different random variables involved:
-	\begin{itemize}
-		\item Working periods between failures ($X$): $\lambda_X=\frac{1}{3000}\approx0.000333$;
-		\item Short repair times ($Y$): $\lambda_Y=\frac{1}{40}=0.025$;
-		\item Long repair times ($V$): $\lambda_V=\frac{1}{960}\approx 0.00104$.
-	\end{itemize}
 \end{document}
