@@ -3,103 +3,94 @@
 #include <math.h>
 #include <time.h>
 
-// Constants
-#define Z_ALPHA_2 1.96 // 95% confidence interval
-#define BETA 0.2       // Probability of long repair
-#define MEAN_FAILURE_TIME 3000.0
-#define MEAN_SHORT_REPAIR 40.0
-#define MEAN_LONG_REPAIR 960.0
-#define MIN_CYCLES 40
+typedef enum {ARRIVAL, DEPARTURE_SHORT, DEPARTURE_LONG} EventType;
 
-// Function prototypes
-double exponential_random(double mean);
-void simulate_cycle(double *long_wait_total, int *cycle_count);
-void compute_confidence_interval(int n, double mean, double variance, double *lower, double *upper);
+typedef struct {
+    double time;          // Time of the event
+    EventType type;       // Type of event (Arrival, Short station departure, Long station departure)
+    double service_time;  // The service time of the current customer
+} Event;
 
-int main() {
-    // Seed random number generator
-    srand((unsigned int)time(NULL));
+// Function declarations: this is
+int RegPoint(int event_type);
+void CollectRegStatistics(double waiting_time_cycle, double *total_waiting_time, int *cycle_count);
+void ResetMeasures(double *waiting_time_cycle);
+double DrawExponential(double lambdainv);
+void schedule_event(int type, double time);
+void add_event(Event new_event);
+void process_events();
 
-    // Variables for simulation
-    double long_wait_total = 0.0;
-    int cycle_count = 0;
-    double long_wait_mean, long_wait_variance;
-    double confidence_interval_lower, confidence_interval_upper;
-    double half_width;
 
-    do {
-        // Simulate one regeneration cycle
-        simulate_cycle(&long_wait_total, &cycle_count);
-
-        // Calculate statistics
-        long_wait_mean = long_wait_total / cycle_count;
-
-        // Variance approximation (requires at least 2 cycles)
-        if (cycle_count > 1) {
-            double temp_sum = 0.0;
-            for (int i = 0; i < cycle_count; i++) {
-                temp_sum += pow(long_wait_mean - (long_wait_total / cycle_count), 2);
-            }
-            long_wait_variance = temp_sum / (cycle_count - 1);
-        } else {
-            long_wait_variance = 0.0; // Insufficient cycles for variance
-        }
-
-        // Compute confidence interval
-        compute_confidence_interval(cycle_count, long_wait_mean, long_wait_variance, &confidence_interval_lower, &confidence_interval_upper);
-
-        // Calculate half-width of confidence interval
-        half_width = (confidence_interval_upper - confidence_interval_lower) / 2;
-
-    } while (half_width / long_wait_mean > 0.05 || cycle_count < MIN_CYCLES);
-
-    // Print results
-    printf("Simulation completed.\n");
-    printf("Average waiting time at long repair station: %.2f minutes\n", long_wait_mean);
-    printf("95%% Confidence Interval: [%.2f, %.2f]\n", confidence_interval_lower, confidence_interval_upper);
-    printf("Total regeneration cycles: %d\n", cycle_count);
-
-    return 0;
+int RegPoint(int event_type) {
+    // Regeneration point occurs at a DEPARTURE event
+    // Returns 1 (true) for regeneration point, 0 (false) otherwise
+    return event_type == DEPARTURE;
 }
 
-// Generate random numbers with exponential distribution
-double exponential_random(double mean) {
-    double u = (double)rand() / RAND_MAX; // Uniform random number in [0,1]
-    return -mean * log(1 - u);
+void CollectRegStatistics(double waiting_time_cycle, double *total_waiting_time, int *cycle_count) {
+    *total_waiting_time += waiting_time_cycle;  // Accumulate waiting time
+    (*cycle_count)++;  // Increment the cycle count
 }
 
-// Simulate one regeneration cycle
-void simulate_cycle(double *long_wait_total, int *cycle_count) {
-    double system_time = 0.0; // Current simulation time
-    double next_failure = exponential_random(MEAN_FAILURE_TIME);
-    double short_repair_time, long_repair_time;
-    double long_wait = 0.0;
+void ResetMeasures(double *waiting_time_cycle) {
+    *waiting_time_cycle = 0.0;  // Reset the cycle-specific waiting time
+}
 
-    // Simulate until the system becomes empty (regeneration point)
-    while (next_failure <= system_time) {
-        // Determine if the repair is short or long
-        double is_long_repair = ((double)rand() / RAND_MAX) < BETA;
+double DrawExponential(double lambdainv) {
+}
 
-        if (is_long_repair) {
-            long_repair_time = exponential_random(MEAN_LONG_REPAIR);
-            long_wait += long_repair_time;
-        } else {
-            short_repair_time = exponential_random(MEAN_SHORT_REPAIR);
+void add_event(Event new_event) {
+    // Check if resizing is needed
+    if (event_count == event_capacity) {
+        event_capacity = (event_capacity == 0) ? 10 : event_capacity * 2; // Double capacity
+        event_list = realloc(event_list, event_capacity * sizeof(Event));
+        if (!event_list) {
+            fprintf(stderr, "Memory allocation failed!\n");
+            exit(EXIT_FAILURE);
         }
-
-        // Advance the system time
-        system_time = next_failure;
-        next_failure = system_time + exponential_random(MEAN_FAILURE_TIME);
     }
 
-    // Add to totals and increase cycle count
-    *long_wait_total += long_wait;
-    (*cycle_count)++;
+    // Add the new event
+    event_list[event_count++] = new_event;
+
+    // Sort the array (using insertion sort logic)
+    int i = event_count - 1;
+    while (i > 0 && event_list[i - 1].time > event_list[i].time) {
+        Event temp = event_list[i];
+        event_list[i] = event_list[i - 1];
+        event_list[i - 1] = temp;
+        i--;
+    }
 }
 
-// Compute confidence interval
-void compute_confidence_interval(int n, double mean, double variance, double *lower, double *upper) {
-    double margin_of_error = Z_ALPHA_2 * sqrt(variance / n);
-    *lower = mean - margin_of_error;
-    *upper = mean + margin_of_error;
+void process_event(Event *event, Event *event_queue, int *queue_size, double *total_short_waiting_time, double *total_long_waiting_time) {
+    switch (event->type) {
+        case ARRIVAL: {
+            // Handle arrival: Draw service time, schedule short departure
+            double short_service_time = draw_service_time(SHORT); // Your service time drawing function here
+            Event short_departure = {event->time + short_service_time, DEPARTURE_SHORT, short_service_time};
+            event_queue[*queue_size] = short_departure;
+            (*queue_size)++;
+
+            // Handle whether the customer will go to the long station (80-20 decision)
+            if (rand() % 100 < 20) {  // 20% chance
+                double long_service_time = draw_service_time(LONG); // Service time at long station
+                Event long_departure = {short_departure.time + long_service_time, DEPARTURE_LONG, long_service_time};
+                event_queue[*queue_size] = long_departure;
+                (*queue_size)++;
+            }
+            break;
+        }
+        case DEPARTURE_SHORT: {
+            // Update total short station waiting time
+            break;
+        }
+        case DEPARTURE_LONG: {
+            // Update total long station waiting time
+            break;
+        }
+        default:
+            // Handle other event types if necessary
+            break;
+    }
 }
