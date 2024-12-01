@@ -28,7 +28,7 @@
 	%%%%%%%%%%%%%%% NEW SECTION %%%%%%%%%%%%%%% 
 	\section{Exercise 1}
 	We start this discussion by taking a look at the main characteristics of the network of queues in question.\\
-	In this system we have $N=10$ machines departing from the ``delay station'' $Z$
+	In this system we have $N=10$ machines departing from the ``delay station'' $Z$ with a certain rate (which is modeled by a random variable $Z$); from here they reach a short repair station where they undergo a short reparation whose duration is another random variable $X$; finally, with a probability $\beta=0.2$ they reach a long repair station where the duration of the repair is yet another random variable $Y$. 
 	In this case the distribution of all the three stations are \emph{negative exponential distributions}:
 	\begin{equation*}
 		F_X(x)=\pr(X\leq x)=1-e^{-\frac{1}{\eta} x}\qquad f_X(x)=\frac{\dif F_X}{\dx}=\lambda e^{-\frac{1}{\eta} x}.
