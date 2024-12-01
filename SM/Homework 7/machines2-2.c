@@ -26,26 +26,25 @@ typedef struct Event {
 
 int verbose = 0; // the cute logs are off by default.
 int n = N;
-int iteration_number = 0;
-double wait_currentcycle_short_station = 0;
-double wait_currentcycle_long_station = 0;
-double accumulated_wait_short = 0;
-double accumulated_wait_long = 0;
+double cycle_waiting_time_short_station = 0;
+double cycle_waiting_time_long_station = 0;
+double total_waiting_time_short = 0;
+double total_waiting_time_long = 0;
 int cycle_count = 0;
 int L_event_count = 0;
-double mean_wait_long = 0;
-double accumulated_wait_short_squared = 0;
-double accumulated_wait_long_squared = 0; // these are needed to compute the variance 
+double avg_waiting_time_long = 0;
+double total_waiting_time_short_squared = 0;
+double total_waiting_time_long_squared = 0; // these are needed to compute the variance 
 double time_events_product_short = 0; // this is needed to compute the covariance
 double time_events_product_long = 0;
-double error = 0;
-double error_percentage = 0;
 
 
 double heta_arrival = HETA_ARRIVAL;
 double heta_short = HETA_SHORT;
 double heta_long = HETA_LONG;
 double beta = BETA;
+double alpha[] = {0.95,0.05};
+double mu[] = {10,19010};
 
 /*
 Now we create a pointer to the even list (that will be an array of the type
@@ -62,17 +61,18 @@ size_t event_capacity =
 
 // function declaration
 double exponential_random(double lambda);
+double hyperexponential_random(int k, double* alpha, double* heta);
 void add_event(Event new_event);
 void process_event(Event current_event, int pos);
 void cleanup_event_list();
 int RegPoint(Event current_event);
-void CollectRegStatistics(double *wait_currentcycle_short_station,
-                          double *wait_currentcycle_long_station,
-                          double *accumulated_wait_short,
-                          double *accumulated_wait_long, int *cycle_count);
-void ResetMeasures(double *wait_currentcycle_long_station,
-                   double *wait_currentcycle_short_station);
-double ComputeConfidenceIntervals(double mean_wait_long, double time_events_product_long, double L_event_count, double accumulated_wait_long_squared, int cycle_count);
+void CollectRegStatistics(double *cycle_waiting_time_short_station,
+                          double *cycle_waiting_time_long_station,
+                          double *total_waiting_time_short,
+                          double *total_waiting_time_long, int *cycle_count);
+void ResetMeasures(double *cycle_waiting_time_long_station,
+                   double *cycle_waiting_time_short_station);
+double ComputeConfidenceIntervals(double avg_waiting_time_long, double time_events_product_long, double L_event_count, double total_waiting_time_long_squared, int cycle_count);
 
 int main(int argc, char *argv[]) {
 
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
   event_list = malloc(10 * sizeof(Event)); // Initial allocation for 10 events
   event_capacity = 10;
   if (!event_list) {
-    fprintf(stderr, "Memory allocation failed...\n");
+    fprintf(stderr, "Memory allocation failed!\n");
     exit(EXIT_FAILURE);
   }
 
@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
   }
 
   // now we have all the first arrivals for each machine. What we need to do is
-  // scale all of these events to start from 0 because I am extremely autistic!
+  // scale all of these events to start from 0.
   double delta = event_list[0].timestamp;
   event_list[0].timestamp = 0;
   for (int i = 1; i < n; i++) {
@@ -127,29 +127,27 @@ int main(int argc, char *argv[]) {
   clock_t end_time = clock();
 
   // Calculate the time taken and print it
-  double sim_duration = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+  double time_taken = (double)(end_time - start_time) / CLOCKS_PER_SEC;
 
   // Now calculate our point estimator
-  mean_wait_long = accumulated_wait_long / L_event_count;
-
-  printf("qui il cycle count è di %d\n",cycle_count);
+  avg_waiting_time_long = total_waiting_time_long / L_event_count;
 
   // Calculate the sample variance (with an alternative formula)
-  double error = ComputeConfidenceIntervals(mean_wait_long, time_events_product_long, L_event_count, accumulated_wait_long_squared, cycle_count);
+  double error = ComputeConfidenceIntervals(avg_waiting_time_long, time_events_product_long, L_event_count, total_waiting_time_long_squared, cycle_count);
 
-  double error_percentage =  error/mean_wait_long;
+  double error_percentage =  error/avg_waiting_time_long;
   
 
   printf("\n_______________________________________\n");
   printf("Simulation complete! ");
-  printf("Execution time: %f seconds\n", sim_duration);
-  printf("Total waiting time in short station: %f\n", accumulated_wait_short);
-  printf("Total waiting time in long station: %f\n", accumulated_wait_long);
+  printf("Execution time: %f seconds\n", time_taken);
+  printf("Total waiting time in short station: %f\n", total_waiting_time_short);
+  printf("Total waiting time in long station: %f\n", total_waiting_time_long);
   printf("Total cycles: %d.\n", cycle_count);
   printf("Average waiting time for the long station: %f\n",
-         mean_wait_long);
-  printf("Confidence interval at 10%%: (%f,%f).\n", mean_wait_long-error,mean_wait_long+error);
-  printf("The error is the %f%% of the point estimate.\n", error_percentage*100);
+         avg_waiting_time_long);
+  printf("Confidence interval at 10%%: (%f,%f).\n", avg_waiting_time_long-error,avg_waiting_time_long+error);
+  printf("The error is the %f%% of the point estimate.\n", error_percentage);
 
   // Cleanup allocated memory
   cleanup_event_list();
@@ -162,15 +160,35 @@ We need to scale down these values so that we do not go in overflow. We are only
 interested in the relative order, anyway
 */
 double exponential_random(double heta) {
-  double unif = (double)rand() / RAND_MAX;
-  if ((1 - unif) < 1e-20) {
-    unif = 1e-20; // this will give us a limit in the case in which the argument
-                  // of the logarithm is too close to 0 (and thus exploding)
+    double unif = (double)rand() / RAND_MAX;
+    if ((1 - unif) < 1e-20) {
+        unif = 1e-20; // Prevent log(0) issues
+    }
+    double exp = (-heta * logf(1 - unif));
+    return exp;
+}
+
+double hyperexponential_random(int k, double* alpha, double* heta) {
+  // Cumulative distribution for alpha
+  double cumulative_alpha[k];
+  cumulative_alpha[0] = alpha[0];
+  for (int i = 1; i < k; i++) {
+    cumulative_alpha[i] = cumulative_alpha[i - 1] + alpha[i];
   }
-  double exp = (-heta * logf(1 - unif));
-  // double pick = 1- ((double)rand() / RAND_MAX);
-  verbose ? printf("This time I extracted %f!\n", exp) : 0;
-  return exp;
+
+  // Generate a uniform random number
+  double Y = (double)rand() / RAND_MAX;
+
+  // Select the component distribution
+  int j = 0;
+  while (Y > cumulative_alpha[j]) {
+    j++;
+  }
+
+  // Generate a random variable from the chosen exponential distribution
+  double X = exponential_random(heta[j]);
+
+  return X;
 }
 
 void add_event(Event new_event) {
@@ -221,12 +239,12 @@ void process_event(Event current_event, int pos) {
     compute the point estimate of the waiting time.
     */
     L_event_count++;
-    CollectRegStatistics(&wait_currentcycle_short_station,
-                         &wait_currentcycle_long_station,
-                         &accumulated_wait_short, &accumulated_wait_long,
+    CollectRegStatistics(&cycle_waiting_time_short_station,
+                         &cycle_waiting_time_long_station,
+                         &total_waiting_time_short, &total_waiting_time_long,
                          &cycle_count); // collect statistics
-    ResetMeasures(&wait_currentcycle_long_station,
-                  &wait_currentcycle_short_station);
+    ResetMeasures(&cycle_waiting_time_long_station,
+                  &cycle_waiting_time_short_station);
 
     verbose ? printf("I found event of type %c, which is a regeneration point. "
                      "I cleaned statistics and accumulated what I had to "
@@ -243,16 +261,11 @@ void process_event(Event current_event, int pos) {
                    current_event.timestamp)
           : 0;
   if (current_event.type == 'A') {
-    // we compute when this machine will depart.
-    // we must check the case in which the queue is empty and in which it isn't.
-    // remember, we start from the "pos" position an empty queue means that
-    // there are no departure events ahead of our current event.
-    // We don't care about what machine is departing, the order will be
-    // scrambled anyway
-    double last_departure_timestamp = -1.0;
-    // if we do not find any 'S' events out timestamp will remain -1.0 and
-    // that's how we will know that there are no S events scheduled ahead of our
-    // current event
+    /*
+    We compute when this machine will depart. we must check the case in which the queue is empty and in which it isn't. remember, we start from the "pos" position an empty queue means that there are no departure events ahead of our current event. We don't care about what machine is departing, the order will be scrambled anyway*/
+    double last_departure_timestamp = -1.0; 
+    /*if we do not find any 'S' events out timestamp will remain -1.0 and that's how we will know that there are no S events scheduled ahead of our current event
+    */
     for (size_t i = pos; i < event_count; i++) {
       if (event_list[i].type == 'S') {
         last_departure_timestamp = event_list[i].timestamp;
@@ -287,8 +300,8 @@ void process_event(Event current_event, int pos) {
     we will need it to compute the sample variance!  */
     double waiting_time_short = current_departure.timestamp - current_event.timestamp;
     double waiting_time_short_squared = pow(waiting_time_short, 2);
-    wait_currentcycle_short_station += waiting_time_short;
-    accumulated_wait_short_squared += waiting_time_short_squared;
+    cycle_waiting_time_short_station += waiting_time_short;
+    total_waiting_time_short_squared += waiting_time_short_squared;
     time_events_product_short += waiting_time_short*1;
   } else if (current_event.type == 'S') {
 
@@ -321,7 +334,7 @@ void process_event(Event current_event, int pos) {
       if (last_departure_timestamp == -1.0) {
         current_departure_long.timestamp =
             current_event.timestamp +
-            exponential_random(heta_long); // empty queue
+            hyperexponential_random(2,alpha,mu); // empty queue
         verbose
             ? printf(
                   "But at least there was no one in queue for the long station")
@@ -329,7 +342,7 @@ void process_event(Event current_event, int pos) {
       } else {
         current_departure_long.timestamp =
             last_departure_timestamp +
-            exponential_random(heta_long); // someone in the queue
+            hyperexponential_random(2,alpha,mu); // someone in the queue
       }
       // insert the event
       add_event(current_departure_long);
@@ -346,8 +359,8 @@ void process_event(Event current_event, int pos) {
       */
       double waiting_time_long =  current_departure_long.timestamp - current_event.timestamp;
       double waiting_time_long_squared = pow(waiting_time_long,2);
-      wait_currentcycle_long_station += waiting_time_long;
-      accumulated_wait_long_squared += waiting_time_long_squared;
+      cycle_waiting_time_long_station += waiting_time_long;
+      total_waiting_time_long_squared += waiting_time_long_squared;
       time_events_product_long += waiting_time_long * 1;
     } else {
       // the machine goes back to the source and we schedule its next arrival to
@@ -386,7 +399,9 @@ void process_event(Event current_event, int pos) {
   verbose ? printf("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n") : 0;
 }
 
-/*cleanup allocated memory*/
+/*
+cleanup allocated memory
+*/
 void cleanup_event_list() {
   free(event_list);  // Release the allocated memory
   event_list = NULL; // Set pointer to NULL for safety
@@ -400,40 +415,36 @@ int RegPoint(Event current_event) {
   return (current_event.type == 'L');
 }
 
-void CollectRegStatistics(double *wait_currentcycle_short_station,
-                          double *wait_currentcycle_long_station,
-                          double *accumulated_wait_short,
-                          double *accumulated_wait_long, int *cycle_count) {
-  *accumulated_wait_short +=
-      *wait_currentcycle_short_station; // Accumulate waiting time for short
+void CollectRegStatistics(double *cycle_waiting_time_short_station,
+                          double *cycle_waiting_time_long_station,
+                          double *total_waiting_time_short,
+                          double *total_waiting_time_long, int *cycle_count) {
+  *total_waiting_time_short +=
+      *cycle_waiting_time_short_station; // Accumulate waiting time for short
                                          // station
-  *accumulated_wait_long +=
-      *wait_currentcycle_long_station; // Accumulate waiting time for short
+  *total_waiting_time_long +=
+      *cycle_waiting_time_long_station; // Accumulate waiting time for short
                                         // station
   (*cycle_count)++;                     // Increment the cycle count
 }
 
-void ResetMeasures(double *wait_currentcycle_long_station,
-                   double *wait_currentcycle_short_station) {
-  *wait_currentcycle_short_station =
+void ResetMeasures(double *cycle_waiting_time_long_station,
+                   double *cycle_waiting_time_short_station) {
+  *cycle_waiting_time_short_station =
       0.0; // Reset the cycle-specific waiting time
-  *wait_currentcycle_long_station =
+  *cycle_waiting_time_long_station =
       0.0; // Reset the cycle-specific waiting time
 }
 
-double ComputeConfidenceIntervals(double mean_wait_long, double time_events_product_long, double L_event_count, double accumulated_wait_long_squared, int cycle_count) {
-  double S_A=accumulated_wait_long;
-  double S_nu=L_event_count;
-  double S_AA=accumulated_wait_long_squared;
-  double S_Anu=time_events_product_long;
-  double S_nunu=L_event_count; // every cycle has nu=1 so the sum of the squared nu is just the event count
-  double r_hat=S_A/S_nu;
-  double delta = sqrt(cycle_count/(cycle_count-1))*(sqrt(S_AA-2*r_hat*S_Anu+pow(r_hat,2)*S_nunu)/S_nu);
-  double error = 1.96*delta;
-  printf("Error=%f\n",error);
+double ComputeConfidenceIntervals(double avg_waiting_time_long, double time_events_product_long, double L_event_count, double total_waiting_time_long_squared, int cycle_count) {
+  // the derivations of the formulas used here are in the document 
+  // we compute the variance with a slightly different formula (it is easier to implement)
+  double s2_A= (total_waiting_time_long_squared-(cycle_count*pow(total_waiting_time_long,2))/(cycle_count-1));
+  // we compute the covariance with a different formula (similar to the variance)
+  double s_Anu = (time_events_product_long-cycle_count*avg_waiting_time_long*L_event_count)/(cycle_count-1);
+  double s2_nu = (cycle_count-cycle_count*pow(L_event_count,2))/(cycle_count-1);
+  double s2_Z = s2_A - 2*avg_waiting_time_long*s_Anu+pow(avg_waiting_time_long,2)*pow(s2_nu,2);
+  double error = 1.96 * (sqrt(s2_Z))/(L_event_count*sqrt(cycle_count));
   return error;
 }
 
-int DecideToStop(int cycle_count, double error_percentage) {
-  return (cycle_count>40 && error_percentage<0.10);
-}

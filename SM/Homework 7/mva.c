@@ -93,22 +93,19 @@ int main() {
             }
         }
     }
-    int n_customers[2] = {1,N};
+    int n_customers = N;
     // Print results for N = 1 and N = 80;
-    for (int j=0; j<=1; j++){
         printf("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
-        printf("Simulation with %d customers\n\n", n_customers[j]);
+        printf("Simulation with %d customers\n\n", n_customers);
            for (int i = 0; i < M; i++) {
             printf("Station %d results:\n", i);
-            printf("Throughput (X[%d])\t\t= %f\n", n_customers[j], X[i][n_customers[j]]);
-            printf("Utilization (U[%d])\t\t= %f\n", n_customers[j], U[i][n_customers[j]]);
-            printf("Mean queue length (n[%d])\t= %f\n", n_customers[j], n[i][n_customers[j]]);
-            printf("Mean waiting time (w[%d])\t= %f\n", n_customers[j], w[i][n_customers[j]]);
-            //printf("Mean response time (R_0)\t\t= %f\n", (n_customers[j]/X[i][n_customers[j]])-Z);
+            printf("Throughput (X[%d])\t\t= %f\n", n_customers, X[i][n_customers]);
+            printf("Utilization (U[%d])\t\t= %f\n", n_customers, U[i][n_customers]);
+            printf("Mean queue length (n[%d])\t= %f\n", n_customers, n[i][n_customers]);
+            printf("Mean waiting time (w[%d])\t= %f\n", n_customers, w[i][n_customers]);
             printf("Mean response time (R_0)\t\t= %f\n", (R[i][n_customers
-            [j]])); 
+        ])); 
             printf("\n");
-    }
     }
     
     double X_0_1=X[0][1]; // We will need this later to compute the saturation point
