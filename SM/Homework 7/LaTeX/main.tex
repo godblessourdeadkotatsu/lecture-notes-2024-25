@@ -72,7 +72,8 @@ In this scenario, due to the memoryless property of the negative exponential dis
 	For the implementation of this simulation we chose the classic event list approach: the bulk of the simulator is an ever-growing list of events sorted by the timestamp of their occurrence. Each of these events is ``processed'' one by one, typically by adding another related event to the list and computing the necessary measurements. \\
 	\begin{figure}[h]
 		\centering
-		\begin{tikzpicture}[node distance=2cm,scale=0.5]
+	\begin{scope}[scale=0.5]
+			\begin{tikzpicture}[node distance=2cm]
 			\node (start) [startstop] {Start};
 			\node (conditions) [decision, align=center, below of=start,yshift=-1cm] {\small Termination \\ \small conditions met?};
 			\node (mainloop) [process,below of=conditions,yshift=-1cm,align=center] {Process next \\ event in the list};
@@ -89,6 +90,7 @@ In this scenario, due to the memoryless property of the negative exponential dis
 			\draw[arrow](collect)--+(4,0)|-(conditions);
 			\draw[arrow](terminate)--(end);
 		\end{tikzpicture}
+	\end{scope}
 	\end{figure}
 
 	\section*{Simulation Results for 10 Customers}
