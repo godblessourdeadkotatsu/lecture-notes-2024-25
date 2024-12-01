@@ -107,6 +107,7 @@
 	theorem hanging indent/.try=0pt,
 }{}
 
+\newenvironment{ccode}{\begin{minted}[linenos,autogobble,breaklines,bgcolor=black!90!blue!80,fontsize=\scriptsize]{c}}{\end{minted}}
 \newenvironment{remark}[1][]{
 	\ifstrempty{#1}{%   
 		\begin{rema*}{}{}%                     
