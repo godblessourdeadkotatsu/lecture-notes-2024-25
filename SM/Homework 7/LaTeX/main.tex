@@ -65,7 +65,7 @@ In this scenario, due to the memoryless property of the negative exponential dis
 	This choice will also simplify our calculations: the value $\nu_{j}$, that counts the number of the occurrences of the event of interest in the current regeneration cycle, will always be 1. \\
 	For the distribution of the routings we assume a uniform distribution (so that 20\% of the departures from the short station will become an arrival to the long station).
 	\subsection{The simulation}
-	
+	For the implementation of this simulation we chose the classic event list approach: the bulk of the simulator is an ever-growing list of events sorted by the timestamp of their occurrence. Each of these events is ``processed'' one by one, typically by adding another related event to the list.
 
 	\section*{Simulation Results for 10 Customers}
 	The simulation gives the following results:
