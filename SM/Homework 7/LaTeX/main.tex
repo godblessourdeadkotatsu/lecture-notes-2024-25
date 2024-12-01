@@ -50,16 +50,18 @@ In this scenario, due to the memoryless property of the negative exponential dis
 				\multicolumn{1}{|c|}{\textbf{Service time distribution of the first queue}} &
 				\multicolumn{2}{c|}{\textbf{Service time distribution of the second queue}} \\ 
 				\cline{2-3}
-				& \textbf{GENERAL} & \textbf{MARKOV (Neg-Exp)} \\ 
+				& \textbf{GENERIC} & \textbf{MARKOV (Neg-Exp)} \\ 
 				\hline
-				\textbf{GENERAL} & Any departure that leaves behind exactly $N - 1$ customers from one of the two servers of the network & Any departure from the first server \\ 
+				\textbf{GENERIC} & Any departure that leaves behind exactly $N - 1$ customers from one of the two servers of the network & Any departure from the first server \\ 
 				\hline
 				\textbf{MARKOV (Neg-Exp)} & Any departure from the second server & Any departure in the system \\ 
 				\hline
 			\end{tabular}
 			\caption{Service time distribution schema for the first and second queue.}
 		\end{table}
-	in which we can easily notice we are in the bottom-right case, in which the service times of both the queue are negative-exponential.
+	in which we can easily notice we are in the bottom-right case, in which the service times of both the queue are negative-exponential.\\
+	Technically every departure could be a regeneration point but since our analysis focuses on the average waiting time of the long repair station we chose as regeneration points all the departures from the long station. 
+	This choice will also simplify our calculations: the value $\nu_{j}$, that counts the number of the occurrences of the event of interest in the current regeneration cycle, will always be 1.
 	
 	\paragraph{Statistical Analysis}
 	Using the regenerative method, we accumulate observations (e.g., waiting times) during each cycle. The point estimate for the expected value of a performance metric $r$ can be calculated as:
