@@ -32,43 +32,7 @@
 		F_X(x)=\pr(X\leq x)=1-e^{-\lambda x}\qquad f_X(x)=\frac{\dif F_X}{\dx}=\lambda e^{-\lambda x}
 	\end{equation*}
 	
-	\begin{itemize}
-		\item Failures and Repairs: Machines in the system experience failures, necessitating either short or long repair times depending on the nature of the failure.
-		\item Probabilistic Repair Routing: Failures requiring long repairs are routed to an external repair lab based on a fixed probability ($\beta = 0.2$).
-		\item Statistical Analysis: Using the regenerative method, the goal is to simulate the system, identify regeneration points, and compute an interval estimate for the average waiting time at the long repair station with a 95\% confidence level. The simulation must ensure that the confidence interval width does not exceed 10\% of the estimated mean value.
-	\end{itemize}
-	
-	\subsection*{Problem Parameters}
-	\begin{enumerate}
-		\item System Configuration:
-		\begin{itemize}
-			\item $N = 10$: Number of machines.
-			\item Working times between failures are exponentially distributed with $Z = 3000$ minutes.
-			\item Short repair times follow an exponential distribution with mean $S = 40$ minutes.
-			\item Long repair times follow an exponential distribution with mean $V = 960$ minutes.
-		\end{itemize}
-		\item Key Requirements:
-		\begin{itemize}
-			\item Identify appropriate regeneration points to segment the simulation into independent cycles.
-			\item Ensure sufficient simulation cycles ($> 40$) for robust statistical estimation using $z_{\alpha/2} = 1.96$.
-			\item Generate random numbers independently for all random variables in the model.
-		\end{itemize}
-		\item Numerical Validation:
-		\begin{itemize}
-			\item Prior evaluations indicate a theoretical average waiting time of $1811.03$ minutes at the long repair station when $\beta = 0.2$.
-		\end{itemize}
-	\end{enumerate}
-	
-	\subsection*{Theory: Regenerative Method and Regeneration Points}
-	
-	The regenerative method is a powerful technique in simulation used to compute steady-state statistics by dividing the simulation into independent and identically distributed (i.i.d.) cycles, known as regeneration cycles. These cycles are separated by regeneration points, which are specific states where the system's stochastic process loses all memory of its past evolution.
-	
-	\paragraph{Regeneration Points}
-	A regeneration point is defined as a specific event and state where the future evolution of the system does not depend on its history. The characteristics of regeneration points are as follows:
-	\begin{itemize}
-		\item They mark the beginning and end of regeneration cycles, ensuring that each cycle is independent of the others.
-		\item These points must occur frequently enough to provide sufficient statistical information while balancing computational cost.
-		\item In this problem, due to the memoryless property of the negative exponential distribution for all time variables (e.g., failure times, short and long repair times), defining regeneration points is straightforward. For example, a regeneration point can be set as the time when a machine enters the long repair station and the system resets to its initial conditions. This choice is based on the following schema:
+In this problem, due to the memoryless property of the negative exponential distribution for all time variables (e.g., failure times, short and long repair times), defining regeneration points is straightforward. For example, a regeneration point can be set as the time when a machine enters the long repair station and the system resets to its initial conditions. This choice is based on the following schema:
 		
 		\begin{table}[h!]
 			\centering
