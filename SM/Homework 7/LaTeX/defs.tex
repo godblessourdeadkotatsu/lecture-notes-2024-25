@@ -108,7 +108,7 @@
 }{}
 
 \newminted[myc]{c}{mathescape, linenos, numbersep=5pt, frame=single, breaklines,bgcolor=gray!9, fontfamily=courier,rulecolor=red,numbersep=5pt,label=C,xleftmargin=0pt}
-\newenvironment{ccode}{\VerbatimEnvironment\begin{myc}}{\end{myc}}
+\newenvironment{ccode}{\VerbatimEnvironment\begin{myc*}}{\end{myc*}}
 \newenvironment{remark}[1][]{
 	\ifstrempty{#1}{%   
 		\begin{rema*}{}{}%                     
