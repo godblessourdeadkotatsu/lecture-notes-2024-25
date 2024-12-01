@@ -73,6 +73,7 @@ void CollectRegStatistics(double *wait_currentcycle_short_station,
 void ResetMeasures(double *wait_currentcycle_long_station,
                    double *wait_currentcycle_short_station);
 double ComputeConfidenceIntervals(double mean_wait_long, double time_events_product_long, double L_event_count, double accumulated_wait_long_squared, int cycle_count);
+int DecideToStop(int cycle_count, double error_percentage,int iteration_number);
 
 int main(int argc, char *argv[]) {
 
@@ -112,16 +113,26 @@ int main(int argc, char *argv[]) {
   }
 
   // now the main loop. we need to iterate for each element of the event list,
-  // which will grow forever.
-  for (int i = 0; i < MAX_EVENTS; i++) {
+  // which will grow forever if we don't stop it!.
+  int i = 0;
+  do {
     Event current_event = event_list[i];
     process_event(current_event, i);
     if (isinf(current_event.timestamp)) {
-      printf("Timestamp reached infinity. Stopping the loop. Something is "
-             "wrong.\n");
+      printf("Timestamp reached infinity. Stopping the loop. Something is wrong.\n");
       break; // Exit the loop immediately
     }
-  }
+  // Now calculate our point estimator
+  mean_wait_long = accumulated_wait_long / L_event_count;
+  // Calculate the sample variance (with an alternative formula)
+  if(cycle_count>1){
+    error = ComputeConfidenceIntervals(mean_wait_long, time_events_product_long, L_event_count, accumulated_wait_long_squared, cycle_count);
+    error_percentage =  2*error/mean_wait_long;
+    }
+    iteration_number++;
+    i++;
+  } while (!DecideToStop(cycle_count,error_percentage,iteration_number));
+  printf("Stopping conditions reached at the %d-th iteration",iteration_number);
 
   // Capture the end time
   clock_t end_time = clock();
@@ -129,22 +140,11 @@ int main(int argc, char *argv[]) {
   // Calculate the time taken and print it
   double sim_duration = (double)(end_time - start_time) / CLOCKS_PER_SEC;
 
-  // Now calculate our point estimator
-  mean_wait_long = accumulated_wait_long / L_event_count;
-
-  printf("qui il cycle count è di %d\n",cycle_count);
-
-  // Calculate the sample variance (with an alternative formula)
-  double error = ComputeConfidenceIntervals(mean_wait_long, time_events_product_long, L_event_count, accumulated_wait_long_squared, cycle_count);
-
-  double error_percentage =  error/mean_wait_long;
   
 
   printf("\n_______________________________________\n");
-  printf("Simulation complete! ");
+  printf("Simulation complete! :) ");
   printf("Execution time: %f seconds\n", sim_duration);
-  printf("Total waiting time in short station: %f\n", accumulated_wait_short);
-  printf("Total waiting time in long station: %f\n", accumulated_wait_long);
   printf("Total cycles: %d.\n", cycle_count);
   printf("Average waiting time for the long station: %f\n",
          mean_wait_long);
@@ -430,10 +430,10 @@ double ComputeConfidenceIntervals(double mean_wait_long, double time_events_prod
   double r_hat=S_A/S_nu;
   double delta = sqrt(cycle_count/(cycle_count-1))*(sqrt(S_AA-2*r_hat*S_Anu+pow(r_hat,2)*S_nunu)/S_nu);
   double error = 1.96*delta;
-  printf("Error=%f\n",error);
+  //printf("Error=%f\n",error);
   return error;
 }
 
-int DecideToStop(int cycle_count, double error_percentage) {
-  return (cycle_count>40 && error_percentage<0.10);
+int DecideToStop(int cycle_count, double error_percentage,int iteration_number) {
+  return ((cycle_count>40 && error_percentage<0.10)||iteration_number>MAX_EVENTS);
 }
