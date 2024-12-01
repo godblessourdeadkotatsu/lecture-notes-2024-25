@@ -107,21 +107,10 @@
 	theorem hanging indent/.try=0pt,
 }{}
 
-\newminted[myc]{c}{
-	linenos,
-	autogobble,
-	breaklines,
-	bgcolor=black!90!blue!80,
-	fontsize=\scriptsize
-}
+\newminted{python}{mathescape, linenos, numbersep=5pt, frame=single, breaklines,bgcolor=gray!9, fontfamily=courier,python3,rulecolor=Emerald,numbersep=5pt,label=Python,xleftmargin=0pt}
+\newenvironment{ccode}{\VerbatimEnvironment\begin{pythoncode}}{\end{pythoncode}}
 
-% Define a custom environment wrapper
-\newenvironment{ccode}{%
-	\VerbatimEnvironment
-	\begin{myc}%
-	}{%
-	\end{myc}%
-}
+\newcounter{defi}
 \newenvironment{remark}[1][]{
 	\ifstrempty{#1}{%   
 		\begin{rema*}{}{}%                     
