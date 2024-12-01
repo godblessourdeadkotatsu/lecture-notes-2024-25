@@ -107,8 +107,21 @@
 	theorem hanging indent/.try=0pt,
 }{}
 
-\newminted[myc]{c}{linenos,autogobble,breaklines,bgcolor=black!90!blue!80,fontsize=\scriptsize}
-\newenvironment{ccode}{\VerbatimEnvironment\begin{myc*}}{\end{myc*}}
+\newminted[myc]{c}{
+	linenos,
+	autogobble,
+	breaklines,
+	bgcolor=black!90!blue!80,
+	fontsize=\scriptsize
+}
+
+% Define a custom environment wrapper
+\newenvironment{ccode}{%
+	\VerbatimEnvironment
+	\begin{myc}%
+	}{%
+	\end{myc}%
+}
 \newenvironment{remark}[1][]{
 	\ifstrempty{#1}{%   
 		\begin{rema*}{}{}%                     
