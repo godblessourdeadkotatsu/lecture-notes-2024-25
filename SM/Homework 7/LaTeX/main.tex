@@ -24,10 +24,212 @@
 	
 	
 	
+	
 	%%%%%%%%%%%%%%% NEW SECTION %%%%%%%%%%%%%%% 
 	\section{Exercise 1}
 	Negative exponential distribution:
 	\begin{equation*}
 		F_X(x)=\pr(X\leq x)=1-e^{-\lambda x}\qquad f_X(x)=\frac{\dif F_X}{\dx}=\lambda e^{-\lambda x}
 	\end{equation*}
+	We use a different formula for sample variance:
+	
+	The sample variance, as decreed by the mathematical sages, is given by:
+	
+	\[
+	\text{VAR}[A_j] = s^2_{A} = \frac{1}{p-1} \sum_{j=1}^{p} \left(A_j - \bar{A}\right)^2
+	\]
+	
+	Expanding the squared term \(\left(A_j - \bar{A}\right)^2\), we have:
+	
+	\[
+	\sum_{j=1}^p \left(A_j - \bar{A}\right)^2 = \sum_{j=1}^p A_j^2 - 2 \bar{A} \sum_{j=1}^p A_j + p \bar{A}^2
+	\]
+	
+	Since the mean \(\bar{A}\) is defined as:
+	
+	\[
+	\bar{A} = \frac{1}{p} \sum_{j=1}^p A_j
+	\]
+	
+	we know \(\bar{A}^2\) can be rewritten as:
+	
+	\[
+	\bar{A}^2 = \frac{\left(\sum_{j=1}^p A_j \right)^2}{p^2}
+	\]
+	
+	Substituting this into the expanded expression, we get:
+	
+	\[
+	\sum_{j=1}^p \left(A_j - \bar{A}\right)^2 = \sum_{j=1}^p A_j^2 - \frac{\left(\sum_{j=1}^p A_j \right)^2}{p}
+	\]
+	
+	Finally, dividing this entire expression by \(p-1\), the sacred sample size correction, we obtain the true sample variance:
+	
+	\[
+	\text{VAR}[A_j] = \frac{\sum_{j=1}^p A_j^2 - \frac{\left(\sum_{j=1}^p A_j \right)^2}{p}}{p-1}
+	\]
+	
+	\[
+	\text{COV}[A, \nu] = \frac{1}{p-1} \sum_{j=1}^p \left( A_j - \bar{A} \right) \left( \nu_j - \bar{\nu} \right),
+	\]
+	where
+	\[
+	\bar{A} = \frac{\sum_{j=1}^p A_j}{p}, \quad \bar{\nu} = \frac{\sum_{j=1}^p \nu_j}{p}.
+	\]
+	
+	Expanding the terms:
+	\[
+	\text{COV}[A, \nu] = \frac{1}{p-1} \left( \sum_{j=1}^p A_j \nu_j - \bar{\nu} \sum_{j=1}^p A_j - \bar{A} \sum_{j=1}^p \nu_j + \sum_{j=1}^p \bar{A} \bar{\nu} \right).
+	\]
+	
+	Using \(\bar{A} = \frac{\sum_{j=1}^p A_j}{p}\) and \(\bar{\nu} = \frac{\sum_{j=1}^p \nu_j}{p}\), simplify:
+	\[
+	\text{COV}[A, \nu] = \frac{\text{sum}_{A\nu} - \frac{\text{sum}_A \cdot \text{sum}_\nu}{p}}{p-1}.
+	\]
+	
+	
+	-----------------------------------------
+	
+	
+	Exercise 1 focuses on the analysis of a Machine Repairman system with the objective of evaluating the average waiting time at the long repair station. The system is modeled using a combination of probabilistic mechanisms and queueing dynamics, with the following characteristics:
+	
+	\begin{itemize}
+		\item Failures and Repairs: Machines in the system experience failures, necessitating either short or long repair times depending on the nature of the failure.
+		\item Probabilistic Repair Routing: Failures requiring long repairs are routed to an external repair lab based on a fixed probability ($\beta = 0.2$).
+		\item Statistical Analysis: Using the regenerative method, the goal is to simulate the system, identify regeneration points, and compute an interval estimate for the average waiting time at the long repair station with a 95\% confidence level. The simulation must ensure that the confidence interval width does not exceed 10\% of the estimated mean value.
+	\end{itemize}
+	
+	\subsection*{Problem Parameters}
+	\begin{enumerate}
+		\item System Configuration:
+		\begin{itemize}
+			\item $N = 10$: Number of machines.
+			\item Working times between failures are exponentially distributed with $Z = 3000$ minutes.
+			\item Short repair times follow an exponential distribution with mean $S = 40$ minutes.
+			\item Long repair times follow an exponential distribution with mean $V = 960$ minutes.
+		\end{itemize}
+		\item Key Requirements:
+		\begin{itemize}
+			\item Identify appropriate regeneration points to segment the simulation into independent cycles.
+			\item Ensure sufficient simulation cycles ($> 40$) for robust statistical estimation using $z_{\alpha/2} = 1.96$.
+			\item Generate random numbers independently for all random variables in the model.
+		\end{itemize}
+		\item Numerical Validation:
+		\begin{itemize}
+			\item Prior evaluations indicate a theoretical average waiting time of $1811.03$ minutes at the long repair station when $\beta = 0.2$.
+		\end{itemize}
+	\end{enumerate}
+	
+	\subsection*{Theory: Regenerative Method and Regeneration Points}
+	
+	The regenerative method is a powerful technique in simulation used to compute steady-state statistics by dividing the simulation into independent and identically distributed (i.i.d.) cycles, known as regeneration cycles. These cycles are separated by regeneration points, which are specific states where the system's stochastic process loses all memory of its past evolution.
+	
+	\paragraph{Regeneration Points}
+	A regeneration point is defined as a specific event and state where the future evolution of the system does not depend on its history. The characteristics of regeneration points are as follows:
+	\begin{itemize}
+		\item They mark the beginning and end of regeneration cycles, ensuring that each cycle is independent of the others.
+		\item These points must occur frequently enough to provide sufficient statistical information while balancing computational cost.
+		\item In this problem, due to the memoryless property of the negative exponential distribution for all time variables (e.g., failure times, short and long repair times), defining regeneration points is straightforward. For example, a regeneration point can be set as the time when a machine enters the long repair station and the system resets to its initial conditions. This choice is based on the following schema:
+		
+		\begin{table}[h!]
+			\centering
+			\renewcommand{\arraystretch}{1.5}
+			\begin{tabular}{|m{4cm}|m{4cm}|m{4cm}|}
+				\hline
+				\multicolumn{1}{|c|}{\textbf{Service time distribution of the first queue}} &
+				\multicolumn{2}{c|}{\textbf{Service time distribution of the second queue}} \\ 
+				\cline{2-3}
+				& \textbf{GENERAL} & \textbf{MARKOV (Neg-Exp)} \\ 
+				\hline
+				\textbf{GENERAL} & Any departure that leaves behind exactly $N - 1$ customers from one of the two servers of the network & Any departure from the first server \\ 
+				\hline
+				\textbf{MARKOV (Neg-Exp)} & Any departure from the second server & Any departure in the system \\ 
+				\hline
+			\end{tabular}
+			\caption{Service time distribution schema for the first and second queue.}
+		\end{table}
+		
+		
+	\end{itemize}
+	in which we can easily notice we are in the bottom-right case, in which the service times of both the queue are negative-exponential.
+	
+	\paragraph{Statistical Analysis}
+	Using the regenerative method, we accumulate observations (e.g., waiting times) during each cycle. The point estimate for the expected value of a performance metric $r$ can be calculated as:
+	\[
+	\hat{r} = \frac{\sum_{j=1}^p A_j}{\sum_{j=1}^p \nu_j}
+	\]
+	where $A_j$ is the accumulated performance measure during the $j$-th cycle, and $\nu_j$ is the length of that cycle. Confidence intervals are constructed using auxiliary variables that account for correlations within the data.
+	
+	\paragraph{Application to the Problem}
+	The regenerative method simplifies simulation for the Machine Repairman system by:
+	\begin{itemize}
+		\item Breaking the simulation into cycles defined by identifiable regeneration points (e.g., arrival of a machine to the long repair station).
+		\item Ensuring independence between cycles, thus enabling accurate estimation of steady-state metrics like average waiting time.
+	\end{itemize}
+	
+	This approach ensures reliable results while adhering to the specified precision and confidence level.
+	\newpage
+	\section*{Simulation Results for 10 Customers}
+	The simulation gives the following results:
+	
+	\noindent\textbf{Station 0 Results:}
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{@{}l l@{}}
+			\toprule
+			Throughput ($X[10]$)              & \textbf{0.002935} \\
+			Utilization ($U[10]$)             & \textbf{0.880562} \\
+			Mean queue length ($n[10]$)       & \textbf{8.805621} \\
+			Mean waiting time ($w[10]$)       & \textbf{3000.000000} \\
+			Mean response time ($R_0$)        & \textbf{406.914799} \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\noindent\textbf{Station 1 Results:}
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{@{}l l@{}}
+			\toprule
+			Throughput ($X[10]$)              & \textbf{0.002935} \\
+			Utilization ($U[10]$)             & \textbf{0.117408} \\
+			Mean queue length ($n[10]$)       & \textbf{0.131229} \\
+			Mean waiting time ($w[10]$)       & \textbf{44.708658} \\
+			Mean response time ($R_0$)        & \textbf{84.708658} \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\noindent\textbf{Station 2 Results:}
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{@{}l l@{}}
+			\toprule
+			Throughput ($X[10]$)              & \textbf{0.000587} \\
+			Utilization ($U[10]$)             & \textbf{0.563560} \\
+			Mean queue length ($n[10]$)       & \textbf{1.063150} \\
+			Mean waiting time ($w[10]$)       & \textbf{1811.030708} \\
+			Mean response time ($R_0$)        & \textbf{2771.030708} \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	
+	we can notice easily that the mean waiting time for the long repair station is $1811.030$ which is compatible with our benchmark. 
+	
+	\section{Exercise 2}
+	The second exercise focuses on analyzing the Machine Repairman system under a modified scenario where the repair time for machines directed to the long repair lab is modeled using a hyper-exponential distribution. This distribution introduces two exponential phases, reflecting high variability in repair durations, and is defined by the following parameters:
+	
+	\begin{itemize}
+		\item \textbf{Phase 1:} Weight $\alpha_1 = 0.95$, Mean $\mu_1 = 10$ minutes.
+		\item \textbf{Phase 2:} Weight $\alpha_2 = 0.05$, Mean $\mu_2 = 19010$ minutes.
+	\end{itemize}
+	
+	This configuration captures the reality of repair processes, where most failures are resolved quickly, but a small fraction requires significantly longer times.
+	
+	The objective is to estimate the average waiting time at the long repair station using the regenerative simulation method. The analysis must achieve a confidence level of $95\%$ and ensure the width of the confidence interval is no greater than $10\%$ of the point estimate. Validation of the simulation model is incorporated by introducing a modification that enables the system to be solved analytically using the Mean Value Analysis algorithm. This allows for a comparison between simulated and analytical results, ensuring the reliability and accuracy of the findings.
+	
+	In order to solve this exercise we have, firstly, to give a look to the table shown above, here we are in the bottom-left part, since the first queue is negative-exponential, while the second is not. Hence, we can choose again the departure from the long-repair station as a regenerating point.
+	
+	
 \end{document}
