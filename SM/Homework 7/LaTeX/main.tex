@@ -27,71 +27,10 @@
 	
 	%%%%%%%%%%%%%%% NEW SECTION %%%%%%%%%%%%%%% 
 	\section{Exercise 1}
-	Negative exponential distribution:
+	In this case the distribution of all the three stations are \emph{negative exponential distributions}:
 	\begin{equation*}
 		F_X(x)=\pr(X\leq x)=1-e^{-\lambda x}\qquad f_X(x)=\frac{\dif F_X}{\dx}=\lambda e^{-\lambda x}
 	\end{equation*}
-	We use a different formula for sample variance:
-	
-	The sample variance, as decreed by the mathematical sages, is given by:
-	
-	\[
-	\text{VAR}[A_j] = s^2_{A} = \frac{1}{p-1} \sum_{j=1}^{p} \left(A_j - \bar{A}\right)^2
-	\]
-	
-	Expanding the squared term \(\left(A_j - \bar{A}\right)^2\), we have:
-	
-	\[
-	\sum_{j=1}^p \left(A_j - \bar{A}\right)^2 = \sum_{j=1}^p A_j^2 - 2 \bar{A} \sum_{j=1}^p A_j + p \bar{A}^2
-	\]
-	
-	Since the mean \(\bar{A}\) is defined as:
-	
-	\[
-	\bar{A} = \frac{1}{p} \sum_{j=1}^p A_j
-	\]
-	
-	we know \(\bar{A}^2\) can be rewritten as:
-	
-	\[
-	\bar{A}^2 = \frac{\left(\sum_{j=1}^p A_j \right)^2}{p^2}
-	\]
-	
-	Substituting this into the expanded expression, we get:
-	
-	\[
-	\sum_{j=1}^p \left(A_j - \bar{A}\right)^2 = \sum_{j=1}^p A_j^2 - \frac{\left(\sum_{j=1}^p A_j \right)^2}{p}
-	\]
-	
-	Finally, dividing this entire expression by \(p-1\), the sacred sample size correction, we obtain the true sample variance:
-	
-	\[
-	\text{VAR}[A_j] = \frac{\sum_{j=1}^p A_j^2 - \frac{\left(\sum_{j=1}^p A_j \right)^2}{p}}{p-1}
-	\]
-	
-	\[
-	\text{COV}[A, \nu] = \frac{1}{p-1} \sum_{j=1}^p \left( A_j - \bar{A} \right) \left( \nu_j - \bar{\nu} \right),
-	\]
-	where
-	\[
-	\bar{A} = \frac{\sum_{j=1}^p A_j}{p}, \quad \bar{\nu} = \frac{\sum_{j=1}^p \nu_j}{p}.
-	\]
-	
-	Expanding the terms:
-	\[
-	\text{COV}[A, \nu] = \frac{1}{p-1} \left( \sum_{j=1}^p A_j \nu_j - \bar{\nu} \sum_{j=1}^p A_j - \bar{A} \sum_{j=1}^p \nu_j + \sum_{j=1}^p \bar{A} \bar{\nu} \right).
-	\]
-	
-	Using \(\bar{A} = \frac{\sum_{j=1}^p A_j}{p}\) and \(\bar{\nu} = \frac{\sum_{j=1}^p \nu_j}{p}\), simplify:
-	\[
-	\text{COV}[A, \nu] = \frac{\text{sum}_{A\nu} - \frac{\text{sum}_A \cdot \text{sum}_\nu}{p}}{p-1}.
-	\]
-	
-	
-	-----------------------------------------
-	
-	
-	Exercise 1 focuses on the analysis of a Machine Repairman system with the objective of evaluating the average waiting time at the long repair station. The system is modeled using a combination of probabilistic mechanisms and queueing dynamics, with the following characteristics:
 	
 	\begin{itemize}
 		\item Failures and Repairs: Machines in the system experience failures, necessitating either short or long repair times depending on the nature of the failure.
