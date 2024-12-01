@@ -107,8 +107,6 @@
 	theorem hanging indent/.try=0pt,
 }{}
 
-\newenvironment{ccode}{\begin{minted}[linenos,autogobble,breaklines,bgcolor=black!90!blue!80,fontsize=\scriptsize]{c}}{\end{minted}}
-
 \newminted[myc]{c}{mathescape, linenos, numbersep=5pt, frame=single, breaklines,bgcolor=gray!9, fontfamily=courier,rulecolor=red,numbersep=5pt,label=C,xleftmargin=0pt}
 \newenvironment{ccode}{\VerbatimEnvironment\begin{myc}}{\end{myc}}
 \newenvironment{remark}[1][]{
