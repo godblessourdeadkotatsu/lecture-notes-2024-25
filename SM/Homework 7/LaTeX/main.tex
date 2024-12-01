@@ -27,6 +27,7 @@
 	
 	%%%%%%%%%%%%%%% NEW SECTION %%%%%%%%%%%%%%% 
 	\section{Exercise 1}
+	\subsection{Overview}
 	We start this discussion by taking a look at the main characteristics of the network of queues in question.\\
 	In this system we have $N=10$ machines departing from the ``delay station'' $Z$ with a certain rate (which is modeled by a random variable $Z$); from here they reach a short repair station where they undergo a short reparation whose duration is another random variable $X$; finally, with a probability $\beta=0.2$ they reach a long repair station where the duration of the repair is yet another random variable $Y$. The machines that do not go the the long repair station or that have finished the long repair go back to the source.
 	In this case the distribution of all the three stations is \emph{negative exponential distributions}:
@@ -64,22 +65,7 @@ In this scenario, due to the memoryless property of the negative exponential dis
 	This choice will also simplify our calculations: the value $\nu_{j}$, that counts the number of the occurrences of the event of interest in the current regeneration cycle, will always be 1. \\
 	For the distribution of the routings we assume a uniform distribution (so that 20\% of the departures from the short station will become an arrival to the long station.)
 	
-	\paragraph{Statistical Analysis}
-	Using the regenerative method, we accumulate observations (e.g., waiting times) during each cycle. The point estimate for the expected value of a performance metric $r$ can be calculated as:
-	\[
-	\hat{r} = \frac{\sum_{j=1}^p A_j}{\sum_{j=1}^p \nu_j}
-	\]
-	where $A_j$ is the accumulated performance measure during the $j$-th cycle, and $\nu_j$ is the length of that cycle. Confidence intervals are constructed using auxiliary variables that account for correlations within the data.
-	
-	\paragraph{Application to the Problem}
-	The regenerative method simplifies simulation for the Machine Repairman system by:
-	\begin{itemize}
-		\item Breaking the simulation into cycles defined by identifiable regeneration points (e.g., arrival of a machine to the long repair station).
-		\item Ensuring independence between cycles, thus enabling accurate estimation of steady-state metrics like average waiting time.
-	\end{itemize}
-	
-	This approach ensures reliable results while adhering to the specified precision and confidence level.
-	\newpage
+
 	\section*{Simulation Results for 10 Customers}
 	The simulation gives the following results:
 	
