@@ -28,11 +28,12 @@
 	%%%%%%%%%%%%%%% NEW SECTION %%%%%%%%%%%%%%% 
 	\section{Exercise 1}
 	We start this discussion by taking a look at the main characteristics of the network of queues in question.\\
+	In this system we have $N=10$ machines departing from the ``delay station'' $Z$
 	In this case the distribution of all the three stations are \emph{negative exponential distributions}:
 	\begin{equation*}
 		F_X(x)=\pr(X\leq x)=1-e^{-\frac{1}{\eta} x}\qquad f_X(x)=\frac{\dif F_X}{\dx}=\lambda e^{-\frac{1}{\eta} x}.
 	\end{equation*}
-	The 
+	In this formulation the parameter is given directly as the expected value $\ev[X]=\eta$ of the distribution. We have our three expected values, reflecting the main 
 	This characteristic brings us to the particular case of the tandem server with ``M/M/2'' service and arrival times seen during lectures. 
 In this problem, due to the memoryless property of the negative exponential distribution for all time variables (e.g., failure times, short and long repair times), defining regeneration points is straightforward. For example, a regeneration point can be set as the time when a machine enters the long repair station and the system resets to its initial conditions. This choice is based on the following schema:
 		
