@@ -6,8 +6,7 @@
 #define N 10              // max number of machines
 #define HETA_ARRIVAL 3000 // Expected value for arrivals
 #define HETA_SHORT 40     // Expected value for short station
-#define HETA_LONG 960     // Expected value for long station
-#define MAX_EVENTS 100000000 // Do NOT EVEN TRY to pass the verbose command with such a big event number  
+#define MAX_EVENTS 1000000 // Do NOT EVEN TRY to pass the verbose command with such a big event number  
 #define BETA 0.2 // routing probability
 
 /*
@@ -41,7 +40,8 @@ double time_events_product_long = 0;
 
 double heta_arrival = HETA_ARRIVAL;
 double heta_short = HETA_SHORT;
-double heta_long = HETA_LONG;
+double alpha[] = {0.95,0.05};
+double mu[] = {10, 19010};
 double beta = BETA;
 
 /*
@@ -58,7 +58,9 @@ size_t event_capacity =
        // list is full we need ro realloc an expanded version of this array.
 
 // function declaration
+double uniform_random();
 double exponential_random(double lambda);
+double hyperexponential_random(double* alpha, double* mu);
 void add_event(Event new_event);
 void process_event(Event current_event, int pos);
 void cleanup_event_list();
@@ -100,7 +102,7 @@ int main(int argc, char *argv[]) {
   }
 
   // now we have all the first arrivals for each machine. What we need to do is
-  // scale all of these events to start from 0 because I am extremely autistic!
+  // scale all of these events to start from 0 
   double delta = event_list[0].timestamp;
   event_list[0].timestamp = 0;
   for (int i = 1; i < n; i++) {
@@ -116,7 +118,7 @@ int main(int argc, char *argv[]) {
     if (isinf(current_event.timestamp)) {
       printf("Timestamp reached infinity. Stopping the loop. Something is "
              "wrong.\n");
-      break; // Exit the loop immediately
+      break; // Exit the loop 
     }
   }
 
@@ -156,6 +158,8 @@ int main(int argc, char *argv[]) {
 We need to scale down these values so that we do not go in overflow. We are only
 interested in the relative order, anyway
 */
+
+/*
 double exponential_random(double heta) {
   double unif = (double)rand() / RAND_MAX;
   if ((1 - unif) < 1e-20) {
@@ -166,6 +170,34 @@ double exponential_random(double heta) {
   // double pick = 1- ((double)rand() / RAND_MAX);
   verbose ? printf("This time I extracted %f!\n", exp) : 0;
   return exp;
+}
+
+
+double uniform_random() {
+    return (double)rand() / RAND_MAX;  // Generates a uniform random number in [0,1]
+}
+*/
+
+double exponential_random(double lambda) {
+    double u = (double)rand() / RAND_MAX;
+    if ((1 - u) < 1e-20) {
+    u = 1e-20; // this will give us a limit in the case in which the argument
+                  // of the logarithm is too close to 0 (and thus exploding)
+  }
+    return -log(1 - u) * lambda;  // Inverse transform method
+}
+
+double hyperexponential_random(double* p, double* lambda) {
+    double u = (double)rand() / RAND_MAX;
+    double cumulative_probability = 0.0;
+
+    // Choose the component
+    for (int i = 0; i < 2; i++) {
+        cumulative_probability += p[i];
+        if (u < cumulative_probability) {
+            return exponential_random(lambda[i]);  // Sample from chosen exponential
+        }
+    }
 }
 
 void add_event(Event new_event) {
@@ -316,7 +348,7 @@ void process_event(Event current_event, int pos) {
       if (last_departure_timestamp == -1.0) {
         current_departure_long.timestamp =
             current_event.timestamp +
-            exponential_random(heta_long); // empty queue
+            hyperexponential_random(alpha,mu); // empty queue
         verbose
             ? printf(
                   "But at least there was no one in queue for the long station")
@@ -324,7 +356,7 @@ void process_event(Event current_event, int pos) {
       } else {
         current_departure_long.timestamp =
             last_departure_timestamp +
-            exponential_random(heta_long); // someone in the queue
+            hyperexponential_random(alpha,mu); // someone in the queue
       }
       // insert the event
       add_event(current_departure_long);
