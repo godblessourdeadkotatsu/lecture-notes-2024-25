@@ -649,7 +649,7 @@ double hyperexponential_random(int k, double* alpha, double* heta) {
 	// Generate a uniform random number
 	double Y = (double)rand() / RAND_MAX;
 	
-	// Select the component distribution
+	// Select the component distribution: find which  distribution corresponds has a cumulative probability that corresponds to the drawn uniform variable
 	int j = 0;
 	while (Y > cumulative_alpha[j]) {
 		j++;
@@ -662,7 +662,11 @@ double hyperexponential_random(int k, double* alpha, double* heta) {
 }
 
 \end{lstlisting}
-The main mechanism here lies in the fact that the \rv{} $Y\sim\mathsf{Unif}(0,1)$
+The main mechanism here lies in the fact that the \rv{} $Y\sim\mathsf{Unif}(0,1)$ finds which exponential distribution (in this case, out of 2) we must draw the random number from. In this case our parameters are:
+\begin{itemize}
+	\item $\mu_1=10\;mins$ with weight $\alpha_1=0.95$;
+	\item $\mu_2=19010\;mins$ with weight $\alpha_1=0.05$.
+\end{itemize}
 	The simulation gives the following results:
 	
 	\noindent\textbf{Station 0 Results:}
