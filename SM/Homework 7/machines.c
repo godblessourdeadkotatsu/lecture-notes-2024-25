@@ -1,3 +1,13 @@
+/* -------------------------------------------------------------------------
+Università di Torino
+M.S. in STOCHASTICS AND DATA SCIENCE
+Course in Simulation
+Homework 7
+
+By Andrea Crusi and Lorenzo Sala
+ * ------------------------------------------------------------------------- 
+ */
+
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -85,7 +95,7 @@ int main(int argc, char *argv[]) {
       break;       // No need to check further once we find the flag
     }
   }
-  // MORE INITIALIZATION
+  // more initializations
   srand(time(NULL));                       // Seed the random number generator
   event_list = malloc(10 * sizeof(Event)); // Initial allocation for 10 events
   event_capacity = 10;
@@ -104,7 +114,7 @@ int main(int argc, char *argv[]) {
   }
 
   // now we have all the first arrivals for each machine. What we need to do is
-  // scale all of these events to start from 0 because I am extremely autistic!
+  // scale all of these events to start from 0
   double delta = event_list[0].timestamp;
   event_list[0].timestamp = 0;
   for (int i = 1; i < n; i++) {
@@ -124,7 +134,7 @@ int main(int argc, char *argv[]) {
     }
   // Now calculate our point estimator
   mean_wait_long = accumulated_wait_long / L_event_count;
-  // Calculate the sample variance (with an alternative formula)
+  // Calculate the confidence intervals
   if(cycle_count>1){
     error = ComputeConfidenceIntervals(mean_wait_long, time_events_product_long, L_event_count, accumulated_wait_long_squared, cycle_count);
     error_percentage =  2*error/mean_wait_long;

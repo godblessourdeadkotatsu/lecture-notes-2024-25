@@ -1,3 +1,4 @@
+\usepackage[T1]{fontenc}
 \usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
 \usepackage[lining,semibold,scaled=1.05]{ebgaramond}     
 \usepackage{ebgaramond-maths}
@@ -17,8 +18,7 @@
 % all 4 margins to be either 1 inch or 1.5 cm
 \usepackage{comment}      
 % Commenting
-\usepackage{mathtools}
-\usepackage{minted2}        
+\usepackage{mathtools}       
 % Highlighted source code. Syntax highlighting
 \usepackage{listings}           
 % Typeset programs (programming code) within LaTeX
@@ -29,6 +29,7 @@
 \usepackage[small,bf]{caption}  
 % Captions
 \usepackage{multicol} 
+\usepackage{minted}
 % Creating graphic elements
 \usepackage{circuitikz}         
 % Creating circuits
@@ -65,6 +66,7 @@
 \usepackage{titlesec}
 \usepackage{forest}
 \usepackage{censor}
+\usepackage{courier}
 \usepackage{movement-arrows}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
@@ -86,8 +88,45 @@
 \pgfplotsset{compat=1.18}
 \usepgfplotslibrary{fillbetween}
 
-
 \newcounter{dummy}
+
+
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{dred}{rgb}{0.545,0,0}
+\definecolor{dblue}{rgb}{0,0,0.545}
+\definecolor{lgrey}{rgb}{0.9,0.9,0.9}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\lstset{ 
+	backgroundcolor=\color{black},  
+	basicstyle=\footnotesize \ttfamily \color{white} \bfseries,   
+	breakatwhitespace=false,       
+	breaklines=true,   
+	belowcaptionskip=1em,
+	belowskip=-2\baselineskip, 
+	numberstyle=\ttfamily,         
+	captionpos=b,       
+	numbers=left,framexleftmargin=5mm,            
+	commentstyle=\color{dkgreen},   
+	deletekeywords={...},          
+	escapeinside={\%*}{*)},                  
+	frame=single,                  
+	keywordstyle=\color{purple},  
+	morekeywords={BRIEFDescriptorConfig,string,TiXmlNode,DetectorDescriptorConfigContainer,istringstream,cerr,exit}, 
+	identifierstyle=\color{white},
+	stringstyle=\color{blue},      
+	language=C,                                 
+	numbersep=5pt,                  
+	rulecolor=\color{white},        
+	showspaces=false,               
+	showstringspaces=false,        
+	showtabs=false,                
+	stepnumber=1,                   
+	tabsize=5,                     
+	title=\lstname,                 
+}
 
 
 \theoremstyle{remark}
