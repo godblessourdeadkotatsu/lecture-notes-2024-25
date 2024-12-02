@@ -675,66 +675,6 @@ In this case, given our parameters, we will have
 \begin{equation*}
 	\ev[X]=0.95\cdot 10+0.05\cdot19010=960\text{ mins}.
 \end{equation*}
-The expected value of the distribution of the times of the long station is the same both in this case and in the previous exercise.
-	The simulation gives the following results:
-	
-	\noindent\textbf{Station 0 Results:}
-	\begin{table}[h!]
-		\centering
-		\begin{tabular}{@{}l l@{}}
-			\toprule
-			Throughput ($X[10]$)              & \textbf{0.002935} \\
-			Utilization ($U[10]$)             & \textbf{0.880562} \\
-			Mean queue length ($n[10]$)       & \textbf{8.805621} \\
-			Mean waiting time ($w[10]$)       & \textbf{3000.000000} \\
-			Mean response time ($R_0$)        & \textbf{406.914799} \\
-			\bottomrule
-		\end{tabular}
-	\end{table}
-	
-	\noindent\textbf{Station 1 Results:}
-	\begin{table}[h!]
-		\centering
-		\begin{tabular}{@{}l l@{}}
-			\toprule
-			Throughput ($X[10]$)              & \textbf{0.002935} \\
-			Utilization ($U[10]$)             & \textbf{0.117408} \\
-			Mean queue length ($n[10]$)       & \textbf{0.131229} \\
-			Mean waiting time ($w[10]$)       & \textbf{44.708658} \\
-			Mean response time ($R_0$)        & \textbf{84.708658} \\
-			\bottomrule
-		\end{tabular}
-	\end{table}
-	
-	\noindent\textbf{Station 2 Results:}
-	\begin{table}[h!]
-		\centering
-		\begin{tabular}{@{}l l@{}}
-			\toprule
-			Throughput ($X[10]$)              & \textbf{0.000587} \\
-			Utilization ($U[10]$)             & \textbf{0.563560} \\
-			Mean queue length ($n[10]$)       & \textbf{1.063150} \\
-			Mean waiting time ($w[10]$)       & \textbf{1811.030708} \\
-			Mean response time ($R_0$)        & \textbf{2771.030708} \\
-			\bottomrule
-		\end{tabular}
-	\end{table}
-	
-	
-	we can notice easily that the mean waiting time for the long repair station is $1811.030$ which is compatible with our benchmark. 
-	
-	The second exercise focuses on analyzing the Machine Repairman system under a modified scenario where the repair time for machines directed to the long repair lab is modeled using a hyper-exponential distribution. This distribution introduces two exponential phases, reflecting high variability in repair durations, and is defined by the following parameters:
-	
-	\begin{itemize}
-		\item \textbf{Phase 1:} Weight $\alpha_1 = 0.95$, Mean $\mu_1 = 10$ minutes.
-		\item \textbf{Phase 2:} Weight $\alpha_2 = 0.05$, Mean $\mu_2 = 19010$ minutes.
-	\end{itemize}
-	
-	This configuration captures the reality of repair processes, where most failures are resolved quickly, but a small fraction requires significantly longer times.
-	
-	The objective is to estimate the average waiting time at the long repair station using the regenerative simulation method. The analysis must achieve a confidence level of $95\%$ and ensure the width of the confidence interval is no greater than $10\%$ of the point estimate. Validation of the simulation model is incorporated by introducing a modification that enables the system to be solved analytically using the Mean Value Analysis algorithm. This allows for a comparison between simulated and analytical results, ensuring the reliability and accuracy of the findings.
-	
-	In order to solve this exercise we have, firstly, to give a look to the table shown above, here we are in the bottom-left part, since the first queue is negative-exponential, while the second is not. Hence, we can choose again the departure from the long-repair station as a regenerating point.
-	
-	
+The expected value of the distribution of the times of the long station is the same both in this case and in the previous exercise. \\
+Before trying to simulate the behavior of the system with this modification, we can use our Mean Value Analysis code from the 
 \end{document}
