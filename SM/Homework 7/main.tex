@@ -631,7 +631,8 @@ In this exercise we keep the main bulk of the simulator and we switch the distri
 \begin{equation*}
 	f_{X}(x) = \alpha_1\cdot\frac{1}{\mu_1}\cdot e^{-\frac{x}{\mu_1}}+\alpha_2\cdot\frac{1}{\mu_2}\cdot e^{-\frac{x}{\mu_2}}.
 \end{equation*}
-This is a \textit{mixture distribution} 
+This is a \textit{mixture distribution} made by different exponential components, each with its weights. 
+Sampling from this 
 What about the regeneration point? According to the table \ref{table1} we are now in the case with a first Markovian/Exponential queue and a second generic distribution queue. This means that \textit{any departure from the second server} is a valid regeneration point, so we can keep our occurrence of \verb*|'L'| events as our regeneration point.
 	The simulation gives the following results:
 	
