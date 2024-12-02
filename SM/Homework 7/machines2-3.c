@@ -188,7 +188,8 @@ double exponential_random(double heta) {
 double hyperexponential_random(int k, double* alpha, double* heta) {
   // Cumulative distribution for alpha
   double cumulative_alpha[k];
-  cumulative_alpha[0] = alpha[0];
+  cumulative_alpha[0] = alpha[0]; 
+  // Simply add all the alphas parameter (they sum to 1)
   for (int i = 1; i < k; i++) {
     cumulative_alpha[i] = cumulative_alpha[i - 1] + alpha[i];
   }
@@ -196,7 +197,7 @@ double hyperexponential_random(int k, double* alpha, double* heta) {
   // Generate a uniform random number
   double Y = (double)rand() / RAND_MAX;
 
-  // Select the component distribution
+  // Select the component distribution: find which  distribution corresponds has a cumulative probability that corresponds to the drawn uniform variable
   int j = 0;
   while (Y > cumulative_alpha[j]) {
     j++;
