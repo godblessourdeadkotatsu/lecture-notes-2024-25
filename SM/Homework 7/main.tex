@@ -830,4 +830,5 @@ Mean response time (R_0)                = 2771.030708
 \end{verbatim}
 As we can see, the mean waiting time of the station 2 (the long repair station) is really close to the numerical estimation given by the homework request. Again, there is no difference in the eyes of the MVA between this case with the hyper-exponential distribution and the previous case with the exponential distribution.
 \subsection{The simulation}
+The code of the simulation is untouched with respect to the old version. We only change how the waiting times for the long station are picked inside the \path{process_event} function, using our new \path{hyperexponential_random} function. Here is the part of the code that has been changed inside the \path{process_event} function.
 \end{document}
