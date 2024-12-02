@@ -831,4 +831,66 @@ Mean response time (R_0)                = 2771.030708
 As we can see, the mean waiting time of the station 2 (the long repair station) is really close to the numerical estimation given by the homework request. Again, there is no difference in the eyes of the MVA between this case with the hyper-exponential distribution and the previous case with the exponential distribution.
 \subsection{The simulation}
 The code of the simulation is untouched with respect to the old version. We only change how the waiting times for the long station are picked inside the \path{process_event} function, using our new \path{hyperexponential_random} function. Here is the part of the code that has been changed inside the \path{process_event} function.
+\begin{lstlisting}
+  } else if (current_event.type == 'S') {
+
+/*
+Things get trickier: we have two scenarios when processing an S-event.
+If we do not go to the L station then our machine comes back to the pool and
+we can schedule its next departure. Otherwise... we need to send it to long
+repair, where something similar will happen.
+*/
+
+double last_departure_timestamp = -1.0; // sentinel reset!
+// first, we decide whether this event is going to the long repair station
+// or not
+double coin_flip = (rand() / (double)RAND_MAX);
+if (coin_flip <= beta) {
+	verbose ? printf("Bad luck, machine %d! You get a long repair! ",
+	current_event.machine)
+	: 0;
+	// go to the long station and schedule the departure event
+	Event current_departure_long;
+	current_departure_long.type = 'L';
+	current_departure_long.machine = current_event.machine;
+	// do the same thing as before
+	for (size_t i = pos; i < event_count; i++) {
+		if (event_list[i].type == 'L') {
+			last_departure_timestamp = event_list[i].timestamp;
+		}
+	}
+	// we got our sentinel
+	if (last_departure_timestamp == -1.0) {
+		current_departure_long.timestamp =
+		current_event.timestamp +
+		hyperexponential_random(2,alpha,mu); // empty queue
+		verbose
+		? printf(
+		"But at least there was no one in queue for the long station")
+		: 0;
+	} else {
+		current_departure_long.timestamp =
+		last_departure_timestamp +
+		hyperexponential_random(2,alpha,mu); // someone in the queue
+	}
+	// insert the event
+	add_event(current_departure_long);
+	verbose
+	? printf("\nAdded departure event %c for machine %d at time %f\n",
+	current_departure_long.type, current_departure_long.machine,
+	current_departure_long.timestamp)
+	: 0;
+	
+	/*
+	now we have scheduled the departure from the long station;
+	we are now to calculate the waiting time for this machine
+	to exit the long station
+	*/
+	double waiting_time_long =  current_departure_long.timestamp - current_event.timestamp;
+	double waiting_time_long_squared = pow(waiting_time_long,2);
+	wait_currentcycle_long_station += waiting_time_long;
+	accumulated_wait_long_squared += waiting_time_long_squared;
+	time_events_product_long += waiting_time_long * 1;
+}
+\end{lstlisting}
 \end{document}
