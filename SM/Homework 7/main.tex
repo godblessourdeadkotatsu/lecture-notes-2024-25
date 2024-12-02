@@ -627,6 +627,7 @@ The error is the 9.992779% of the point estimate.
 \end{verbatim}
 The average waiting time still suffers from some variability, but the confidence interval most of the times includes the expected value of 1811.030708 minutes. If we let the simulation run for longer times (for example by letting the simulator iterate until the \path{MAX_EVENT} number of iterations is reached) the average waiting time gets closer and closer to the numerically derived value.
 \section{Exercise 2}
+\subsection{Overview}
 In this exercise we keep the main bulk of the simulator and we switch the distribution of the long service times with an hyper-exponential distribution:
 \begin{equation*}
 	f_{X}(x) = \alpha_1\cdot\frac{1}{\mu_1}\cdot e^{-\frac{x}{\mu_1}}+\alpha_2\cdot\frac{1}{\mu_2}\cdot e^{-\frac{x}{\mu_2}}.
@@ -676,5 +677,6 @@ In this case, given our parameters, we will have
 	\ev[X]=0.95\cdot 10+0.05\cdot19010=960\text{ mins}.
 \end{equation*}
 The expected value of the distribution of the times of the long station is the same both in this case and in the previous exercise. \\
-Before trying to simulate the behavior of the system with this modification, we can use our Mean Value Analysis code from the homework 4 to have a numerical idea of what we should expect. 
+\subsection{The Mean Value Analysis}
+Before trying to simulate the behavior of the system with this modification, we can use our Mean Value Analysis code from the homework 4 to have a numerical idea of what we should expect.
 \end{document}
