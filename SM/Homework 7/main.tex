@@ -251,7 +251,7 @@ double exponential_random(double heta) {
 \end{lstlisting}
 Here we needed to take a little safety measure since drawing uniform samples very close to 1 would sometimes cause the logarithm to explode to $\infty$. By enforcing a lower bound we may lose some accuracy in our model but at least we don't end up with infinity values.\par
 Now we are ready to tackle the main engine of the simulator, which is the \path{process_event} function. We thought about this function as cursor that traverses the event list item by item and schedules one or more event according to what type of event we are processing and which machine is involved. 
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\begin{tikzpicture}[scale=0.7, every node/.style={scale=0.7}]
 		\node[rectangle,rounded corners,draw](iniz){what type of event?};
@@ -678,5 +678,6 @@ In this case, given our parameters, we will have
 \end{equation*}
 The expected value of the distribution of the times of the long station is the same both in this case and in the previous exercise. \\
 \subsection{The Mean Value Analysis}
-Before trying to simulate the behavior of the system with this modification, we can use our Mean Value Analysis code from the homework 4 to have a numerical idea of what we should expect.
+Before trying to simulate the behavior of the system with this modification, we can use our Mean Value Analysis code from the homework 4 to have a numerical idea of what we should expect.\\
+The MVA is not techni
 \end{document}
