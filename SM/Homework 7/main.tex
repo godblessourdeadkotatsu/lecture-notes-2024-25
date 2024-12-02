@@ -625,7 +625,7 @@ Average waiting time for the long station: 1808.140007
 Confidence interval at 10%: (1717.798290,1898.481723).
 The error is the 9.992779% of the point estimate.
 \end{verbatim}
-The average waiting time still suffers from some variability, but the confidence interval most of the times includes the expected value of 1811.030708 minutes. If we let the simulation run for longer times (for example by letting the simulator iterate until the \path{MAX_EVENT} number of iterations is reached) the average waiting time gets closer and closer to the numerically derived value.
+The average waiting time still suffers from some variability (the sample mean of a random variable is still a random variable in itself!), but the confidence interval most of the times includes the expected value of 1811.030708 minutes. If we let the simulation run for longer times (for example by letting the simulator iterate until the \path{MAX_EVENT} number of iterations is reached) the average waiting time gets closer and closer to the numerically derived value.
 \section{Exercise 2}
 \subsection{Overview}
 In this exercise we keep the main bulk of the simulator and we switch the distribution of the long service times with an hyper-exponential distribution:
