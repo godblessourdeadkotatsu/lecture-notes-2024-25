@@ -1,0 +1,161 @@
+% !TeX spellcheck = en_US
+\documentclass[12pt]{article}
+\input{defs.tex}
+\setminted{style=monokai}
+\usepackage{pygmentex}
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\begin{document}
+	\textcolor{UM_Brown}{
+		\begin{center}
+			\textbf{\Large Simulations}\\
+			\vspace{5pt}
+			Homework 7 \\
+			\vspace{5pt}
+			\textbf{M.S. in Stochastics and Data Science}\\
+			\vspace{20pt}
+			\textit{Andrea Crusi, Lorenzo Sala} \\
+			\vspace{5pt}
+			\today
+		\end{center}
+		\vspace{10pt}
+		\hrule
+	}
+	
+	
+	
+	
+	%%%%%%%%%%%%%%% NEW SECTION %%%%%%%%%%%%%%% 
+	\section{Exercise 1}
+	\subsection{Overview}
+	We start this discussion by taking a look at the main characteristics of the network of queues in question.\\
+	In this system we have $N=10$ machines departing from the ``delay station'' $Z$ with a certain rate (which is modeled by a random variable $Z$); from here they reach a short repair station where they undergo a short reparation whose duration is another random variable $X$; finally, with a probability $\beta=0.2$ they reach a long repair station where the duration of the repair is yet another random variable $Y$. The machines that do not go the the long repair station or that have finished the long repair go back to the source.
+	In this case the distribution of all the three stations is \emph{negative exponential distributions}:
+	\begin{equation*}
+		F_X(x)=\pr(X\leq x)=1-e^{-\frac{1}{\eta} x}\qquad f_X(x)=\frac{\dif F_X}{\dx}=\lambda e^{-\frac{1}{\eta} x}.
+	\end{equation*}
+	In this formulation the parameter is given directly as the expected value $\ev[X]=\eta$ of the distribution. We have our three expected values, reflecting the average time of each of these three events:
+	\begin{enumerate}[\circnum]
+		\item time between breakages of a machine: $\eta_{\mathsf{arrival}}=3000\text{ mins}$;
+		\item service time of the short repair station: $\eta_{\mathsf{short}}=40\text{ mins}$;
+		\item service time of the long repair station: $\eta_{\mathsf{long}}=960\text{ mins}$.
+	\end{enumerate}
+	This characteristic brings us to the particular case of the tandem server with ``M/M/2'' service and arrival times seen during lectures. 
+In this scenario, due to the memoryless property of the negative exponential distribution for all time variables (e.g., failure times, short and long repair times), defining regeneration points is straightforward. For example, a regeneration point can be set as the time when a machine enters the long repair station and the system resets to its initial conditions. This choice is based on the following schema:
+		
+		\begin{table}[H]
+			\centering
+			\renewcommand{\arraystretch}{1.5}
+			\begin{tabular}{|m{4cm}|m{4cm}|m{4cm}|}
+				\hline
+				\multicolumn{1}{|c|}{\textbf{Service time distribution of the first queue}} &
+				\multicolumn{2}{c|}{\textbf{Service time distribution of the second queue}} \\ 
+				\cline{2-3}
+				& \textbf{GENERIC} & \textbf{MARKOV (Neg-Exp)} \\ 
+				\hline
+				\textbf{GENERIC} & Any departure that leaves behind exactly $N - 1$ customers from one of the two servers of the network & Any departure from the first server \\ 
+				\hline
+				\textbf{MARKOV (Neg-Exp)} & Any departure from the second server & Any departure in the system \\ 
+				\hline
+			\end{tabular}
+			\caption{Service time distribution schema for the first and second queue.}
+		\end{table}
+	in which we can easily notice we are in the bottom-right case, in which the service times of both the queue are negative-exponential.\\
+	Technically every departure could be a regeneration point but since our analysis focuses on the average waiting time of the long repair station we chose as regeneration points all the departures from the long station. 
+	This choice will also simplify our calculations: the value $\nu_{j}$, that counts the number of the occurrences of the event of interest in the current regeneration cycle, will always be 1. \\
+	For the distribution of the routings we assume a uniform distribution (so that 20\% of the departures from the short station will become an arrival to the long station).
+	\subsection{The simulation}
+	For the implementation of this simulation we chose the classic event list approach: the bulk of the simulator is an ever-growing list of events sorted by the timestamp of their occurrence. Each of these events is ``processed'' one by one, typically by adding another related event to the list and computing the necessary measurements. \\
+	\begin{figure}[h]
+		\centering
+			\begin{tikzpicture}[scale=0.7, every node/.style={scale=0.7},node distance=2cm]
+			\node (start) [startstop] {Start};
+			\node (conditions) [decision, align=center, below of=start,yshift=-1cm] {\small Termination \\ \small conditions met?};
+			\node (mainloop) [process,below of=conditions,yshift=-1cm,align=center] {Process next \\ event in the list};
+			\node (regen) [decision, align=center, below of=mainloop,yshift=-1cm] {\small Regeneration\\ \small point?};
+			\node (collect) [process, below of=regen, yshift=-1cm,align=center]{Collect statistics \\ and reset measures};
+			\node (terminate) [process, below of=collect,align=center]{Compute\\ general statistics};
+			\node (end) [startstop,below of=terminate] {End};
+			\draw [arrow] (start)--(conditions);
+			\draw [arrow] (conditions)--node[anchor=south]{yes}+(-4,0)|- (terminate);
+			\draw [arrow] (conditions)--node[anchor=west]{no}(mainloop);
+			\draw[arrow] (mainloop)--(regen);
+			\draw[arrow] (regen)--node[anchor=west]{yes}(collect);
+			\draw[arrow] (regen)--node[anchor=south]{no}+(3,0)|-(conditions);
+			\draw[arrow](collect)--+(4,0)|-(conditions);
+			\draw[arrow](terminate)--(end);
+		\end{tikzpicture}
+		\caption{Flowchart of the operations of our simulator.}
+	\end{figure}
+	First of all, we definite a structure to
+\begin{minted}[linenos]{c}
+#include <stdio.h>
+\end{minted}
+	\section*{Simulation Results for 10 Customers}
+	The simulation gives the following results:
+	
+	\noindent\textbf{Station 0 Results:}
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{@{}l l@{}}
+			\toprule
+			Throughput ($X[10]$)              & \textbf{0.002935} \\
+			Utilization ($U[10]$)             & \textbf{0.880562} \\
+			Mean queue length ($n[10]$)       & \textbf{8.805621} \\
+			Mean waiting time ($w[10]$)       & \textbf{3000.000000} \\
+			Mean response time ($R_0$)        & \textbf{406.914799} \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\noindent\textbf{Station 1 Results:}
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{@{}l l@{}}
+			\toprule
+			Throughput ($X[10]$)              & \textbf{0.002935} \\
+			Utilization ($U[10]$)             & \textbf{0.117408} \\
+			Mean queue length ($n[10]$)       & \textbf{0.131229} \\
+			Mean waiting time ($w[10]$)       & \textbf{44.708658} \\
+			Mean response time ($R_0$)        & \textbf{84.708658} \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\noindent\textbf{Station 2 Results:}
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{@{}l l@{}}
+			\toprule
+			Throughput ($X[10]$)              & \textbf{0.000587} \\
+			Utilization ($U[10]$)             & \textbf{0.563560} \\
+			Mean queue length ($n[10]$)       & \textbf{1.063150} \\
+			Mean waiting time ($w[10]$)       & \textbf{1811.030708} \\
+			Mean response time ($R_0$)        & \textbf{2771.030708} \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	
+	we can notice easily that the mean waiting time for the long repair station is $1811.030$ which is compatible with our benchmark. 
+	
+	\section{Exercise 2}
+	The second exercise focuses on analyzing the Machine Repairman system under a modified scenario where the repair time for machines directed to the long repair lab is modeled using a hyper-exponential distribution. This distribution introduces two exponential phases, reflecting high variability in repair durations, and is defined by the following parameters:
+	
+	\begin{itemize}
+		\item \textbf{Phase 1:} Weight $\alpha_1 = 0.95$, Mean $\mu_1 = 10$ minutes.
+		\item \textbf{Phase 2:} Weight $\alpha_2 = 0.05$, Mean $\mu_2 = 19010$ minutes.
+	\end{itemize}
+	
+	This configuration captures the reality of repair processes, where most failures are resolved quickly, but a small fraction requires significantly longer times.
+	
+	The objective is to estimate the average waiting time at the long repair station using the regenerative simulation method. The analysis must achieve a confidence level of $95\%$ and ensure the width of the confidence interval is no greater than $10\%$ of the point estimate. Validation of the simulation model is incorporated by introducing a modification that enables the system to be solved analytically using the Mean Value Analysis algorithm. This allows for a comparison between simulated and analytical results, ensuring the reliability and accuracy of the findings.
+	
+	In order to solve this exercise we have, firstly, to give a look to the table shown above, here we are in the bottom-left part, since the first queue is negative-exponential, while the second is not. Hence, we can choose again the departure from the long-repair station as a regenerating point.
+	
+	
+\end{document}
