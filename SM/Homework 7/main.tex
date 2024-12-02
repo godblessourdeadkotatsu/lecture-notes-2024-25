@@ -92,14 +92,14 @@ In this scenario, due to the memoryless property of the negative exponential dis
 		\caption{Flowchart of the operations of our simulator.}
 	\end{figure}
 	First of all, we definite a structure to handle each entry of our event list:
-	\begin{minted}{c}
-		typedef struct Event {
-			int machine; // this will identify what machine we are talking about.
-			char type;   // 'A' for Arrival, 'S' for Departure (Short Station), 'L' for
-			// Departure (Long Station)
-			double timestamp; // The time the event occurs
-		} Event;
-	\end{minted}
+\begin{minted}{c}
+	typedef struct Event {
+		int machine; // this will identify what machine we are talking about.
+		char type;   // 'A' for Arrival, 'S' for Departure (Short Station), 'L' for
+		// Departure (Long Station)
+		double timestamp; // The time the event occurs
+	} Event;
+\end{minted}
 	\section*{Simulation Results for 10 Customers}
 	The simulation gives the following results:
 	
