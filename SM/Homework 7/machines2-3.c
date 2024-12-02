@@ -54,12 +54,6 @@ double error_percentage = 0;
 
 double heta_arrival = HETA_ARRIVAL;
 double heta_short = HETA_SHORT;
-double heta_long = HETA_LONG;
-double beta = BETA;
-
-double heta_arrival = HETA_ARRIVAL;
-double heta_short = HETA_SHORT;
-double heta_long = HETA_LONG;
 double beta = BETA;
 double alpha[] = {0.95,0.05};
 double mu[] = {10,19010};
@@ -79,6 +73,7 @@ size_t event_capacity =
 
 // function declaration
 double exponential_random(double lambda);
+double hyperexponential_random(int k, double* alpha, double* heta);
 void add_event(Event new_event);
 void process_event(Event current_event, int pos);
 void cleanup_event_list();
@@ -188,6 +183,29 @@ double exponential_random(double heta) {
   // double pick = 1- ((double)rand() / RAND_MAX);
   verbose ? printf("This time I extracted %f!\n", exp) : 0;
   return exp;
+}
+
+double hyperexponential_random(int k, double* alpha, double* heta) {
+  // Cumulative distribution for alpha
+  double cumulative_alpha[k];
+  cumulative_alpha[0] = alpha[0];
+  for (int i = 1; i < k; i++) {
+    cumulative_alpha[i] = cumulative_alpha[i - 1] + alpha[i];
+  }
+
+  // Generate a uniform random number
+  double Y = (double)rand() / RAND_MAX;
+
+  // Select the component distribution
+  int j = 0;
+  while (Y > cumulative_alpha[j]) {
+    j++;
+  }
+
+  // Generate a random variable from the chosen exponential distribution
+  double X = exponential_random(heta[j]);
+
+  return X;
 }
 
 void add_event(Event new_event) {
@@ -338,7 +356,7 @@ void process_event(Event current_event, int pos) {
       if (last_departure_timestamp == -1.0) {
         current_departure_long.timestamp =
             current_event.timestamp +
-            exponential_random(heta_long); // empty queue
+            hyperexponential_random(2,alpha,mu); // empty queue
         verbose
             ? printf(
                   "But at least there was no one in queue for the long station")
@@ -346,7 +364,7 @@ void process_event(Event current_event, int pos) {
       } else {
         current_departure_long.timestamp =
             last_departure_timestamp +
-            exponential_random(heta_long); // someone in the queue
+            hyperexponential_random(2,alpha,mu); // someone in the queue
       }
       // insert the event
       add_event(current_departure_long);
