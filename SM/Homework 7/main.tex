@@ -641,6 +641,7 @@ double hyperexponential_random(int k, double* alpha, double* heta) {
 	// Cumulative distribution for alpha
 	double cumulative_alpha[k];
 	cumulative_alpha[0] = alpha[0];
+	// Simply add all the alphas parameter (they sum to 1)
 	for (int i = 1; i < k; i++) {
 		cumulative_alpha[i] = cumulative_alpha[i - 1] + alpha[i];
 	}
@@ -661,6 +662,7 @@ double hyperexponential_random(int k, double* alpha, double* heta) {
 }
 
 \end{lstlisting}
+The main mechanism here lies in the fact that the \rv{} $Y\sim\mathsf{Unif}(0,1)$
 	The simulation gives the following results:
 	
 	\noindent\textbf{Station 0 Results:}
