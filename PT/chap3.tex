@@ -992,6 +992,100 @@ I will now stop\footnote{This is a lie.} with the stupid \LaTeX{}  symbols.
 	\end{equation*}
 	This implies that we cannot have $X_n\convas 0$.
 \end{enumerate}
+\begin{exercise}
+	Let ${(X_{n})}_{n}$ be a sequence of i.i.d. \rv s with $X_{n}\sim\mathsf{U}(0,1)$.  Let $Y_{n}=\min\{X_1,X_2,\ldots,X_n\}$. Determine whether $Y_n$ converges a.s. and in $\lp$ for some $p\geq1$.
+\end{exercise}
+We must figure out the distribution of $Y_n$. for $x\in(0,1)$ we have:
+\begin{align*}
+	\pr(Y_n>x)&=\pr(X_1>x,X_2>x,\ldots,X_n>x)\\
+	&=\pr(X_1>x)\cdot\pr(X_2>x),\cdot\ldots\cdot\pr(X_n>x)\\
+	&=(1-x)^{n}.
+\end{align*}
+Therefore,
+\begin{equation*}
+	\pr(Y_n\leq x)=1-(1-x)^{n}=\int_{0}^{x}f_{Y_{n}}(x)\dy
+\end{equation*}
+so taking the derivative we have:
+\begin{equation*}
+	f_{Y_{n}}(y)=\begin{cases}
+		n(1-y)^{n-1}&\text{for }y\in(0,1)\\
+		0&\text{else.}
+	\end{cases}
+\end{equation*}
+Let's check if $\ev|Y_n|^{p}$ converges for some $p$. We start with $p=1$.
+\begin{revise}
+	Remember integration by parts? Lmao.
+	$$\int fg'=fg-\int f'g$$
+\end{revise}
+\begin{align*}
+	\ev|Y_{n}|&=\ev Y_{n}\\
+	&=\int_0^1\ubracketthin{y}_{\mathclap{f}}\ubracketthin{n(1-y)^{n-1}}_{g'}\dy\\
+	&=y\left(-(1-y)^{n}\right)\Big|^1_0-\int_0^1-(1-y)^{n}\dy\\
+	&=0+-\frac{(1-y)^{n+1}}{n+1}\Big|^1_0\\
+	&=0+\frac{1}{1+n}
+\end{align*}
+Hence $\ev|Y_n|\xrightarrow[n\to\infty]{}0$, so the candidate $Y$ such that $\ev|Y_n-Y|\to0$ is 0. This implies $\ev|Y_n-0|=\ev|Y_n|\to0$ so that we have $Y_n\xrightarrow{\lone}0$. What about convergence in $\lp$ though? First check a.s. convergence. \\
+By definition of $Y_n$ we have $Y_{n+1}(\omega)\leq Y_n(\omega)$ for almost all $\omega$; this means that $Y_n$ is monotone $\pr$-almost surely. This implies that $Y_n$ has a limit $\pr$-almost surely, say $Y$ (moreover, $Y_n(\omega)\geq0$ hence $Y(\omega)\geq0$ $\pr$-a.s.). \\
+By uniqueness of the limit\footnote{$Y_n\xrightarrow{\lone}0\implies Y_n\convpr0$; $Y_b\convas Y\implies Y=0\;\pr-\as$} we have that $Y=0$. Hence we conclude $Y_n\convas 0$.\\
+To check for convergence in $\lp$, if we can apply the dominated convergence theorem then we have: 
+\begin{equation*}
+	\lim_{n\to\infty}\ev|Y_n-Y|^{p}=\ev\left[\lim_{n\to\infty}|Y_n|^{p}\right]=0.
+\end{equation*}
+Here dominated convergence works because $0\leq X_{k}\leq 1$ hence $|Y_n|\leq1$ and $|Y_n|^{p}\leq1$ where 1 is integrable. Moreover, the a.s. limit $Y=0$ is also integrable.
+\begin{exercise}
+Let $(\Omega,\F,\pr)=\left([0,1],\B([0,1]),\leb_{(0,1)}\right)$. Let $$X_n(\omega)=n\indi_{\left[0,\frac{1}{n}\right]}(\omega).$$
+Determine whether $X_n$ converges a.s. or in $L^{p}$ for some $p\geq1$.
+\end{exercise}
+Let's calculate $\ev|X_n|^{p}$ for some $p\geq 1$.
+\begin{equation*}
+	\ev|X_n|^{p}=n^{p}\cdot\pr\left(\left[0,\frac{1}{n}\right]\right)+0^{p}\cdot\pr\left(\left[\frac{1}{n},1\right]\right)=n^{p}\cdot\frac{1}{n}=n^{p-1}
+\end{equation*}
+which diverges for $n\to\infty$ if $p>1$. Thus there can be no $\lp-convergence$ for $p>1$.\\
+Let's check a.s. convergence. For any $\omega>0\;\exists N=N(\omega)\text{ s.t. }\every n>N$ then $X_n(\omega)=0$ (since the interval $\left[0,\frac{1}{n}\right]$ shrinks). Hence $X_n(\omega)\to0\;\every\omega\;\pr-\as$ given that $\pr([0,1])=1$. \\
+\faExclamationTriangle\, It does not converge for $\omega=0$ but $\{\omega=0\}$ has Lebesgue measure zero.\\
+Back to $\lp$-convergence with $p=1$: if $p=1$ then $\ev|X_n|=1$ but by uniqueness of the limit we should have $X=0$ and $\ev|X|=0\neq 1$ so we do not have convergence in $\lone$.
+\begin{exercise}
+	Let ${(X_{n})}_{n}$ be a sequence of independent \rv s such that
+	\begin{equation*}
+		X_n=\begin{cases}
+			0&\text{with probability }1-\frac{1}{n^2}\\
+			n^{2}&\text{with probability }\frac{1}{n^{2}}.
+		\end{cases}
+	\end{equation*}
+	Determine whether $X_n$ converges in $L^{p}$ or almost surely.
+\end{exercise}
+\begin{equation*}
+	\ev|X_n|=\ev|X_n|=n^{2}\cdot\frac{1}{n^{2}}+0=1.
+\end{equation*}
+Let us check whether $X_n\convlp1$.
+\begin{align*}
+	\ev|X_{n}-1|&=|n^{2}-1|\frac{1}{n^{2}}+|0-1|\left(1-\frac{1}{n^{2}}\right)\\
+	&=\left|\frac{n^{2}-1}{n^{2}}\right|+\left|\frac{n^{2}-1}{n^{2}}\right|\\
+	&=2\left|\frac{n^{2}-1}{n^{2}}\right|\to2\neq0
+\end{align*}
+so there is no $\lone$ convergence. Since $\lp\implies\lone\;p\geq1$ there is no $\lp$ convergence either. What about $\as$ convergence?\\
+We cannot argue directly as in Exercise 3, but do so through Borel-Cantelli: we know that $\every\varepsilon>0,\pr(|X_{n}|\geq\varepsilon)=\frac{1}{n^{2}}$, hence
+\begin{equation*}
+	\sum_{n=1}^{\infty}\pr\left(|X_{n}|\geq\varepsilon\right)=\sum_{n=1}^{\infty}\frac{1}{n^{2}}<\infty.
+\end{equation*}
+Thus by Borel-Cantelli 1 we have
+\begin{equation*}
+	\pr\left(\limsup_{n}\{|X_{n}|\geq\varepsilon\}\right)=0
+\end{equation*}
+and, taking the complement,
+\begin{equation*}
+	\pr\left(\liminf_{n}\{|X_{n}|<\varepsilon\}\right)=1.
+\end{equation*}
+Thus, $\every\varepsilon>0\;\exists\,N=N(\varepsilon)$ such that $|X_{n}(\omega)|<\varepsilon$ for $\pr$-almost all $\omega$ and this implies $X_n\convas 0$.
+\begin{exercise}
+	Let ${(X_{n})}_{n}$ be a sequence of independent \rv s with $X_n\sim\mathsf{Exp}(\frac{1}{n})$. Determine if $Y_{n}=\min\{X_{1},\ldots,X_{n}\}$ converges in probability.
+\end{exercise}
+\begin{revise}
+	The exponential distribution has the following cumulative distribution function:
+	\begin{equation*}
+		\pr(X_{n}\geq x)=\int_0^x\frac{1}{k}e^{-\frac{\lambda}{k}}\dz=-e^{-\frac{\lambda}{k}}\Big|^{x}_{0}=1-e^{-\frac{x}{k}}
+	\end{equation*}
+\end{revise}
 \subsection{Exercise class 5}	
 \subsection{Exercise class 6}
 \subsection{Exercise class 7}
@@ -1020,7 +1114,7 @@ I will now stop\footnote{This is a lie.} with the stupid \LaTeX{}  symbols.
 			B\in\F\\
 			x\in E
 		\end{array}\]
-		from $(E,\E)$ into $(F,|F)$.
+		from $(E,\E)$ into $(F,\F)$.
 	\end{example}
 	Now the extensions of measures on product spaces;
 	\begin{theorem}
