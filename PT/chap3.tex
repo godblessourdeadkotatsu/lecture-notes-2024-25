@@ -1085,13 +1085,270 @@ Thus, $\every\varepsilon>0\;\exists\,N=N(\varepsilon)$ such that $|X_{n}(\omega)
 	\begin{equation*}
 		\pr(X_{n}\geq x)=\int_0^x\frac{1}{k}e^{-\frac{\lambda}{k}}\dz=-e^{-\frac{\lambda}{k}}\Big|^{x}_{0}=1-e^{-\frac{x}{k}}
 	\end{equation*}
-\end{revise}
+\end{revise} 
+Let's figure out the distribution of $Y_n$. We have 
+\begin{align*}
+	\pr(Y_{n}>y)&=\pr(X_1>y,X_2>y,\ldots,X_n>y)\\
+	&=\prod_{i=1}^{n}\pr(X_i>y)\\
+	&=\prod_{i=1}^{n}e^{-\frac{y}{i}}\\
+	&=e^{-y\cdot\sum_{i=1}^{n}\frac{1}{i}}
+\end{align*}
+hence
+\begin{equation*}
+	Y_{n}\sim\mathsf{Exp}\left(\sumin\frac{1}{i}\right).
+\end{equation*}
+At the limit we would have $f_{Y}(y)=\infty\cdot e^{-\infty\cdot y}$ but we guess that $e^{-\infty}$ is stronger than $\infty$ and the limit is zero.\\
+Thus we have, for $\every \varepsilon>0$,
+\begin{equation*}
+	\lim_{n\to\infty}\pr(|Y_{n}-0|>\varepsilon)=\lim_{n\to\infty}e^{\varepsilon\cdot\sumin\frac{1}{i}}=0
+\end{equation*}
+So by definition $Y_{n}\convpr0$.
+\begin{exercise}
+	Let ${(X_{n})}_{n}$ be a sequence of i.i.d. 
+\rv s with $X_n\distexp{\lambda}$. Let
+\begin{equation*}
+	Y_{n}=\begin{cases}
+		\frac{1}{n}&\text{if }X_n<\log n\\
+		1&\text{else}.
+	\end{cases}
+\end{equation*}
+Determine, for varying $\lambda$s, the convergence a.s., in probability or in $\lp$ for some $p\geq1$.
+\end{exercise}
+First, we calculate the distribution of $Y_n$:
+\begin{equation*}
+	\pr(Y_n\geq y)=\begin{cases}1&\text{if }Y\geq1\\\pr(X_n<\log n)&\text{if }\frac{1}{n}\leq y<1\\0&\text{if }y<\frac{1}{n}\end{cases}
+\end{equation*}
+where 
+\begin{equation*}
+	\pr(X_n<\log n)=1-e^{\lambda\cdot\log n}=1-e^{\log(n^{-\lambda})}=1-n^{-\lambda}.
+\end{equation*}
+From this, it looks like $pr(Y_{n}\leq y)\to1$ as $n\to\infty$. The complement of the cumulative distribution function, which we are interested in to compute the limit, is 
+\begin{align*}
+	\pr(Y_{n}>y)&=1-\pr(Y_{n}\leq y)\\
+	&=\begin{cases}0&\text{if }Y\geq1\\n^{-\lambda}&\text{if }\frac{1}{n}\leq y<1\\1&\text{if }y<\frac{1}{n}\end{cases}
+\end{align*}
+and it looks like Figure \ref{backwaaaaardseverythingsbackwaaaards}.
+\begin{itemize}
+	\item Convergence in $\pr$: we have that $\every\varepsilon>0$ (since $Y_n\geq0$),
+	\begin{equation*}
+		\lim_{n\to\infty}\pr(|Y_{n}-0|>\varepsilon)=\lim_{n\to\infty}\pr(Y_{n}>\varepsilon)=0
+	\end{equation*}
+	which implies
+	\begin{equation*}
+		Y_n\convpr0,\qquad\every\lambda>0.
+	\end{equation*}
+	\begin{figure}[h]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[
+				xmin=-0.5,
+				ymin=0,
+				xmax=6,
+				ymax=3.5,
+				unit vector ratio*={0 0 0},
+				axis x line=bottom,
+				axis y line=center,
+				xtick={0,2,5},
+				ytick={1.5,3},
+				xticklabels={0,$\frac{1}{n}$,1},
+				yticklabels={$n^{\lambda}$,1}]
+				\draw[thick,red] (-0.5,3)--(2,3);
+				\draw[thick,red] (2,1.5)--(5,1.5);
+				\draw[thick,red] (5,0)--(6,0);
+				\node[fill, red,inner sep=1pt,circle] at(2,1.5) {};
+				\node[fill, red,inner sep=1pt,circle] at(5,0) {};
+			\end{axis}
+		\end{tikzpicture}
+		\caption{It's really just like a cumulative distribution ``backwards''...}
+		\label{backwaaaaardseverythingsbackwaaaards}
+	\end{figure}
+	\item Almost sure convergence:
+We now tackle almost sure convergence and we try to apply Borel-Cantelli. Let $\varepsilon<1$ and consider
+\begin{equation*}
+	\sumiinf\pr(Y_{n}>\varepsilon)=\sum_{n=1}^{N^\star}1+\sum_{\mathclap{n=N^{\star}+1}}^{\infty}n^{-\lambda}\leq N^{\star}+\sumiinf n^{-\lambda}<\infty\qquad\text{if }\lambda>1
+\end{equation*}
+where $N^{\star}=\max\left\{n:\varepsilon<\frac{1}{n}\right\}$. Thus, by BC1 (given that $\lambda>1$),
+\begin{equation*}
+	\pr\left(\limsup_k\{|Y_{n}>\varepsilon\}\right)=0\iff\pr\left(\limsup_k\{|Y_{n}\leq\varepsilon\}\right)=1
+\end{equation*}
+i.e., $\every\varepsilon$ $\exists N=N(\varepsilon)$ such that $|Y_{n}(\omega)|\leq\varepsilon$ $\pr$-almost all $\omega$. This means that 
+\begin{equation*}
+	Y_{n}\convas0\qquad\qquad\text{if }\lambda>1.
+\end{equation*}
+On the other hand, if $\lambda\leq1$ we instead have
+\begin{equation*}
+	\sum_{n=1}^{\infty}\pr(Y_{n}>\varepsilon)=\sum_{n=1}^{N^\star}1+\sum_{\mathclap{n=N^{\star}+1}}^{\infty}n^{-\lambda}\leq N^{\star}+\sumiinf n^{-\lambda}=\infty\qquad\text{if }\lambda\leq1.
+\end{equation*}
+Thus, by BC2, we get (since $X_n\independent\implies Y_{n}\independent$)
+\begin{equation*}
+	\pr\left(\limsup_n\{Y_n>\varepsilon\}\right)=1
+\end{equation*}
+So the sequence $Y_n$ cannot converge almost surely to 0. By uniqueness f the limit, this implies that $Y_{n}\not\!\convas Y$ to any $Y$.
+\item Convergence in $\lp$: let's check the necessary condition
+\begin{equation*}
+	\ev|Y_n|^{p}\to\ev|Y|^{p}=0.
+\end{equation*}
+Again, by uniqueness of the limit, we must have $Y=0$ $\pr$-a.s. Considering that $X_n\distexp{\lambda}$, we have
+\begin{align*}
+	\ev|Y_{n}|^{p}&=\ev Y_{n}^{p}\\
+	&=\frac{1}{n^{p}}\pr(X_{n}<\log n)+1\cdot\pr(X_{n}\geq\log n)\\
+	&=\frac{1}{n^{p}}\left(1-e^{\lambda\log n}\right)+e^{-\lambda\log n}\\
+	&=\frac{1}{n^{p}}\left(1-n^{-\lambda}\right)+n^{-\lambda}\to0\qquad\text{ as }n\to\infty,\;\every\lambda,\;\every\lambda>0.
+\end{align*}
+Hence,
+\begin{equation*}
+	\ev|Y_{n}-0|^{p}=\ev|Y_{n}|^{p}\to0
+\end{equation*}
+that is 
+\begin{equation*}
+	Y_{n}\convlp0\qquad\every p\geq1,\;\every\lambda>0.
+\end{equation*}
+\end{itemize}
 \subsection{Exercise class 5}	
+\begin{revise}
+	\begin{enumerate}[\NibSolidRight]
+		\item \emph{Strong Law Of Large Numbers (SLLN)}: if $X_{n}$ are pairwise independent and identically distributed as $X$. If $\ev X$ exists ($\pm\infty$ is allowed) then
+		\begin{equation*}
+			\overline{X}_{n}\convas\mu.
+		\end{equation*}
+		\item \emph{Weak Law Of Large Numbers (WLLN)}: \begin{enumerate}
+			\item if $X_{n}$ are pairwise independent and identically distributed as $X$ with $\ev X=\mu<\infty$ and $\var X=\sigma^{2}<\infty$ then 
+			\begin{equation*}
+				\overline{X}_{n}\to\mu\qquad\text{ in $L^{2}$, in $\pr$ and a.s.}
+			\end{equation*}
+			\item If $X_{n}$ are uncorrelated and $\sum_n\var\left(\frac{X_{n}}{b_{n}}\right)<\infty$ for some $(b_{n})$ strictly positive and increasing to $\infty$ then
+			\begin{equation*}
+				\frac{\sumin X_{i}-\ev\left(\sumin X_{i}\right)}{b_{n}}\to0\qquad\text{ in $L^{2}$ and in $\pr$.}
+			\end{equation*}
+			If the \rv s are independent, the convergence holds almost surely.
+		\end{enumerate}
+		\item \emph{Central Limit Theorem (CLT)} (easy version, whatever this may mean): if $X_{n}$ are i.i.d. \rv s with $\ev X_{i}=\mu<\infty$, $\var X=\sigma^{2}<\infty$ then
+		\begin{equation*}
+			\frac{\overline{X}_{n}-\mu}{\sigma/\sqrt{n}}\convd\mathsf{N}(0,1).
+		\end{equation*}
+		\item \emph{Weak Convergence} (for probability measures): a sequence ${(\mu_{n})}_{n}$ of probability measures converges weakly to $\mu$ if for any $f$ bounded and continuous function we have
+		\begin{equation*}
+			\int f\dmu_{n}\to\int f\dmu.
+		\end{equation*}
+		In this case we write $\mu_{n}\convw\mu$.
+	\end{enumerate}
+	\begin{proposition}
+		\begin{equation*}
+			X_{n}\convd X\iff\mu_{n}\convw\mu
+		\end{equation*}
+		where $\mu_n$ is the law of $X_{n}$ and $\mu$ is the law of $X$.
+	\end{proposition}
+	\begin{proposition}
+		\begin{enumerate}
+			\item $X_{n}\convpr X\implies X_{n}\convd X$;
+			\item $X_{n}\convd X$ and $X(\omega)=x\;\as\implies X_{n}\convpr X$.
+		\end{enumerate}
+	\end{proposition}
+\end{revise}
+\begin{exercise}
+	Let ${(X_{n})}_{n}$ be a sequence of i.i.d. \rv s on $(\Omega,\F,\pr)$ with $\ev X_{n}=\mu>0$ and $\mu<\infty$. Let $Y\distbernoulli{p},\;p\in(0,1)$ be a \rv{} independent of ${\{X_{n}\}}_{n}$ and let $Z_{n}=Y\cdot X_{n}$ with $\overline{Z}_{n}=\frac{1}{n}\sumin Z_{i}$.
+	\begin{enumerate}
+		\item Determine the convergence of $Z_{n}$ in the a.s. sense.
+		\item Compute $\pr(A)$ where $A=\{\omega:\overline{Z}_{n}\to\mu\}$.
+	\end{enumerate}
+\end{exercise}
+\begin{enumerate}
+	\item Note that $\overline{Z}_{n}=\frac{1}{n}\sumin YX_{n}=Y\overline{X}_{n}$. Moreover $\ev Z_{n}=\ev Y\ev X_{n}=\mu\ev Y<\infty$, but $Z_{n}$ are not independent: hence we cannot apply SLLN... However, we can apply it to $\overline{X}_{n}$. Let's guess the limit, which is $Y\ev X$ (because $Y$ does not average). We have:
+	\begin{equation*}
+		|\overline{Z}_{n}-Y\ev X|=\left|Y\sumin X_{i}-Y\ev X\right|\leq|Y|\left|\sumin X_{i}\ev X\right|\leq|\overline{X}_{n}-\ev X|.
+	\end{equation*}
+	Hence $\every\varepsilon>0$ and for any $n\geq1$:
+	\begin{equation*}
+		\left\{\left|\overline{Z}_{n}-Y\ev X_{n}\right|\leq\varepsilon\right\}\supset	\left\{\left|\overline{X}_{n}-\ev X_{n}\right|\leq\varepsilon\right\}
+	\end{equation*}
+	which means
+	\begin{equation*}
+		\bigcap_{n=k}^{\infty}\left\{\left|\overline{Z}_{n}-Y\ev X\right|\leq\varepsilon\right\}\subset	\bigcap_{n=k}^{\infty}\left\{\left|\overline{X}_{n}-\ev X_{n}\right|\leq\varepsilon\right\},\qquad\every k
+	\end{equation*}
+	and also
+	\begin{equation*}
+		\begin{array}{c}
+			\bigcup_{k=1}^{\infty}\bigcap_{n=k}^{\infty}\left\{\left|\overline{Z}_{n}-Y\ev X\right|\leq\varepsilon\right\}\subset	\bigcup_{k=1}^{\infty}\bigcap_{n=k}^{\infty}\left\{\left|\overline{X}_{n}-\ev X_{n}\right|\leq\varepsilon\right\},\qquad\every k\\
+			\Big\Updownarrow \\
+			\liminf_n\left\{\left|\overline{Z}_{n}-Y\ev X\right|\leq\varepsilon\right\}\supset\liminf_n\left\{\left|\overline{X}_{n}-\ev X_{n}\right|\leq\varepsilon\right\}\\
+			\Big\Downarrow\\
+			\pr\left(\left\{\left|\overline{Z}_{n}-Y\ev X\right|\leq\varepsilon\right\}\right)\geq\ubracketthin{\pr\left(\left\{\left|\overline{X}_{n}-\ev X_{n}\right|\leq\varepsilon\right\}\right)}_{\to1\text{ by SLLN: }\overline{X}_{n}\to\ev X\;\as}\\
+			\Big\Downarrow\\
+			\pr\left(	\liminf_n\left\{\left|\overline{Z}_{n}-Y\ev X\right|\leq\varepsilon\right\}\right)=1
+		\end{array}
+	\end{equation*}
+	i.e. 
+	\begin{equation*}
+		\overline{Z}_{n}\convas Y\ev X.
+	\end{equation*}
+	\begin{remark}
+		There is a shorter solution: we know that $X_{n}\to X$ a.s. and $Y_{n}\to Y$ a.s. and this implies that
+		\begin{equation*}
+			X_{n}Y_{n}\convas XY
+		\end{equation*}
+		in the special case where $Y_{n}\equiv Y$.
+	\end{remark}
+	\item We know that 
+	\begin{align*}
+		\pr(A)&=\pr(Y\ev X=\mu)\\
+		&=\pr(Y\ev X=\ev X)\\
+		&=\pr(Y=1)=p\in(0,1)
+	\end{align*}
+	since $\ev X\neq0$.
+\end{enumerate}
+\begin{exercise}
+	\emph{Monte Carlo integration}. Let $f:[0,1]\to\R$ be a Borel-measurable function with $f\in \lone([0,1])$. Let ${(U_{i})}_{i}$ be a sequence of i.i.d. \rv s with $U_i\distunif{0,1}$. Let 
+	\begin{equation*}
+		I_{n}=\frac{1}{n}(f(U_{1})+\ldots+f(U_{n})).
+	\end{equation*}
+	Determine the convergence a.s. of $I_{n}$.
+\end{exercise}
+Since we know that $U_i\independent$ and that $f$ is Borel-measurable, then $f(U_{i})$ are random variables and independent ones. Note that, since $U_{i}$ are absolutely continuous random variables,
+\begin{align*}
+	\ev|f(U_{i})&|=\int_0^1|f(u)|\cdot f_{U_{i}}(u)\du\\
+	&=\int_0^1|f(u)|\cdot\ubracketthin{1}_{\mathclap{\text{p.d.f. of }\mathsf{U}}}\du<\infty
+\end{align*}
+since $f\in\lone$. Setting $Y_{i}=f(U_{i})$ we have $I_{n}=\overline{Y}_{n}$. By SLLN we have
+\begin{equation*}
+	\overline{Y}_{n}\to\ev Y=\int_0^1f(u)\du.
+\end{equation*}
+\begin{exercise}
+	Let $(X_{n})$ be a sequence of i.i.d. \rv s with $X_{n}\distunif{0,1}$. Let $Y_{n}=\min\{X_{1},\ldots,X_{n}\}$ and $Z_{n}=n\cdot Y_{n}$. Determine the convergence in distribution of $Z_{n}$.
+\end{exercise}
+Let $x\in(0,n)$. We have
+\begin{align*}
+	\pr(Z_{n}>x)&=\pr\left(nX_{1}>x,nX_{2}>x,\ldots,nX_{n}>x\right)\\
+	&=\pr\left(X_{1}>\frac{x}{n}\right)\cdot\ldots\cdot\pr\left(X_{n}>\frac{x}{n}\right)\\
+	&=\left(1-\frac{x}{n}\right)\cdot\ldots\cdot\left(1-\frac{x}{n}\right)\\
+	&=\left(1-\frac{x}{n}\right)^{n}.
+\end{align*}
+So \begin{equation*}
+	\pr(Z_{n}\leq x)=1-\left(1-\frac{x}{n}\right)^{n}
+\end{equation*}
+and for $x\geq n$ we have $\pr(Z_{n}\geq x)=1$, for $x\geq 0$ we have $\pr(Z_{n}\geq x)=0$.
+\begin{revise}
+	Remember that 
+	\begin{equation*}
+		e^{x}=\lim_{n\to\infty}\left(1+\frac{x}{n}\right)^{n}.
+	\end{equation*}
+\end{revise}
+Thus 
+\begin{equation*}
+	\lim_{n\to\infty}\pr(X_{n}\leq x)=\begin{cases}
+		1-e^{-x}&\text{for }0<x<\infty\\
+		0&\text{for }x\geq0.
+	\end{cases}
+\end{equation*}
+It follows that 
+\begin{equation*}
+	Z_{n}\convd Z
+\end{equation*}
+where $Z\distexp{1}$.
 \subsection{Exercise class 6}
 \subsection{Exercise class 7}
 \subsection{Exercise class 8}
 \section{Questions for the oral examination}
-	Here I will try and answer to the questions that were on the moodle site about the year 2022-2023. I hope that they will be valid for the years to come as well.
+	Here I will try and answer to the questions that were on the moodle page for the academic year 2022-2023. I hope that they will be valid for the years to come as well.
 	\subsection{Transition kernels: definition, example, and their usage in the extension of measures to
 		product spaces}
 	First of all, the definition:

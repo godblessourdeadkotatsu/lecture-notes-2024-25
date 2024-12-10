@@ -1,5 +1,7 @@
+%THIS IS ANALYSIS B
 \usepackage[T1]{fontenc}%
 %\usepackage{fontspec} %I want to be a XeLaTeX bitch but my heard is in pdftex...
+\usepackage{mathpazo}
 \usepackage{lmodern}
 %\usepackage{fontspec}
 %\setmainfont{Aptos}
@@ -160,14 +162,13 @@
 			enhanced, 
 			breakable,
 			sharp corners,
-			interior style={left color=Thistle1,right color=LightSteelBlue4!50},
-			title style={right color=LightSteelBlue4,left color=Thistle1},
-			frame style={right color=LightSteelBlue4,left color=Thistle1},
-			colframe=white, coltitle=LightSteelBlue4, colbacktitle=SkyBlue4,
+			interior style={left color=Thistle1!50!Coral4,right color=Coral4!50},
+			title style={left color=Thistle1!50!Coral4,right color=Coral4!50},
+			frame style={Coral4},
+			colframe=white, coltitle=Coral4!70!black, colbacktitle=SkyBlue4,
 			halign title=flush center, 
 			fonttitle=\bfseries,
 			colback=SkyBlue4,
-			drop fuzzy shadow=Cyan4!50!black,
 			titlerule=0mm,
 			separator sign={:},
 			description formatter=\newline,
@@ -413,7 +414,7 @@
 			title={Proof},
 			coltitle=white,
 			fonttitle=\bfseries,
-			colbacktitle=SkyBlue1!60
+			colbacktitle=Coral1!60
 		}
 	
 	\newtcolorbox{proofbox}{

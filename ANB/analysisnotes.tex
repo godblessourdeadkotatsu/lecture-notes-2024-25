@@ -253,4 +253,30 @@ and
 \begin{equation*}
 	\norm{\mathbf{x}}_{\max}=\max(\norm{x_1}_1,\norm{x_2}_2)
 \end{equation*}
+\begin{fancyproof}
+	Let ${(\xi_{n})}_{n}\subset X$ be a given sequence. This means, being in a product space, that there exist two sequences ${(x_{1})}_{n}\subset X_{1}$ and ${(y_{n})}_{n}\subset X_{2}$ such that $\xi_{n}=(x_{n},y_{n})$ for any $n$. Consider the following subsequences:
+	\begin{itemize}
+		\item since $(X_1,\dnorm_1)$ is compact, there exists a subsequence ${(x_{\varphi(n)})}_{n}\subset X_1$ with a limit $x\in X_{1}$;
+		\item take the analogous subsequence ${(y_{\varphi(n)})}_{n}\subset X_2$. Since $(X_2,\dnorm_2)$ is compact there is \textit{another} (sub-)subsequence ${(y_{\phi(\varphi(n))})}_{n}$ of ${(y_{\varphi(n)})}_{n}$ that converges to $y\in X_{2}$;
+		\item now take the subsequence  ${(x_{\phi(\varphi(n))})}_{n}$ of ${(x_{\varphi(n)})}_{n}$ which is still convergent in $X_{1}$ to $x$.
+	\end{itemize}
+	We can easily see that the subsequence
+	\begin{equation*}
+		{(\xi_{\phi(\varphi(n))})}_{n}={\left((x_{\phi(\varphi(n))}),(y_{\phi(\varphi(n))})\right)}_{n}
+	\end{equation*}
+	is converging in $X$ to $\mathbf{x}=(x,y)$. So every subsequence $\xi_{n}$ contains a subsequence that converges to a point in $X$ and this means that $X$ is compact.
+\end{fancyproof}
+Of course, the above result readily extends to any finite product of compact normed spaces. On $\R$ it is easy to describe a large class of compact sets:
+\begin{lemma}
+	Let $\R$ be endowed with the absolute value, $|\cdot|$. Any interval $[a,b]\subset\R$ is compact.
+\end{lemma}
+\begin{proposition}
+	Let $(X,\dnorm)$ be a normed space and let $K$ be a compact subset of $X$. If $A\subset K$ is a closed subset then $A$ is compact.
+\end{proposition}
+\begin{corollary}
+	\emph{Heine-Borel theorem}. A subset $K$ of $\R^{N}$ (where $\R^{N}$ is endowed with, say, the usual Euclidean norm) is compact if and only if it is closed and bounded.
+\end{corollary}
+\begin{fancyproof}
+	The fact that
+\end{fancyproof}
 \end{document}

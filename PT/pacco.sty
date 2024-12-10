@@ -1,8 +1,11 @@
 %THIS IS PROBTHOERY%
+
 \usepackage[lining,semibold,scaled=1.05]{ebgaramond}% Latex BOLD renders with ebgaramond semibold
+
 \usepackage[T1]{fontenc} % best for Western European languages
 
 \usepackage{amsmath,amsthm}% must be loaded before newtxmath
+\usepackage[cmintegrals,cmbraces,ncf,curlybraces]{newtxmath}
 %\usepackage{fontspec} %I want to be a XeLaTeX bitch but my heard is in pdftex...
 %\usepackage{lmodern}
 
@@ -15,7 +18,6 @@
 \usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 
 % Useful packages
-\usepackage[cmintegrals,cmbraces,ncf]{newtxmath}
 %\usepackage{ebgaramond-maths}
 
 \usepackage{bbding}
@@ -542,6 +544,22 @@
 									\newcommand{\norm}[1]{\left|\negthinspace\left|#1\right|\negthinspace\right|}
 		\newcommand{\pr}{\mathbb{P}}
 		\newcommand{\indi}{\mathbb{1}}
+		\newcommand{\sumiinf}{\sum_{i=1}^{\infty}}
+		\newcommand{\sumkinf}{\sum_{k=1}^{\infty}}
+		\newcommand{\sumjinf}{\sum_{j=1}^{\infty}}
+		\newcommand{\sumin}{\sum_{i=1}^{n}}
+		\newcommand{\sumkn}{\sum_{k=1}^{n}}
+		\newcommand{\sumjn}{\sum_{j=1}^{n}}
+		\newcommand{\sumionf}{\sum_{i=0}^{\infty}}
+		\newcommand{\sumkonf}{\sum_{k=0}^{\infty}}
+		\newcommand{\sumjonf}{\sum_{j=0}^{\infty}}
+		\newcommand{\sumion}{\sum_{i=0}^{n}}
+		\newcommand{\sumkon}{\sum_{k=0}^{n}}
+		\newcommand{\sumjon}{\sum_{j=0}^{n}}
+		\newcommand{\distexp}[1]{\sim\mathsf{Exp}\left(#1\right)}
+		\newcommand{\distnorm}[1]{\sim\mathsf{N}\left(#1\right)}
+		\newcommand{\distbernoulli}[1]{\sim\mathsf{Be}\left(#1\right)}
+		\newcommand{\distunif}[1]{\sim\mathsf{U}\left(#1\right)}
 		\newcommand{\trns}[1]{{#1}^{\scriptscriptstyle\mathsf{T}}}
 		\newcommand{\iid}{\stackrel{\mathrm{iid}}{\sim}}
 		\newcommand{\unmezz}{\frac{1}{2}}
