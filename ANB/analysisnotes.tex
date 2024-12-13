@@ -274,9 +274,42 @@ Of course, the above result readily extends to any finite product of compact nor
 	Let $(X,\dnorm)$ be a normed space and let $K$ be a compact subset of $X$. If $A\subset K$ is a closed subset then $A$ is compact.
 \end{proposition}
 \begin{corollary}
-	\emph{Heine-Borel theorem}. A subset $K$ of $\R^{N}$ (where $\R^{N}$ is endowed with, say, the usual Euclidean norm) is compact if and only if it is closed and bounded.
+	\emph{Heine-Borel theorem}. A subset $K$ of $\R^{N}$ (where $\R^{N}$ is endowed with, say, the usual Euclidean norm) is compact \ifonly{} it is closed and bounded.
 \end{corollary}
 \begin{fancyproof}
-	The fact that
+	\begin{enumerate}
+		\item[$\impliedby$] We know that a compact subset of $\R^{N}$ is closed and bounded.
+		\item[$\implies$] Let $K\subset\R^{N}$ be closed and bounded. Being bounded, there exists $R>0$ such that
+		\begin{equation*}
+			K\subset[-R,R]^{N}.
+		\end{equation*}
+		Since $K$ is closed, from the previous proposition it is sufficient to prove that $[-R,R]^{N}$ is a compact subset of $\R^{N}$ which is the same as checking that $[-R,R]$ is a compact subset of $\R$, since every closed subset of a compact subset is compact.
+	\end{enumerate}
+\end{fancyproof}
+This corollary can be reformulated as:
+\begin{center}
+	Every bounded sequence of $\R^{N}$ has a convergent subsequence.
+\end{center}
+\subsection{Compactness and continuous functions}
+\begin{proposition}
+	Let $(X,\dnorm_X)$ and $(Y,\dnorm_Y)$ be two normed spaces and let $f:X\to Y$ be continuous. If $K\subset X$ is a compact subset of $X$ then $f(K)$ is a compact subset of $Y$.
+\end{proposition}
+\begin{fancyproof}
+	Let ${(y_{n})}_{n}$ be a sequence of $f(K)$. It means that there is a sequence ${(x_{n})}_{n}\subset K$ such that $y_{n}=f(x_n)$ for any $n$. Since $K$ is compact, then there exists a subsequence ${\left(x_{\varphi(n)}\right)}_{n}$ of ${(x_{n})}_{n}$ which converges to $x\in K$. This means that $\lim_n\norm{x_{\varphi(n)}-x}_{X}=0$, but since $f$ is continuous then we know that 
+	\begin{equation*}
+		\lim_n\norm{f\left(x_{\varphi(n)}\right)-f(x)}_{Y}=0\iff	\lim_n\norm{y_{\varphi(n)}-f(x)}_{Y}=0.
+	\end{equation*}
+	Since $y=f(x)\in f(K)$, we get that any sequence of $f(K)$ has a subsequence which converges to a limit in $f(K)$, which means that $f(K)$ is compact.
+\end{fancyproof}
+This has the following consequence:
+\begin{theorem}
+	Let $\left(X,\dnorm\right)$ be a normed space and let $K\subset X$ be compact. Let $f:K\to\R$ be continuous. Then, $f$ assumes its maximum and minimum on $K$.
+\end{theorem}
+\begin{fancyproof}
+	We know that $f(K)$ is a compact subset of $\R$ and thanks to the Heine-Borel theorem we know that any compact subset of $\R$ is closed and bounded (and viceversa...). So $f$ is bounded and the fact that it reaches its maximum and minimum inside $K$ is a simple consequence of the fact that $f(K)$ is closed. Let
+	\begin{equation*}
+		M=\sup\left\{f(x),x\in K\right\}.
+	\end{equation*}
+	By definition there is a sequence ${(x_{n})}_{n}\subset K$ such that $\lim_{n}f(x_{n})=M$. This sequence ${(f(x_{n}))}_{n}$
 \end{fancyproof}
 \end{document}
