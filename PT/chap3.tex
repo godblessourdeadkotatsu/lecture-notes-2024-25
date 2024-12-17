@@ -1344,11 +1344,343 @@ It follows that
 	Z_{n}\convd Z
 \end{equation*}
 where $Z\distexp{1}$.
+\begin{exercise}
+	Let $(X_{n})$ be a sequence of independent\footnote{We won't need this.} \rv s such that $X_{n}\distunif{0,2^{n}}$. Let $Y_{n}=(X_{n})^{\frac{1}{n}}$. Determine the convergence of $Y_{n}$ in distribution, in probability and a.s.
+\end{exercise}
+\begin{enumerate}[\faHeadphones]
+	\item \emph{A.s. convergence}: if this holds, we also have convergence in probability and in distribution. The distribution of $Y_{n}$ is
+	\begin{align*}
+		\pr(Y_{n}\leq y)=\pr\left(X^{\frac{1}{n}}_n\leq y\right)&=\begin{cases}
+			0&\text{if }y<0\\
+			\pr(X_{n}\leq y^{n})&\text{if }y\geq0.
+		\end{cases}\\
+		&=\begin{cases}
+				0&\text{if }y<0\\
+					y^{n}\cdot 2^{-n}&\text{if }0\leq y^{n}\leq 2^{n}\iff0\leq y\leq 2\\
+						1&\text{if }y^{n}>2^{n}\iff y>2.\\
+		\end{cases}
+	\end{align*}
+		\begin{figure}[h]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[
+				xmin=0,
+				ymin=0,
+				xmax=3.5,
+				ymax=1.2,
+				unit vector ratio*={0 0 0},
+				axis x line=bottom,
+				axis y line=center,
+				xtick={0,2},
+				ytick={1},
+				xticklabels={0,$2^{n}$},
+				yticklabels={$\frac{1}{2^{n}}$}]
+				\draw[ultra thick,Aquamarine4] (0,1)--(2,1);
+				\draw[ultra thick,Aquamarine4] (2,0)--(3,0);
+				\node[fill, Aquamarine4,inner sep=1pt,circle] at(2,0) {};
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Remember how a $\mathsf{U(0,2^{n})}$ uniform distribution is made?}
+		\label{unifmaxmsp}
+	\end{figure}
+	\begin{revise}
+		Do you really need to remember that for uniform distributions the probability density function is 
+		\begin{equation*}
+			f(x)=\frac{1}{a-b}?
+		\end{equation*}
+	\end{revise}
+	Since $y^{n}2^{-n}\to0$ when $y<2$ and $y^{n}2^{-n}\to 1$ when $y=2$ we have:
+	\begin{equation*}
+		\lim_{n\to\infty}\pr(Y_{n}\leq y)=\begin{cases}
+			0&\text{if }y<2\\
+			1&\text{if }y\geq2.\\
+		\end{cases}
+	\end{equation*}
+	This means that we have convergence in distribution to the degenerate \rv{} $Y=2$. Let's check a.s. convergence with BC: for $\varepsilon>0$ and $\varepsilon<2$ (because for $\varepsilon\geq 2$ the probability is simply 0) we have
+	\begin{align*}
+		\pr(|Y_{n}-2|>\varepsilon)=\ubracketthin{\pr(-Y_{n}+2>\varepsilon)}_{\mathclap{Y_{n}\in[0,2]\text{ since }Y_{n}=X_{n}^{\frac{1}{n}}\text{ and }Y_{n}\in[0,2^{n}]}}&=\pr(Y_{n}<2-\varepsilon)\\
+		&=\left(\frac{2-\varepsilon}{2}\right)^{n}
+	\end{align*}
+	hence, since we know that $0>\varepsilon<2$ and therefore $\frac{2-\varepsilon}{2}<1$
+	\begin{equation*}
+		\sumiinf\pr(|Y_{n}-2|>\varepsilon)=\sumiinf\left(\frac{2-\varepsilon}{2}\right)^{n}<+\infty.
+	\end{equation*}
+	Thus, by BC-1 we have
+	\begin{equation*}
+		\pr(\limsup_n\{|Y_{n}-2|>\varepsilon\})=0\iff\pr(\liminf_n\{|Y_{n}-2|\geq\varepsilon\})=1
+	\end{equation*}
+	which implies a.s. convergence of $Y_{n}$ to 2, since $\varepsilon>0$ was arbitrary.
+\end{enumerate}
+\begin{exercise}
+	Let ${(X_{n})}_{n}$ be a sequence of \rv s independent and such that
+	\begin{equation*}
+		\pr(X_{1}=x)=\begin{cases}
+			\frac{1}{2}&\text{if }x\in\{-1,1\}\\
+			0&\text{else}
+		\end{cases}
+	\end{equation*}
+	and
+	\begin{equation*}
+			\pr(X_{n}=x)=\begin{cases}
+			\frac{1}{2n^{2}}&\text{if }x\in\{-n,n\}\\
+			\unmezz\left(1-\frac{1}{n^{2}}\right)&\text{if }x\in\{-1,1\}\\
+			0&\text{else}.
+		\end{cases}
+	\end{equation*}
+	Let \begin{equation*}
+		Y_{n}=n^{-\unmezz}\sumin X_i.
+	\end{equation*}
+	Determine the convergence in distribution of ${(Y_{n})}_{n}$.
+\end{exercise}
+Let's chech whether we can apply CLT (ez version). We know that the $X_{n}$ are independent with $\ev X_{n}=0$ and
+\begin{equation*}
+	\var X_{n}=\ev X^{2}_{n}=2\cdot n^{2}\cdot\frac{1}{2n^{2}}+2\cdot1\cdot\unmezz\left(1-\frac{1}{n^{2}}\right)=1+\left(1-\frac{1}{n^{2}}\right)
+\end{equation*}
+so $\var X_{n}$ depends on $n$ and we can't apply CLT! Let's proceed differently. Consider
+\begin{equation*}
+	\phi(x)=\begin{cases}
+		1&\ift x\geq0\\
+		-1&\ift x<0
+	\end{cases}
+\end{equation*}
+and notice that
+\begin{equation}
+	Y_{n}=\frac{1}{\sqrt{n}}\cdot\sumin\phi(X_i)+\frac{1}{\sqrt{n}}\sumin(X_i-\phi(X_i)).\tag{\faWalking}\label{class5}
+\end{equation}
+We study the convergence of the two parts separately. Note that
+\begin{align*}
+	\pr(X_i\neq\phi(X_i))&=\pr(X_{i}\neq\pm1)\\
+	&=\pr(X_i=i\cup X_i=-i)\qquad\text{for }i>1\\
+	&=\pr(X_{i}=i)+\pr(X_{i}=-i)\\&=\frac{1}{2i^{2}}+\frac{1}{2i^{2}}=\frac{1}{i^{2}}.
+\end{align*}
+Hence we have that 
+\begin{equation*}
+	\sumiinf\pr(X_{i}\neq\phi(X_{i}))=\sumiinf\frac{1}{i^{2}}<\infty
+\end{equation*}
+and by BC-1 we can take the complement $\pr(\liminf_{i}\{X_i=\phi(X_i)\})=1$ and thus $\pr$-a.a.$\omega$, $\exists N(\omega)$ such that $\every i\geq N(\omega)$, $X_{i}(\Omega)=\phi(X_{i}(\omega))$ which implies that for a set $\Omega'$ of measure 1 we have $\sumiinf X_{i}-\phi(X_{i})<\infty$.\\
+Then the second term in \ref{class5} converges to 0 $\pr-\as$ (and in distribution) because of the factor $\frac{1}{\sqrt{n}}$ in front of the finite series. For the other terms in \ref{class5} we have
+\begin{equation*}
+	\begin{array}{c}
+		\phi(X_{i})\in\{1,-1\}\\
+		\pr(\phi(X_{i})=1)=\pr(X_{i}\geq0)=\unmezz\\
+		\pr(\phi(X_{i})=-1)=\pr(X_{i}<0)=\unmezz
+	\end{array}\qquad\text{i.e. }\phi(X_{i})\distunif{\{-1,1\}}
+\end{equation*}
+so $\phi(X_{i})$ are identically distributed \rv s with mean 0 and variance
+\begin{equation*}
+	\var\phi(X_{i})=\ev\phi(X_{i})^{2}=1\cdot\unmezz+1\cdot\unmezz=1.
+\end{equation*}
+They are independent because $X_i$ are independent and thus, by CLT (ez version) we have
+\begin{equation*}
+	\ubracketthin{\frac{\frac{1}{n}\sumin\phi(X_{i})-0}{\frac{1}{\sqrt{n}}}}_{\convd\mathsf{N}(0,1)}=\frac{\sqrt{n}}{n}\sumin\phi(X_{i})=\frac{1}{\sqrt{n}}\sumin\phi(X_{i})
+\end{equation*}
+hence $Y\convd\mathsf{N}(0,1)+0=\mathsf{N}(0,1)$ because of the following \emph{$\mathfrak{fact}$}:
+\begin{remark}
+	if $X_{n}\convd X$, $Z_{n}\convd c,\; c\in\R$, then $(X_{n},Z_{n})\convd(X,c)$.
+\end{remark} 
+From this fact we know that $X_{n}+Z_{n}\convd X+c$ and we apply this with
+\begin{equation*}
+	X_{n}=\frac{1}{\sqrt{n}}\sumin\phi(X_{i})\convd\mathsf{N}(0,1)\qquad\text{and}\qquad Y_{n}=\frac{1}{\sqrt{n}}\sumin(X_{i}-\phi(X_{i}))\convd0.
+\end{equation*}
+\begin{exercise}
+	Prove that if $X_{n}\convpr X$ then exists a subsequence ${(n_{k})}_{k}$ such that $X_{n_{k}}\convas X$ (= converges along the subsequence).
+\end{exercise}
+Let $k\in \N$ and select $n_{k}$ such that $n_{k}>n_{k-1}$ and
+\begin{equation*}
+	\pr\left(\left|X_{n_{k}}-X\right|>\frac{1}{k}\right)\leq\frac{1}{k^{2}}
+\end{equation*}
+which is always possible since $\lim_{n\to\infty}\pr(|X_{n}-X|>\varepsilon)\to0\;\every\varepsilon>0$ thanks to the fact that we know about the convergence. Notice, moreover, that $n_{k}\to\infty$ as $k\to \infty$. We have
+\begin{equation*}
+	\sumkinf\pr\left(\left|X_{n_{k}}-X\right|>\frac{1}{k}\right)\leq\sumkinf\frac{1}{k^2}<\infty
+\end{equation*}
+so by BC-1 we have
+\begin{equation*}
+	\pr\left(\limsup_k\left\{\left|X_{n_{k}}-X\right|>\frac{1}{k}\right\}\right)=0\iff\pr\left(\liminf_k\left\{\left|X_{n_{k}}-X\right|\leq\frac{1}{k}\right\}\right)=1
+\end{equation*}
+which means that $\every\omega\in\left\{\liminf_k\left|X_{n_{k}}-X\right|\leq\frac{1}{k}\right\}=\Omega'$ (which is the set of the $\omega$ where the event $\left|X_{n_{k}}-X\right|\leq\frac{1}{k}$ is true as $k\to\infty$) we have
+\begin{equation*}
+	\left|X_{n_{k}}(\omega)-X(\omega)\right|\leq\frac{1}{k}
+\end{equation*}
+i.e.
+\begin{equation*}
+	\lim_{k\to\infty}\left|X_{n_{k}}(\omega)-X(\omega)\right|\leq0\implies\lim_{k\to\infty}\left|X_{n_{k}}-X(\omega)\right|=0
+\end{equation*}
+and since $\pr(\Omega')=1$ we have a.s. convergence along the subsequence $n_{k}$.
+\begin{exercise}
+	Let ${(X_{i})}_{i}$ be a sequence of i.i.d. \rv s (real-valued).
+	\begin{enumerate}[(i)]
+		\item Show that for any $f:\R\to\R^{+}$ Borel-measurable and bounded we have
+		\begin{equation*}
+			\frac{1}{n}\sumin f(X_{i})\to\ev(f(X)).
+		\end{equation*}
+		\item For $A\in\B(\R)$ and $\omega\in\Omega$ let $F_{n}(A)$ be the \rv 
+		\begin{equation*}
+			F_{n}(A):=\frac{1}{n}\sumin \indi_{A}(X_{i}).
+		\end{equation*}
+		Given $A\in\B(\R)$ determine whether $F_{n}(A)$ converges a.s.
+	\end{enumerate}
+\end{exercise}
+\begin{enumerate}[(i)]
+	\item Let $Y_{i}:=f(X_{i})$. ${(Y_{i})}_{i}$ are \rv s because $f$ is Borel-measurable and $Y_{i}\independent$ because $X_{i}\independent$. Moreover $Y_{i}$ are identically distributed because
+	\begin{align*}
+		\pr(Y_{i}\leq y)&=\pr(f(X_{i})\leq y)\\
+		&=\pr(f(X_{i})\in(-\infty,y])\\
+		&=\pr(X_{i}\in f^{-1}(-\infty,y])\\
+		&=\pr(X_{1}\in f^{-1}(-\infty,y])\\
+		&=\pr(f(X_{1})\in(-\infty,y])\\
+		&=\pr(Y_{1}\leq y)\qquad\every i\geq1
+	\end{align*}
+	Moreover, since $\var Y_{i}\leq c\norm{f}_{\infty}=:\sigma^{2}$ (and it is independent of $i$) then
+	\begin{equation*}
+		\sumik\var\left(\frac{Y_{i}}{i}\right)\leq\sigma^{2}\cdot\sumin\frac{1}{i^{2}}<\infty
+	\end{equation*}
+	So by the second point of the WLLN we have
+	\begin{equation*}
+		\begin{array}{>{\displaystyle}c}
+			\frac{\sumin Y_{i}-\ev\left(\sumin Y_{i}\right)}{n}\convas 0\\
+			\big\downarrow\\
+			\frac{1}{n}\sumin f(X_{i})-\frac{1}{n}\ev[n
+			\cdot Y_{i}]=\frac{1}{n}\sumin f(X_{i})-\ev[f(X_{i})]\\
+			\big\Downarrow\\
+			\frac{1}{n}\sumin f(X_{i})\convas\ev[f(X_{1})].
+		\end{array}
+	\end{equation*}
+	\item By (i) with $f=\indi_{A}$ we have
+	\begin{equation*}
+		\frac{1}{n}\sumin\indi_{A}(X_{i})\convas\ev[\indi_{A}(X_{1})]=\pr(X_{1}\in A).
+	\end{equation*}
+\end{enumerate}
+\begin{remark}
+	Notice that (i) and (ii) provide a Monte-Carlo method to estimate probabilities and expectations.
+\end{remark}
 \subsection{Exercise class 6}
+\begin{revise}
+	\begin{definition}
+		\emph{Conditional expectation}: let $(\Omega,\HS,\pr)$ be a probability space and $\F\subset\HS$. Let $X$ be $\HS$-measurable with $\ev|X|<\infty$. The conditional expectation of $X$ given $\F$, denoted by $\overline{X}$ or $\ev(X|\F)$ is a \rv such that:\begin{itemize}
+			\item $\overline{X}$ is $\F$-measurable (\emph{measurability});
+			\item $\ev[\indi_{F}\overline{X}]=\ev[\indi_{F}X],\;\every F\in\F$ (\emph{projection}).
+		\end{itemize}
+	\end{definition}
+	This actually defines the conditional expectation of positive \rv{} first and then uses $X=X^{+}-X^{-}$.\par
+	Here are the \emph{main properties of conditional expectation}. Let $X,Y\in L^{1}(\Omega,\HS,\pr),\;\G\subset\HS,\;\F\subset\HS$. Then:
+	\begin{enumerate}[(a)]
+		\item if $Y$ is a version of $\ev(X|\G)$ then $\ev Y=\ev X$;
+		\item if $X$ is $\G$-measurable then $\ev(X|\G)=X$, $\pr-\as$;
+		\item $\ev[aX+bY|\G]=a\ev(X|\G)+b\ev(Y|\G)$, $\pr-\as$;
+		\item if $X\geq0$ then $\ev[X|\G]\geq0$\\
+		\item \emph{tower property}: if $\F\subset\G$ then
+		\begin{equation*}
+			\ev[\ev(X|\G)|\F]=	\ev[\ev(X|\F)|\G]=\ev(X|\F);
+		\end{equation*}
+		\item if $Y$ is bounded and $\G$-measurable
+ then
+ \begin{equation*}
+ 	\ev(YX|\G=Y\ev(X|\G);
+ \end{equation*}
+ 	\item if $\F$ is independent of $\sigma(\G,\sigma(X))$ then 
+ 	\begin{equation*}
+ 		\ev(X|\sigma(\G,\F))=\ev(X|\G).
+ 	\end{equation*}
+	\end{enumerate}
+	\begin{remark}
+		Special case with $\G=\{\emptyset,\Omega\}$: if $X\independent\F$ then $\ev(X|\F)=\ev X$.
+	\end{remark}
+	Conditioning on another \rv:
+	\begin{equation*}
+		\ev(X|Y):=\ev(X|\sigma(Y)).
+	\end{equation*}
+	\begin{remark}
+		The expectation $\ev(X)$ can be viewed as a condition expectation given the trivial \sa{} $\HS_{0}=\{\emptyset,\Omega\}$ i.e.
+		\begin{equation*}
+			\ev(X)=\ev(X|\HS_{0}).
+		\end{equation*}
+		This is useful when applying the tower property, because it gives us 
+		\begin{equation*}
+			\ev X=\ev(\ev(X|\G)).
+		\end{equation*}
+	\end{remark}
+	\begin{theorem}
+		Suppose $X$ and $Y$ are \rv s on $(\Omega,\HS,\pr)$ with values in $(D,\D),\;(E,\E)$ respectively. Suppose that the joint probability distribution has the form
+		\begin{equation*}
+			\pi(\dx,\dy)=\mu(\dx)k(x,\dy)
+		\end{equation*}
+		with some probability kernel form $(D,\D)$ to $(E,\E)$, i.e. for every $f$ which is $(\D\times\E)$-measurable we have
+		\begin{equation*}
+			\int_{D\times E}f(x,y)\pi(\dx,\dy)=\int_{D}\left(\int_{E}f(x,y)k(x,\dy)\right)\mu(dx).
+		\end{equation*}
+		Then the kernel $L$ defined by
+		\begin{equation*}
+			L_{\omega}(B)=k(X(\omega),B),\qquad\every\omega\in\Omega,\;B\in\E
+		\end{equation*}
+		is a version of the conditional distribution of $Y$ given $X$ and for every positive $f$ which is $(\D\times\E)$-measurable it holds
+		\begin{equation*}
+			\ev[f(X,Y)|X]=\int_{E}f(X,y)k(X,\dy).
+		\end{equation*}
+	\end{theorem}
+	This last equation is also known as \emph{freezing lemma}. It means that I can effectively calculate the conditional expectation given $X$ as if $X$ was a constant (and not a \rv). Cool! Was it so hard to put it in this way?
+\end{revise}
+\begin{exercise}
+	Let $(\Omega,\F,\pr)=([0,1],\B([0,1]),\leb_{[0,1]})$. Let
+	\begin{equation*}
+		X(\omega)=\begin{cases}
+			1 &\ift\omega\in\left[0,\frac{1}{3}\right)\\
+			2 &\ift\omega\in\left[\frac{1}{3},\frac{2}{3}\right)\\
+			3 &\ift\omega\in\left[\frac{2}{3},1\right].\\
+		\end{cases}
+	\end{equation*}
+	Let $Y(\omega)=2\omega^{2}$. Determine a version of $\ev(Y|X)$.
+\end{exercise}
+Note that $\sigma(X)$ is generated by three disjoint intervals:
+\begin{equation*}
+\begin{array}{c c c}
+	I_{1}:=\left[0,\frac{1}{3}\right),&I_{2}:=\left[\frac{1}{3},\frac{2}{3}\right),I_{3}:=&\left[\frac{2}{3},1\right].
+\end{array}
+\end{equation*}
+We know that $\overline{Y}:=\ev(Y|X)$ must be $\sigma(X)$-measurable (by property of measurability) so it must be constant on each interval $I_{i}$ (since the \sa s of constants are constants so any function measurable by a constant must be a constant):
+\begin{equation*}
+	\left(\every A\in\B(\R),\qquad\overline{Y}^{-1}(A)\in\sigma(X)=\sigma(I_{1},I_{2},I_{3})\right).
+\end{equation*}
+Let's denote by $a_{i}$ the values of $\overline{Y}$ on $I_{i}$, that is \\
+\begin{equation*}
+	\overline{Y}(\omega)=\ev(Y|X)=\begin{cases}
+		a_1&\text{on }I_{1}\\
+		a_2&\text{on }I_{2}\\
+		a_3&\text{on }I_{3}.\\
+	\end{cases}
+\end{equation*}
+It must be that, for the projection property,
+\begin{equation*}
+	\ev\left(\indi_{I_{i}}\overline{Y}\right)=\ev\left(\indi_{I_{i}}Y\right)\qquad\every I_{i}\in\sigma(X),
+\end{equation*}
+that is 
+\begin{equation}
+	\int_{I_{i}}\overline{Y}(\omega)\dpr(\omega)=\int_{I_{i}}Y(\omega)\dpr(\omega),\qquad\every i=1,2,3.\tag{\faCubes}\label{cubidimerda}
+\end{equation}
+The left hand side of \ref{cubidimerda} gives
+\begin{equation*}
+	\int_{I_{i}}\overline{Y}(\omega)\dpr(\omega)=\int_{I_{i}}a_{i}\dpr=a_{i}\pr(I_{i})=a_{i}\cdot\frac{1}{3}.
+\end{equation*}
+The right hand side of \ref{cubidimerda} gives
+\begin{align*}
+	\int_{I_{i}}Y(\omega)\dpr(\omega)&=\int_{I_{i}}2\omega^{2}\dpr(\omega)\\
+	&=\begin{cases}
+		\frac{2}{3}\omega^{3}\big|^{\frac{1}{3}}_{0}=\frac{2}{81}&\ift i=1\\
+		\frac{2}{3}\omega^{3}\big|^{\frac{2}{3}}_{\frac{1}{3}}=\frac{14}{81}&\ift i=2\\
+		\frac{2}{3}\omega^{3}\big|^{1}_{\frac{2}{3}}=\frac{38}{81}&\ift i=3.\\
+	\end{cases}
+\end{align*}
+Thus we must have
+\begin{equation*}
+	\begin{array}{c c c}
+		\frac{1}{3}a_{1}=\frac{2}{81},&	\frac{1}{3}a_{2}=\frac{14}{81},&	\frac{1}{3}a_{3}=\frac{38}{81}\\
+		&\big\Downarrow&\\
+		a_1=\frac{2}{27},&	a_2=\frac{14}{27},&	a_3=\frac{38}{27}
+	\end{array}
+\end{equation*}
 \subsection{Exercise class 7}
 \subsection{Exercise class 8}
 \section{Questions for the oral examination}
-	Here I will try and answer to the questions that were on the moodle page for the academic year 2022-2023. I hope that they will be valid for the years to come as well.
+	Here I will try and answer to the questions for the anal examination that were on the moodle page for the academic year 2022-2023. I hope that they will be valid for the years to come as well.
 	\subsection{Transition kernels: definition, example, and their usage in the extension of measures to
 		product spaces}
 	First of all, the definition:

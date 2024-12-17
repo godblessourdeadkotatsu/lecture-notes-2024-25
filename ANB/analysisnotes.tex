@@ -310,6 +310,64 @@ This has the following consequence:
 	\begin{equation*}
 		M=\sup\left\{f(x),x\in K\right\}.
 	\end{equation*}
-	By definition there is a sequence ${(x_{n})}_{n}\subset K$ such that $\lim_{n}f(x_{n})=M$. This sequence ${(f(x_{n}))}_{n}$
+	By definition there is a sequence ${(x_{n})}_{n}\subset K$ such that $\lim_{n}f(x_{n})=M$. This sequence ${(f(x_{n}))}_{n}$ lies in $f(K)$ which is compact and is closed. But this means that also its limit $M$ lies in $f(K)$ (i.e.) there is $x\in K$ such that $f(x)=M$. This shows that $M$ is the maximum value of $f$ and by proceeding in an analogous manner we can show the same thing for the minimum.
+\end{fancyproof}
+\begin{theorem}
+	\emph{Heine Theorem}. Let $(X,\dnorm_X)$ and $(Y,\dnorm_Y)$ be two normed spaces and let $K\subset X$ be compact. Assume that $f:K\to Y$ is continuous. Then $f$ is uniformly continuous on $K$.
+\end{theorem}
+\begin{fancyproof}
+	Suppose that $f$ is not uniformly continuous. This means that there exists $\varepsilon_0>0$  such that
+	\begin{equation*}
+		\every\delta>0,\;\exists x,y\in K,\text{ with }\norm{x-y}_{X}<\delta\text{ and }\norm{f(x)-f(y)}_{Y}\geq\varepsilon_0	.
+		\end{equation*}
+		Now chossing $\delta=\frac{1}{n},n\in\N$ this allows to build two sequences ${(x_{n})}_{n}$ and ${(y_{n})}_{n}$ such that
+		\begin{equation*}
+			\norm{x_{n}-y_n}_{X}<\frac{1}{n}\text{ and }\norm{f(x_{n})-f(y_{n})}_{Y}\geq\varepsilon_0\qquad\every n\in\N.
+		\end{equation*}
+		Since $K$ is compact we can extract a subsequence of $x_n$ that we call ${\left(x_{\varphi(n)}\right)}_{n}$ and that converges to some $x_0\in K$. It follows that ${\left(y_{\varphi(n)}\right)}_{n}$ also converges to $x_0$ (why?). Since $f$ is continuous we get that $\lim_{n\to\infty}{\left(x_{\varphi(n)}\right)}=f(x_0)=\lim_{n\to\infty}f\left(y_{\varphi(n)}\right)$ in $Y$, i.e.
+		\begin{equation*}
+			\lim_{n \to \infty}\norm{f\left(x_{\varphi(n)}\right)-f\left(y_{\varphi(n)}\right)}_{Y}=0
+		\end{equation*}
+		but this contradicts the fact that $\norm{f\left(x_{\varphi(n)}\right)-f\left(y_{\varphi(n)}\right)}_{Y}\geq\varepsilon_0$ for each $n\in\N^{+}$. 
+\end{fancyproof}
+So, in this case taking two sequences that get closer and closer does not correspond to the fact also their functions get closer and closer... and this is not possible.
+\subsection{Finite dimensional spaces}
+\begin{proposition}
+	Let $(X,\dnorm)$ be a finite dimensional normed vector space with $\mathsf{dim}(X)=d$ and let $\{\mathcal{e}_1,\ldots,\mathcal{e}_d\}$ be a basis for $X$. Then, there are positive constants $C_0,C_1>0$ such that
+	\begin{equation*}
+		C_0\sum_{i=1}^{d}|x_i|\leq\norm{\sum_{i=1}^{d}x_i\mathcal{e}_{i}}\leq C_1\sum_{i=1}^{d}|x_i|\qquad\every(x_1,\ldots,x_d)\in\R^{d}.
+	\end{equation*}
+\end{proposition}
+This proposition asserts that if $\mathsf{dim}(X)=d$ then \textit{any} norm $\dnorm$ is related to the $\dnorm_1$ norm of $\R^{d}$. This translates in the following:
+\begin{proposition}
+	If $X$ is a finite dimensional vector space, all norms over $X$ are equivalent.
+\end{proposition}
+So there is no weird norm, but everything is comparable to the simple $\dnorm_1$ norm. This proposition also allows us to identify in a continuous way a finite dimensional space $(X,\dnorm)$ and the space $\R^{d}$ where $d$ is the dimension of $X$. Indeed, introducing a basis $\{\mathcal{e}_1,\ldots,\mathcal{e}_d\}$ of $X$, the mapping
+\begin{equation*}
+	\Phi:X\to\R^{d}
+\end{equation*}
+which associates $\Phi(\mathbf{x})=(x_1,\ldots,x_d)$ to some $\mathbf{x}=\sum_{i=1}^{d}x_i\mathcal{e}_i\in X$, is a bijection from $X$ to $\R^{d}$ which is continuous whose inverse is also continuous. This results in the following:
+\begin{corollary}
+	If $(X,\dnorm)$ is a finite dimensional vector space and $K\subset X$ is closed and bounded then $K$ is compact.
+\end{corollary}
+Again, this is very speciﬁc to ﬁnite dimensional spaces and, as we shall see, this actually
+characterizes ﬁnite dimensional spaces. Indeed, in inﬁnite dimensional normed spaces, the
+closed unit ball cannot be compact. This shows that, in inﬁnite dimensional spaces, the
+compact subsets do not coincide with closed and bounded subsets!!
+We ﬁrst state the following technical lemma:
+\begin{lemma}
+	\emph{Riesz Lemma}. Let $(X,\dnorm)$ be a normed vector space and let $Y$ be a closed subspace of $X$ (i.e. $Y$ is closed in $X$ and $Y$ is a linear subspace of $X$). If $Y\neq X$ then for any $\varepsilon\in(0,1)$ there exists $x\in X$ with $\norm{x}=1$ such that
+	\begin{equation*}
+		\inf_{y\in Y}\norm{x-y}\geq1-\varepsilon.
+	\end{equation*}
+\end{lemma}
+\begin{remark}
+	This lemma asserts that if $Y\neq X$ is a closed subspace then for any $\varepsilon\in(0,1)$ there is some unit vector $x\in X$ such that $\mathsf{dist}(x,Y)\geq 1-\varepsilon$.
+\end{remark}
+\begin{fancyproof}
+	Let $z\in X\setminus Y$. Since $Y$ is closed and $z\notin Y$, one has
+	\begin{equation*}
+		\alpha=\mathsf{dist}(z,Y)=\inf_{y\in Y}\norm{z-y}>0.
+	\end{equation*}
 \end{fancyproof}
 \end{document}
