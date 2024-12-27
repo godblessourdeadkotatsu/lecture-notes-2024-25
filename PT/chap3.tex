@@ -1575,7 +1575,7 @@ and since $\pr(\Omega')=1$ we have a.s. convergence along the subsequence $n_{k}
 		\item if $Y$ is bounded and $\G$-measurable
  then
  \begin{equation*}
- 	\ev(YX|\G=Y\ev(X|\G);
+ 	\ev(YX|\G)=Y\ev(X|\G);
  \end{equation*}
  	\item if $\F$ is independent of $\sigma(\G,\sigma(X))$ then 
  	\begin{equation*}
@@ -1677,7 +1677,644 @@ Thus we must have
 		a_1=\frac{2}{27},&	a_2=\frac{14}{27},&	a_3=\frac{38}{27}
 	\end{array}
 \end{equation*}
+\begin{exercise}
+	\emph{Special case of freezing lemma}. Let $X,Y$ be discrete \rv s with values in $E$ and $F$ respectively and let $\rho_{X,Y}(x,y)$ denote their joint discrete density. Let $g:E\to\R$ be such that $g(X)\in\lone$. Show that
+	\begin{equation*}
+		\ev[g(X)|Y]=\varphi(Y)\qquad\as{}
+	\end{equation*}
+	where 
+	\begin{equation*}
+		\varphi(y)=\sum_{x}g(x)\rho_{X|Y}(x|y)
+	\end{equation*}
+	and
+	\begin{equation*}
+		\rho_{X|Y}(x|y)=\begin{cases}
+			\frac{\rho_{X,Y}(x,y)}{\rho_{Y}(y)}&\ift\rho_{Y}(y)>0\\
+			0&\text{else}.
+		\end{cases}
+	\end{equation*}
+\end{exercise}
+According to the definition we must show:
+\begin{enumerate}[{[i]}]
+	\item $\sigma(Y)$-measurability ($g(X)\in\lone$ by assumption);
+	\item projection.
+\end{enumerate}
+Let's tackle this one at the time.
+\begin{enumerate}[{[i]}]
+	\item For this property it is enough to show that $y\mapsto\varphi(y)$ is measurable. We have $\varphi(y)=\sum_{x}g(x)\rho_{X|Y}(x|y)$ where $\rho_{X|Y}(x|y)$ depends on $\rho_{X,Y}(x,y)$ and $\rho_{Y}(y)$ which are both measurable because $X$ and $Y$ are \rv s.
+	\item $\every A\in\sigma(Y)$ we should check whether $\ev\left[\indi_{A}\varphi(Y)\right]=\ev\left[\indi_{A}g(X)\right]$. The set $A\in\sigma(Y)$ must be of the form $A=\{\omega:Y(\omega)\in B\}$ for some $B\in \F$. Thus $\indi_{A}(\omega)=\indi_{B}(Y)$. We have
+
+	\begin{align*}
+		\ev[\indi_{A}\varphi(Y)]&=\int_{\Omega}\indi_{A}(\omega)\varphi(Y(\omega))\pr(\dw)\\
+		&=\int_{\Omega}\indi_{B}(Y(\omega))\pr(\dw)\\
+		&=\sum_{y\in F}\indi_{B}(y)\varphi(y)\rho_{Y}(y)\footnotemark\\
+		&=\sum_{y\in B}\sum_{x\in E}g(x)\rho_{X|Y}(x|y)\rho_{Y}(y)\\
+		&=\sum_{y\in B}\sum_{x\in E}g(x)\rho_{X,Y}(x,y).\tag{\faBeer}\label{sefunzionamiammazzo}
+	\end{align*}		\footnotetext{In the sum only the terms with $\rho_{Y}(y)>0$ give a contribution.}
+	On the other hand,
+	\begin{align*}
+		\ev[\indi_{A}g(Y)]&=\int_{\Omega}\indi_{A}(\omega)g(X(\omega))\pr(\dw)\\
+		&=\int_{\Omega}\indi_{B}(Y(\omega))g(X(\omega))\pr(\dw)\\
+		&=\sum_{(x,y)\in E\times F}\indi_{B}(y)g(x)\rho_{X,Y}(x,y)\\
+		&=\sum_{X\in E}\sum_{y\in B}g(x)\rho_{X,Y}(x,y)
+	\end{align*}
+	which is the same as in \ref{sefunzionamiammazzo}.
+\end{enumerate}
+\begin{exercise}
+	Let $X\distgeom{1-p}$ and $Y\distgeom{1-q}$ be independent and let $Z:=\min(X,Y)$. Determine a version of the conditional expectation $\ev(X|Z)$.
+\end{exercise}
+Here we mean that $\pr(X=x)=(1-p)p^x,\;x\in\N\cup\{0\}$. This is also known as ``modified Geometric''. In this case $\ev X=\frac{1}{1-p}-1$.
+We want to use the result from exercise 2 and hence we compute the joint distribution of $(X,Z)$:
+\begin{align*}
+	\rho_{X,Z}(x,z)&=\pr(X=x,Z=z)\\
+	&=\pr(X=x,\min(X,Y)=z)\\
+	&=\begin{cases}
+		0&\ift z>x\\
+		\pr(X=x,Y=z)&\ift z<x,\quad z,x\in\N\cup\{0\}\\
+		\pr(X=x,Y\geq x)&\ift z=x,\quad z,x\in\N\cup\{0\}\\
+		0&\text{else}
+	\end{cases}\\
+	&=\begin{cases}
+		\pr(X=x,Y=z)&\ift z<x,\quad z,x\in\N\cup\{0\}\\
+		\pr(X=x,Y\geq x)&\ift z=x,\quad z,x\in\N\cup\{0\}\\
+		0&\text{else}
+	\end{cases}\\
+		&=\begin{cases}
+		\pr(X=x,Y=z)&\ift z<x,\quad z,x\in\N\cup\{0\}\\
+		\pr(X=x,Y\geq x)&\ift z=x,\quad z,x\in\N\cup\{0\}\\
+		0&\text{else}
+	\end{cases}\\
+	&=\begin{cases}
+		(1-p)p^{x}(1-q)q^{z}&\ift z<x,\quad z,x\in\N\cup\{0\}\\
+		(1-p)p^{x}\sumkinf(1-q)q^{k}&\ift z=x,\quad z,x\in\N\cup\{0\}\\
+		0&\text{else}.\\
+	\end{cases}\tag{\faGuitar}\label{guitarr}\\
+\end{align*}
+\begin{revise}
+	Remember the geometric series:
+	\begin{equation*}
+		\begin{array}{>{\displaystyle}c}
+			\sumkonf q^{k}=\frac{1}{1-q}\\
+			\sum_{k=0}^{N}q^{k}=\frac{1-q^{N+1}}{1-q}.
+		\end{array}
+	\end{equation*}
+\end{revise}
+In this case we have 
+\begin{align*}
+	\pr(Y\geq x)&=\sum_{k=x}^{\infty}q^{k}\\
+	&=-\sum_{k=0}^{x-1}(1-q)q^{k}+\sumkonf(1-q)q^{k}\\
+	&=-(1-q)\cdot\frac{1-q^{x}}{1-q}+(1-q)\frac{1}{1-q}\\
+	&=1-(1-q^{x})=q^{x}.\tag{\faPizzaSlice}\label{pizza}
+\end{align*}
+We compute now the marginal distribution of $Z$. Let $z\geq 0$, $z\in\N$.
+\begin{align*}
+	\rho_{Z}(z)&=\pr(Z=z)\\
+	&=\pr(\min(X,Y)=z)\\
+	&=\pr(min(X,Y)\geq z)-\pr(\min(X,Y\geq z+1))\\
+	&=\pr(X\geq z)\pr(Y\geq z)-\pr(X\geq z+1)\pr(Y\geq z+1)\\
+	&=p^{z}q^{z}-p^{z+1}q^{z+1}\qquad\text{due to \ref{guitarr}}\\
+	&=p^{z}q^{z}(1-pq)\tag{\faItunes}\label{itunes}
+\end{align*}
+hence $Z\distgeom{1-pq}$. We can thus define the conditional probability $\rho_{X|Z}$ as
+\begin{align*}
+	\rho_{X|Z}&=\begin{cases}
+		\frac{\rho_{X,Z}(x,z)}{\rho_{Z}(z)}&\ift\rho_{Z}(z)>0\\
+		0&\ift\rho_{Z}(z)=0
+	\end{cases}\\
+	\text{due to \ref{guitarr} and \ref{itunes}}&=\begin{cases}
+		\frac{(1-p)p^{x}(1-q)\cancel{q^{z}}}{p^{z}\cancel{q^{z}}(1-pq)}&\ift z<x,\; z,x\in\N\cup\{0\}\\
+		\frac{(1-p)\cancel{p^{x}q^{x}}}{\cancel{p^{x}q^{x}}(1-pq)}&\ift  z=x,\; z,x\in\N\cup\{0\}\\
+		0&\text{else}
+	\end{cases}\\
+	&=\begin{cases}
+		\frac{(1-p)(1-q)p^{x-z}}{1-pq}&\ift z<x,\;z,x\in\N\cup\{0\}\\
+		\frac{(1-p)}{1-pq}&\ift z=x,\;z,x\in\N\cup\{0\}\\
+		0&\text{else}.
+	\end{cases}\tag{\faPaw}\label{furry}
+\end{align*}
+Using \ref{furry} and the result of exercise 2 with $g(x)=x$ we define
+\begin{align*}
+	\varphi(z)&=\sum_{x=0}^{\infty}x\rho_{X|Z}(x|z)\\
+	&=\sum_{x=0}^{\infty}(x-z+z)\rho_{X|Z}(x|z)\\
+	&=z\sum_{x=0}^{\infty}\rho_{X|Z}(x|z)+\sum_{x=0}^{\infty}(x-z)\rho_{X|Z}(x|y)\\
+	&=z+\sum_{x=z}^{\infty}(x-z)\rho_{X|Z}(x|y)\\
+	&=z+0+\sum_{x=z+1}^{\infty}(x-z)\cdot\frac{(1-p)(1-q)p^{x-z}}{1-pq}\\
+	&=z+\frac{(1-p)(1-q)}{1-pq}\sum_{x=z+1}^{\infty}(\ubracketthin{x-z}_{=y})p^{x-z}\\
+	&=z+\frac{(1-p)(1-q)}{1-pq}\sum_{y=1}^{\infty}yp^{y}\\
+	&=z+\frac{1-q}{1-pq}\ubracketthin{\sum_{y=1}^{\infty}ypY(1-p)}_{\mathclap{\text{$\ev V$ where $V\distgeom{1-p}$ so $\ev V=\frac{1}{1-p}-1$}}}\\
+	&=z+\frac{1-q}{1-pq}\cdot\frac{p}{1-p}.
+\end{align*}
+So a version of the conditional expectation $\ev(X|Z)$ is
+\begin{equation*}
+	\ev(X|Z)=Z+\frac{(1-q)p}{(1-pq)(1-p)}.
+\end{equation*}
+\begin{exercise}
+	Let ${(Z_{n})}_{n\geq1}$ be independent \rv s on $(\Omega,\F,\pr)$ with finite mean. Let $X_0:=a\in\R$ and $X_{n}=a+Z_{1}+Z_{2}+\ldots+Z_{n},\forall n\geq 1$. Find a version of $\ev(X_{n+1}|\F_{n}),\;\every n\geq 1,$ where $\F_{n}=\sigma(X_{0},\ldots,X_{n})$. 
+\end{exercise}
+Idk this had no solution.
+\begin{exercise}
+	Let ${(X_{n})}_{n\in\N}$ be a sequence of positive i.i.d. \rv s in $\lone(\Omega,\F,\pr)$. Let $N$ be a \rv{} with values in $\N$ and belonging to $\lone(\Omega,\F,\pr)$, $N\independent{(X_{n})}_{n}$. Let 
+	\begin{equation*}
+		Y(\omega)=X_{1}(\omega)+X_{2}(\omega)+\ldots+X_{N(\omega)}(\omega).
+	\end{equation*}
+	Find a version of $\ev(Y|N)$.
+\end{exercise}
+Take $A\in\sigma(N)$ arbitrary. Note that the events $\{N=n\}_{n\in \N}$ for a partition of $\Omega$ so
+\begin{equation*}
+	Y=\sum_{n=1}^{\infty}\indi_{\{N=n\}}=\sum_{n=1}^{\infty}\sum_{k=1}^{n}X_{k}\indi_{\{N=n\}}.
+\end{equation*}
+Hence
+\begin{align*}
+	\ev\left[\indi_{A}Y\right]&=\ev\left[\indi_{A}\sumninf\sumkn X_{k}\indi_{\{N=n\}}\right]\\
+	\text{monotone convergence}&=\sumninf\ev\left[\indi_{A}\sumkn X_{k}\indi_{\{N=n\}}\right]\\
+	&=\sumninf\ev\left[\sumkn X_{k}\right]\cdot\ev\left[\indi_{A}\indi_{\{N=n\}}\right]\\
+	&=\sumninf n\cdot\ev X_{1}\cdot\ev\left[\indi_{A}\indi_{\{N=n\}}\right]\\
+	&=\ev X_{1}\cdot\ev\left[\sumninf n\cdot\indi_{\{N=n\}}\cdot\indi_{A}\right]\\
+	&=\ev X_{1}\cdot\ev\left[N\indi_{A}\right]\\
+	&=\ev\left[\ev[X_{1}]\cdot N\indi_{A}\right].\tag{\faBookOpen}\label{stomorendodietrostapatchdimax}
+\end{align*}
+Hence, since $\ev (X_{1})\cdot N$ is $\F(N)$-measurable, we have that the second point of definition and expectation is satisfied for 
+\begin{equation*}
+	\ev(Y|N)=\ev(X_{1})\cdot N
+\end{equation*}
+which is then a version of the conditional expectation. Notice that we should also check that $Y\in\lone(\Omega,\F,\pr)$ which is true by similar computations as in \ref{stomorendodietrostapatchdimax} with $A=\Omega$ so
+\begin{equation*}
+	\ev[|Y|]=\ev(Y)=\ev(\ev X_{1}\cdot N)=\ev X_{1}\cdot\ev N<\infty
+\end{equation*}
+since $X_{1},N\in\lone(\Omega,\F,\pr)$.
+\begin{exercise}
+	Let $X,Y\in L^{2}(\omega,\F,\pr)$ be such that $\ev(Y|X)=\ev Y$ almost surely. Show that $\cov(X,Y)=0$ and that the converse is not true.
+\end{exercise}
+We know that 
+\begin{equation*}
+	\ev(XY)=\ev(\ev(XY|X))\underset{\mathclap{X\in\sigma(X)}}{=}\ev(X\ev(Y|X))=\ubracketthin{\ev(X\ev Y)}_{\mathclap{\text{by assumption}}}=\ev X\ev Y.
+\end{equation*}
+Thus $\cov (X,Y)=\ev(XY)-\ev X\ev Y=0$. 
+Assume now $\cov(X,Y)=0$. To show that $\ev(Y|X)\neq\ev Y$ in general, we find a counterexample. Consider
+\begin{equation*}
+	U\distunif{\{(0,1),(-1,-1),(1,-1)\}}\qquad U=(X,Y).
+\end{equation*}
+Then $X\distunif{\{0,-1,1\}}$ which means $\ev X=0$ and
+\begin{equation*}
+	XY=\begin{cases}
+		0&\text{with prob. }\frac{1}{3}\\
+		1&\text{with prob. }\frac{1}{3}\\
+		-1&\text{with prob. }\frac{1}{3}.\\
+	\end{cases}
+\end{equation*}
+Hence $XY\distunif{\{0,-1,1\}}$ which means $\ev(XY)=0$. We then have $\cov(XY)=\ev XY-\ev X\ev Y=0-0=0$. However, $\ev(Y|X=0)=1$ but
+\begin{equation*}
+	Y=\begin{cases}
+			1&\text{with prob. }\frac{1}{3}\\
+				-1&\text{with prob. }\frac{2}{3}\\
+	\end{cases}\implies\ev Y=\frac{1}{3}-\frac{2}{3}=-\frac{1}{3}\neq 1.
+\end{equation*}
+\begin{exercise}
+	Let $X$ and $Y$ be real-valued independent \rv s. Let $F_{X+Y}$ be the distribution function of $X+Y$ and $F_{Y}$ the distribution function of $Y$. Show that $F_{Y}(t-X)$ is a version of the conditional expectation\\
+	\begin{equation*}
+		\ev\left(\indi_{\{X+Y\leq t\}}|X\right).
+	\end{equation*}
+	Deduce that if $X\distunif{0,1}$ then $F_{X+Y}(t)=\int_{0}^1F_{Y}(t-u)\du$.
+\end{exercise}
+We want to apply the freezing lemma:
+\begin{theorem}
+	Let $(X,Y)$ be $\R$-valued \rv s such that their joint distribution is
+	\begin{equation*}
+		\pi(\dx,\dy)=\mu(\dx)\ubracketthin{k(x,\dy)}_{\claptext{prob. kernel}}.
+	\end{equation*}
+	Then $\every$ positive measurable $f$ we have that $\int_{\R}f(X,Y)k(X,\dy)$ is a version of conditional expectation $\ev[f(X,Y)|X]$.
+\end{theorem}
+We want to apply this shit to $(X,Y)$ and $f(X,Y)=\indi_{\{X+Y\leq t\}}$ for some $t\in\R$ given. We have by independence $\pi(\dx,\dy)=\mu_{X}(\dx)\mu_{Y}(\dy)$ and $\indi_{\{X+Y\leq t\}}\geq0$ and measurable. Thus a version of the conditional expectation $\ev\left(\indi_{\{X+Y\leq t\}}|X\right)$ is given by
+\begin{equation*}
+	\int_\R\indi_{\{X+y\geq t\}}(y)\mu_{Y}(\dy).
+\end{equation*}
+Let's work out the integral (with $X$ replaced by $x$):
+\begin{align*}
+		\int_\R\indi_{\{x+y\geq t\}}(y)\mu_{Y}(\dy)&=\int_\R\indi_{\{y\geq t-x\}}(y)\mu_{Y}(\dy)\\
+		&=\int_{-\infty}^{t-x}\mu_{Y}(\dy)\\
+		&=F_{Y}(t-x).
+\end{align*}
+Hence a version of the conditional expectation is given by $F_Y(t-x)$. In the special case when $X\distunif{0,1}$ we get $\mu(\dx)=\dx$ on (0,1). Then
+\begin{align*}
+	F_{X+Y}(t)&=\pr(X+Y\leq t)\\
+	&=\ev\left[\indi_{\{X+Y\leq t\}}\right]\\
+	&=\ev\left[\ev\left[\indi_{\{X+Y\leq t\}}|X\right]\right]\\
+	&=\ev\left[F_{Y}(t-X)\right]\\
+	&=\int_\R F_{Y}(t-x)\mu_X(\dx)\\
+	&=\int_\R F_Y(t-x)\dx.
+\end{align*}
 \subsection{Exercise class 7}
+\begin{revise}
+	\begin{definition}
+		\emph{Sub/Super Martingale}: a real-valued stochastic process ${(X_{t})}_{t\in T}$ is a $\F$-\textcolor{blue}{submartingale}/\textcolor{green!40!black}{supermartingale}/\textcolor{magenta}{martingale} if:
+		\begin{enumerate}
+			\item $X$ is $\F$-adapted;
+			\item $X_{t}$ is integrable $\every t \in T,$ i.e. $\ev|X_{t}|<\infty$;
+			\item $\ev[X_{t}|\F_{s}]\textcolor{blue}{\geq}/\textcolor{green!40!black}{\leq}/\textcolor{magenta}{=}X_{s},\;\every s\geq t,\;t,s\in T$.
+		\end{enumerate}
+	\end{definition}
+	For the discrete time processes we have $T\equiv\N$.
+	\begin{definition}
+		\emph{Stopping time}: a random time $T:\Omega\to\R^+$ is a stopping time for a filtration ${(\F_{t})}_{t\in T}$ if $\{T\leq t\}\in\F_{t}\;\every t\in T$.
+	\end{definition}
+	In the discrete case we have $T:\Omega\to\N\cup\infty$ s.t. $\{T=n\}\in\F_{n}\;\every n\geq0$.
+	\begin{theorem}
+		\emph{Doob's stopping theorem.} Let $M$ be a $\F$-adapted process. The following are equivalent:
+		\begin{itemize}
+			\item $M$ is a $\F$-submartingale;
+			\item $\every T,S$ stopping times such that $S\geq T$ and $S,T$ bounded, $M_{S}$ and $M_{T}$ are integrable and $\ev(M_{T}-M_{S}|\F_{S})\geq0$;
+			\item $\every T,S$ stopping times such that  $S\geq T$ and $S,T$ bounded, $M_{S}$ and $M_{T}$ are integrable and $\ev(M_{T}-M_{S})\geq0$.
+		\end{itemize}
+	\end{theorem}
+	We can replace the submartingale with the \textcolor{magenta}{martingale} by switching $\geq$ with $\textcolor{magenta}{=}$. Same for \textcolor{green!40!black}{supermartingale} (switching with $\textcolor{green!40!black}{\leq}$).
+	\begin{theorem}
+		\emph{Variation/extension of Doob's stopping theorem}. Let $M$ be a $\F$-martingale and $T$ a stopping time. Then $M_{T}$ is integrable and $\ev M_{T}=\ev M_{0}$ if and only if one of the following condition holds:
+		\begin{enumerate}
+			\item $T$ is bounded;
+			\item $M$ is bounded and $T<\infty$ $\pr-\as$;
+			\item $\ev T<\infty$ and $M$ has bounded increments;
+			\item $M$ is uniformly integrable.
+		\end{enumerate}
+	\end{theorem}
+\end{revise}
+\begin{exercise}
+	Let $(\Omega,\A,\pr)=((0,1),\B([0,1]),\leb_{[0,1]})$. Let 
+	\begin{equation*}
+		C_{n}:=\left\{\left(\frac{k}{2^{n}},\frac{k+1}{2^{n}}\right],\; k=0,1,\ldots,2^{n}-1\right\}
+	\end{equation*}
+	and $\G_{n}=\sigma(C_{n})$. Define
+	\begin{equation*}
+		X_{n}(\omega)=\begin{cases}
+			2^{n}&0<\omega\leq 2^{-n}\\
+			0&\text{else}.
+		\end{cases}
+	\end{equation*}
+	Determine whether ${(\G_{n})}_{n}$ is a filtration and if so whether $X$ is a $\G$-martingale.
+\end{exercise}
+Each $\G_{n}$ is a \sa{} by definition. We must prove that $\F_{n}\subseteq\G_{n+1}$. We have:
+\begin{align*}
+	C_{n}\ni\left(\frac{k}{2^{n}},\frac{k+1}{2^{n}}\right]&=\left(\frac{2k}{n^{n+1}},\frac{2(k+1)}{n^{n+1}}\right]\\
+	&=\ubracketthin{\ubracketthin{\left(\frac{2k}{2^{n+1}},\frac{2k+1}{2^{n+1}}\right]}_{\in C_{n+1}}\cup\ubracketthin{\left(\frac{2k+1}{2^{n+1}},\frac{2k+2}{2^{n+1}}\right].}_{\in C_{n+1}}}_{\in\sigma(C_{n+1})=\G_{n+1}}
+\end{align*}
+Since it holds $\every k=0,\ldots,2^{n}-1$ we have $C_{n}\subset\G_{n+1}$ as wanted. Let's check whether $X$ is a $\G$-martingale.
+\begin{enumerate}
+	\item \textit{``Is $X\;\G$-adapted?''} We need to check that $\every B\in\B(\R),\; X^{-1}_n(B)\in\G_{n}$. This is like asking whether we have $\sigma(X_{n})\subseteq\G_{n}$.
+	\begin{align*}
+		\sigma(X_{n})&=\{X_{n}^{-1}(B):B\in\B(\B)\}\\
+		&\equiv\{\emptyset,\Omega,(0,2^{n}],(2^{n},1]\}\subset\G_{n}.\tag*{\faCheckCircle}
+	\end{align*}
+	\item \textit{``Is $X$ integrable?''} We know that
+	\begin{align*}
+		\ev|X_{n}|&=\int_{\Omega}|X_{n}(\omega)|\dpr(\omega)\\
+		&=\int_0^{1}|X_{n}(\omega)|\dw\\
+		&=\int_{0}^{2^{-n}}2^{n}\dw+\int_{2^{-n}}^{1}0\dw=1<\infty.\tag*{\faCheckCircle}
+	\end{align*}
+	\item \textit{``Does $X$ have martingale property?''} It is enough to show for $n$ and $n+1$ that $\ev(X_{n+1}|\G_{n})=X_{n}$. We have to show that 
+	\begin{equation*}
+		\ev(X_{n}\indi_{A})=\ev(X_{n+1}\indi_{A})\qquad\every A\in\G_{n}.
+	\end{equation*}
+	Since $\G_{n}=\sigma(C_{n})$ we have that $A=\bigcup_{k}A_{k}$ where $A_{k}$ have the form $A_{k}=\left(\frac{k}{2^{n}},\frac{k+1}{2^{n}}\right]$ and are thus disjoint. Thus
+	\begin{align*}
+		\ev(X_{n+1}\indi_{A})&=\ev(X_{n+1}\indi_{\bigcup_{k}A_{k}})\\
+		&=\sum_k\ev(X_{n+1}\indi_{A_{k}})
+	\end{align*}
+	and similarly
+	\begin{equation*}
+		\ev(X_{n}\indi_{A})=\sum_{k}\ev(X_{n}\indi_{A_{k}}).
+	\end{equation*}
+	We then just have to check that
+	\begin{equation*}
+		\ev(X_{n}\indi_{A_{k}})=\ev(X_{n+1}\indi_{A_{l}})\qquad\every A_{k}\in C_{n}\tag{\faSlackHash}\label{fadiesis}
+	\end{equation*}
+	(which means for $k=0,1,\ldots,2^{n}-1$). Notice that if $k\geq 1$ then $\left(\frac{k}{2^{n}},\frac{k+1}{2^{n}}\right]\cap\left(0,\frac{1}{2^{n}}\right]=\emptyset$ and $\left(\frac{k}{2^{n}},\frac{k+1}{2^{n}}\right]\cap\left(0,\frac{1}{2^{n+1}}\right]=\emptyset$. Thus $X_{n}\indi_{A_{k}}=0$ and $X_{n+1}\indi_{A_{k}}=0$, so \ref{fadiesis} holds.\\
+	If $k=0$ then
+	\begin{equation*}
+		X_{n}\indi_{A_{0}}=2^{n}\cdot\indi_{(0,2^{-n})}\cdot\indi_{(0,2^{-n})}=2^{n}\cdot\indi_{(0,2^{-n})}=X_{n}
+	\end{equation*}
+	and
+	\begin{equation*}
+		X_{n+1}\indi_{A_{0}}=2^{n+}\indi_{(0,2^{-n-1})}\indi_{(0,2^{-n})}=2^{n+1}\indi_{(0,2^{-n-1})}=X_{n+1}.
+	\end{equation*}
+	Moreover, $\ev X_{n}=\ev N_{n+1}=1$. Hence \ref{fadiesis} holds also for $k=0$.\hspace*{\fill}\faCheckCircle
+\end{enumerate}
+\begin{exercise}
+	Let $X$ be $\G$-supermartingale, with $X_{n}\geq0,\;\every n$. Show that 
+	\begin{equation*}
+		X_{n+k}\indi_{[X_{n}=0]}=0\qquad\as{}
+	\end{equation*}
+\end{exercise}
+By the supermartingale property we know that $\ev(X_{n+k}|\G_{n})\leq X_{n}$ so for any $A\in\G_{n}$ we have 
+\begin{equation*}
+	\ev(X_{n+k}\indi_{A})=\ev\left[(\ev X_{n+k}|\G_{n})\indi_{A}\right]\leq\ev(X_{n}\indi_{A}).\tag{\CrossClowerTips}\label{class7es2-1}
+\end{equation*}
+We can use tower property because if a \rv{} is $\G$-adapted and positive then it is $\G$-measurable.
+Moreover, since $X_{n}\geq 0\every n$ and also $\indi_{A}\geq0$ we have
+\begin{equation*}
+	0\leq\ev(X_{n+k}\indi_{A}).\tag{\CrossClowerTips\CrossClowerTips}\label{class7es2-2}
+\end{equation*}
+Putting \ref{class7es2-1} and \ref{class7es2-2} together we get 
+\begin{equation*}
+	0\leq\ev(X_{n+k}\indi_{A})\leq \ev(X_{n}\indi_{A})
+\end{equation*}
+and choosing $A=\{X_{n}=0\}\in\G_{n}$ we get
+\begin{equation*}
+	0\leq\ev(X_{n+k}\indi_{\{X_{n}=0\}})\leq\ev(X_{n}\ubracketthin{\indi_{\{X_{n}=0\}}}_{\claptext{this is always 0...}})=0
+\end{equation*}
+which implies $X_{n+k}\indi_{\{X_{n}=0\}}=0$ a.s. since $X_{n+k}\geq 0$.
+\begin{exercise}
+	Let ${(X_{n})}_{n}$ be a sequence of \rv s in $L^{2}(\Omega)$ such that, $\every n\geq 0$, $\ev(X_{n+1}|\G_{n})=0$ a.s., where $\G$ is the natural filtration generated by $X_{n}$. Let 
+	\begin{equation*}
+		S_{n}=\sum_{j=0}^{n}X_{j}\qquad\text{and}\qquad Z_{n}=S^{2}_{n}-\sum_{j=0}^{n-1}\ev\left(X^{2}_{j+1}|\G_{j}\right).
+	\end{equation*}
+	Check whether ${(Z_{n})}_{n}$ is a $\G$-martingale.
+\end{exercise}
+We need to check the three properties.
+\begin{enumerate}
+	\item Check that $Z_{n}\in m\G_{n}$ (= it is measurable with respect to $\G_{n}$): this is true because $X_{j}\in m\G_{n}$ $\every j\leq n$, thus $S_{n}\in m\G_{n}$ and also $S^2_n\in m\G_{n}$. Finally $  \ev\left(X^{2}_{j+1}|\G_{j}\right)$ is $\G_{j}$-measurable, so its sum up to $n-1$ is $\G_{n-1}$-measurable.
+	\item Check integrability:
+	\begin{align*}
+		\ev|Z_{n}|&\leq\ev|S_{n}|^{2}+\sum_{j=0}^{n-1}\ev\left(\left|\ev\left(X^{2}_{j+1}|\G_{j}\right)\right|\right)\\
+		&\leq\ev\left(\left|\sumjon X_{j}\right|^{2}\right)+\sum_{j=0}^{n-1}\ev\left(X^{2}_{j+1}\right)\\
+		&\leq n\sumjon\ev\left|X_{j}\right|^{2}+\sum_{j=0}^{n-1}\ev\left|X_{j+i}\right|^{2}<\infty \qquad\text{since }X_{j}\in L^{2}(\Omega).
+	\end{align*}
+	\item Check martingale property:
+	\begin{align*}
+		Z_{n+1}&=S^{2}_{n+1}-\sum_{j=0}^{n}\ev\left(X^{2}_{j+1}|\G_{n}\right)\\
+		&=S^{2}_{n}+2X_{n+1}S_{n}+X^{2}_{n+1}-\sum_{j=0}^{n-1}\ev\left(X_{j+1}^{2}|\G_{n}\right)-\ev(X^{2}_{n+1}|\G_{n})\\
+		&=Z_{n}+2X_{n+1}S_{n}+X^{2}_{n+1}-\ev\left(X^{2}_{n+1}|\G_{n}\right).
+	\end{align*}
+	Thus
+	\begin{align*}
+		\ev\left(Z_{n+1}|\G_{n}\right)&=\ev(Z_{n}|\G_{n})+2\ev\left(X_{n+1}S_{n}|\G_{n}\right)+\cancel{\ev\left(X^{2}_{n+1}|\G_{n}\right)}-\cancel{\ev\left(\ev\left(X^{2}_{n+1}|\G_{n}\right)|\G_{n}\right)}\\
+		&=Z_{n}+2S_{n}\ubracketthin{\ev\left(X_{n+1}|\G_{n}\right)}_{\claptext{=0 by assumption}}\\
+		&=Z_{n}.
+	\end{align*}
+\end{enumerate}
+\begin{exercise}
+	Let ${(X_{n})}_{n\geq 1}$ be a sequence of i.i.d. \rv s s.t. $\pr(X_{n}=1)=\pr(X_{n}=-1)=\unmezz$. Let $S_{n}=\sum_{j=1}^{n}X_{j},\; n\geq 1$ and $S_0=0$. Let
+	\begin{align*}
+		&T_{1}=\min\{n\geq 1:S_{n}-S_{n-1}=1\}\\
+		&T_{2}=\min\{n\geq 1:S_{n}=1\}.
+	\end{align*}
+	\begin{enumerate}
+		\item Determine whether ${(S_{n})}_{n}$ is a $\G$-martingale, where $\G_{n}=\sigma(X_{1},\ldots,X_{n})$.
+		\item Determine whether $T_{1}$ and/or $T_{2}$ are stopping times for $\G$.
+		\item Compute $\ev S_{T_{1}}$ and $\ev S_{T_{2}}$.
+	\end{enumerate}
+\end{exercise}
+\begin{enumerate}
+	\item We must check the three conditions:
+	\begin{enumerate}
+		\item \textit{measurability}: $X_{j}\in m\G_{n}$, $\every j\leq n$, hence $S_{n}\in m\G_{n}$;\hspace*{\fill}\faCheckCircle
+		\item \textit{integrability}:
+		\begin{equation*}
+			\ev|S_{n}|=\ev\left|\sumjn X_{j}\right|\leq\ev\sumjn\left|X_{j}\right|=n\ev\left|X_{j}\right|=n<\infty.\tag*{\faCheckCircle}
+		\end{equation*}
+		\item \textit{martingale property}:
+		\begin{align*}
+			\ev\left(S_{n+1}|\G_{n}\right)&=\ev\left(\sum_{j=1}^{n+1}X_{j}|\G_{n}\right)\\
+			&=\ev\left(X_{n+1}+S_{n}|\G_{n}\right)\\
+			&=\ev\left(X_{n+1}|\G_{n}\right)+\ev\left(S_{n}|\G_{n}\right)\\
+			&=\ev\left(X_{n+1}\right)+S_{n}\qquad\text{since }X_{n+1}\independent\G_{n}\text{ and }S_{n}\in m\G_{n}\\
+			&=0+S_{n}.\tag*{\faCheckCircle}
+		\end{align*}
+	\end{enumerate}
+	\item We have clearly $T_{i}:\Omega \to \N$ and they are measurable (hence \rv s) because $S_{n},S_{n-1}$ are \rv s. Let's check the condition $\{T_{i}=n\}\in\G_{n},\;\every n\geq 0$. Remember that this is equivalent to check $\{T_{i}\leq n\}\in\G_{n},\;\every n\geq 0$.
+	\begin{align*}
+		\{T_{1}\leq n\}&=\bigg\{\omega:\inf\{m\geq 1: \ubracketthin{S_{m}-S_{m-1}}_{X_{m}}=1\}\leq n\bigg\}\\
+		&=\biggl\{\omega:\min\{m\geq 1:X_{m}=1\}\leq n\biggr\}\\
+		&=\biggl\{\omega:X_{m}(\omega)=1\text{ for some }m\leq n\biggr\}\\
+		&=\bigcup_{m=1}^{n}\ubracketthin{\left\{X_{m}(\omega)=1\right\}}_{\mathclap{\in\G_{n},\;\every m\leq n}}\in\G_{n}.
+	\end{align*}
+	So $T_{1}$ is a stopping time. Now check $\{T_{2}\leq n\}$.
+	\begin{align*}
+\{T_{2}\leq n\}&=\biggl\{\omega:S_{m}(\omega)=1\text{ for some }m\leq n\biggr\}\\
+&=\bigcup_{m=1}^{n}\left\{S_{m}=1\right\}\\
+&=\bigcup_{m=1}^{n}\ubracketthin{\left\{\sum_{j=1}^{n}X_{j}=1\right\}}_{\claptext{$\in\G_{n},\;\every m\leq n$ because $X_{j}\in m\G_{n}$ for $j\leq m\leq n$.}}\in\G_{n}.
+	\end{align*}
+	So $T_{2}$ is a $\G$-stopping time.
+	\item Let's calculate $\ev S_{T_{2}}$ first. We have $S_{T_{2}}=1$ a.s., hence $\ev\left(S_{T_{2}}\right)=1$. Notice that $\ev(S_{0})=0\neq\ev(S_{T_{2}})$, so the variation/extension of the Doob's theorem can't apply. This means that $T_{2}$ must be unbounded... Let's calculate $\ev S_{T_{1}}$ now. Notive that $T_{1}$ is unbounded hence Doob's theorem does not apply. Let's check whether $S_{T_{1}}$ is integrable. Since $\left\{\left\{T_{1}=n\right\},n\in \N\right\}$ is a partition of $\Omega$ we have:
+	\begin{align*}
+		\ev\left|S_{T_{1}}\right|&=\sumninf\ev\left(\left|S_{n}\right|\indi_{\{T_{1}=n\}}\right)\\
+		&=\sumninf\ev\left[\left|\sumjn X_{j}\right|\indi_{\{T_{1}=n\}}\right]\\
+		&=\sumninf\sumjn\ev\left[\left|X_{j}\right|\indi_{\{T_{1}=n\}}\right]\\
+		&=\textcolor{HotPink3}{\sumjinf\sum_{n=j}^{\infty}}\ev\left[\left|X_{j}\right|\indi_{\{T_{1}=n\}}\right]\\
+		&=\sumjinf\ev\left[\left|X_{j}\right|\indi_{\{T_{1}\geq j\}}\right]\\
+		&=\ev|X_{1}|\sumjinf\pr(\{T_{1}\geq j\})\\
+		&=\ev|X_{1}|\cdot\ev(T_{1}).
+	\end{align*}
+	The last equation comes form the fact that $X_{j}$ are i.i.d., that $X_{j}\in m\G_{j}$ and that $\{T_{1}\geq j\}=\{T_{1}\leq j-1\}^{c}\in\G_{j-1}$, so we know that $X_j\independent\{T_{i}\geq j\}$ (for $X\geq0$, $\ev X=\int_{0}^\infty\pr(X\geq x)\dx=\sumkonf\pr(X\geq x)$)\footnote{What the fuck?}. We have $\pr(T_{1}=k)=\unmezz\cdot\frac{1}{2^{k-1}}=\frac{1}{2^{k}}$, hence
+	\begin{equation*}
+		\ev T_{1}=\sum_{k=1}^{\infty}k\frac{1}{2^{k}}<\infty\implies S_{T_{1}}\in\lone(\Omega).
+	\end{equation*}
+	Doing the same computations without absolute value we get
+	\begin{equation*}
+		\ev(S_{T_{1}})\ubracketthin{=}_{\claptext{before that we put $\leq$ due to $|\sum X_{j}|\leq\sum|X_{j}|$}}\ev(X_{1})\ev(T_{1})=0\cdot\ev(T_{1})=0.
+	\end{equation*}
+	There is an alternative (shorter) solution to compute $\ev S_{T_{2}}$, using the extended Doob's Theorem since $T_{2}<\infty$ $\pr-\as$. Given that $T_{2}\distgeom{\unmezz}$ hence
+	\begin{equation*}
+		\begin{cases}
+			\ev T_{2}<\infty\\
+			T_{2}\geq0
+		\end{cases}\implies T_{2}<+\infty\pr-\as{}
+	\end{equation*}
+	Moreover, the increments of the martingale $S$ are
+	\begin{equation*}
+		S_{n}-S_{n-1}=X_{n}\distbernoulli{\unmezz}
+	\end{equation*}
+	hence $|X_{n}(\omega)|\leq 1\;\every\omega\in\Omega$. This tells us that $S_{T_{2}}$ is integrable and $\ev\left(S_{T_{2}}\right)=\ev(S_{0})=0$.
+\end{enumerate}
+\begin{exercise}
+	Let $X$ be a \rv{} with values in $\N$ such that $\pr(X\geq n)=p^{n}$ for some $p\in(0,1)$. Let $Y_{n}=p^{-n}\indi_{\{X\geq n\}},\;\every n\geq 0,$ and $\G_{n}=\sigma(Y_{1},\ldots,_{n})$.
+	\begin{enumerate}
+		\item Determine if $Y$ is a $\G$-martingale.
+		\item Determine if $T:=\min\{n\geq0:Y_{n}=0\}$ is a stopping time for $\G$.
+		\item Show that $T\in\lone(\Omega)$.
+		\item Compute $\ev Y_{T}$.
+	\end{enumerate}
+\end{exercise}
+\begin{enumerate}
+	\item \begin{enumerate}
+		\item Measurability is obvious by definition of $\G_{n}$.\\
+		\item To check for integrability:
+		\begin{equation*}
+			\ev|Y_{n}|=\ev(Y_{n})=\ev\left(p^{-n}\indi_{\{X\geq n\}}\right)=p^{-n}\pr(X\geq n)=p^{-n}p^{n}=1.
+		\end{equation*}
+		\item Martingale property: $\ev(Y_{n+1}|\G_{n}=Y_{n}$. We must show that, $\every G\in\G$,
+		\begin{equation*}
+			\ev\left(\indi_G Y_{n+1}\right)=\ev\left(\indi_GY_{n}\right).\tag{\faBong}\label{bong}
+		\end{equation*}
+		Since we know that $\G_{n}=\sigma(Y_{1},\ldots,Y_{n})$, then 
+		\begin{equation*}
+			\begin{array}{lcc}
+				Y_{n}=0&\iff&X<n\\
+				Y_{n}=p^{-n}&\iff&X\geq n.
+			\end{array}
+		\end{equation*}
+		So $G$ is of the form
+		\begin{equation*}
+			G=\left\{Y_{1}=y_{1},Y_{2}=y_{2},\ldots,Y_{n}=y_{n}\right\}.
+		\end{equation*}
+		If $Y_{n}\neq0$ then we have $y_1,y_2,\ldots,y_{n-1}\neq0$ because $X\geq n>n-1>\ldots>1$. If $y_{n}=0\iff X<n$ then
+		\begin{equation}
+			 X>n+1\iff Y_{n+1}=0.\tag{\faCannabis}\label{ganja1}
+		\end{equation}
+		This also means=
+		\begin{align}
+			\ev\left(\indi_GY_{n}\right)&=\begin{cases}
+				0&\ift y_{n}=0\\
+				p^{-n}&\ift y_{n}\neq0
+			\end{cases}\tag{\faCannabis\faCannabis}\label{ganja2}\\
+				\ev\left(\indi_GY_{n+1}\right)&=\begin{cases}
+				0&\ift y_{n}=0 \text{ (because of \ref{ganja2})}\\
+				?&\ift y_{n}\neq0.
+			\end{cases}\tag{\faCannabis\faCannabis\faCannabis}\label{ganja3}
+		\end{align}
+		There are two possible values for $Y_{n+1}$:
+		\begin{equation*}
+			\begin{array}{lcc}
+				Y_{n+1}=0&\iff&X<n+1\\
+				Y_{n+1}=p^{-n-1}&\iff&X\geq n+1.
+			\end{array}
+		\end{equation*}
+		If $y_{n}\neq0$ we know that $X\geq n$. So we get
+		\begin{equation*}
+			\begin{array}{lccc}
+				\indi_GY_{n+1}=0&\iff&X<n+1&\text{given that }X\geq n\\
+				\indi_GY_{n+1}=p^{-n-1}&\iff&X\geq n+1&\text{given that }X\geq n
+			\end{array}
+		\end{equation*}
+		that is
+		\begin{align*}
+			\pr(\indi_GY_{n+1}=0)&=\pr(X<n+1|X\geq n)\\
+			&=\frac{\pr(X<n+1,X\geq n)}{\pr(X\geq n)}\\
+			&=\frac{\pr(X=n)-\pr(X\geq n+1)}{\pr(X\geq n)}\\
+			&=\frac{p^{n}-p^{n+1}}{p^{n}}\\
+			&=1-p
+		\end{align*}
+		and
+		\begin{align*}
+			\pr(\indi_GY_{n+1}=p^{n-1})&=\pr(X\geq n+1|X\geq n)\\
+			&=\frac{\pr(X\geq n+1,X\geq n)}{\pr(X\geq n)}\\
+			&=\frac{\pr(X\geq n+1)}{\pr(X\geq n)}\\
+			&=\frac{p^{n+1}}{p^{n}}\\
+			&=p.
+		\end{align*}
+		Thus if $y_{n}\neq 0$ we get 
+		\begin{align*}
+			\ev(\indi_{G}Y_{n+1})&=0\cdot\pr(\indi_{G}Y_{n+1}=0)+p^{-n-1}\pr(\indi_{G}Y_{n+1}=p^{-n-1})\\
+			&=0+p^{-n-1}\cdot p=p^{-n}
+		\end{align*}
+		and plugging this into \ref{ganja3} we get \ref{ganja2}. Thus \ref{bong} holds and ${(Y_{n})}_{n}$ is a martingale with respect to $\G$.
+	\end{enumerate}
+	\item We have
+	\begin{align*}
+		T&=\min\{n\geq 0:Y_{n}=0\}\\
+		&=\min\{n\geq 0:\indi_{\{X\geq n\}}=0\}\\
+		&=X+1.
+	\end{align*}
+	Note that the indicator $\indi_{\{X\geq n\}}$ is 1 if $X\geq n$ and when $X<n$ it switches to 0. $X\geq n$ means $X=n-1\iff n=X+1$. Thus the conditions for stopping time reduce to
+	\begin{equation*}
+		\{T\leq n\}=\{X+1\leq n\}\in\G_{n}
+	\end{equation*}
+	and 
+	\begin{equation*}
+		\{X+1\leq n\}^{n}=\left\{X+1>n\right\}=\{X>n+1\}=\ubracketthin{\{X\leq n\}\in\G_{n}}_{\claptext{since $Y_{n}=p^{-n}\indi_{\{X\geq n\}}$}}
+	\end{equation*}
+	so $\{T\leq n\}\in \G_{n}$, hence it is a stopping time.
+	\item Consider
+	\begin{align*}
+		\ev X&=\sum_{n\geq 1}\pr(X\geq n)\\
+		&=\sum_{n\geq 1}p^{n}\\
+		&=-1+\sum_{n\geq 0}p^{n}\\
+		&=-1+\frac{1}{1-p}\tag{\faPills}\label{pillole}
+	\end{align*}
+	We know that
+	\begin{align*}
+		\ev|T|=\ev|X+1|\leq1+\ev|X|&=1+\ev X\\
+		&=1+\sum_{n=0}^{\infty}n\cdot\pr(X=x)\\
+		&=1+\sumnonf n(\pr(X\geq n)-\pr(X\geq n+1))\\
+		&=1+\sumnonf(p^{n}-p^{n+1}).\tag{\faDrum}\label{batta}
+	\end{align*}
+	Compute the members one by one. 
+	\begin{equation*}
+		\sumnonf p^{n}=\frac{1}{1-p}\qquad\text{so}\qquad\sumnonf np^{n-1}=\frac{1}{(1-p)^{2}}\qquad\text{for }p<1
+	\end{equation*}
+	so
+	\begin{equation*}
+		\sumnonf np^{n}=p\sumnonf np^{n-1}=\frac{p}{(1-p)^{2}}
+	\end{equation*}
+	and
+	\begin{equation*}
+		\sumnonf np^{n+1}=p^{2}\sumnonf np^{n-1}=\frac{p^{2}}{(1-p)^{2}}.
+	\end{equation*}
+	This gives us
+	\begin{align*}
+		\ref{batta}&=1+\frac{p}{(1-p)^{2}}-\frac{p^{2}}{(1-p)^{2}}\\
+		&=\frac{(1-p)^{2}+p-p^{2}}{(1-p)^{2}}\\
+		&=\frac{1+\cancel{p^{2}}-2p+p-\cancel{p^{2}}}{(1-p)^{2}}\\
+		&=\frac{1-p}{(1-p)^{2}}\\
+		&=\frac{1}{1-p}<\infty.
+	\end{align*}
+\end{enumerate}
+\begin{remark}
+	To compute $\ev(X)$ we can also use the formula for positive \rv s:
+	\begin{equation*}
+		\ev(X)=\sumninf\pr(X\geq n)\qquad\mathrm{or}\qquad\ev(X)=\int_0^\infty\pr(X\geq x)\dx
+	\end{equation*}
+	and get the same result $\ev(X)=\frac{1}{1-p}-1$. Take
+	\begin{equation*}
+		A:=\left\{(x,\omega):0\leq x\leq X(\omega)\right\}.
+	\end{equation*}
+	Then
+	\begin{align*}
+		\int_\Omega\int_0^\infty\indi_{A}(x,\omega)\dx\dpr&=\int_0^\infty\int_\omega\indi_{A}(x,\omega)\dpr\dx\\
+		&=\int_0^{\infty}\pr(X\geq x)\dx.
+	\end{align*}
+\end{remark}
+\begin{exercise}
+	Let $X\in\lone(\Omega)$ and $\G_{n}$ be a filtration. Let $Y_{n}:=\ev(X|\G_{n})$.
+	\begin{enumerate}
+		\item Show that ${(Y_{n})}_{n}$ is a $\G$-martingale.
+		\item Show that for any $\G$-stopping time $T$ such that $\pr(T<\infty)=1$ one has $Y_{T}\in\lone(\Omega)$.
+	\end{enumerate}
+\end{exercise}
+\begin{enumerate}
+	\item \begin{enumerate}
+		\item Measurability: obvious by definition.\hspace*{\fill}\faCheckCircle
+		\item Integrability: obvious by definition.\hspace*{\fill}\faCheckCircle
+		\item Martingale property:
+		\begin{align*}
+			\ev[Y_{n+1}|\G_{n}]&=\ev[\ev(X|\G_{n+1})|\G_{n}]\\
+			&=\ev[X|\G_{n}]=Y_{n}.
+		\end{align*}
+	\end{enumerate}
+	\item \begin{align*}
+		\ev|Y_{T}|&=\ev\left|\sumnonf Y_{n}\indi_{\{T=n\}}\right|\\
+		&\leq\sumnonf\ev\left(\ev(|X|\big|\G_{n})\indi_{\{T=n\}}\right)\\
+		\indi_{\{T=n\}}\in m\G_{n}\longrightarrow&=\sumnonf\ev\left[\ev(|X|\indi_{\{T=n\}}|\G_{n})\right]\\
+		&=\sumnonf\ev\left[|X|\indi_{\left\{T=n\right\}}\right]\\
+		&=\ev\left[\sumnonf|X|\indi_{\{T=n\}}\right]\\
+		&=\ev|X|<+\infty.\tag*{\faCheckCircle}
+	\end{align*}
+\end{enumerate}
+\begin{exercise}
+	Let ${(C_{n})}_{n\in\N}$ be a sequence of independent \rv s with $\ev|X_{n}|=1,\;\every n\in\N$. Let $Y_{n}=\prod_{i=1}^{n}X_{i}$ and $\G_{n}:=\sigma(X_{1},\ldots,X_{n})$. Determine whether $Y$ is a $\G$-martingale.
+\end{exercise}
+\begin{enumerate}[(a)]
+	\item Measurability: follows from the measurability of $X_{i}$ and the fact that $Y_{n}$ is a product of $X_{i}$ with $i\leq n$.\hspace*{\fill}\faCheckCircle
+	\item Integrability:
+	\begin{equation*}
+		\ev|Y_{n}|=\ev\left|\prod_{i=1}^{n}X_{i}\right|=\prod_{i=1}^{n}\ev|X_{i}|=1<\infty.\tag*{\faCheckCircle}
+	\end{equation*}
+	\item Martingale probability:
+	\begin{align*}
+		\ev(Y_{n+1}|\G_{n})&=\ev\left(\prod_{i=1}^{n+1}X_{i}|\G_{n}\right)\\
+		&=\ev(X_{n+1}\cdot Y_{n}|\G_{n})\\
+		Y_{n}\in m\G_{n}\longrightarrow&=Y_{n}\ev(X_{n+1}|\G_{n})\\
+		X_{n+1}\independent\G_{n}\longrightarrow&=Y_{n}\ev(X_{n+1})=Y_{n}.\tag*{\faCheckCircle}
+	\end{align*}
+\end{enumerate}
 \subsection{Exercise class 8}
 \section{Questions for the oral examination}
 	Here I will try and answer to the questions for the anal examination that were on the moodle page for the academic year 2022-2023. I hope that they will be valid for the years to come as well.

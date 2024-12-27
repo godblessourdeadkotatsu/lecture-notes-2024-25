@@ -448,3 +448,9 @@ double ComputeConfidenceIntervals(double mean_wait_long, double time_events_prod
 int DecideToStop(int cycle_count, double error_percentage,int iteration_number) {
   return ((cycle_count>40 && error_percentage<0.10)||iteration_number>MAX_EVENTS);
 }
+
+/*
+todo normalità
+se non hai abbastanza numeri CADE l'assunzione di normalità
+grouping
+*/

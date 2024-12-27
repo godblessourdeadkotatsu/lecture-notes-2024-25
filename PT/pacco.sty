@@ -5,7 +5,7 @@
 \usepackage[T1]{fontenc} % best for Western European languages
 
 \usepackage{amsmath,amsthm}% must be loaded before newtxmath
-\usepackage[cmintegrals,cmbraces,ncf,curlybraces]{newtxmath}
+\usepackage[cmintegrals,ncf]{newtxmath}
 %\usepackage{fontspec} %I want to be a XeLaTeX bitch but my heard is in pdftex...
 %\usepackage{lmodern}
 
@@ -494,7 +494,7 @@
 \newcommand{\ifonly}{\underline{if and only if}}
 
 \newcommand{\ubracketthin}[1]{\underbracket[0.3pt]{#1}}
-		
+\newcommand{\claptext}[1]{\mathclap{\text{#1}}}
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
 		\node[shape=circle,draw,
 		shading=ball, ball color=SkyBlue1!70,
@@ -535,7 +535,7 @@
 									\newcommand{\BM}{(B_t)_{t\geq 0}}
 									\newcommand{\PX}{(X_t)_{t\geq 0}}
 									\newcommand{\var}{\mathbb{V}\!\mathrm{ar}\,}
-									\newcommand{\cov}{\mathbb{C}\!\mathrm{ov}\,}
+									\newcommand{\cov}{\mathbb{C}\mathrm{ov}\,}
 									\newcommand{\lp}{L^{p}}
 									\newcommand{\BMF}{\left((B_t)_{t\geq 0},\mathcal{F}_t \right)}
 									\newcommand{\mFt}{\mathcal{F}_t}
@@ -547,13 +547,16 @@
 		\newcommand{\sumiinf}{\sum_{i=1}^{\infty}}
 		\newcommand{\sumkinf}{\sum_{k=1}^{\infty}}
 		\newcommand{\sumjinf}{\sum_{j=1}^{\infty}}
+		\newcommand{\sumninf}{\sum_{n=1}^{\infty}}
 		\newcommand{\sumin}{\sum_{i=1}^{n}}
 		\newcommand{\sumkn}{\sum_{k=1}^{n}}
 		\newcommand{\sumjn}{\sum_{j=1}^{n}}
 		\newcommand{\sumik}{\sum_{i-1}^{k}}
+		\newcommand{\sumnk}{\sum_{n=1}^{k}}
 		\newcommand{\sumionf}{\sum_{i=0}^{\infty}}
 		\newcommand{\sumkonf}{\sum_{k=0}^{\infty}}
 		\newcommand{\sumjonf}{\sum_{j=0}^{\infty}}
+		\newcommand{\sumnonf}{\sum_{n=0}^{\infty}}
 		\newcommand{\sumion}{\sum_{i=0}^{n}}
 		\newcommand{\sumkon}{\sum_{k=0}^{n}}
 		\newcommand{\sumjon}{\sum_{j=0}^{n}}
@@ -562,6 +565,7 @@
 		\newcommand{\distnorm}[1]{\sim\mathsf{N}\left(#1\right)}
 		\newcommand{\distbernoulli}[1]{\sim\mathsf{Be}\left(#1\right)}
 		\newcommand{\distunif}[1]{\sim\mathsf{U}\left(#1\right)}
+		\newcommand{\distgeom}[1]{\sim\mathsf{Geom}\left(#1\right)}
 		\newcommand{\trns}[1]{{#1}^{\scriptscriptstyle\mathsf{T}}}
 		\newcommand{\iid}{\stackrel{\mathrm{iid}}{\sim}}
 		\newcommand{\ift}{\text{if }}
