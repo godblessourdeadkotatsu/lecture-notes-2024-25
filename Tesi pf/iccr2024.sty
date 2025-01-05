@@ -1,0 +1,141 @@
+\usepackage[a4paper,top=2cm,bottom=1.5cm,left=1.0cm,right=1.0cm]{geometry}
+\usepackage[italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[scaled=0.95]{helvet}
+\usepackage{mathptmx}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage[dvipsnames]{xcolor}
+\usepackage{calc}
+\usepackage{tikz}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{linkcolor = black, citecolor = black, urlcolor = blue} 
+\usepackage{microtype}
+\usepackage{sectsty}
+\usepackage[font={small},labelfont={sf,bf}, margin=0cm, indention = 0cm]{caption}
+\usepackage{microtype}
+\usepackage{multicol}
+\usepackage{times}
+\usepackage[utf8]{inputenc}     
+\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{lipsum}
+\usepackage{titling}
+\usepackage{authblk}
+\usepackage{dirtytalk}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage[backend=biber,style=plain,autocite=inline]{biblatex}
+\usepackage{csquotes}
+\usepackage{changepage}
+\usepackage{paracol}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fancy quotes
+\definecolor{quotemark}{gray}{0.7}
+\makeatletter
+\def\fquote{%
+    \@ifnextchar[{\fquote@i}{\fquote@i[]}%]
+           }%
+\def\fquote@i[#1]{%
+    \def\tempa{#1}%
+    \@ifnextchar[{\fquote@ii}{\fquote@ii[]}%]
+                 }%
+\def\fquote@ii[#1]{%
+    \def\tempb{#1}%
+    \@ifnextchar[{\fquote@iii}{\fquote@iii[]}%]
+                      }%
+\def\fquote@iii[#1]{%
+    \def\tempc{#1}%
+    \vspace{1em}%
+    \noindent%
+    \begin{list}{}{%
+         \setlength{\leftmargin}{0.1\textwidth}%
+         \setlength{\rightmargin}{0.1\textwidth}%
+                  }%
+         \item[]%
+         \hfill
+         \begin{picture}(0,0)%
+         \put(-15,-5){\makebox(0,0){\scalebox{3}{\textcolor{quotemark}{``}}}}%
+         \end{picture}%
+         \begingroup\itshape}%
+ %%%%********************************************************************
+ \def\endfquote{%
+ \endgroup\par%
+ \makebox[0pt][l]{%
+ \hspace{0.8\textwidth}%
+ \begin{picture}(0,0)(0,0)%
+ \put(15,15){\makebox(0,0){%
+ \scalebox{3}{\color{quotemark}''}}}%
+ \end{picture}}%
+ \ifx\tempa\empty%
+ \else%
+    \ifx\tempc\empty%
+       \hfill\textcolor{OliveGreen}{\rule{100pt}{2pt}}\\\mbox{}\hfill\tempa,\ \emph{\tempb}%
+   \else%
+       \hfill\textcolor{OliveGreen}{\rule{100pt}{2pt}}\\\mbox{}\hfill\tempa,\ \emph{\tempb},\ \tempc%
+   \fi\fi\par%
+   \vspace{0.5em}%
+ \end{list}%
+ }%
+ \makeatother
+ %%%%********************************************************************
+% define page header and footer
+\pagestyle{fancy}
+\let\oldheadrule\headrule% Copy \headrule into \oldheadrule
+\renewcommand{\headrule}{\color{OliveGreen}\oldheadrule}% Add colour to \headrule
+\renewcommand{\headrulewidth}{3pt}
+\fancyhf{} % clear all header and footer fields
+\fancyhead[L]{\sffamily\bfseries\scriptsize Conservatorio "G. Verdi" di Torino}
+\chead{\sffamily\bfseries\scriptsize\thepage}
+\fancyhead[R]{\sffamily\bfseries\scriptsize Corso di Analisi delle Forme Compositive}
+
+\setlength{\parindent}{10pt}
+\setlength{\columnsep}{0.6cm}
+\setlength{\parskip}{5pt}
+
+% reduce spacing around title
+\setlength{\droptitle}{-1.2cm}
+
+
+% remove date from title
+\predate{}
+\postdate{}
+\date{}
+
+% change font of section titles
+\allsectionsfont{\sffamily\bfseries\normalsize}
+% font definitions for authors and affiliations
+\renewcommand\Authfont{\small}
+\renewcommand\Affilfont{\footnotesize}
+
+\newcommand\listatitolo[1]{\item{#1}\\}
+% define custom abstract environment 
+\newenvironment{customabstract}
+    {\footnotesize 
+     \begin{tabular}{p{0.95\columnwidth}} 
+     \textbf{Abstract}
+    }
+    {
+    \end{tabular} 
+    \vspace{-0.3cm}
+    }
+
+% void In before journals in references
+\renewbibmacro{in:}{}    
+
+% use smaller font size for references
+\AtBeginBibliography{\footnotesize}
