@@ -2316,6 +2316,275 @@ We need to check the three properties.
 	\end{align*}
 \end{enumerate}
 \subsection{Exercise class 8}
+\begin{revise}
+	\begin{theorem}
+		\emph{Martingale convergence theorem}. Let $X$ be a submartingale. Suppose that ${(X_{n})}_{n}$ is bounded in $\lone$, uniformly in $n$ (that is, $\sup_{n}\ev|X_{n}|<\infty$). Then $X_{n}$ converges a.s. to an integrable \rv .
+	\end{theorem}
+	\begin{remark}
+		\begin{equation*}
+			\sup_{n}\ev|X_{n}|<\infty\iff\sup_{n}\ev X^{+}_{n}<\infty.
+		\end{equation*}
+	\end{remark}
+	\begin{definition}
+		A sequence of \rv s ${(X_{n})}_{n}$ is said to be \emph{uniformly integrable} if
+		\begin{equation*}
+			\lim_{b\to\infty}\sup_{n}\ev\left[|X_{n}|\indi_{\{|X_{n}|>b\}}\right]=0.
+		\end{equation*}
+	\end{definition}
+	If a \rv{} is uniformly integrable then it is $\lone$-bounded. If it is $\lp$-bounded and $p>1$ then it is uniformly integrable.
+	\begin{theorem}
+		\emph{Martingale convergence theorem (equivalence)}. Let $X$ be a submartingale. Then $X$ converges a.s. and in $\lone$ to an integrable \rv{} \ifonly{} it is uniformly integrable.
+	\end{theorem}
+\end{revise}
+\begin{exercise}
+	Let ${(X_{n})}_{n\in\N}$ be a sequence of i.i.d. \rv s with $\ev X_{n}=0$, $\ev X^{2}_{n}=1$. Let $S_{n}=\sumin X_{i}$, $n\geq 1$. Determine the a.s.-convergence of $S_{n}$. Decide whether $S_{n}$ is uniformly $\lone$-bounded.
+\end{exercise}
+If $\lim_{n}S_{n}$ exists and it is finite a.s. it should be absolutely summable so it must be that $|X_{i}|\to0\;\as$ as $i\to\infty$. This however is impossible because $X_{i}$ are i.i.d.. So $S_{n}$ does not convergence a.s..\\
+If $\sup_{n}\ev|S_{n}|<\infty$ then by the martingale convergence theorem (if $S_{n}$ is a martingale) we would have $S_{n}$ converging a.s., but this is not the case and thus $S_{n}$ is not $\lone$-bounded.
+\begin{enumerate}[(a)]
+	\item Measurability with respect to natural filtration.\hspace*{\fill}\faCheckCircle
+	\item Integrability:
+	\begin{equation*}
+		\ev|S_{n}|\leq\sumin\ev|X_{i}|=n\cdot c<\infty.\tag*{\faCheckCircle}
+	\end{equation*}
+	\item Martingale property:
+	\begin{align*}
+		\ev\left[S_{n+1}|\F_{n}\right]&=\ev\left[\sumin X_{i}+X_{n}\right]\\
+		&=\ev(S_{n}|\F_{n})+\ev(X_{n+1}|\F_{n})\\
+		&=S_{n}+\ev(X_{n+1})=S_{n},\tag*{\faCheckCircle}
+	\end{align*}
+\end{enumerate}
+\begin{exercise}
+	Let ${(\xi_{n})}_{n}$ be a sequence of independent \rv s such that $\ev\xi_{n}=0\;\every n\in\N$ and $\ev|\xi_{n}|=\frac{1}{2^{n}},\every n\in\N$. Let $X_{n}=\sumin\xi_{i}$, $n\geq 1$. Determine the $\as$-convergence of $X_{n}$. Say if $X_{n}$ is uniformly $\lone$-bounded.
+\end{exercise}
+${(X_{n})}_{n}$ is a martingale (same as the exercise 1, we used only the fact that $\xi_{i}$ are independent and $\ev\xi_{i}=0$). Thus we could apply martingale convergence theorem:
+\begin{equation*}
+	\sup_{n}\ev|X_{n}|=\sup_{n}\ev\left|\sumin\xi_{i}\right|\leq\sup_{n}\sumin\ev|\xi_{i}|\leq\sup_{n}\sumin\frac{1}{2^{n}}=1.
+\end{equation*}
+Hence $X_{n}\to X$ a.s. for some $X\in\lone$ (since ${(X_{n})}_{n}$ is $\lone$-bounded).
+\begin{exercise}
+	Let ${(Y_{n})}_{n\in\N}$ be a sequence of i.i.d \rv s with distribution $Y\distunif{\{1,-1\}}$. Let $X_{n}=\sumin \frac{Y_{i}}{i}$. Determine the a.s. convergence of $X_{n}$. Say if $X_{n}$ is uniformly $\lone$-bounded.
+\end{exercise}
+\begin{equation*}
+	\ev \frac{Y_{i}}{i}=\frac{1}{i}\left(1\cdot\unmezz-1\cdot\unmezz\right)=0.
+\end{equation*}
+Thus $X_{n}$ is a martingale with respect to its natural filtration, because it is a sum of independent \rv s with mean 0 (see exercise 1). Let's check whether ${(X_{n})}_{n}$ is $\lone$-bounded.
+\begin{align*}
+\sup_{n}\ev|X_{n}|&=\sup_{n}\ev\left|\sumin\frac{Y_{i}}{i}\right|\\
+&\leq\sup_{n}\sumin\frac{1}{i}\ev|Y_{i}|\\
+&=\sup_{n}\sumin\frac{1}{i}\left(1\cdot\unmezz+1\cdot\unmezz\right)\\
+&=\sumin\frac{1}{i}=+\infty.
+\end{align*}
+From this alone we cannot conclude anything. Let's see if ${(X_{n})}_{n}$ is $L^{2}$-bounded. This would imply $\lone$-boundedness, hence convergence a.s. to a $\lone$ \rv.
+\begin{align*}
+	\ev|X_{n}|^{2}&=\ev\left(\sumin\frac{Y_{i}}{i}\right)^{2}\\
+	&=\ev\left(\sumin\frac{Y_{i}^{2}}{i^{2}}+\sum_{\mathclap{\substack{i,j=1\\i\neq 1}}}\frac{Y_{i}Y_{j}}{ij}\right)\\
+	&=\sumin \frac{1}{i^{2}}\ev Y^{2}_{i}+\sum_{\mathclap{\substack{i,j=1\\i\neq 1}}}\frac{1}{ij}\ubracketthin{\ev(Y_{i}Y_{j})}_{\ubracketthin{\ev Y_{i}}_{=0}\ubracketthin{\ev Y_{j}}_{=0}}\\
+	&=\sumin \frac{1}{i^{2}}\cdot 1+0.
+\end{align*}
+So 
+\begin{equation*}
+	\sup_{n}\ev|X_{n}|^{2}=\sumiinf \frac{1}{i^{2}}<\infty
+\end{equation*}
+hence ${(X_{n})}_{n}$ is $L^{2}$-bounded $\implies$ it is uniformly integrable $\implies$ converges a.s. to a \rv{} in $\lone$ and it converges also in $\lone$.
+\begin{exercise}
+	Let ${(X_{n})}_{n\in\N}$ be a sequence of \rv s defined recursively as follows:
+	\begin{equation*}
+		\begin{array}{c}
+			X_{1}\distunif{[0,1]}\\
+			X_{2}\distunif{[0,X_{1}]}\\
+			\vdots\\
+			X_{n}\distunif{[0,X_{n-1}]}.
+		\end{array}
+	\end{equation*}
+	Let $\G_{n}=\sigma(X_{1},X_{2},\ldots,X_{n})$.
+	\begin{enumerate}
+		\item Compute $\ev X_{n}$.
+		\item Determine $C_{n}$ such that $Y_{n}=C_{n}X_{n}$ is a $\G$-martingale.
+		\item Determine the convergence of $Y_{n}$.
+	\end{enumerate}
+\end{exercise}
+\begin{enumerate}
+	\item We formalise the procedure to construct $X_{n}$ and write the conditional p.d.f.:
+	\begin{equation*}
+		\begin{array}{rl}
+			f_{X_{1}}(x)&=\indi_{[0,1]}(x)=\frac{1}{x_{0}}\indi_{[0,x_{0}]}(x)\qquad\text{with }x_{0}=1\\
+			f_{X_{2}|X_{1}=x_{1}}(x)&=\frac{1}{x_{1}}\indi[0,x_{1}](x)\\
+			&\vdots\\
+			f_{X_{n}|X_{n-1}=x_{n-1},\ldots,X_{1}=x_{1}}(x)&=f_{X_{n}|X_{n-1}=x_{n-1}}(x)=\frac{1}{x_{n-1}}\indi_{[0,x_{n-1}]}(x).
+		\end{array}
+	\end{equation*}
+	Thus we have
+	\begin{equation*}
+		\ev(X_{n}|\G_{n-1})=\ev(X_{n}|X_{n-1})
+	\end{equation*}
+	and
+	\begin{equation*}
+		\ev(X_{n}|X_{n-1}=x_{n-1})=\int x f_{X_{n}|X_{n-1}=x_{n-1}}(x)\dx=\frac{1}{x_{n-1}}\int_{0}^{x_{n-1}}x\dx=\frac{1}{x_{n-1}}\cdot\frac{x^{2}_{n-1}}{2}=\frac{x_{n-1}}{2}.
+	\end{equation*}
+So $\ev(X_{n}|X_{n-1})=\frac{X_{n-1}}{2}$ by the freezing lemma. This implies that $\frac{X_{n-1}}{2}$ is a version of the conditional expectation $\ev(X_{n}|\G_{n-1})$. This helps because by the tower property
+\begin{align*}
+	\ev(X_{n})&=\ev(\ev(X_{n}|\G_{n-1}))\\
+	&=\ev\left(\frac{X_{n-1}}{2}\right)\\
+	&=\unmezz\ev(\ev(X_{n-1}|\G_{n-2}))\\
+	&=\unmezz\ev(\frac{X_{n-2}}{2})\\
+	\text{by recurrence }\to&\qquad\qquad\vdots\\
+	&=\frac{1}{2^{2-1}}\ev X_{1}=\frac{1}{2^{n-1}}\cdot\unmezz=\frac{1}{2^{n}}.
+\end{align*}
+\item Given any ${(C_{n})}_{n}$ we have 
+\begin{equation*}
+	\ev(Y_{n}|\G_{n-1}2)=C_{n}\ev(X_{n}|\G_{n-1})=\frac{C_{n}}{2}X_{n-1}\overset{?}{=}Y_{n-1}.
+\end{equation*}    2
+For $Y_{n-1}=C_{n-12}X_{n}$ we must have $C_{n-1}=\frac{C_{n}}{2}$ i.e. $C_{n}=2C_{n-1}$ defined recursively with $C_{1}$ initial condition to get
+\begin{equation*}  
+	C_{n}=2C_{n-1}=2^{2}C_{n-2}=2^{n-1}C_{1}.
+\end{equation*}
+\item Notice that if $C_{1}>0$ then $Y_{n}\geq0$, if $C_1<0$ then $Y_n\leq0$. Let's consider the case $C_1>0$ (the other case is analogous with a minus sign).
+\begin{equation*}
+	\ev|Y_{n}|=\ev(Y_{n})=\ev[C_{n}X_{n}]=2^{n-1}C_{1}\ev X_{n}=2^{n-1}C_{1}\cdot\frac{1}{2^{n}}=\frac{C_{1}}{2}
+\end{equation*}
+and this implies
+\begin{equation*}
+	\sup_{n}\ev|Y_{n}|=\frac{C_{1}}{2}<\infty\qquad\text{(independent of n.)}
+\end{equation*}
+Hence by the martingale convergence theorem we have $Y_{n}\to Y_{\infty}$ a.s. wth $Y_{\infty}\in\lone$.
+\end{enumerate}
+\begin{exercise}
+	Consider the following betting game. A player has random initial capital $X_0\in\lone$ and $X_0>0 \as$. She places a bet of $\frac{X_{0}}{2}$ which gives $X_0$ if she wins and $0$ if she loses so that her total capital after one bet is $X_1=X_0+\frac{X_0}{2}$ (win) or $X_{1}=\frac{X_{0}}{2}$ (lose). The probability of losing is $\unmezz$ and so is the probability of winning. The player plays repeatedly (each bet is independent of the previous one) and each time she bets half od her current capital. We denote by $X_{n}$ her capital after $n$ bets.
+	\begin{itemize}
+		\item Determine if ${(X_{n})}_{n}$ is a $\G$-martingale, where $\G_{n}=\sigma(X_{0},\ldots,X_{n})$.
+		\item Determine if $X_{n}\to X$ a.s. and specify $X$
+		\item Determine if $X_{n}\to X$ in $\lone$.
+	\end{itemize}
+\end{exercise}
+\begin{enumerate}
+	\item \begin{enumerate}
+		\item Measurability is obvious.
+		\item Integrability: $$\ev|X_{n}|=\ev X_{n}=\ev X_{n}\leq \ev\left(X_{n-1}+\frac{X_{n-1}}{2}\right)\leq\cdots\mathrm{const}\cdot\ev(X_{0})\leq\infty.$$
+		\item Martingale property: we have to show $\ev(X_{n+1}|\G_{n})=X_{n}$ for every $n\in\N$. Notice that $\ev(X_{n+1}|\G_{n})=\ev(X_{n+1}|X_{n}).$ We want to apply the freezing lemma so we calculate
+		\begin{equation*}
+			\ev(X_{n+1}|X_{n}=x_{n})=\unmezz\left(\frac{x_{n}}{2}+\frac{3}{2}x_{n}\right)=x_{n}
+		\end{equation*}
+		thus by the freezing lemma we have 
+		\begin{equation*}
+			\ev(X_{n+1}|X_{n})=X_{n}.
+		\end{equation*}
+	\end{enumerate}
+	\item \begin{equation*}
+		\ev|X_{n}|=\ev X_{n}=\ev X_{0}<\infty\implies\sup_{n}\ev|X_{n}|=\ev X_{0}
+	\end{equation*}
+	hence $X_{n}\to X$ a.s. for some $X\in\lone$. In order to determine $X$ we make the following calculations"
+	\begin{equation*}
+		\begin{array}{c}
+			X_{n+1}=\begin{cases}
+			\frac{X_{n}}{2}\\
+			\frac{X_{n}}{2}+X_{n}
+		\end{cases}\implies|X_{n+1}-X_{n}|=\begin{cases}
+		\left|\frac{X_{n}}{2}-X_{n}\right|&=\frac{X_{n}}{2}\\
+		\left|\frac{X_{n}}{2}+X_{n}-X_{n}\right|&=\frac{X_{n}}{2}
+		\end{cases}\\
+		\big\Downarrow\\
+		2|X_{n+1}-X_{n}|=X_{n}
+		\end{array}
+	\end{equation*}
+	Taking the a.s. limit on both sides we get $2|X-X|=X$ which implies $X=0$.
+	\item Since $\ev[|X_{n}-0|]=\ev|X_{n}|=\ev X_{n}\neq 0$ since $X_{0}>0$ a.s. this implies that $X_{n}$ does not converge in 0 in $\lone$.
+\end{enumerate}
+\begin{exercise}
+	Let ${(X_{n})}_{n\in \N}$ be a sequence of i.i.d. \rv s with distribution $X_{n}\distbernoulli{\unmezz}$ and let $S_{n}=\sumin X_{i}$. Fix $p\in(0,1)$ and $q:=1-p$. Define $M_{n}=(2p)^{S_{n}}(2q)^{n-S_{n}}$.
+	\begin{itemize}
+		\item Determine whether ${(M_{n})}_{n}$ is a martingale with respect to $\G_{n}=\sigma(X_{1},\ldots,X_{n})$.
+		\item Determine the a.s. convergence of $M_{n}$ to $M$ and determine $M$.
+	\end{itemize}
+\end{exercise}
+\begin{enumerate}
+	\item \begin{enumerate}
+		\item Measurability holds because $M_{n}$ is a continuous function of $X_1,\ldots,X_{n}$.
+		\item Integrability:
+		\begin{align*}
+			\ev|M_{n}|=\ev M_{n}&=\ev\left[(2p)^{S_{n}}(2q)^{n-S_{n}}\right]\\
+			&=\ev\left[(2p)^{\sumin X_{i}}(2q)^{\sumin(1-X_{i})}\right]\\
+			&=\ev\left[\prod_{i=1}^{n}(2p)^{X_i}(2q)^{1-X_{i}}\right]\\
+			&=\prod_{i=1}^n\ev\left[(2p)^{X_{i}}(2q)^{1-X_{i}}\right]\\
+			&=\left[\unmezz(2p)^{0}\cdot(2q)^{1-0}+\unmezz(2p)^{1}(2q)^{1-1}\right]^{n}\\
+			&=\left[\unmezz 2q+\unmezz 2p\right]^{n}\\
+			&=(p+q)^{n}\\
+			&=1^{n}=1<\infty.
+		\end{align*}
+		\item Martingale property: setting $Z_{i}=(2p)^{X_{i}}(2q)^{1-X_{i}}$ we have $M_{n}=\prod_{i=1}^{n}Z_{i}$ and $Z_{i}\independent$. Then
+		\begin{align*}
+			\ev(M_{n+1}|G_{n})&=\ev(Z_{n+1}M_{n}|\G_{n})\\
+			M_{n}\in m\G_{n}\to\qquad&=M_{n}\ev(Z_{n+1}|\G_{n})\\
+			Z_{n+1}\independent\G_{n}\to\qquad&=M_{n}\ev_{(Z_{n+1})}\\
+			\ev Z_{n+1}=1\to\qquad&=M_{n}.
+		\end{align*}
+	\end{enumerate}
+	\item \begin{equation*}
+		\ev|M_{n}|=\ev M_{n}=\ev\prod_{i=1}^{n}Z_{i}=\prod_{i=1}^{n}\ev Z_{i}=1
+	\end{equation*}
+	thus $\sup_{n}\ev|M_{n}|=1$. By martingale convergence theorem $M_{n}\to M$ a.s. for some $M\in\lone$. To determine $M$ we must distinguish for different values of $p$.
+	\begin{itemize}
+		\item If $p=\unmezz$ then $M_{n}\equiv 1$ and so $M=1$.
+		\item If $p\neq\unmezz$ we note that
+		\begin{align*}
+			M_{n}&=(2p)^{S_{n}}(2q)^{n-S_{n}}\\
+			&=\exp\left\{\log\left[(2p)^{S_{n}}(2q)^{n-S_{n}}\right]\right\}\\
+			&=\exp\left\{\log(2p)^{S_{n}}+\log(2q)^{n-S_{n}}\right\}\\
+			&=\exp\left\{S_{n}\log(2p)+(n-S_{n})\log(2q)\right\}\\
+			&=\exp\left\{n\left[\frac{S_{n}}{n}\log(2p)+\left(1-\frac{S_{n}}{n}\right)\log(2q)\right]\right\}.
+		\end{align*}
+	\end{itemize}
+	By SLLN we have $\frac{S_{n}}{n}\to\ev X_{1}$ a.s. with $\ev X_{1}=\unmezz$. Thus setting 
+	\begin{equation*}
+		Y_{n}=\frac{S_{n}}{n}\log(2p)+\left(1-\frac{S_{n}}{n}\right)\log(2q)
+	\end{equation*}
+	we have 
+	\begin{equation*}
+		Y_{n}\convas\unmezz\log(2p)+\unmezz\log(2q)=\unmezz\log(4pq)
+	\end{equation*}
+	where
+	\begin{equation*}
+		4pq=4p(1-p)<1\implies\unmezz\log(4pq)<0.
+	\end{equation*}
+	We also have $M_{n}=\ev(n\cdot Y_{n})$ and by limit of composite functions (on a set of probability 1) we get
+	\begin{equation*}
+		\lim_{n\to\infty}M_{n}=e^{-\infty}=0\qquad\as{}
+	\end{equation*}
+	which means $M=0$.
+\end{enumerate}
+\begin{exercise}
+	Let ${(\F_{n})}_{n}$ be a filtration and ${(X_{n})}_{n\in\N},{(Y_{n})}_{n\in\N}$ be two $\F$-martingales. Let $T=\inf\{n\geq 1:X_{n}=Y_{n}\}$.
+	\begin{enumerate}
+		\item Determine if $T$ is a $\F$-stopping time.
+		\item Letting $Z_{n}:=(X_{n}-Y_{n})\indi_{\{T\geq n\}}$ determine if ${(X_{n})}_{n}$ is a $\F$-martingale.
+	\end{enumerate}
+\end{exercise}
+\begin{enumerate}
+	\item We must check whether $\{T\leq n\}\in\F_{n},\;\every n\in\N,$ or equivalently if $\{T=n\}\in\F_{n},\;\every n\in\N$.
+	\begin{equation*}
+		\{T=n\}=\{\ubracketthin{X_{1}\neq Y_{i}}_{\in\F_{1}\subset\F_{n}},\ubracketthin{X_{n}\neq Y_{n}}_{\in\F_{2}\subset\F_{n}},\ldots,X_{n-1}\neq Y_{n-1},\ubracketthin{X_{n}=Y_{n}}_{\in\F_{n}}\}\in\F_{n}.
+	\end{equation*}
+	Remember that $X$ and $Y$ are $\F-$martingales and hence measurable.
+	\item \begin{itemize}
+		\item Measurability:
+		\begin{equation*}
+			\{T\geq n\}=\{T>n-1\}=\{T\leq n-1\}^{c}
+		\end{equation*}
+		and by the previous point we know that $\{T\leq n-1\}\in\F_{n-1}$ so $\{T\geq n\}\in m\F_{n-1}$. Moreover $X_{n},Y_{n}\in m\F_{n}$ have $Z_{n}\in m\F_{n}$.
+		\item Integrability:
+	\begin{equation*}
+			\ev\left[\left|(X_{n}-Y_{n})\indi_{\{T\geq n\}}\right|\right]\leq\ev|X_{n}|+\ev|Y_{n}|<\infty.
+	\end{equation*}
+	\item Martingale property:
+	\begin{align*}
+		\ev\left[(X_{n}-Y_{n})\indi_{\{T\geq n\}}|\G_{n-1}\right]&=\indi_{\{T\geq n\}}\ev\left[X_{n}-Y_{n}|\G_{n-1}\right]\\
+		&=\indi_{\{T\geq n\}}(X_{n-1}-Y_{n-1})\\
+		&=\left(\indi_{\{T\geq n-1\}}-\indi_{T=n-1}\right)(X_{n-1}Y_{n-1})\\
+		&=\indi_{\{T\geq n-1\}}(X_{n-1}-Y_{n-1})-\ubracketthin{\indi_{\{T=n-1\}}(X_{n-1}-Y_{n-1})}_{\claptext{=0 because if $T=n-1$ it means $X_{n-1}=Y_{n-1}$}}\\
+		&=\indi_{\{T\geq n-1\}}(X_{n-1}-Y_{n-1}).
+	\end{align*}
+	\end{itemize}
+\end{enumerate}
 \section{Questions for the oral examination}
 	Here I will try and answer to the questions for the anal examination that were on the moodle page for the academic year 2022-2023. I hope that they will be valid for the years to come as well.
 	\subsection{Transition kernels: definition, example, and their usage in the extension of measures to
