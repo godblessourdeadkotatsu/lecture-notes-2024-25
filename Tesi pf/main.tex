@@ -1,0 +1,67 @@
+% Latex template for submission to the XXth International Conference on the use of Computers in Radiation therapy
+% (ICCR 2024)
+%
+% Date:   Oct 2023
+%
+% Modified from
+% https://github.com/gschramm/fully3d_templates
+% 
+% To build this document, we recommend to use latexmk via:
+% ```latexmk -pdf iccr2024_template.tex```
+% Building in the online editor overleaf also works.
+
+\documentclass[11pt]{article}
+\usepackage{iccr2024}
+
+%%%%%% add your extra packages here (if needed)                                        %%%%%
+
+%%%%%% before, have a look which packages are already imported by the iccr2024 package %%%%%
+%\usepackage{mypackage}
+%%%%********************************************************************
+
+
+%%%%% add your bibtex file that contains the bibtex entries here %%%%%
+%%%%% please include DOIs in the bibtex entries if possible      %%%%%
+\addbibresource{references.bib}
+
+\begin{document}
+\twocolumn[{
+
+%-------------------------------------------------------------------------------------------
+%%%%% add your title here %%%%%
+\title{Anthony Braxton: vibrazioni e de-costruzioni} 
+
+%%%%% add authors and affiliations here %%%%%
+\author[1]{Lorenzo~Sala}
+
+%%%%% don't change these 2 lines %%%%%
+\maketitle
+\thispagestyle{fancy}
+
+
+
+%-------------------------------------------------------------------------------------------
+%%%%% add your summary (abstract) here               %%%%%%
+%%%%% use footnotesize for this section              %%%%%%
+%%%%% please stick to the customabstract environment %%%%%% 
+
+\tableofcontents
+\bigskip
+\medskip}]
+
+%-------------------------------------------------------------------------------------------
+%%%%% main text                                                %%%%%    
+%%%%% remove the dummy content and put your own content here   %%%%% 
+%%%%% feel free to choose your own section titles              %%%%% 
+%%%%% you don't need to put the content in a separate tex file %%%%%
+
+% dummy_content.tex shows how to add sections, figures, tables, formulas, and references
+% remove the following line, it just adds dummy content
+
+\input{twocol2}
+
+
+%-------------------------------------------------------------------------------------------
+\printbibliography[title={Bibliografia}]
+
+\end{document}
