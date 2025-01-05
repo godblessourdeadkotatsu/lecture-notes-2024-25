@@ -369,6 +369,14 @@ We ﬁrst state the following technical lemma:
 	\begin{equation*}
 		\alpha=\mathsf{dist}(z,Y)=\inf_{y\in Y}\norm{z-y}>0.
 	\end{equation*}
-	Pick $\varepsilon\in(0,1)$. There exists $\overline{y}\in Y$ such that $\norm{\overline{y}-z}\leq\frac{\alpha}{1-\varepsilon}$ (otherwise we would get $\mathsf{dist}(z,Y)\geq\frac{\alpha}{1-\varepsilon}>\alpha$!)
+	Pick $\varepsilon\in(0,1)$. There exists $\overline{y}\in Y$ such that $\norm{\overline{y}-z}\leq\frac{\alpha}{1-\varepsilon}$ (otherwise we would get $\mathsf{dist}(z,Y)\geq\frac{\alpha}{1-\varepsilon}>\alpha$!). Notice that $\overline{y}\neq z$ so that $r:+\norm{\overline{y}-z}>0$. Set 
+	\begin{equation*}
+		x:=\frac{1}{r}(z-\overline{y}).
+	\end{equation*}
+	Clearly, $\norm{x}=1$. Let $y\in Y$ be given. One can write
+	\begin{equation*}
+		\norm{x-y}=\frac{1}{r}\norm{z-\overline{y}-ry}
+	\end{equation*}
+	and since $Y$ is a linear subspace $\overline{y}+ry\in Y$ so that $\norm{z-\overline{y}-ry}\geq \alpha$. Therefore $\norm{x-y}\geq\frac{\alpha}{r}\geq 1-\varepsilon$ by assumption on $r=\norm{z-\overline{y}}$. Since this is true for any $y\in Y$, this proves the result.
 \end{fancyproof}
 \end{document}
