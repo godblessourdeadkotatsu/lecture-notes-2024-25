@@ -16,6 +16,15 @@ typedef struct node* nodePtr;
 poi quando definiamo il nodo dobbiamo usare 
 nodePtr*/
 
+typedef struct DLL{
+    nodePtr Head;
+    nodePtr Tail;
+} dll;
+int node_number;
+dll FEL = {NULL, NULL}; /* Pointer to the header of the Future Event List implemented with a doubly linked list */
+dll IQ = {NULL, NULL}; /* Pointer to the header of the Future Event List implemented with a doubly linked list */
+int job_number; /* (progressive) Job identification number */
+
 /* Definition of the Event Notice - typical fields to contain event’s attributes */
 typedef struct {
     char type;
@@ -178,4 +187,83 @@ void departure(struct node* node_event){
 void end(struct node* node_event){
     halt = 1;
     return_node(node_event);
+}
+
+/*now create the fucking data structures function*/
+
+
+void schedule(struct node* node_event){
+/* empty fel, head is null */
+if (FEL.Head == NULL) {
+    FEL.Head = node_event;
+    FEL.Tail = node_event;
+    node_event->left = NULL;
+    node_event->right = NULL;
+    return;
+}
+
+/*insert at the front*/
+if (node_event->event.occur_time <= FEL.Head->event.occur_time) {
+    node_event->right = FEL.Head;
+    node_event->left = NULL;
+    FEL.Head->left = node_event;
+    FEL.Head = node_event;
+    return;
+}
+
+/*insert in the middle or end: needed traversal*/
+
+struct node* current = FEL.Head;
+
+/*traverse*/
+while (current != NULL && node_event->event.occur_time > current->event.occur_time) {
+    current = current->right;
+}
+
+/*insert*/
+if (current != NULL) {
+    node_event->right = current;
+    node_event->left = current->left;
+    if (current->left != NULL) {
+        current->left->right = node_event;
+    }
+    current->left = node_event;
+} else {
+    /*insert at the end*/
+    node_event->left = FEL.Tail;
+    node_event->right = NULL;
+    FEL.Tail->right = node_event;
+    FEL.Tail = node_event;
+}
+}
+
+struct node* event_pop(void){
+/*check if the FEL is empty*/
+if (FEL.Head == NULL) {
+    printf("the future event list is empty. I popped all there was to pop!");
+    return NULL;
+}
+
+/*save temporarily first node*/
+struct node* first_node = FEL.Head;
+
+/*update the head of the FEL to point to the next node*/
+FEL.Head = FEL.Head->right;
+
+/*if the list becomes empty update the tail of the FEL*/
+if (FEL.Head == NULL) {
+    FEL.Tail = NULL // no nodes left
+} else {
+    FEL.Head->left = NULL //detach popped node
+}
+
+/*detach pointers*/
+first_node->left = NULL;
+first_node->right = NULL;
+
+return first_node;
+}
+
+void enqueue(struct node* new_inqueue){
+    
 }
