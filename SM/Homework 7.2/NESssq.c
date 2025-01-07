@@ -264,6 +264,53 @@ first_node->right = NULL;
 return first_node;
 }
 
-void enqueue(struct node* new_inqueue){
-    
+void enqueue(dll* IQ, struct node* new_inqueue){
+    /*check if the input node is null*/
+    if (new_inqueue == NULL) {
+        printf("why did you give me a null node?");
+        return;
+    }
+
+    /*init pointers of the new_inqueue*/
+    new_inqueue->left = NULL;
+    new_inqueue->right = NULL;
+
+    if (IQ->Head == NULL && IQ->Tail == NULL) {
+        /*if the queue is empty insert first node*/
+        IQ->Head = new_inqueue;
+        IQ->Tail = new_inqueue;
+    } else {
+        /*link new node at the end of the Q*/
+        new_inqueue->left = IQ->Tail; // its previous node is the tail
+        IQ->Tail->right = new_inqueue; // it is the successor of the tail
+        IQ->Tail = new_inqueue; // it is the new tail!
+    }
+}
+
+struct node* dequeue(dll* IQ) {
+    /*check if valid q*/
+    if (IQ == NULL && IQ->Head == NULL) {
+        printf("WHY DO YOU HATE ME AND ASK ME TO DEQUEUE FROM AN EMPTY QUEUE? OR A QUEUE THAT DOES NOT EXIST IN THE FIRST PLACE?");
+        return NULL;
+    }
+
+    /*get first node*/
+    struct node* dequeued_node = IQ->Head;
+
+    /*update head to point to the second node*/
+    IQ->Head = dequeued_node->right;
+
+    if (IQ->Head != NULL) {
+        /*update the head if there are events left in the q*/
+        IQ->Head->left = NULL;
+    } else {
+        /*if the queue is empty also the tail is null*/
+        IQ->Tail = NULL;
+    }
+
+    /*disconnect the dequeued node from the queue*/
+    dequeued_node->left = NULL;
+    dequeued_node->right = NULL;
+
+    printf("dequeued node.\n")
 }
