@@ -31,6 +31,13 @@ int cycle_num = 0;
 int cycle_in_group = 0;
 double total_waiting_short = 0;
 double total_waiting_long = 0;
+double total_waiting_short_squared = 0;
+double S_AA = 0;
+double S_Anu = 0;
+double S_nu = 0;
+double S_nunu = 0;
+double error = 0;
+double r_hat = 0;
 
 typedef enum {
     AS = 1,
@@ -417,7 +424,7 @@ int RegPoint(nodePtr node_event, int *cycle_in_group, int *cycle_num) {
 
     this function returns 1 (true) for regeneration point, 0 (false) otherwise
     */
-   if (*cycle_in_group <= 50)
+   if (*cycle_in_group < 50)
    {
     if (node_event->event.type == DL) {
     (*cycle_in_group)++;
@@ -425,17 +432,41 @@ int RegPoint(nodePtr node_event, int *cycle_in_group, int *cycle_num) {
     }
    } else {
     (*cycle_num)++;
-    *cycle_in_group = 0;
     return 1;
    }
 }
 
-void CollectRegStatistics(double *waiting_long, double *total_waiting_long){
+void CollectRegStatistics(
+    double *waiting_long, 
+    double *total_waiting_long, 
+    double *S_AA,
+    double *S_Anu,
+    double *S_nu,
+    double *S_nunu,
+    double *cycle_in_group
+    ) {
     *total_waiting_long += *waiting_long;
+    *S_AA += pow(*waiting_long, 2);
+    *S_Anu += *waiting_long * *cycle_in_group;
+    *S_nu += *cycle_in_group;
+    *S_nunu += pow(*cycle_in_group, 2);
 }
 
-void ResetMeasures(double *waiting_long){
-    *waiting_long == 0;
+void ResetMeasures(double *waiting_long, double *cycle_in_group){
+    *waiting_long = 0;
+    *cycle_in_group = 0;
 }
 
-/*todo: compute confidence intervals and decide 2 stop*/
+double ComputeConfidenceIntervals(
+    double *r_hat, 
+    double total_waiting_long,
+    int cycle_num, 
+    double S_AA, 
+    double S_Anu, 
+    double S_nunu, 
+    double S_nu
+    ) {
+    *r_hat = total_waiting_long / S_nu;
+    double delta = sqrt(cycle_num/(cycle_num-1))*(sqrt(S_AA-2* *r_hat* S_Anu+pow(*r_hat, 2)* S_nunu))/(S_nu);
+    error = 1.96 * delta;
+}

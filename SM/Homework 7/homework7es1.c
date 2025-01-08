@@ -35,7 +35,7 @@ typedef struct Event {
   double timestamp; // The time the event occurs
 } Event;
 
-int verbose = 0; // the cute logs are off by default.
+int verbose = 0; // the cute logs are off by default. they are not as cute as my wife.
 int n = N;
 int iteration_number = 0;
 double wait_currentcycle_short_station = 0;
@@ -453,4 +453,5 @@ int DecideToStop(int cycle_count, double error_percentage,int iteration_number) 
 todo normalità
 se non hai abbastanza numeri CADE l'assunzione di normalità
 grouping
+ammazzati lorenzo
 */
