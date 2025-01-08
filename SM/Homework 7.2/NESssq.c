@@ -2,14 +2,43 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 
+#define N 10              // max number of machines
+#define HETA_ARRIVAL 3000 // Expected value for arrivals
+#define HETA_SHORT 40     // Expected value for short station
+#define HETA_LONG 960     // Expected value for long station
+#define MAX_EVENTS 100000000
+#define BETA 0.2 // routing probability
+#define MAX_TIME 10000000
+
+/*------VARIABLES FOR THE SIMULATION CORE------*/
 double clock = 0;
 int halt=0;
 int event_counter=0;
-int narr_short;
-int narr_long;
 double heta;
-double Sum_w = 0;
+double waiting_short = 0;
+double waiting_long = 0;
+double beta = BETA;
+int nserv_s =0;
+int nserv_l =0;
+double heta_arrival = 3000;
+double heta_short = 40;
+double heta_long = 960;
+
+/*------VARIABLES FOR THE REGENERATION METHOD------*/
+int cycle_num = 0;
+int cycle_in_group = 0;
+double total_waiting_short = 0;
+double total_waiting_long = 0;
+
+typedef enum {
+    AS = 1,
+    AL = 2,
+    DS = 3,
+    DL = 4,
+    END = 5
+} event_label;
 /* Definition of the type used to specify the pointer to a node of a list or queue */
 typedef struct node* nodePtr;
 /*dobbiamo inizializzarlo prima prechè
@@ -20,15 +49,19 @@ typedef struct DLL{
     nodePtr Head;
     nodePtr Tail;
 } dll;
-int node_number;
+
+
 dll FEL = {NULL, NULL}; /* Pointer to the header of the Future Event List implemented with a doubly linked list */
-dll IQ = {NULL, NULL}; /* Pointer to the header of the Future Event List implemented with a doubly linked list */
+dll IQ1 = {NULL, NULL}; /* Pointer to the header of the Future Event List implemented with a doubly linked list */
+dll IQ2 = {NULL, NULL};
+
+int node_number;
 int job_number; /* (progressive) Job identification number */
 
 /* Definition of the Event Notice - typical fields to contain event’s attributes */
 typedef struct {
-    char type;
-    char name[256];
+    event_label type;
+    int machine_id;
     double create_time;
     double occur_time; 
     double arrival_time;  
@@ -42,8 +75,8 @@ struct node {
     nodePtr right;         // Pointer to the next node in the doubly linked list
 };
 
-// NON DOBBIAMO SCHEDULARE LE PARTENZE IN CODA
-nodePtr get_new_node(event_notice event) {
+
+nodePtr get_new_node() {
     // Allocate memory for the new node
     nodePtr new_node = (nodePtr)malloc(sizeof(struct node));
 
@@ -54,7 +87,12 @@ nodePtr get_new_node(event_notice event) {
     }
 
     // Initialize the new node with the given event
-    new_node->event = event;
+    new_node->event.type = 0;             // Default type
+    new_node->event.machine_id = 0;    // Empty int
+    new_node->event.create_time = 0.0;   // Default time
+    new_node->event.occur_time = 0.0;    // Default time
+    new_node->event.arrival_time = 0.0;  // Default time
+    new_node->event.service_time = 0.0;  // Default time
     new_node->left = NULL;  // Set the left pointer to NULL
     new_node->right = NULL; // Set the right pointer to NULL
 
@@ -72,124 +110,173 @@ double exponential_random(double heta) {
   return exp;
 }
 
+/*
+-----------------------------------------------------------------------------
+-------------------------SIMULATION CORE-------------------------------------
+-----------------------------------------------------------------------------
+*/
 
 void initialize() {
     /* Definition and Initialization of Useful Variables */
     clock = 0;
     halt = 0;
 
-    /* Definition and Initialization of Future Event List (FEL) and additional structures */
-    nodePtr FEL = NULL;  // Future Event List initialized to NULL
-    nodePtr Queue1 = NULL;  // Queue of server 1 initialized to NULL (for managing events)
-    nodePtr Queue1 = NULL;  // Queue of server 2 initialized to NULL (for managing events)
-    /* First Arrival Time is 0 */
-    double arrival_t = 0;  // Set the first arrival time to 0
+    /*we pick the 10 arrival times of the system. we create the nodes and schedule them!*/
+    for (int i = 1; i < 11; i++) {
+        nodePtr init_job = get_new_node();
+        double arrival_t = exponential_random(heta_arrival);
 
-    /* Extract the first Service Time as an Exponential Random Variable */
-    double service_t = get_exponential_service_time();  // Assume this function generates the service time
-
-    /* Initialize Event notice of first arrival and Schedule first event */
-    nodePtr event_notice = get_new_node();  // Create a new node for the event
-    event_notice->event.type = 'A';  // Set the type to ARRIVAL
-    event_notice->event.occur_time = arrival_t;  // Set the event's occurrence time
-    event_notice->event.arrival_time = arrival_t;  // Set the arrival time
-    event_notice->event.service_time = service_t;  // Set the service time
-    schedule(event_notice);  // Schedule this event in the Future Event List
-
+        init_job->event.arrival_time = arrival_t;
+        init_job->event.create_time = clock;
+        init_job->event.type = AS;
+        init_job->event.machine_id = i;
+        schedule(init_job);
+    }
+   
     /* Initialize Event notice of End Simulation and Schedule last event */
-    nodePtr end_event_notice = get_new_node();  // Create a new node for the end event
-    end_event_notice->event.type = 'E';  // Set the type to END
-    end_event_notice->event.occur_time = End_time;  // Set the end time (assuming you have this predefined)
+    nodePtr end_event_notice = get_new_node(); 
+    end_event_notice->event.type = END;  // Set the type to END
+    end_event_notice->event.occur_time = MAX_TIME;  // Set the end time (assuming you have this predefined)
     schedule(end_event_notice);  // Schedule the end simulation event in the Future Event List
 }
 
-void engine(void ){
-char event_type;
-double oldclock;
-double interval;
-nodePtr new_event; // pointer to struct node
+void engine(void){
+    char event_type;
+    double oldclock;
+    double interval;
+    nodePtr new_event; // pointer to struct node
 
-/* get the 1st event from future event list */
-new_event = event_pop(); /* TODO: EVENT POP */
+    /* get the 1st event from future event list */
+    new_event = event_pop(); /* TODO: EVENT POP */
 
-/* update clock */
-oldclock = clock;
-clock = new_event->event.occur_time;
-interval = clock - oldclock;
+    /* update clock */
+    oldclock = clock;
+    clock = new_event->event.occur_time;
+    interval = clock - oldclock;
 
-/* collect statistics */
+    /* collect statistics */
 
-/* identify and process current event */
-event_type = new_event->event.type;
-switch(event_type) {
-    case 'ARRIVAL' : arrival(new_event);
-    break;
-    case 'DEPARTURE' : departure(new_event);
-    break;
-    case 'END' : end(new_event);
-    break;
+    /* identify and process current event */
+    event_type = new_event->event.type;
+    switch(event_type) {
+        case AS : a_short(new_event);
+        break;
+        case AL : a_long(new_event);
+        break;
+        case DS : d_short(new_event);
+        break;
+        case DL : d_long(new_event);
+        break;
+        case END : end(new_event);
+        break;
+    }
+    event_counter++;
 }
-event_counter++;
-}
 
-void arrival(struct node* node_event){
-    double delta_t;
-    double cycle_time;
+void a_short(struct node* node_event){
     struct node* next_job;
-
-    /*update statistics*/
-    narr_short++;
-    /*idk*/
+    nserv_s++;
     node_event->event.create_time = clock;
-    if (narr_short == 1) {
-        /* process arrival at busy server */
-        node_event->event.type = 'DEPARTURE'; /*transform into departure */
-        node_event->event.occur_time = clock + node_event->event.service_time; 
-        schedule(node_event); /* todo schedule */
-    }
-    else {
-        /* process arrival at empty server */
-        enqueue(node_event); /* todo enqueue */
-    }
 
-    double arrival_t = exponential_random(heta);
-    double service_t = exponential_random(heta);
-    /* schedule next arrival */
-    next_job = get_new_node();
-    next_job->event.type = 'ARRIVAL';
-    next_job->event.create_time = clock;
-    next_job->event.occur_time = arrival_t;
-    next_job->event.arrival_time = arrival_t;
-    next_job->event.service_time = service_t;
-    next_job->left = NULL;
-    next_job-> right = NULL;
-    schedule(next_job);
+    /*pick a service time*/
+    node_event->event.service_time = exponential_random(heta_short);
+
+    /*idle... or busy?*/
+    if (nserv_s == 1) { //idle!
+        node_event->event.type = DS;
+        node_event->event.occur_time = clock + node_event->event.service_time;
+        schedule(node_event);
+    } else { //busy!
+        node_event->event.type = DS;
+        node_event->event.occur_time = 0; //initialize it
+        enqueue(&IQ1, node_event);
+    }
 }
-void departure(struct node* node_event){
+
+void a_long(struct node* node_event) {
+    struct node* next_job;
+    nserv_l++;
+    node_event->event.create_time = clock;
+
+    /*pick a service time*/
+    node_event->event.service_time = exponential_random(heta_long);
+
+    /*idle... or busy?*/
+    if (nserv_s == 1) { //idle!
+        node_event->event.type = DL;
+        node_event->event.occur_time = clock + node_event->event.service_time;
+        schedule(node_event);
+    } else { //busy!
+        node_event->event.type = DL;
+        node_event->event.occur_time = 0; //initialize it
+        enqueue(&IQ2, node_event);
+    }
+}
+
+void d_short(struct node* node_event){
+    double waiting_time;
+    nodePtr next_job;
+
+    /*compute our statistics and waiting times!*/
+    nserv_s--;
+    waiting_time = clock - node_event->event.arrival_time;
+    waiting_short = waiting_short + waiting_time; 
+
+    /*decide whether the customer will go to long or short repair station*/
+    double decide_route = (rand() / (double)RAND_MAX);
+    if (decide_route <= beta) {
+        /* go to the long station.
+        this means that our d_short becomes a a_long*/
+        node_event->event.type = AL;
+        node_event->event.arrival_time = node_event->event.occur_time;
+        if (nserv_s>0) {
+            /*extract from queue of server 1 and schedule departure*/
+            next_job = dequeue(&IQ1);
+            next_job->event.type = DS;
+            /*pick service time*/
+            next_job->event.service_time = exponential_random(heta_short);
+            next_job->event.occur_time = clock + next_job->event.service_time;
+            schedule(next_job);
+        }
+
+    } else {
+        /*go back to the pool. schedule its next arrival at short station*/
+        node_event->event.type = AS;
+        node_event->event.arrival_time = clock + exponential_random(heta_arrival);
+        node_event->event.occur_time = node_event->event.arrival_time;
+        schedule(node_event);
+    }
+}
+
+void d_long(struct node* node_event){
     double waiting_time;
     struct node* next_job;
 
-    /*upd statistics*/
-    narr_short--;
+    /*compute our statistics and waiting times!*/
+    nserv_l--;
     waiting_time = clock - node_event->event.arrival_time;
-    Sum_w = Sum_w + waiting_time; 
+    waiting_long = waiting_long + waiting_time; 
 
-    if (narr_short>0) {
-        /*process dep from a server with a queue*/
-        next_job = dequeue(); 
-        next_job->event.type = 'DEPARTURE';
-        next_job->event.occur_time = clock + next_job->event.service_time;
-        schedule(next_job);
-    }
-    return_node(node_event);
+    /*go back to the pool. schedule its next arrival at short station*/
+    node_event->event.type = AS;
+    node_event->event.arrival_time = clock + exponential_random(heta_arrival);
+    node_event->event.occur_time = node_event->event.arrival_time;
+    schedule(node_event);
 }
 
 void end(struct node* node_event){
     halt = 1;
-    return_node(node_event);
 }
 
-/*now create the fucking data structures function*/
+void return_node(nodePtr node_event) {
+    free(node_event); // Deallocate the memory used by the node
+}
+
+/*
+|-------------------------------------------------------------------------------|
+|--------------------------------DATA STRUCTURES--------------------------------|
+|-------------------------------------------------------------------------------|
+*/
 
 
 void schedule(struct node* node_event){
@@ -252,9 +339,9 @@ FEL.Head = FEL.Head->right;
 
 /*if the list becomes empty update the tail of the FEL*/
 if (FEL.Head == NULL) {
-    FEL.Tail = NULL // no nodes left
+    FEL.Tail = NULL; // no nodes left
 } else {
-    FEL.Head->left = NULL //detach popped node
+    FEL.Head->left = NULL; //detach popped node
 }
 
 /*detach pointers*/
@@ -290,7 +377,7 @@ void enqueue(dll* IQ, struct node* new_inqueue){
 struct node* dequeue(dll* IQ) {
     /*check if valid q*/
     if (IQ == NULL && IQ->Head == NULL) {
-        printf("WHY DO YOU HATE ME AND ASK ME TO DEQUEUE FROM AN EMPTY QUEUE? OR A QUEUE THAT DOES NOT EXIST IN THE FIRST PLACE?");
+        printf("I can't dequeue from an empty/nonexistent queue!");
         return NULL;
     }
 
@@ -312,5 +399,43 @@ struct node* dequeue(dll* IQ) {
     dequeued_node->left = NULL;
     dequeued_node->right = NULL;
 
-    printf("dequeued node.\n")
+    printf("dequeued node.\n");
 }
+
+/*
+|--------------------------------------------------------------------------|
+|--------------------------REGENERATION UTILITIES--------------------------|
+|--------------------------------------------------------------------------|
+*/
+
+int RegPoint(nodePtr node_event, int *cycle_in_group, int *cycle_num) {
+    /*
+    in this scenario every departure from any station may be a suitable regeneration point. 
+    since we are interested in the departure from the long station we pick as regeneration points the departures from the long station.
+    in order to preserve the conditions to apply the central limit theorem we have to have a reasonable sample size and so we must group different regeneration cycles together.
+    we choose 50 as our sample size, since the minimal number of samples commonly used as guideline is 30.
+
+    this function returns 1 (true) for regeneration point, 0 (false) otherwise
+    */
+   if (*cycle_in_group <= 50)
+   {
+    if (node_event->event.type == DL) {
+    (*cycle_in_group)++;
+    return 0;
+    }
+   } else {
+    (*cycle_num)++;
+    *cycle_in_group = 0;
+    return 1;
+   }
+}
+
+void CollectRegStatistics(double *waiting_long, double *total_waiting_long){
+    *total_waiting_long += *waiting_long;
+}
+
+void ResetMeasures(double *waiting_long){
+    *waiting_long == 0;
+}
+
+/*todo: compute confidence intervals and decide 2 stop*/
