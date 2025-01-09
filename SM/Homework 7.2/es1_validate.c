@@ -51,6 +51,9 @@ double S_nunu = 0;
 double error = 0;
 double r_hat = 0;
 
+/*-----validation------*/
+int n_is_in_interval = 0;
+
 typedef enum {
     AS = 1,
     AL = 2,
@@ -67,7 +70,6 @@ typedef struct DLL{
 } dll;
 
 /*we define the lists that we will use*/
-
 dll FEL = {NULL, NULL}; 
 dll IQ1 = {NULL, NULL};
 dll IQ2 = {NULL, NULL};
@@ -101,7 +103,7 @@ void d_short(struct node* node_event);
 void d_long(struct node* node_event);
 void end(struct node* node_event);
 void release_nodes(nodePtr *head);
-void report(double sim_duration);
+int report(double sim_duration);
 void schedule(struct node* node_event);
 struct node* event_pop(void);
 void enqueue(dll* curr_queue, struct node* new_node);
@@ -214,7 +216,6 @@ void initialize() {
         init_job->event.create_time = sim_clock;
         init_job->event.type = AS;
         init_job->event.machine_id = i;
-        printf("arrival time picked as %f for machine %d\n",init_job->event.occur_time, init_job->event.machine_id);
         schedule(init_job); 
     }
 
@@ -399,7 +400,7 @@ void release_nodes(nodePtr *head) {
     }
 }
 
-void report(double sim_duration) {
+int report(double sim_duration) {
     printf("\n==========================================\n");
     printf("Simulation complete!");
     printf("\n==========================================\n");
@@ -410,11 +411,13 @@ void report(double sim_duration) {
     printf("Average waiting time at the long repair station: %f\n", r_hat);
     printf("Unilateral error (5%%): %f\n", error);
     printf("Confidence interval at 0.95 level: (%f, %f)\n", r_hat-error, r_hat+error);
-    printf("The error is %f %% of the value of the average", 200*error/r_hat);
+    printf("The error is %f %% of the value of the average\n", 200*error/r_hat);
 
     release_nodes(&FEL.Head);
     release_nodes(&IQ1.Head);
     release_nodes(&IQ2.Head);
+    int is_in_interval = (r_hat-error<1811.030708 && r_hat+error>1811.030708);
+    return(is_in_interval);
 }
 
 /*
@@ -568,7 +571,7 @@ void RegPoint(
     in this scenario every departure from any station may be a suitable regeneration point. 
     since we are interested in the departure from the long station we pick as regeneration points the departures from the long station.
     in order to preserve the conditions to apply the central limit theorem we have to have a reasonable sample size and so we must group different regeneration cycles together.
-    we choose 100 as our sample size, since the minimal number of samples commonly used as guideline is 30.
+    we choose 60 as our sample size, since the minimal number of samples commonly used as guideline is 30.
     */
    if (node_event->event.type == DL) {
     if (*cycle_in_group < 100) {
@@ -654,24 +657,29 @@ int main(int argc, char *argv[]){
         break;       // No need to check further once we find the flag
         }
     }
-    srand(1); 
-    initialize(); // do the initialization
-    printf("\n\nFinished initialization.\n\n");
-    clock_t start_time = clock(); // start the stopwatch
-    
-    /*simulate*/
-    while ( //we handle the two end conditions: the regeneration method must be enough to stop and the end event must be reached.
-        halt == 0 || DecideToStop(cycle_num, error, r_hat) == 0
-        /*we may just use decide to stop to stop the simulation, but by doing so we can choose to increase MAX_TIME to keep simulating and lowering the error.
-            another way to lower the error may be increase the number of regeneration cycles or increase the grouping of the cycles*/
-    ) {
-        engine();
-    }
-    
-    clock_t end_time = clock();
-    // print some statistics
-    double sim_duration = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-    report(sim_duration);
+    for (int i = 1; i <= 100; i++){
 
+        srand(2*i); 
+        initialize(); // do the initialization
+        print_fel();
+        printf("\n\nFinished initialization.\n\n");
+        clock_t start_time = clock(); // start the stopwatch
+        
+        /*simulate*/
+        while ( //we handle the two end conditions: the regeneration method must be enough to stop and the end event must be reached.
+            halt == 0 || DecideToStop(cycle_num, error, r_hat) == 0
+            /*we may just use decide to stop to stop the simulation, but by doing so we can choose to increase MAX_TIME to keep simulating and lowering the error.
+            another way to lower the error may be increase the number of regeneration cycles or increase the grouping of the cycles*/
+        ) {
+            engine();
+        }
+        
+        clock_t end_time = clock();
+        // print some statistics
+        double sim_duration = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+        n_is_in_interval += report(sim_duration);
+    }
+    printf("\n===========VALIDATION=========\n\n");
+    printf("The expected mean of 1811.030708 fell into the confidence interval %d times out of 100,  %f%% of the times\n", n_is_in_interval, (double)n_is_in_interval/100*100);
     return 0;
 }

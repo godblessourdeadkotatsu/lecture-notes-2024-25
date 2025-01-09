@@ -3,7 +3,7 @@ Università di Torino
 M.S. in STOCHASTICS AND DATA SCIENCE
 Course in Simulation
 Homework 7
-First exercise
+Thrid exercise
 
 By Andrea Crusi and Lorenzo Sala
  * ------------------------------------------------------------------------- 
@@ -221,6 +221,13 @@ void initialize() {
     sim_clock = 0;
     halt = 0;
 
+    FEL.Head = NULL;
+    FEL.Tail = NULL;
+    IQ1.Head = NULL;
+    IQ2.Head = NULL;
+    IQ1.Tail = NULL;
+    IQ2.Tail = NULL;
+
     /*we pick the 10 arrival times of the system. we create the nodes and schedule them!*/
     for (int i = 1; i <= 10; i++) {
         nodePtr init_job = get_new_node();
@@ -403,7 +410,6 @@ void d_long(struct node* node_event){
 }
 
 void end(struct node* node_event){
-    printf("SBAM! EVENTO %d al tempo %f\n",node_event->event.type, node_event->event.occur_time);
     halt = 1;
 }
 
