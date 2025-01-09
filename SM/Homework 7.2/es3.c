@@ -17,8 +17,7 @@ By Andrea Crusi and Lorenzo Sala
 
 #define N 10              // max number of machines
 #define HETA_ARRIVAL 3000 // Expected value for arrivals
-#define HETA_SHORT 40     // Expected value for short station
-#define HETA_LONG 960     // Expected value for long station
+#define HETA_SHORT 40     // Expected value for short station 
 #define BETA 0.2 // routing probability
 #define MAX_TIME 10000000
 
@@ -36,7 +35,8 @@ int nserv_s =0;
 int nserv_l =0;
 double heta_arrival = 3000;
 double heta_short = 40;
-double heta_long = 960;
+double alpha[] = {0.95,0.05};
+double mu[] = {10,19010};
 
 /*------VARIABLES FOR THE REGENERATION METHOD------*/
 int cycle_num = 1;
@@ -93,6 +93,7 @@ struct node {
 /* function declaration */
 nodePtr get_new_node();
 double exponential_random(double heta);
+double hyperexponential_random(int k, double* alpha, double* heta);
 void initialize();
 void engine(void);
 void a_short(struct node* node_event);
@@ -175,6 +176,29 @@ double exponential_random(double heta) {
   return exp;
 }
 
+double hyperexponential_random(int k, double* alpha, double* heta) {
+  // Cumulative distribution for alpha
+  double cumulative_alpha[k];
+  cumulative_alpha[0] = alpha[0]; 
+  // Simply add all the alphas parameter (they sum to 1)
+  for (int i = 1; i < k; i++) {
+    cumulative_alpha[i] = cumulative_alpha[i - 1] + alpha[i];
+  }
+
+  // Generate a uniform random number
+  double Y = (double)rand() / RAND_MAX;
+
+  // Select the component distribution: find which  distribution corresponds has a cumulative probability that corresponds to the drawn uniform variable
+  int j = 0;
+  while (Y > cumulative_alpha[j]) {
+    j++;
+  }
+
+  // Generate a random variable from the chosen exponential distribution
+  double X = exponential_random(heta[j]);
+
+  return X;
+}
 /*
 -----------------------------------------------------------------------------
 -------------------------SIMULATION CORE-------------------------------------
@@ -294,7 +318,7 @@ void a_long(struct node* node_event) {
     node_event->event.create_time = sim_clock;
 
     /*pick a service time*/
-    node_event->event.service_time = exponential_random(heta_long);
+    node_event->event.service_time = hyperexponential_random(2,alpha,mu);
     verbose ? printf("Extracted a long departure time of %f\n", node_event->event.service_time) : 0;
 
     /*idle... or busy?*/
@@ -371,7 +395,7 @@ void d_long(struct node* node_event){
         verbose ? printf("queue long station not empty. dequeuing job of machine %n\n", next_job->event.machine_id) : 0;
         next_job->event.type = DL;
         /*pick service time*/
-        double service_long = exponential_random(heta_long);
+        double service_long = hyperexponential_random(2,alpha,mu);
         next_job->event.service_time = service_long;
         next_job->event.occur_time = sim_clock + service_long;
         schedule(next_job);
