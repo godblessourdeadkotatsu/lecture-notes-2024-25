@@ -681,9 +681,9 @@ int main(int argc, char *argv[]){
         break;       // No need to check further once we find the flag
         }
     }
-    for (int i = 1; i <= 100; i++){
+    for (int i = 0; i < 100; i++){
 
-        srand(2*i); 
+        srand(25 * i + 1); 
         initialize(); // do the initialization
         print_fel();
         printf("\n\nFinished initialization.\n\n");
