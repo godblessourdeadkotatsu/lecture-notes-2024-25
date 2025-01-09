@@ -1,3 +1,14 @@
+/* -------------------------------------------------------------------------
+Università di Torino
+M.S. in STOCHASTICS AND DATA SCIENCE
+Course in Simulation
+Homework 7
+First exercise
+
+By Andrea Crusi and Lorenzo Sala
+ * ------------------------------------------------------------------------- 
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,9 +19,8 @@
 #define HETA_ARRIVAL 3000 // Expected value for arrivals
 #define HETA_SHORT 40     // Expected value for short station
 #define HETA_LONG 960     // Expected value for long station
-#define MAX_EVENTS 100000000
 #define BETA 0.2 // routing probability
-#define MAX_TIME 1000000000000000000
+#define MAX_TIME 10000000
 
 int verbose = 0; 
 
@@ -29,7 +39,7 @@ double heta_short = 40;
 double heta_long = 960;
 
 /*------VARIABLES FOR THE REGENERATION METHOD------*/
-int cycle_num = 0;
+int cycle_num = 1;
 int cycle_in_group = 0;
 double total_waiting_short = 0;
 double total_waiting_long = 0;
@@ -50,22 +60,20 @@ typedef enum {
 } event_label;
 /* Definition of the type used to specify the pointer to a node of a list or queue */
 typedef struct node* nodePtr;
-/*dobbiamo inizializzarlo prima prechè
-poi quando definiamo il nodo dobbiamo usare 
-nodePtr*/
 
 typedef struct DLL{
     nodePtr Head;
     nodePtr Tail;
 } dll;
 
+/*we define the lists that we will use*/
 
-dll FEL = {NULL, NULL}; /* Pointer to the header of the Future Event List implemented with a doubly linked list */
-dll IQ1 = {NULL, NULL}; /* Pointer to the header of the Future Event List implemented with a doubly linked list */
+dll FEL = {NULL, NULL}; 
+dll IQ1 = {NULL, NULL};
 dll IQ2 = {NULL, NULL};
 
 
-/* Definition of the Event Notice - typical fields to contain event’s attributes */
+/* we define the event notice structure */
 typedef struct {
     event_label type;
     int machine_id;
@@ -75,11 +83,11 @@ typedef struct {
     double service_time; 
 } event_notice;
 
-/* Definition of the Node for managing Event Notices in Lists and Queues */
+/* definition of the Node for managing Event Notices in lists and queues */
 struct node {
-    event_notice event;    // Contains the event data
-    nodePtr left;          // Pointer to the previous node in the doubly linked list
-    nodePtr right;         // Pointer to the next node in the doubly linked list
+    event_notice event;   
+    nodePtr left;          
+    nodePtr right;         
 };
 
 /* function declaration */
@@ -96,9 +104,20 @@ void release_nodes(nodePtr *head);
 void report(double sim_duration);
 void schedule(struct node* node_event);
 struct node* event_pop(void);
-void enqueue(dll* IQ, struct node* new_inqueue);
-struct node* dequeue(dll* IQ);
-int RegPoint(nodePtr node_event, int *cycle_in_group, int *cycle_num);
+void enqueue(dll* curr_queue, struct node* new_node);
+struct node* dequeue(dll* curr_queue);
+void RegPoint(
+    nodePtr node_event, 
+    int *cycle_in_group, 
+    int *cycle_num,
+    double *waiting_long, 
+    double *total_waiting_long, 
+    double *S_AA,
+    double *S_Anu,
+    double *S_nu,
+    double *S_nunu,
+    double *r_hat
+    );
 void CollectRegStatistics(
     double *waiting_long, 
     double *total_waiting_long, 
@@ -111,38 +130,38 @@ void CollectRegStatistics(
 void ResetMeasures(double *waiting_long, int *cycle_in_group);
 double ComputeConfidenceIntervals(
     double *r_hat, 
-    double total_waiting_long,
-    int cycle_num, 
-    double S_AA, 
-    double S_Anu, 
-    double S_nunu, 
-    double S_nu
-);
+    double *total_waiting_long,
+    int *cycle_num, 
+    double *S_AA, 
+    double *S_Anu, 
+    double *S_nunu, 
+    double *S_nu
+    );
 int DecideToStop(int cycle_num, double error, double r_hat);
 
 
 
 nodePtr get_new_node() {
-    // Allocate memory for the new node
+    // allocate memory for the new node
     nodePtr new_node = (nodePtr)malloc(sizeof(struct node));
 
-    // Check if memory allocation was successful
+    // check if memory allocation was successful
     if (new_node == NULL) {
         printf("Error: Memory allocation failed!\n");
         exit(EXIT_FAILURE); // Exit the program if malloc fails
     }
 
-    // Initialize the new node with the given event
-    new_node->event.type = 0;             // Default type
-    new_node->event.machine_id = 0;    // Empty int
-    new_node->event.create_time = 0.0;   // Default time
-    new_node->event.occur_time = 0.0;    // Default time
-    new_node->event.arrival_time = 0.0;  // Default time
-    new_node->event.service_time = 0.0;  // Default time
-    new_node->left = NULL;  // Set the left pointer to NULL
-    new_node->right = NULL; // Set the right pointer to NULL
+    // initialize the new node 
+    new_node->event.type = 0;      
+    new_node->event.machine_id = 0; 
+    new_node->event.create_time = 0.0;  
+    new_node->event.occur_time = 0.0;  
+    new_node->event.arrival_time = 0.0; 
+    new_node->event.service_time = 0.0; 
+    new_node->left = NULL;  
+    new_node->right = NULL; 
 
-    return new_node; // Return the pointer to the new node
+    return new_node; 
 };
 
 double exponential_random(double heta) {
@@ -194,11 +213,11 @@ void initialize() {
 
     verbose ? print_fel() : 0;
    
-    /* Initialize Event notice of End Simulation and Schedule last event */
+    /* now we prepare the event notice for the end event */
     nodePtr end_event_notice = get_new_node(); 
-    end_event_notice->event.type = END;  // Set the type to END
-    end_event_notice->event.occur_time = MAX_TIME;  // Set the end time (assuming you have this predefined)
-    schedule(end_event_notice);  // Schedule the end simulation event in the Future Event List
+    end_event_notice->event.type = END; 
+    end_event_notice->event.occur_time = MAX_TIME; 
+    schedule(end_event_notice);
 }
 
 void engine(void){
@@ -217,31 +236,7 @@ void engine(void){
 
     verbose ? printf("Now processing an event of type %d with occur time %f for machine %d\n", new_event->event.type, new_event->event.occur_time, new_event->event.machine_id) : 0;
 
-    if (RegPoint(new_event, &cycle_in_group, &cycle_num)) {
-        verbose ? printf("Found a regeneration point. Ended cycle number %d\n", cycle_num) : 0;
-        CollectRegStatistics(
-            &waiting_long, 
-            &total_waiting_long, 
-            &S_AA, 
-            &S_Anu, 
-            &S_nu, 
-            &S_nunu, 
-            &cycle_in_group
-            );
-        ResetMeasures(
-            &waiting_long, 
-            &cycle_in_group
-        );
-        error = ComputeConfidenceIntervals(
-            &r_hat, 
-            total_waiting_long, 
-            cycle_num, 
-            S_AA, 
-            S_Anu, 
-            S_nunu, 
-            S_nu
-            );
-    }
+    RegPoint(new_event, &cycle_in_group, &cycle_num, &waiting_long, &total_waiting_long, &S_AA, &S_Anu, &S_nu, &S_nunu, &r_hat);
 
     /* identify and process current event */
     event_type = new_event->event.type;
@@ -259,7 +254,7 @@ void engine(void){
         d_short(new_event);
         break;
         case DL : 
-        //verbose ? printf("Now processing a departure from the station (event %d)\n", new_event->event.type) : 0;
+        verbose ? printf("Now processing a departure from the station (event %d)\n", new_event->event.type) : 0;
         d_long(new_event);
         break;
         case END : 
@@ -279,7 +274,7 @@ void a_short(struct node* node_event){
 
     /*pick a service time*/
     node_event->event.service_time = exponential_random(heta_short);
-    printf("Extracted a short departure time of %f\n", node_event->event.service_time);
+    verbose ? printf("Extracted a short departure time of %f\n", node_event->event.service_time) : 0;
 
     /*idle... or busy?*/
     if (nserv_s == 1) { //idle!
@@ -300,7 +295,7 @@ void a_long(struct node* node_event) {
 
     /*pick a service time*/
     node_event->event.service_time = exponential_random(heta_long);
-    printf("Extracted a long departure time of %f\n", node_event->event.service_time);
+    verbose ? printf("Extracted a long departure time of %f\n", node_event->event.service_time) : 0;
 
     /*idle... or busy?*/
     if (nserv_l == 1) { //idle!
@@ -332,8 +327,17 @@ void d_short(struct node* node_event){
         node_event->event.arrival_time = node_event->event.occur_time;
         verbose ? printf("Bad luck! Machine %d gets a long repair!\n", node_event->event.machine_id) : 0;
         schedule(node_event);
-        if (nserv_s>0) {
-            verbose ? printf("queue was empty. dequeuing next job from the queue 1\n") : 0;
+    } else {
+        verbose ? printf("Good luck! Machine %d goes back in the pool!\n", node_event->event.machine_id) : 0;
+        /*go back to the pool. schedule its next arrival at short station*/
+        node_event->event.type = AS;
+        node_event->event.arrival_time = sim_clock + exponential_random(heta_arrival);
+        node_event->event.occur_time = node_event->event.arrival_time;
+        schedule(node_event);
+    } 
+    /*now check the queue. if the queue is not empty then dequeue the first node and transform it into a departure from this short station*/
+            if (nserv_s>0) {
+            verbose ? printf(" dequeuing next job from the queue 1\n") : 0;
             /*extract from queue of server 1 and schedule departure*/
             next_job = dequeue(&IQ1);
             next_job->event.type = DS;
@@ -342,15 +346,6 @@ void d_short(struct node* node_event){
             next_job->event.occur_time = sim_clock + next_job->event.service_time;
             schedule(next_job);
         }
-
-    } else {
-        verbose ? printf("Good luck! Machine %d goes back in the pool!\n", node_event->event.machine_id) : 0;
-        /*go back to the pool. schedule its next arrival at short station*/
-        node_event->event.type = AS;
-        node_event->event.arrival_time = sim_clock + exponential_random(heta_arrival);
-        node_event->event.occur_time = node_event->event.arrival_time;
-        schedule(node_event);
-    }
 }
 
 void d_long(struct node* node_event){
@@ -362,17 +357,29 @@ void d_long(struct node* node_event){
     waiting_time = sim_clock - node_event->event.arrival_time;
     waiting_long = waiting_long + waiting_time; 
 
-    node_event = dequeue(&IQ2);
-    /*go back to the pool. schedule its next arrival at short station*/
+    /*modify this node to be the next AS*/
     node_event->event.type = AS;
-    double arrival_time = exponential_random(heta_arrival);
-    printf("The machine %d goes back to the station. It will break in %f time units\n", node_event->event.machine_id, arrival_time);
-    node_event->event.arrival_time = sim_clock + arrival_time;
-    node_event->event.occur_time = node_event->event.arrival_time;
+    double break_time = exponential_random(heta_arrival);
+    node_event->event.occur_time = sim_clock + break_time;
+    node_event->event.arrival_time = node_event->event.occur_time;
     schedule(node_event);
+
+    /*again: check the queue. if it is not empty then dequeue the first node
+    and stage it to be the next departure from the long station*/
+    if (nserv_l>0) {
+        next_job = dequeue(&IQ2);
+        verbose ? printf("queue long station not empty. dequeuing job of machine %n\n", next_job->event.machine_id) : 0;
+        next_job->event.type = DL;
+        /*pick service time*/
+        double service_long = exponential_random(heta_long);
+        next_job->event.service_time = service_long;
+        next_job->event.occur_time = sim_clock + service_long;
+        schedule(next_job);
+    }
 }
 
 void end(struct node* node_event){
+    printf("SBAM! EVENTO %d al tempo %f\n",node_event->event.type, node_event->event.occur_time);
     halt = 1;
 }
 
@@ -392,11 +399,12 @@ void report(double sim_duration) {
     printf("\n==========================================\n");
     printf("\nExecution time: %f seconds\n", sim_duration);
     printf("Number of events processed: %d\n", event_counter);
-    printf("Number of regeneration cycles: %d", cycle_num);
+    printf("Number of regeneration cycles: %d\n", cycle_num);
     printf("Observation period: %f time units\n", sim_clock);
     printf("Average waiting time at the long repair station: %f\n", r_hat);
+    printf("Unilateral error (5%%): %f\n", error);
     printf("Confidence interval at 0.95 level: (%f, %f)\n", r_hat-error, r_hat+error);
-    printf("The error is %f %% of the value of the average", 2*error/r_hat);
+    printf("The error is %f %% of the value of the average", 200*error/r_hat);
 
     release_nodes(&FEL.Head);
     release_nodes(&IQ1.Head);
@@ -413,7 +421,7 @@ void report(double sim_duration) {
 void schedule(struct node* node_event){
 /* empty fel, head is null */
 if (FEL.Head == NULL) {
-    FEL.Head = node_event;
+    FEL.Head = node_event; //the tail and the head are now the first node
     FEL.Tail = node_event;
     node_event->left = NULL;
     node_event->right = NULL;
@@ -424,9 +432,9 @@ if (FEL.Head == NULL) {
 /*insert at the front*/
 if (node_event->event.occur_time <= FEL.Head->event.occur_time) {
     node_event->right = FEL.Head;
-    node_event->left = NULL;
+    node_event->left = NULL; 
     FEL.Head->left = node_event;
-    FEL.Head = node_event;
+    FEL.Head = node_event; //now the head is the current event we are scheduling
     verbose ? printf("Scheduled event of type %d at occur time %f for machine %d. INSERTION AT THE FRONT\n", node_event->event.type, node_event->event.occur_time, node_event->event.machine_id) : 0;
     return;
 }
@@ -486,63 +494,50 @@ verbose ? printf("Popped node from the FEL. This event was of the type %d and ha
 return first_node;
 }
 
-void enqueue(dll* IQ, struct node* new_inqueue){
-    /*check if the input node is null*/
-    if (new_inqueue == NULL) {
-        printf("why did you give me a null node?");
-        return;
+void enqueue(dll* curr_queue, struct node* new_node){
+    /* function to add an element at the tail of a generic queue (curr_queue) */
+	if(curr_queue->Tail == NULL) {
+	    /* curr_queue is empty*/  
+	    curr_queue->Head = new_node;
+        verbose ? printf("the current queue was empty. added node of machine %d as new head\n", new_node->event.machine_id) : 0;
+	} else {
+	    /* add at the end of a non-empty curr_queue */
+	    curr_queue->Tail->right = new_node;
+        verbose ? printf("the current queue was NOT empty. added node of machine %d as new tail\n", new_node->event.machine_id) : 0;
     }
-
-    /*init pointers of the new_inqueue*/
-    new_inqueue->left = NULL;
-    new_inqueue->right = NULL;
-
-    if (IQ->Head == NULL && IQ->Tail == NULL) {
-        /*if the queue is empty insert first node*/
-        IQ->Head = new_inqueue;
-        IQ->Tail = new_inqueue;
-        verbose ? printf("The queue was empty. Inserted this node about maching %d at the front of the queue.\n", new_inqueue->event.machine_id) : 0;
-    } else {
-        /*link new node at the end of the Q*/
-        new_inqueue->left = IQ->Tail; // its previous node is the tail
-        IQ->Tail->right = new_inqueue; // it is the successor of the tail
-        IQ->Tail = new_inqueue; // it is the new tail!
-        verbose ? printf("The queue was not empty. Inserted this node about maching %d at the end of the queue.\n", new_inqueue->event.machine_id) : 0;
-    }
+	/* adjust pointers */
+	new_node->left = curr_queue->Tail;
+	new_node->right = NULL;
+	curr_queue->Tail = new_node;	
 }
 
-struct node* dequeue(dll* IQ) {
-    /*check if valid q*/
-   
-   /*
-    if (IQ == NULL && IQ->Head == NULL) {
-        printf("I can't dequeue from an empty/nonexistent queue!");
-        return NULL;
-    }*/
-
-    /*get first node*/
-    struct node* dequeued_node = IQ->Head;
-   
-
-    /*update head to point to the second node*/
-    IQ->Head = dequeued_node->right;
-     printf("reached dequeue function\n");
-    
-
-    if (IQ->Head != NULL) {
-        /*update the head if there are events left in the q*/
-        IQ->Head->left = NULL;
-    } else {
-        /*if the queue is empty also the tail is null*/
-        IQ->Tail = NULL;
-    }
-
-    /*disconnect the dequeued node from the queue*/
-    dequeued_node->left = NULL;
-    dequeued_node->right = NULL;
-
-    printf("dequeued node about machine %d.\n", dequeued_node->event.machine_id);
-    return(dequeued_node);
+nodePtr dequeue(dll * curr_queue){
+/* function to remove the element at the head of a generic queue (curr_queue) */
+	nodePtr item;   
+			if(curr_queue->Head == NULL) {
+			/* curr_queue is empty */
+                verbose ? printf("Empty Q. Nothing do dequeue.\n") : 0;
+			    return NULL;
+            }
+			/* point to the element being removed from curr_queue */
+			item = curr_queue->Head;
+			if(curr_queue->Head->right == NULL){
+				/* curr_queue contains only one element that is being removed 
+				(leaving curr_queue empty) */
+				curr_queue->Head = NULL;
+				curr_queue->Tail = NULL;
+                verbose ? printf("There was only element in the queue, about machine %d. I dequeued it.\n", item->event.machine_id) : 0;
+			}
+			else{
+				/* adjust pointers to the new head of curr_queue */
+				curr_queue->Head = curr_queue->Head->right;
+				curr_queue->Head->left = NULL;
+                verbose ? printf("About machine %d. I dequeued it.\n", item->event.machine_id) : 0;
+			}
+	/* clear the returned node*/
+	item->left = NULL;
+	item->right = NULL;
+	return item;
 }
 
 /*
@@ -551,26 +546,50 @@ struct node* dequeue(dll* IQ) {
 |--------------------------------------------------------------------------|
 */
 
-int RegPoint(nodePtr node_event, int *cycle_in_group, int *cycle_num) {
+void RegPoint(
+    nodePtr node_event, 
+    int *cycle_in_group, 
+    int *cycle_num,
+    double *waiting_long, 
+    double *total_waiting_long, 
+    double *S_AA,
+    double *S_Anu,
+    double *S_nu,
+    double *S_nunu,
+    double *r_hat
+    ) {
     /*
     in this scenario every departure from any station may be a suitable regeneration point. 
     since we are interested in the departure from the long station we pick as regeneration points the departures from the long station.
     in order to preserve the conditions to apply the central limit theorem we have to have a reasonable sample size and so we must group different regeneration cycles together.
-    we choose 50 as our sample size, since the minimal number of samples commonly used as guideline is 30.
-
-    this function returns 1 (true) for regeneration point, 0 (false) otherwise
+    we choose 60 as our sample size, since the minimal number of samples commonly used as guideline is 30.
     */
-   if (*cycle_in_group < 50)
-   {
-    if (node_event->event.type == DL) {
-    (*cycle_in_group)++;
-    return 0;
+   if (node_event->event.type == DL) {
+    if (*cycle_in_group < 100) {
+        (*cycle_in_group)++;
+    } else {
+        (*cycle_num)++;
+        CollectRegStatistics(
+        waiting_long, 
+        total_waiting_long, 
+        S_AA,
+        S_Anu,
+        S_nu,
+        S_nunu,
+        cycle_in_group
+        ); 
+        ResetMeasures(waiting_long, cycle_in_group);
+        ComputeConfidenceIntervals(
+        r_hat, 
+        total_waiting_long,
+        cycle_num, 
+        S_AA, 
+        S_Anu, 
+        S_nunu, 
+        S_nu
+        ); 
     }
-   } else {
-    (*cycle_num)++;
-    return 1;
    }
-   return 0;
 }
 
 void CollectRegStatistics(
@@ -582,11 +601,13 @@ void CollectRegStatistics(
     double *S_nunu,
     int *cycle_in_group
     ) {
+        /*simply use the cumulative forumlae*/
     *total_waiting_long += *waiting_long;
     *S_AA += pow(*waiting_long, 2);
     *S_Anu += *waiting_long * *cycle_in_group;
     *S_nu += *cycle_in_group;
     *S_nunu += pow(*cycle_in_group, 2);
+    verbose ? printf("%f\n", *S_nu) : 0;
 }
 
 void ResetMeasures(double *waiting_long, int *cycle_in_group){
@@ -596,20 +617,26 @@ void ResetMeasures(double *waiting_long, int *cycle_in_group){
 
 double ComputeConfidenceIntervals(
     double *r_hat, 
-    double total_waiting_long,
-    int cycle_num, 
-    double S_AA, 
-    double S_Anu, 
-    double S_nunu, 
-    double S_nu
+    double *total_waiting_long,
+    int *cycle_num, 
+    double *S_AA, 
+    double *S_Anu, 
+    double *S_nunu, 
+    double *S_nu
     ) {
-    *r_hat = total_waiting_long / S_nu;
-    double delta = sqrt(cycle_num/(cycle_num-1))*(sqrt(S_AA-2* *r_hat* S_Anu+pow(*r_hat, 2)* S_nunu))/(S_nu);
+        /*as before, simply use the cumulative formulae*/
+    *r_hat = *total_waiting_long / *S_nu;
+    double delta = sqrt(*cycle_num/(*cycle_num-1))*(sqrt(*S_AA-2* *r_hat* *S_Anu+pow(*r_hat, 2)* *S_nunu))/(*S_nu);
     error = 1.96 * delta;
     return(error);
 }
 
 int DecideToStop(int cycle_num, double error, double r_hat){
+    /*
+    this function returns 1 when the two conditions for stopping the regeneration are satisfied:
+    1) at least 40 cycles;
+    2) the error must not be greater than 10% of the point estimate
+    */
     double error_percentage = 2*error/r_hat;
     return(cycle_num > 40 && error_percentage < 0.10);  
 }
@@ -621,19 +648,21 @@ int main(int argc, char *argv[]){
         break;       // No need to check further once we find the flag
         }
     }
-    srand(time(NULL)); 
+    srand(1); //we choose a static seed
     initialize(); // do the initialization
-    printf("\n\nfinished initialization\n\n");
+    printf("\n\nFinished initialization.\n\n");
     clock_t start_time = clock(); // start the stopwatch
     
     /*simulate*/
-    while (halt == 0 //&& DecideToStop(cycle_num, error, r_hat) == 0
+    while ( //we handle the two end conditions: the regeneration method must be enough to stop and the end event must be reached.
+        halt == 0 || DecideToStop(cycle_num, error, r_hat) == 0
+        /*we may just use decide to stop to stop the simulation, but by doing so we can choose to increase MAX_TIME to keep simulating and lowering the error.*/
     ) {
         engine();
     }
     
     clock_t end_time = clock();
-    // Calculate the time taken and print it
+    // print some statistics
     double sim_duration = (double)(end_time - start_time) / CLOCKS_PER_SEC;
     report(sim_duration);
 
