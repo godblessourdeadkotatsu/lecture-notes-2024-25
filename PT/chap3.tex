@@ -3111,7 +3111,7 @@ Hence by the martingale convergence theorem we have $Y_{n}\to Y_{\infty}$ a.s. w
 		\item \emph{monotonicity}:
 		\[X\leq Y\implies\ev_\F X\leq\ev_\F Y;\]
 		\item \emph{linearity}:
-		\[\ev_\F\left(aX+bY+x\right)=a\ev_\F X+b\ev_\F Y+c;\]
+		\[\ev_\F\left(aX+bY+c\right)=a\ev_\F X+b\ev_\F Y+c;\]
 		\item \emph{monotone convergence theorem}:
 		\[{(X_{n})}_{n}\text{ s.t. }X_{n}\geq 0\every n,X_n\nearrow X\implies\ev_\F X_n\nearrow\ev_\F X;\]
 		\item \emph{Fatou's lemma}:
@@ -3139,7 +3139,7 @@ Hence by the martingale convergence theorem we have $Y_{n}\to Y_{\infty}$ a.s. w
 			\item Both $\xbar$ and $\overline{\xbar}$ are $\F^{+}$-measurable;
 			\item $\ev VX=\ev V\xbar=\ev V\overline{\xbar}$ for every $V\in\F_{+}$. Hence 
 			\[\xbar=\overline{\xbar}\as\]
-			Conversely, if $\ev_{\F}X-\xbar$ and $\overline{\xbar}\in\F_+$ and $\xbar=\xxbar\as$ then $\xxbar$ satisfies the projection property $\ev XV=\ev\xxbar V$ (i.e. $\xxbar$ is a version of $\ev_\F X$).
+			Conversely, if $\ev_{\F}X=\xbar$ and $\overline{\xbar}\in\F_+$ and $\xbar=\xxbar\as$ then $\xxbar$ satisfies the projection property $\ev XV=\ev\xxbar V$ (i.e. $\xxbar$ is a version of $\ev_\F X$).
 		\end{enumerate}
 	\end{fancyproof}
 	\subsection{Existence and uniqueness of conditional expectation (for L2 random variables, using
