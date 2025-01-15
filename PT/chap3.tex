@@ -3311,7 +3311,7 @@ Hence by the martingale convergence theorem we have $Y_{n}\to Y_{\infty}$ a.s. w
 	\end{fancyproof}
 	We have thus switched from a continuous stopping time to a sequence of discrete stopping time.
 	\subsection{Conditional expectation at stopping time}
-	Can I use $T$ fixed as a deterministic time $t$ and thus get $\ev(X|\F_t)$? Is this a special case or a different think altogether? Well yes, because $t$ \textit{is} a stopping time being $\F_t$-measurable! $\ev(X|\F_t)$ is a special case of $\ev(X|\F_T)$.
+	Can I use $T$ fixed as a deterministic time $t$ and thus get $\ev(X|\F_t)$? Is this a special case or a different thing altogether? Well yes, because $t$ \textit{is} a stopping time being $\F_t$-measurable! $\ev(X|\F_t)$ is a special case of $\ev(X|\F_T)$.
 	This becomes clear when we see the properties of stopped expectation. For $\every X,Y,Z$ being positive \rv s and for $\every S,T$ stopping times of $\F$ the following properties hold:
 	\begin{itemize}
 		\item \emph{defining property}:
@@ -3352,7 +3352,7 @@ Hence by the martingale convergence theorem we have $Y_{n}\to Y_{\infty}$ a.s. w
 			\end{equation*}
 			for each positive $V\in\F_{S}$. We start by fixing such $V\in\F_{S}$ positive. We proved that
 			\begin{equation*}
-				V\indi_{(S\leq T)}Y=\ev V\indi_{(S\leq T)}\ev_{S\wedge T}Y.\tag{$\star\bigstar$}\label{fleure}
+				V\indi_{(S\leq T)}Y=\ev V\indi_{(S\leq T)}\ev_{S\wedge T}Y.\tag{\faSpotify}\label{fleure}
 			\end{equation*}
 			Now we observe that $Y\in\F_{T}$ by definition. Notice that $Y\indi_{(T<S)}\in\F_{S\wedge T}$. We can apply this fact to the defining property and obtain
 			\begin{equation*}
@@ -3516,7 +3516,7 @@ Hence by the martingale convergence theorem we have $Y_{n}\to Y_{\infty}$ a.s. w
 		\[\max\{X,Y\}\]
 		is a $\F$-sub-martingale.
 		\begin{fancyproof}
-			Consider $\ev[\max\{X_{n},Y_{n}|\F_{n-1}\}]$. Remember that we have to prove: \begin{itemize}
+			Consider $\ev[\max\{X_{n},Y_{n}\}|\F_{n-1}]$. Remember that we have to prove: \begin{itemize}
 				\item measurability property;
 				\item integrability property;
 				\item martingale property.
@@ -3534,7 +3534,7 @@ Hence by the martingale convergence theorem we have $Y_{n}\to Y_{\infty}$ a.s. w
 		\[\min\{X_{n},Y_{n}\}\]
 		is a $\F$-super-martingale.
 		\begin{fancyproof}
-			Consider $\max\{-X_{n},-Y_{n}\}$. We know that $-X_n$ is a sub-martingale and so is $-Y_{n}$. So as proved above $\max\{-X_{n},Y_{n}\}$ is a sub-martingale. But $\max\{-X_{n},-Y_{n}\}=-\min\{X_{n},Y_{n}\}$ so
+			Consider $\max\{-X_{n},-Y_{n}\}$. We know that $-X_n$ is a sub-martingale and so is $-Y_{n}$. So as proved above $\max\{-X_{n},-Y_{n}\}$ is a sub-martingale. But $\max\{-X_{n},-Y_{n}\}=-\min\{X_{n},Y_{n}\}$ so
 			\[-\min\{X_{n},Y_{n}\}\text{ is a sub-martingale}\iff\min\{X_{n},Y_{n}\}\text{ is a super-martingale}.\]
 		\end{fancyproof}
 		\item Consider a function $f$ that is \underline{convex} on $\R$. If $X$ is a $\F$-martingale and $f\circ X$ is integrable then $f\circ X$ is a $\F$-sub-martingale.
@@ -3879,7 +3879,7 @@ Hence by the martingale convergence theorem we have $Y_{n}\to Y_{\infty}$ a.s. w
 	\begin{fancyproof}
 		Choose $a=0$. Consider hence the process $(M-a)^{+}$ that is sub-martingale (if $M$ is a sub-martingale). Take $M\geq 0$ and let 
 		\begin{equation*}
-			F_{n}-\sum_{k=1}^{\infty}\indi_{(S_{k},T_{k}]}(n)
+			F_{n}=\indi_{(S_{k},T_{k}]}(n)
 		\end{equation*}
 		and consider 
 		\begin{equation*}
@@ -4277,7 +4277,7 @@ Hence by the martingale convergence theorem we have $Y_{n}\to Y_{\infty}$ a.s. w
 		\end{align*}
 		Multiply by $\indi_{\{T\leq n\}}$:
 		\begin{equation*}
-			b\indi_{\{T\leq n\}}\leq M_{T\wedge m}\indi_{\{T\leq n\}}.
+			b\indi_{\{T\leq n\}}\leq M_{T\wedge n}\indi_{\{T\leq n\}}.
 		\end{equation*}
 		Using Doob's stopping theorem we know that 
 		\begin{equation*}
@@ -4289,9 +4289,9 @@ Hence by the martingale convergence theorem we have $Y_{n}\to Y_{\infty}$ a.s. w
 		\end{equation*}
 		So summing it all up:
 		\begin{align*}
-			b\indi_{\{T\leq n\}}&\leq M_{T\wedge m}\indi_{\{T\leq n\}}\\
+			b\indi_{\{T\leq n\}}&\leq M_{T\wedge n}\indi_{\{T\leq n\}}\\
 			&\leq\indi_{\{T\leq n\}}\ev\left[M_{n}|\F_{T\wedge n}\right]\\
-			&\ev\left[M_{n}\indi_{\{T\leq n\}}|\F_{T\wedge n}\right].
+			&=\ev\left[M_{n}\indi_{\{T\leq n\}}|\F_{T\wedge n}\right].
 		\end{align*}
 		Now take the expectation:
 		\begin{align*}
