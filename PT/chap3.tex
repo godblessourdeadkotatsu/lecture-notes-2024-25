@@ -168,11 +168,11 @@
 		\end{equation*}
 		is countable.
 	\end{exercise}
-	Let us set $A_n=\{\omega\in\Omega:\pr(\{\omega\})>\frac{1}{2}\}$ for $n\geq1$. For example:
+	Let us set $A_n=\{\omega\in\Omega:\pr(\{\omega\})>\frac{1}{n}\}$ for $n\geq1$. For example:
 	\begin{align*}
 		A_1=&\{\omega\in\Omega:\pr(\{\omega\})>1\}=\emptyset\\
-		=&\left\{\omega\in\Omega:\pr(\{\omega\})>\frac{1}{2}\right\}\\
-		=&\left\{\omega\in\Omega:\pr(\{\omega\})>\frac{1}{3}\right\}\\
+		A_2=&\left\{\omega\in\Omega:\pr(\{\omega\})>\frac{1}{2}\right\}\\
+		A_3=&\left\{\omega\in\Omega:\pr(\{\omega\})>\frac{1}{3}\right\}\\
 		&\vdots
 	\end{align*}
 	Since $\pr(\Omega)=1$ we have $\#A_1=1$, $\#A_2<2$, $\#A_3<3$ so in generale
@@ -467,7 +467,7 @@
 \begin{enumerate}[\circlet]
 	\item First we show that $\mu$ is a measure since it is the composition of a Borel function ($q^{-1}$, since $q$ is Borel) with a measure. To show it is a probability measure we calculate
 	\begin{align*}
-		\mu(\overline{\R}&=\lambda(q^{-1}(\overline{\R})))\\
+		\mu(\overline{\R})&=\lambda(q^{-1}(\overline{\R}))\\
 		&=\lambda(\{x\in[0,1]:q(x)\in\Rext\})\\
 		&=\lambda(0,1)=1.
 	\end{align*}
@@ -527,7 +527,7 @@ Here we can swap expectation and limit thanks to the dominated convergence theor
 \end{exercise}
 Let $K:=\{X_i-X\}$. We use the $\varepsilon-\delta$ characterization for uniform integrability. So we should check that:
 \begin{enumerate}
-	\item $\sup_{Y\in K}\ev[Y]$;
+	\item $\sup_{Y\in K}\ev[Y]<\infty$;
 	\item $\every\varepsilon\exists\delta:\text{if $F\in\F$ with $\pr(F)\leq\delta$}$ then $\sup_{Y\in K}\ev\left[|Y|\indi_F\leq\varepsilon\right]$.
 \end{enumerate}
 \begin{enumerate}
@@ -538,9 +538,9 @@ Let $K:=\{X_i-X\}$. We use the $\varepsilon-\delta$ characterization for uniform
 		&\leq\ubracketthin{\ev\left|X\right|}_{<\infty\text{ bc U.I.}}+\sup_i\ubracketthin{\ev\left|X_i\right|}_{<\infty\text{ bc $\in\lone$}}<\infty
 	\end{align*}
 	The third step is simple triangle inequality...
-	\item Since $\{X_i\}$ is uniformly integrable, for any $\varepsilon_1$ there exists a $\delta_1$ such that if $\pr(F)<\delta_1$ then $\sup_i\ev\left[|X_{i}|\right]\leq1\varepsilon_1$. On the other hand, the fact that $X$ is in $\lone$ means that $\{X\}$ is uniformly integrable because $\lim_{b\to\infty}\ev\left[|X|\indi_{\{|X|>b\}}\right]$, so for each $\varepsilon_2$ we can find a $\delta_2$ such that if $\pr(F)\leq\delta_2$ then $\sup_i\ev\left[|X|\indi_F\right]\leq\varepsilon_2$. Then, for any $\varepsilon>0$, choose $\varepsilon_1=\varepsilon_2=\frac{\varepsilon}{2}$. We need to find our $\delta$ so we say $\delta=\min\{\delta_1,\delta_2\}$. In this way, for $F\in\F$ such that $\pr(F)\leq\delta$ (which means that is also $\leq\delta_1$ and $\leq\delta_2$) we have
+	\item Since $\{X_i\}$ is uniformly integrable, for any $\varepsilon_1$ there exists a $\delta_1$ such that if $\pr(F)<\delta_1$ then $\sup_i\ev\left[|X_{i}|\indi_F\right]\leq\varepsilon_1$. On the other hand, the fact that $X$ is in $\lone$ means that $\{X\}$ is uniformly integrable because $\lim_{b\to\infty}\ev\left[|X|\indi_{\{|X|>b\}}\right]$, so for each $\varepsilon_2$ we can find a $\delta_2$ such that if $\pr(F)\leq\delta_2$ then $\sup_i\ev\left[|X|\indi_F\right]\leq\varepsilon_2$. Then, for any $\varepsilon>0$, choose $\varepsilon_1=\varepsilon_2=\frac{\varepsilon}{2}$. We need to find our $\delta$ so we say $\delta=\min\{\delta_1,\delta_2\}$. In this way, for $F\in\F$ such that $\pr(F)\leq\delta$ (which means that is also $\leq\delta_1$ and $\leq\delta_2$) we have
 	\begin{align*}
-		\sup_{Y\in K}\ev\left[|Y|\indi_F\right]&=\sup_i\ev\left[|X_i+X|\indi_F\right]\\
+		\sup_{Y\in K}\ev\left[|Y|\indi_F\right]&=\sup_i\ev\left[|X_i-X|\indi_F\right]\\
 		&\leq\sup_i\ev\left[|X_i|\indi_F\right]+\ev\left[|X|\indi_F\right]\\
 		&\leq\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon.
 	\end{align*}
@@ -2963,7 +2963,7 @@ Hence by the martingale convergence theorem we have $Y_{n}\to Y_{\infty}$ a.s. w
 		\emph{Lindeberg's lemma}:
 		Let $(Y_1,Y_2,\ldots,Y_k)$ be independent \rv s with mean zero and let $S=\sum_{j=1}^{k}Y_{j}$. Let us further assume that $\var S=1$. Let $f$ be a function which can be differentiated 3 times and let 
 		$f',f'',f'''$ be bounded and continuous and such that
-		\[|f'''|\leq x,\qquad c\in\R_+.\]
+		\[|f'''|\leq c,\qquad c\in\R_+.\]
 		Then for $Z\asstnr$
 		\[|\ev f\circ S-\ev f\circ Z|\leq c\sum_{j=1}^{k}\ev|Y_{j}|^{3}\]
 	\end{lemma}
@@ -3601,7 +3601,7 @@ Hence by the martingale convergence theorem we have $Y_{n}\to Y_{\infty}$ a.s. w
 	\begin{fancyproof}
 		Choose $a=0$. Consider hence the process $(M-a)^{+}$ that is sub-martingale (if $M$ is a sub-martingale). Take $M\geq 0$ and let 
 		\begin{equation*}
-			F_{n}-\sum_{k=1}^{\infty}\indi_{(S_{k},T_{k}]}(n)
+			F_{n}=\sum_{k=1}^{\infty}\indi_{(S_{k},T_{k}]}(n)
 		\end{equation*}
 		and consider 
 		\begin{equation*}

@@ -1,0 +1,27 @@
+arrival time picked as 3.756191 for machine 1
+arrival time picked as 2487.487078 for machine 2
+arrival time picked as 644.426063 for machine 3
+arrival time picked as 4962.372422 for machine 4
+arrival time picked as 2638.497591 for machine 5
+arrival time picked as 1961.047232 for machine 6
+arrival time picked as 1293.694139 for machine 7
+arrival time picked as 6789.008617 for machine 8
+arrival time picked as 5192.106843 for machine 9
+arrival time picked as 4118.415356 for machine 10
+
+
+Finished initialization.
+
+
+==========================================
+Simulation complete!
+==========================================
+
+Execution time: 0.007000 seconds
+Number of events processed: 101051
+Number of regeneration cycles: 84
+Observation period: 14372852.132379 time units
+Average waiting time at the long repair station: 1833.260552
+Unilateral error (5%): 91.294054
+Confidence interval at 0.95 level: (1741.966498, 1924.554606)
+The error is 9.959747 % of the value of the average

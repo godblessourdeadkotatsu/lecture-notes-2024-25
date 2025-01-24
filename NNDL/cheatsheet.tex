@@ -1,0 +1,218 @@
+% Template created by Karol Kozioł (www.karol-koziol.net) for ShareLaTeX
+
+\documentclass[a4paper,9pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage[x11names]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{bm}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,raster,theorems,breakable}
+
+\usepackage{amsmath,amssymb,textcomp}
+\usepackage{mathtools}
+\everymath{\displaystyle}
+\usepackage{multicol}
+\setlength{\columnseprule}{0pt}
+\setlength{\columnsep}{20.0pt}
+
+
+\usepackage{geometry}
+\geometry{a4paper,left=10mm,right=10mm,top=10mm,bottom=15mm}
+
+\linespread{1.3}
+
+
+% custom title
+\makeatletter
+\renewcommand*{\maketitle}{%
+	\noindent
+	\begin{minipage}{0.4\textwidth}
+		\begin{tikzpicture}
+			\node[rectangle,rounded corners=6pt,inner sep=10pt,fill=SteelBlue4,text width= 0.95\textwidth] {\color{white}\Huge \@title};
+		\end{tikzpicture}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.55\textwidth}
+		\begin{tikzpicture}
+			\node[rectangle,rounded corners=3pt,inner sep=10pt,draw=Turquoise4,text width= 0.95\textwidth] {\LARGE \@author};
+		\end{tikzpicture}
+	\end{minipage}
+	\bigskip\bigskip
+}%
+\makeatother
+\newtcbtheorem[number within=section]{myproof}{Proof}{
+	enhanced, sharp corners, breakable,
+	colframe=Turquoise4, coltitle=black, colbacktitle=gray!24,
+	colback=white,
+	rounded corners,
+	interior style={top color=Turquoise4!60, bottom color=white},
+	fonttitle=\bfseries,
+	separator sign={:},
+	theorem hanging indent/.try=0pt,
+}{ciao}
+
+% custom section
+\usepackage[explicit]{titlesec}
+\newcommand*\sectionlabel{}
+\titleformat{\section}
+{\gdef\sectionlabel{}
+	\normalfont\sffamily\Large\bfseries\scshape}
+{\gdef\sectionlabel{\thesection\ }}{0pt}
+{
+	\noindent
+	\begin{tikzpicture}
+		\node[rectangle,rounded corners=3pt,inner sep=4pt,fill=Turquoise4,text width= 0.95\columnwidth] {\color{white}\sectionlabel#1};
+	\end{tikzpicture}
+}
+\titlespacing*{\section}{0pt}{5pt}{1pt}
+\newcommand*\subsectionlabel{}
+\titleformat{\subsection}
+{\gdef\subsectionlabel{}
+	\normalfont\sffamily\Large\bfseries\scshape}
+{\gdef\subsectionlabel{\thesubsection\ }}{10pt}
+{
+	\noindent
+	\begin{tikzpicture}
+		\node[rectangle,inner sep=4pt,fill=Turquoise4!60!black,rounded corners=3pt,text width= 0.9\columnwidth] {\color{white}\subsectionlabel#1};
+	\end{tikzpicture}
+}
+\titlespacing*{\subsection}{0pt}{5pt}{1pt}
+
+
+% custom footer
+\usepackage{fancyhdr}
+\makeatletter
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot[C]{\footnotesize \textcopyright\ \@date\ \ \@author}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\makeatother
+
+
+\title{Il Porcodio: Deep Learning Cheatsheet}
+\author{\faSynagogue\;Kotatsu, the Bringer of Jewishness\;\faMenorah}
+\date{2025}
+
+
+
+\begin{document}
+	
+	\maketitle
+	
+	\begin{multicols*}{2}
+		\section{Matrix based notation}
+		The activation $z^{l}_{j}$ of the $j$-th neuron of the $l$-th layer is
+		\begin{equation*}
+			z^{l}_{j}=\sigma\left(\sum_{k}w^{l}_{jk}z^{l-1}_{k}+b^{l}_{j}\right)
+		\end{equation*}
+		Now take $\mathbf{W}^{l}$ as the matrix
+		\begin{equation*}
+			\begin{bmatrix}
+				w^{l}_{00} & w^{l}_{01} & w^{l}_{02} & \cdots  \\
+				w^{l}_{10} & w^{l}_{11} & w^{l}_{12} & \cdots  \\
+				\vdots &\vdots&\vdots&\ddots
+			\end{bmatrix}.
+		\end{equation*}
+		in matrix notation we write then
+		\begin{equation*}
+			\mathbf{z}^{l}=\sigma(\mathbf{W}^{l}\mathbf{z}^{l-1}+\mathbf{b}^{l})
+		\end{equation*}
+		and we define 
+		\begin{equation*}
+			\mathbf{a}^{l}:=\mathbf{W}^{l}\mathbf{z}^{l-1}+\mathbf{b}
+		\end{equation*}
+		so that $\mathbf{z}^{l}=\sigma(\mathbf{a^{l}})$.\\
+		Hadamard product: stupid retarded product of matrices:
+		\begin{equation*}
+			\begin{bmatrix}
+				1\\2
+			\end{bmatrix}\odot\begin{bmatrix}
+				2\\4
+			\end{bmatrix}=\begin{bmatrix}
+				1\times 2\\3\times 4
+			\end{bmatrix}.
+		\end{equation*}
+		\section{Cost function}
+		It must be:
+		\begin{itemize}
+			\item Expressed as mean of the single inputs;
+			\item It must be a function of the outputs of the network.
+		\end{itemize}
+		Example: quadratic cost function
+		$$C=\frac{1}{2n}\left\lVert\mathbf{y}(x)-\mathbf{z}^{L}(x)\right\rVert^{2}.$$
+		\section{The Four Fundamental Equations}
+		Define $\delta_{j}^{l}$ as the error at level $l$ of neuron $j$:
+		\begin{equation*}
+			\delta_{j}^{l}=\frac{\partial C}{\partial a^{l}_{j}}.
+		\end{equation*}
+		\subsection{BP1}
+		\begin{equation*}
+			\begin{array}{c}
+				\delta_{j}^{L}=\frac{\partial C}{\partial z^{L}_{j}}\cdot\sigma'(a^{L}_{j})\\
+				\Downarrow\\
+				\boldsymbol{\delta}^{L}=\nabla_{z}C\odot\sigma'(\mathbf{a}^{L}).
+			\end{array}
+		\end{equation*}
+		\subsection{BP2}
+		\begin{equation*}
+			\begin{array}{c}
+				\delta_{j}^{l}=\sum_{k}w_{jk}^{l+1}\delta_k^{l+1}\sigma'(a^{l}_{j})\\
+				\Downarrow\\
+				\boldsymbol{\delta}^{l}=((\mathbf{W}^{l+1})^{\mathsf{T}}\boldsymbol{\delta}^{l+1})\odot\sigma'(\mathbf{a}^{l}).
+			\end{array}
+		\end{equation*}
+		\subsection{BP3}
+		\begin{equation*}
+			\frac{\partial C}{\partial b_{j}^{l}}=\delta^{l}_{j}.
+		\end{equation*}
+		\subsection{BP4}
+		\begin{equation*}
+			\frac{\partial C}{\partial w_{jk}^{l}}=z_{k}^{l-1}\delta_{j}^{l}\qquad\qquad\frac{\partial C}{\partial w}=z_{\text{in}}\delta_{\text{out}}.
+		\end{equation*}
+		\begin{myproof}{\color{Turquoise4!80!black}BP1}{}
+			Show that $\delta^{L}_{j}:=\frac{\partial C}{\partial a^{L}_{j}}=\frac{\partial C}{\partial z^{L}_{j}}\sigma'(a^{L}_{j})$. Use the chain rule:
+			\begin{align*}
+				\delta^{L}_{j}&=\frac{\partial C}{\partial a^{L}_{j}}\\
+				&=\sum_{k}\frac{\partial C}{\partial z^{L}_{k}}\frac{\partial z^{L}_{k}}{\partial a^{L}_{j}}\\
+				&=\frac{\partial C}{\partial z^{L}_{j}}\frac{\partial \overbracket{z^{L}_{j}}^{\mathclap{\sigma(a^{L}_{j})}}}{\partial a^{L}_{j}}\\
+				&=\frac{\partial C}{\partial z^{L}_{j}}\sigma'(a^{L}_{j}).
+			\end{align*}
+		\end{myproof}
+		\begin{myproof}{\color{Turquoise4!80!black}BP2}{bp2}
+			Here we must show that 
+			\begin{align*}
+				\delta^{l}_{j}:=\frac{\partial C}{\partial a^{l}_{j}}&={\left[(\mathbf{W}^{l+1})^{\mathsf{T}}\boldsymbol{\delta}^{l+1}\odot\sigma'(\mathbf{a}^{l})\right]}_{j}\\
+				&=\sum_{k}w_{jk}^{l+1}\delta_{k}^{l+1}\cdot\sigma(a^{l}_{j}).
+			\end{align*}
+			Start from the fact that we can think of $C$ as a function of $a^{l+1}_{k}$ so we can use the chain rule:
+			\begin{align*}
+				\delta^{l}_{j}:=\frac{\partial C}{\partial a_{j}^{l}}&=\sum_{k}\underbracket{\frac{\partial C}{\partial a^{l+1}_{k}}}_{\mathclap{\text{by def. }\delta_{k}^{l+1}}}\frac{\partial a^{l+1}_{k}}{a^{l}_{j}}\\
+				&=\sum_{k}\delta_{k}^{l+1}\frac{\partial a^{l+1}_{k}}{a^{l}_{j}}.
+			\end{align*}
+			But we know that
+			\begin{align*}
+				a^{l+1}_{k}&=\sum_{j}w_{kj}^{l+1}z^{l}_{j}+b^{l+1}_{k}\\
+				&=\sum_{j}w_{kj}^{l+1}\sigma(a^{l}_{j})+b^{l+1}_{k}
+			\end{align*}
+			so we have that
+			\begin{equation*}
+				\frac{\partial a^{l+1}_{k}}{\partial a_{j}^{l}}=w_{kj}^{l+1}\sigma'(a^{l}_{j}).
+			\end{equation*}
+			So putting all together we get
+			\begin{equation*}
+				\delta_{j}^{l}=\sum_{k}w_{kj}^{l+1}\delta_{k}^{l+1}\sigma'(a^{l}_{j}).
+			\end{equation*}
+		\end{myproof}
+		\begin{myproof}{\color{Turquoise4!80!black}BP2}{bp3}
+			We must show that $\frac{\partial C}{\partial b^{l}_{j}}=d^{l}_{j}$. Think of $C$ as a function of $a^{l}_{j}$ and use chain rule:
+			\begin{align*}
+				\frac{\partial C}{\partial b_{j}^{l}}&=\sum_{k}\frac{\partial C}{\partial a^{l}_{k}}\frac{\partial a^{l}_{k}}{b_{j}^{l}}\\
+				&=\underbracket{\frac{\partial C}{\partial a_{j}^{l}}}_{=\delta_{j}^{l}}\underbracket{\frac{\partial a_{j}^{l}}{b_{j}}}_{=1}.
+			\end{align*}
+		\end{myproof}
+	\end{multicols*}
+\end{document}
