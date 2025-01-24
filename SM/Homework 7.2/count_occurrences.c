@@ -23,7 +23,7 @@ int main() {
     fclose(file);
 
     // Print the result
-    printf("The number %.1f falls inside %d intervals.\n", target, count);
+    printf("The number %f falls inside %d intervals.\n", target, count);
 
     return 0;
 }

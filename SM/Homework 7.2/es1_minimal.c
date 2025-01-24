@@ -561,7 +561,7 @@ void RegPoint(
     we choose 100 as our sample size, since the minimal number of samples commonly used as guideline is 30.
     */
    if (node_event->event.type == DL) {
-    if (*cycle_in_group < 60) {
+    if (*cycle_in_group < 100) {
         (*cycle_in_group)++;
     } else {
         (*cycle_num)++;
@@ -652,9 +652,9 @@ int main(int argc, char *argv[]){
     }
 
     /*
-    space the argument so that the sequence of random seeds is more spaced.
+    space the argument so that the sequence of random seeds provides more variability.
     */
-    int seed = pow(2,(atoi(argv[1])));
+    int seed = (atoi(argv[1])) * 10;
 
     srand(seed); 
     initialize(); // do the initialization
