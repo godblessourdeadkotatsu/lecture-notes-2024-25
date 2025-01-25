@@ -3,7 +3,7 @@ Università di Torino
 M.S. in STOCHASTICS AND DATA SCIENCE
 Course in Simulation
 Homework 7
-First exercise
+Third exercise
 
 By Andrea Crusi and Lorenzo Sala
  * ------------------------------------------------------------------------- 
@@ -14,12 +14,10 @@ By Andrea Crusi and Lorenzo Sala
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#include <ctype.h>
 
 #define N 10              // max number of machines
 #define HETA_ARRIVAL 3000 // Expected value for arrivals
-#define HETA_SHORT 40     // Expected value for short station
-#define HETA_LONG 960     // Expected value for long station
+#define HETA_SHORT 40     // Expected value for short station 
 #define BETA 0.2 // routing probability
 #define MAX_TIME 10000000
 
@@ -37,7 +35,8 @@ int nserv_s =0;
 int nserv_l =0;
 double heta_arrival = 3000;
 double heta_short = 40;
-double heta_long = 960;
+double alpha[] = {0.95,0.05};
+double mu[] = {10,19010};
 
 /*------VARIABLES FOR THE REGENERATION METHOD------*/
 int cycle_num = 1;
@@ -94,6 +93,7 @@ struct node {
 /* function declaration */
 nodePtr get_new_node();
 double exponential_random(double heta);
+double hyperexponential_random(int k, double* alpha, double* heta);
 void initialize();
 void engine(void);
 void a_short(struct node* node_event);
@@ -139,7 +139,7 @@ double ComputeConfidenceIntervals(
     double *S_nu
     );
 int DecideToStop(int cycle_num, double error, double r_hat);
-int isNumber(const char *str);
+
 
 
 nodePtr get_new_node() {
@@ -176,6 +176,29 @@ double exponential_random(double heta) {
   return exp;
 }
 
+double hyperexponential_random(int k, double* alpha, double* heta) {
+  // Cumulative distribution for alpha
+  double cumulative_alpha[k];
+  cumulative_alpha[0] = alpha[0]; 
+  // Simply add all the alphas parameter (they sum to 1)
+  for (int i = 1; i < k; i++) {
+    cumulative_alpha[i] = cumulative_alpha[i - 1] + alpha[i];
+  }
+
+  // Generate a uniform random number
+  double Y = (double)rand() / RAND_MAX;
+
+  // Select the component distribution: find which  distribution corresponds has a cumulative probability that corresponds to the drawn uniform variable
+  int j = 0;
+  while (Y > cumulative_alpha[j]) {
+    j++;
+  }
+
+  // Generate a random variable from the chosen exponential distribution
+  double X = exponential_random(heta[j]);
+
+  return X;
+}
 /*
 -----------------------------------------------------------------------------
 -------------------------SIMULATION CORE-------------------------------------
@@ -215,6 +238,7 @@ void initialize() {
         init_job->event.create_time = sim_clock;
         init_job->event.type = AS;
         init_job->event.machine_id = i;
+        printf("arrival time picked as %f for machine %d\n",init_job->event.occur_time, init_job->event.machine_id);
         schedule(init_job); 
     }
 
@@ -301,7 +325,7 @@ void a_long(struct node* node_event) {
     node_event->event.create_time = sim_clock;
 
     /*pick a service time*/
-    node_event->event.service_time = exponential_random(heta_long);
+    node_event->event.service_time = hyperexponential_random(2,alpha,mu);
     verbose ? printf("Extracted a long departure time of %f\n", node_event->event.service_time) : 0;
 
     /*idle... or busy?*/
@@ -378,7 +402,7 @@ void d_long(struct node* node_event){
         verbose ? printf("queue long station not empty. dequeuing job of machine %n\n", next_job->event.machine_id) : 0;
         next_job->event.type = DL;
         /*pick service time*/
-        double service_long = exponential_random(heta_long);
+        double service_long = hyperexponential_random(2,alpha,mu);
         next_job->event.service_time = service_long;
         next_job->event.occur_time = sim_clock + service_long;
         schedule(next_job);
@@ -400,7 +424,17 @@ void release_nodes(nodePtr *head) {
 }
 
 void report(double sim_duration) {
-    printf("%f,%f\n", r_hat-error, r_hat+error);
+    printf("\n==========================================\n");
+    printf("Simulation complete!");
+    printf("\n==========================================\n");
+    printf("\nExecution time: %f seconds\n", sim_duration);
+    printf("Number of events processed: %d\n", event_counter);
+    printf("Number of regeneration cycles: %d\n", cycle_num);
+    printf("Observation period: %f time units\n", sim_clock);
+    printf("Average waiting time at the long repair station: %f\n", r_hat);
+    printf("Unilateral error (5%%): %f\n", error);
+    printf("Confidence interval at 0.95 level: (%f, %f)\n", r_hat-error, r_hat+error);
+    printf("The error is %f %% of the value of the average", 200*error/r_hat);
 
     release_nodes(&FEL.Head);
     release_nodes(&IQ1.Head);
@@ -558,7 +592,7 @@ void RegPoint(
     in this scenario every departure from any station may be a suitable regeneration point. 
     since we are interested in the departure from the long station we pick as regeneration points the departures from the long station.
     in order to preserve the conditions to apply the central limit theorem we have to have a reasonable sample size and so we must group different regeneration cycles together.
-    we choose 100 as our sample size, since the minimal number of samples commonly used as guideline is 30.
+    we choose 60 as our sample size, since the minimal number of samples commonly used as guideline is 30.
     */
    if (node_event->event.type == DL) {
     if (*cycle_in_group < 100) {
@@ -637,35 +671,22 @@ int DecideToStop(int cycle_num, double error, double r_hat){
     return(cycle_num > 40 && error_percentage < 0.10);  
 }
 
-int isNumber(const char *str) {
-    while (*str) {
-        if (!isdigit(*str)) return 0;
-        str++;
-    }
-    return 1;
-}
-
 int main(int argc, char *argv[]){
-    if (argc != 2 || !isNumber(argv[1])) {
-        printf("Usage: %s <positive integer>\n", argv[0]);
-        return 1;
+    for (int i = 1; i < argc; i++) {
+        if (argv[i][0] == '-' && argv[i][1] == 'v') {
+        verbose = 1; // Enable verbose logging
+        break;       // No need to check further once we find the flag
+        }
     }
-
-    /*
-    space the argument so that the sequence of random seeds provides more variability.
-    */
-    int seed = (atoi(argv[1])) * 10;
-
-    srand(seed); 
-    
+    srand(1); //we choose a static seed
     initialize(); // do the initialization
+    printf("\n\nFinished initialization.\n\n");
     clock_t start_time = clock(); // start the stopwatch
     
     /*simulate*/
     while ( //we handle the two end conditions: the regeneration method must be enough to stop and the end event must be reached.
         halt == 0 || DecideToStop(cycle_num, error, r_hat) == 0
-        /*we may just use decide to stop to stop the simulation, but by doing so we can choose to increase MAX_TIME to keep simulating and lowering the error.
-            another way to lower the error may be increase the number of regeneration cycles or increase the grouping of the cycles*/
+        /*we may just use decide to stop to stop the simulation, but by doing so we can choose to increase MAX_TIME to keep simulating and lowering the error.*/
     ) {
         engine();
     }
