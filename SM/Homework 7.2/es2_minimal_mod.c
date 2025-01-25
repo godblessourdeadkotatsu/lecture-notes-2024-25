@@ -3,7 +3,7 @@ Università di Torino
 M.S. in STOCHASTICS AND DATA SCIENCE
 Course in Simulation
 Homework 7
-Third exercise
+Thrid exercise
 
 By Andrea Crusi and Lorenzo Sala
  * ------------------------------------------------------------------------- 
@@ -14,6 +14,7 @@ By Andrea Crusi and Lorenzo Sala
 #include <string.h>
 #include <math.h>
 #include <time.h>
+#include <ctype.h>
 
 #define N 10              // max number of machines
 #define HETA_ARRIVAL 3000 // Expected value for arrivals
@@ -139,6 +140,7 @@ double ComputeConfidenceIntervals(
     double *S_nu
     );
 int DecideToStop(int cycle_num, double error, double r_hat);
+int isNumber(const char *str);
 
 
 
@@ -238,7 +240,6 @@ void initialize() {
         init_job->event.create_time = sim_clock;
         init_job->event.type = AS;
         init_job->event.machine_id = i;
-        printf("arrival time picked as %f for machine %d\n",init_job->event.occur_time, init_job->event.machine_id);
         schedule(init_job); 
     }
 
@@ -424,18 +425,7 @@ void release_nodes(nodePtr *head) {
 }
 
 void report(double sim_duration) {
-    printf("\n==========================================\n");
-    printf("Simulation complete!");
-    printf("\n==========================================\n");
-    printf("\nExecution time: %f seconds\n", sim_duration);
-    printf("Number of events processed: %d\n", event_counter);
-    printf("Number of regeneration cycles: %d\n", cycle_num);
-    printf("Observation period: %f time units\n", sim_clock);
-    printf("Average waiting time at the long repair station: %f\n", r_hat);
-    printf("Unilateral error (5%%): %f\n", error);
-    printf("Confidence interval at 0.95 level: (%f, %f)\n", r_hat-error, r_hat+error);
-    printf("The error is %f %% of the value of the average", 200*error/r_hat);
-
+    printf("%f,%f\n", r_hat-error, r_hat+error);
     release_nodes(&FEL.Head);
     release_nodes(&IQ1.Head);
     release_nodes(&IQ2.Head);
@@ -592,7 +582,7 @@ void RegPoint(
     in this scenario every departure from any station may be a suitable regeneration point. 
     since we are interested in the departure from the long station we pick as regeneration points the departures from the long station.
     in order to preserve the conditions to apply the central limit theorem we have to have a reasonable sample size and so we must group different regeneration cycles together.
-    we choose 60 as our sample size, since the minimal number of samples commonly used as guideline is 30.
+    we choose 100 as our sample size, since the minimal number of samples commonly used as guideline is 30.
     */
    if (node_event->event.type == DL) {
     if (*cycle_in_group < 100) {
@@ -671,16 +661,28 @@ int DecideToStop(int cycle_num, double error, double r_hat){
     return(cycle_num > 40 && error_percentage < 0.10);  
 }
 
-int main(int argc, char *argv[]){
-    for (int i = 1; i < argc; i++) {
-        if (argv[i][0] == '-' && argv[i][1] == 'v') {
-        verbose = 1; // Enable verbose logging
-        break;       // No need to check further once we find the flag
-        }
+int isNumber(const char *str) {
+    while (*str) {
+        if (!isdigit(*str)) return 0;
+        str++;
     }
-    srand(1); //we choose a static seed
+    return 1;
+}
+
+int main(int argc, char *argv[]){
+   if (argc != 2 || !isNumber(argv[1])) {
+        printf("Usage: %s <positive integer>\n", argv[0]);
+        return 1;
+    }
+
+    /*
+    space the argument so that the sequence of random seeds provides more variability.
+    */
+    int seed = (atoi(argv[1])) * 10;
+
+    srand(seed); 
+
     initialize(); // do the initialization
-    printf("\n\nFinished initialization.\n\n");
     clock_t start_time = clock(); // start the stopwatch
     
     /*simulate*/

@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 # File name containing the data
-file_name = "log2.txt"
+file_name = "log2mod.txt"
 
 # Variables to store the data
 lower_bounds = []
@@ -37,8 +37,8 @@ plt.tight_layout()
 plt.legend()
 
 # Save the plot to a file
-plt.savefig("confidence_intervals2.png", dpi=300)
-print("Plot saved as 'confidence_intervals2.png'.")
+plt.savefig("confidence_intervals2_mod.png", dpi=300)
+print("Plot saved as 'confidence_intervals2_mod.png'.")
 
 # Show the plot
 plt.show()
