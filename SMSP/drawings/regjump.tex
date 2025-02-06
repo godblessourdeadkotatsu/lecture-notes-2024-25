@@ -1,0 +1,21 @@
+\begin{tikzpicture}%[scale=0.8]
+\begin{axis}[
+                xlabel=\empty,
+                x axis line style={->,opacity=100},
+                ylabel=\empty,
+                xmin=-1, xmax=100,
+                ymin=-1, ymax=100,
+                axis y line=left,
+                y axis line style={->,opacity=100},
+                ticks=none,
+                axis x line*=bottom
+                        ]
+                        \draw (0,20)--(30,20) node[circle,fill, pos=0,inner sep=2pt]{};
+                        \draw (30,60)--(50,60) node[circle,fill, pos=0,inner sep=2pt]{};
+                        \draw (50,30)--(85,30) node[circle,fill, pos=0,inner sep=2pt]{};
+                        \draw (85,40)--(100,40) node[circle,fill, pos=0,inner sep=2pt]{};
+                        \draw[dashed] (30,60)--(30,0);
+                        \draw[dashed] (50,60)--(50,0);
+                        \draw[dashed] (85,40)--(85,0);
+\end{axis}
+\end{tikzpicture}

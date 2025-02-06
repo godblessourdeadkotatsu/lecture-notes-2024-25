@@ -1,0 +1,31 @@
+\documentclass{standalone}
+\usepackage{standtikz}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel=\empty,
+                xtick=\empty,
+                ytick=\empty,
+                x axis line style={->,opacity=100},
+                ylabel=\empty,
+                xmin=-1, xmax=5,
+                ymin=-1, ymax=2,
+                axis y line=left,
+                axis lines=middle,
+                y axis line style={->,opacity=100}]
+                \node[fill,circle,inner sep=1.5pt]at(1,1){};
+                \node[fill,circle,inner sep=1.5pt]at(1.9,-0.5){};
+                \node[fill,circle,inner sep=1.5pt]at(3,1.6){};
+                \node[fill,circle,inner sep=1.5pt]at(4.1,0.6){};
+                \node[fill,circle,inner sep=1.5pt]at(3.5,-0.9){};
+                \node[fill,circle,inner sep=1.5pt]at(0.5,-0.7){};
+                \node[fill,circle,inner sep=1.5pt]at(0.2,1.5){};
+                \node[fill,circle,inner sep=1.5pt]at(4.7,1.2){};
+                \node[fill,circle,inner sep=1.5pt]at(2.6,1.1){};
+                \draw[RedViolet](2.4,0.4)--(2.4,1.7) node[midway,left]{$A$};
+                \draw[RedViolet](2.4,0.4)--(4.9,0.4);
+                \draw[RedViolet](4.9,0.4)--(4.9,1.7);
+                \draw[RedViolet](4.9,1.7)--(2.4,1.7);
+\end{axis}
+\end{tikzpicture}
+\end{document}

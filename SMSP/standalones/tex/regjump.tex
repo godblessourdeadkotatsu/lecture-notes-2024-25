@@ -1,0 +1,44 @@
+\documentclass[12pt,convert={false},margin=5mm]{standalone}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc,patterns,arrows.meta, bending, graphs, shadings,quotes,intersections}
+\usetikzlibrary{external}
+%\tikzexternalize[prefix=tikz/]
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16,height=8cm,width=10cm}
+\usepgfplotslibrary{fillbetween}
+\newcommand{\enf}[1]{\textcolor{RedViolet}{\textbf{#1}}} %enf sta per enfasi
+\newcommand{\sott}[1]{\setulcolor{black!20!Goldenrod}\ul{#1}}
+\newcommand{\prob}{\mathbb{P}}
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\newcommand{\ev}[1]{\mathbb{E}\Bigl[{#1}\Bigr]}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\equalexpl}[1]{%
+	\underset{\substack{\uparrow\\\mathrlap{\text{\vspace{-3cm}\hspace{-1em}#1}}}}{=}}
+\newcommand{\dif}{\mathop{}\!\mathrm{d}}
+\begin{document}
+\begin{tikzpicture}%[scale=0.8]
+	\begin{axis}[
+		xlabel=\empty,
+		x axis line style={->,opacity=100},
+		ylabel=\empty,
+		xmin=-1, xmax=100,
+		ymin=-1, ymax=100,
+		axis y line=left,
+		y axis line style={->,opacity=100},
+		ticks=none,
+		axis x line*=bottom
+		]
+		\draw (0,20)--(30,20) node[circle,fill, pos=0,inner sep=2pt]{};
+		\draw (30,60)--(50,60) node[circle,fill, pos=0,inner sep=2pt]{};
+		\draw (50,30)--(85,30) node[circle,fill, pos=0,inner sep=2pt]{};
+		\draw (85,40)--(100,40) node[circle,fill, pos=0,inner sep=2pt]{};
+		\draw[dashed] (30,60)--(30,0);
+		\draw[dashed] (50,60)--(50,0);
+		\draw[dashed] (85,40)--(85,0);
+	\end{axis}
+\end{tikzpicture}
+\end{document}

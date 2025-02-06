@@ -1,0 +1,29 @@
+\begin{tikzpicture}%[scale=0.8]
+	\begin{axis}[
+		xlabel=\empty,
+		x axis line style={->,opacity=100},
+		ylabel=\empty,
+		xmin=-1, xmax=100,
+		ymin=-1, ymax=100,
+		axis y line=left,
+		y axis line style={->,opacity=100},
+		ticks=none,
+		axis x line*=bottom
+		]
+		\draw [RedViolet](0,0)--(30,0) node[circle,fill, pos=0,inner sep=2pt]{};
+		\draw [RedViolet](30,60)--(50,60) node[circle,fill, pos=0,inner sep=2pt]{};
+		\draw [RedViolet] (50,30)--(85,30) node[circle,fill, pos=0,inner sep=2pt]{};
+		\draw [RedViolet] (85,80)--(100,80) node[circle,fill, pos=0,inner sep=2pt]{};
+		\draw[dashed] (30,60)--(30,0);
+		\draw[dashed] (50,60)--(50,30);
+		\draw[dashed] (85,80)--(85,30);
+		\begin{scope}[decoration=brace]
+			\pgfdecorationsegmentamplitude=5pt
+			\draw[decorate,black!80!black] (31,59)--(31,0) node[midway,right=\pgfdecorationsegmentamplitude,font=\tiny] {$Y_1$};
+			\draw[decorate,black!80!black] (51,59)--(51,31) node[midway,right=\pgfdecorationsegmentamplitude,font=\tiny] {$Y_2$};
+			\draw[decorate,black!80!black] (86,79)--(86,31) node[midway,right=\pgfdecorationsegmentamplitude,font=\tiny] {$Y_3$};
+		\end{scope}
+	\end{axis}
+	\node[RedViolet,below right=0.1cm and 0.43cm, font=\tiny] (T) {Exp$(\lambda)$};
+	\node[RedViolet,below right=0.1cm and 2.25cm, font=\tiny] (Te) {Exp$(\lambda)$};
+\end{tikzpicture}

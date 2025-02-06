@@ -1,0 +1,31 @@
+\begin{tikzpicture}%[scale=0.8]
+\begin{axis}[
+                xlabel=\empty,
+                x axis line style={opacity=100},
+                ylabel=\empty,
+                xmin=0, xmax=1200,
+                ymin=0, ymax=100,
+                axis y line=left,
+                y axis line style={opacity=100},
+                ytick={50,90},
+                xtick={100,550,1100},
+                xticklabels={$a$,\textcolor{red}{z},$b$},
+                yticklabels={\textcolor{blue}{y},$M$},
+                axis x line*=bottom
+                        ]
+\addplot[smooth] coordinates {
+(100,0)
+(200,50)
+(350,30)
+(500,85)
+(689,58)
+(800,70)
+(1100,0)
+};
+ \draw [dashed] (0,90) -- (1200,90);
+ \draw [red,dash dot] (550,0) -- (550,50);
+ \draw [blue,dash dot] (0,50) -- (550,50);
+ \node[align=left] at (990,40) {$\pi$};
+ \node[circle,fill,inner sep=2pt] at (550,50) {};
+\end{axis}
+\end{tikzpicture}

@@ -1,0 +1,30 @@
+    \begin{tikzpicture}[-,>=stealth', line width=0.5pt, node distance=0.5cm]
+
+        \node [circle, draw,  fill, label=left:$i$] (two) []{};
+
+        \node [circle, draw,  fill] (c) [right=1cm of two]{};
+        \node [circle, draw,  fill] (b) [above of=c] {};
+        \node [circle, draw,  fill] (a) [above of= b]{};
+        
+        
+        \node [circle, draw,  fill] (d) [below of=c]{};
+        \node [circle, draw,  fill] (e) [below of=d]{};
+        
+
+        \node [circle, draw, fill, label=right:$j$,  circle] (j) [right= 1 cm of c]{};
+
+        \path (two) edge node [below] {} (a);
+        \path (two) edge node [below] {} (b);
+        \path (two) edge node [below] {} (c);
+        \path (two) edge node [below] {} (d);
+        \path (two) edge node [below] {} (e);
+
+        \path (a) edge node [below] {} (j);
+        \path (b) edge node [below] {} (j);
+        \path (c) edge node [below] {} (j);
+        \path (d) edge node [below] {} (j);
+        \path (e) edge node [below] {} (j);
+
+        \node[circle][above right=12pt and 6pt of two]{$h$};
+         \node[circle][above left=12pt and 6pt of j]{$t$};
+    \end{tikzpicture}

@@ -3,8 +3,8 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[utf8]{inputenc}
-\usepackage[scaled=0.95]{helvet}
-\usepackage{mathptmx}
+%\usepackage[scaled=0.95]{helvet}
+%\usepackage{mathptmx}
 \usepackage{titlesec}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -19,10 +19,8 @@
 \usepackage[font={small},labelfont={sf,bf}, margin=0cm, indention = 0cm]{caption}
 \usepackage{microtype}
 \usepackage{multicol}
-\usepackage{times}
 \usepackage[utf8]{inputenc}     
 \usepackage[italian]{babel}
-\usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{float}
 \usepackage{lipsum}
@@ -118,7 +116,7 @@ sorting = nyt, minalphanames=3]{biblatex}
 \date{}
 
 % change font of section titles
-\allsectionsfont{\sffamily\bfseries\normalsize}
+\allsectionsfont{\rmfamily\bfseries\huge}
 % font definitions for authors and affiliations
 \renewcommand\Authfont{\small}
 \renewcommand\Affilfont{\footnotesize}
@@ -139,4 +137,4 @@ sorting = nyt, minalphanames=3]{biblatex}
 \renewbibmacro{in:}{}    
 
 % use smaller font size for references
-\AtBeginBibliography{\footnotesize}
+\AtBeginBibliography{\normalsize}

@@ -1,0 +1,91 @@
+\documentclass[multi=tikzpicture,varwidth=false]{standalone}
+\usepackage{../pacco}
+\begin{document}
+
+% Create a function for generating inverse normally distributed numbers using the Box–Muller transform
+\pgfmathdeclarefunction{invgauss}{2}{%
+  \pgfmathparse{sqrt(-2*ln(#1))*cos(deg(2*pi*#2))}%
+}
+% Code for brownian motion
+\makeatletter
+\pgfplotsset{
+    table/.cd,
+    brownian motion/.style={
+        create on use/brown/.style={
+            create col/expr accum={
+                (\coordindex>0)*(
+                    max(
+                        min(
+                            invgauss(rnd,rnd)*0.1+\pgfmathaccuma,
+                            \pgfplots@brownian@max
+                        ),
+                        \pgfplots@brownian@min
+                    )
+                ) + (\coordindex<1)*\pgfplots@brownian@start
+            }{\pgfplots@brownian@start}
+        },
+        y=brown, x expr={\coordindex},
+        brownian motion/.cd,
+        #1,
+        /.cd
+    },
+    brownian motion/.cd,
+            min/.store in=\pgfplots@brownian@min,
+        min=-inf,
+            max/.store in=\pgfplots@brownian@max,
+            max=inf,
+            start/.store in=\pgfplots@brownian@start,
+        start=0
+}
+\makeatother
+%
+
+% Initialise an empty table with a certain number of rows
+\pgfplotstablenew{201}\loadedtable % How many steps?
+
+
+
+\pgfplotsset{
+        no markers,
+        xmin=0,
+        enlarge x limits=false,
+        scaled y ticks=false,
+        ymin=-1, ymax=1
+}
+\tikzset{line join=bevel}
+\pgfmathsetseed{13}
+\begin{tikzpicture}
+\begin{axis}[
+                xlabel=\empty,
+                x axis line style={->,opacity=100},
+                ylabel=\empty,
+                axis y line=left,
+                ymin=-0.6,ymax=2,
+                y axis line style={->,opacity=100},
+                ytick=\empty,
+                xtick={85,170},
+                xticklabels={$t_1$,$t_2$},
+                axis x line*=bottom
+                   ]     
+    \addplot[RedViolet,smooth] table [
+        brownian motion={%
+        start=0.7,
+            max=10,
+            min=0
+        },
+    ] {\loadedtable}node[RedViolet,pos=0.3, above=5pt]{\footnotesize$X(\omega_1)$};
+    \addplot[Dandelion,smooth] table [
+        brownian motion={%
+            start=0.3,
+            min=0, max=10
+        }
+    ] {\loadedtable} node[Dandelion,pos=0.3, below=7pt]{\footnotesize$X(\omega_2)$};
+    \draw[|-|,ultra thick](170,-0.15)--(170,0.55) node[pos=0,below]{$A_2$};
+    \draw[|-|,ultra thick](85,0.25)--(85,0.95) node[pos=0,below]{$A_1$};
+    \draw[dotted] (85,-1)--(85,0.9);
+    \draw[dotted] (170,-1)--(170,-0.15);
+\end{axis}e
+\node[below,Dandelion]at(2.9,-0.5){$\scriptscriptstyle X(\omega_2)\not\in C$};
+\node[below,RedViolet]at(5.8,-0.5){$\scriptscriptstyle X(\omega_2)\not\in C$};
+\end{tikzpicture}
+\end{document}

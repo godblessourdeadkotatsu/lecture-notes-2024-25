@@ -1,0 +1,70 @@
+\documentclass[12pt,convert={false}]{standalone}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc,patterns,arrows.meta, bending, graphs, shadings,quotes,intersections}
+\usetikzlibrary{external}
+%\tikzexternalize[prefix=tikz/]
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\usepgfplotslibrary{fillbetween}
+\newcommand{\enf}[1]{\textcolor{RedViolet}{\textbf{#1}}} %enf sta per enfasi
+\newcommand{\sott}[1]{\setulcolor{black!20!Goldenrod}\ul{#1}}
+\newcommand{\prob}{\mathbb{P}}
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\newcommand{\ev}[1]{\mathbb{E}\Bigl[{#1}\Bigr]}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\equalexpl}[1]{%
+	\underset{\substack{\uparrow\\\mathrlap{\text{\vspace{-3cm}\hspace{-1em}#1}}}}{=}}
+\newcommand{\dif}{\mathop{}\!\mathrm{d}}
+\begin{document}
+\begin{tikzpicture}
+	\begin{axis}[
+		xlabel=0,
+		every axis x label/.style={
+			at={(ticklabel* cs:-0.01)},
+			anchor=east,
+		},
+		ylabel=\empty,
+		xmin=0, xmax=150,
+		ymin=0, ymax=50,
+		axis y line=left,
+		y axis line style={opacity=0},
+		ytick=\empty,
+		xtick={60,100}, 
+		xticklabels={$x'$,$x$},
+		xtick style={draw=black}, 
+		axis x line*=bottom
+		]
+		\addplot[RedViolet,smooth,name path=p] coordinates {
+			(5,0)
+			(20,15)
+			(30,13)
+			(40,20)
+			(50,25)
+			(60,19)
+			(70,22)
+			(80,15)
+			(90,17)
+			(115,0)
+		};
+		\addplot[black,smooth,name path=q] coordinates {
+			(-50,0)
+			(40,1)
+			(90,30)
+			(140,1)
+			(240,0)
+		};
+		\path[name path=l1](60,0)--(60,50);
+		\fill [name intersections={of=p and l1}] (intersection-1) coordinate (a) node[circle,fill,inner sep=1.5pt,label=above:\footnotesize$\pi(x')$]{};
+		\draw[gray](60,0)--(a); 
+		\path[name path=l2](100,0)--(100,50);
+		\fill [name intersections={of=q and l2}] (intersection-1) coordinate (b) node[circle,fill,inner sep=1.5pt,label=above:\footnotesize$Q(x)$]{};
+		\fill [name intersections={of=p and l2}] (intersection-1) coordinate (c) node[circle,fill,inner sep=1.5pt,label={[yshift=-2pt]\footnotesize$\pi(x)$}]{};
+		\draw[gray](100,0)--(c);
+		\draw[gray,dotted,thick](b)--(c);
+	\end{axis}
+\end{tikzpicture}
+\end{document}

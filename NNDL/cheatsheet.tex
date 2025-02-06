@@ -9,6 +9,8 @@
 \usepackage{fontawesome5}
 \usepackage{bm}
 \usepackage{tcolorbox}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
 \tcbuselibrary{skins,raster,theorems,breakable}
 
 \usepackage{amsmath,amssymb,textcomp}
@@ -22,9 +24,9 @@
 \usepackage{geometry}
 \geometry{a4paper,left=10mm,right=10mm,top=10mm,bottom=15mm}
 
-\linespread{1.3}
+\newcommand{\trans}[1]{{#1}^{\mathsf{T}}}
 
-
+		\newtcolorbox{riquadro}{enhanced, breakable,frame style={top color=Aquamarine3,bottom color=Aquamarine3},colback=black!80,coltext=Aquamarine3!50}
 % custom title
 \makeatletter
 \renewcommand*{\maketitle}{%
@@ -40,15 +42,14 @@
 			\node[rectangle,rounded corners=3pt,inner sep=10pt,draw=Turquoise4,text width= 0.95\textwidth] {\LARGE \@author};
 		\end{tikzpicture}
 	\end{minipage}
-	\bigskip\bigskip
 }%
 \makeatother
 \newtcbtheorem[number within=section]{myproof}{Proof}{
 	enhanced, sharp corners, breakable,
-	colframe=Turquoise4, coltitle=black, colbacktitle=gray!24,
-	colback=white,
+	colframe=LightSalmon1, coltitle=black, colbacktitle=gray!24,
+	coltext=LightSalmon1!60,
+	colback=black!80,
 	rounded corners,
-	interior style={top color=Turquoise4!60, bottom color=white},
 	fonttitle=\bfseries,
 	separator sign={:},
 	theorem hanging indent/.try=0pt,
@@ -57,6 +58,7 @@
 % custom section
 \usepackage[explicit]{titlesec}
 \newcommand*\sectionlabel{}
+
 \titleformat{\section}
 {\gdef\sectionlabel{}
 	\normalfont\sffamily\Large\bfseries\scshape}
@@ -67,19 +69,19 @@
 		\node[rectangle,rounded corners=3pt,inner sep=4pt,fill=Turquoise4,text width= 0.95\columnwidth] {\color{white}\sectionlabel#1};
 	\end{tikzpicture}
 }
-\titlespacing*{\section}{0pt}{5pt}{1pt}
+\titlespacing*{\section}{0pt}{0pt}{-10pt}
 \newcommand*\subsectionlabel{}
 \titleformat{\subsection}
 {\gdef\subsectionlabel{}
 	\normalfont\sffamily\Large\bfseries\scshape}
-{\gdef\subsectionlabel{\thesubsection\ }}{10pt}
+{\gdef\subsectionlabel{\thesubsection\ }}{0pt}
 {
 	\noindent
 	\begin{tikzpicture}
 		\node[rectangle,inner sep=4pt,fill=Turquoise4!60!black,rounded corners=3pt,text width= 0.9\columnwidth] {\color{white}\subsectionlabel#1};
 	\end{tikzpicture}
 }
-\titlespacing*{\subsection}{0pt}{5pt}{1pt}
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}
 
 
 % custom footer
@@ -105,10 +107,12 @@
 	
 	\begin{multicols*}{2}
 		\section{Matrix based notation}
-		The activation $z^{l}_{j}$ of the $j$-th neuron of the $l$-th layer is
+	\begin{riquadro}
+			The activation $z^{l}_{j}$ of the $j$-th neuron of the $l$-th layer is
 		\begin{equation*}
 			z^{l}_{j}=\sigma\left(\sum_{k}w^{l}_{jk}z^{l-1}_{k}+b^{l}_{j}\right)
 		\end{equation*}
+	\end{riquadro}
 		Now take $\mathbf{W}^{l}$ as the matrix
 		\begin{equation*}
 			\begin{bmatrix}
@@ -150,30 +154,38 @@
 			\delta_{j}^{l}=\frac{\partial C}{\partial a^{l}_{j}}.
 		\end{equation*}
 		\subsection{BP1}
-		\begin{equation*}
+\begin{riquadro}
+			\begin{equation*}
 			\begin{array}{c}
 				\delta_{j}^{L}=\frac{\partial C}{\partial z^{L}_{j}}\cdot\sigma'(a^{L}_{j})\\
 				\Downarrow\\
 				\boldsymbol{\delta}^{L}=\nabla_{z}C\odot\sigma'(\mathbf{a}^{L}).
 			\end{array}
 		\end{equation*}
+\end{riquadro}
 		\subsection{BP2}
-		\begin{equation*}
+	\begin{riquadro}
+			\begin{equation*}
 			\begin{array}{c}
-				\delta_{j}^{l}=\sum_{k}w_{jk}^{l+1}\delta_k^{l+1}\sigma'(a^{l}_{j})\\
+				\delta_{j}^{l}=\sum_{k}w_{kj}^{l+1}\delta_k^{l+1}\sigma'(a^{l}_{j})\\
 				\Downarrow\\
 				\boldsymbol{\delta}^{l}=((\mathbf{W}^{l+1})^{\mathsf{T}}\boldsymbol{\delta}^{l+1})\odot\sigma'(\mathbf{a}^{l}).
 			\end{array}
 		\end{equation*}
+	\end{riquadro}
 		\subsection{BP3}
-		\begin{equation*}
+\begin{riquadro}
+			\begin{equation*}
 			\frac{\partial C}{\partial b_{j}^{l}}=\delta^{l}_{j}.
 		\end{equation*}
+\end{riquadro}
 		\subsection{BP4}
-		\begin{equation*}
+\begin{riquadro}
+			\begin{equation*}
 			\frac{\partial C}{\partial w_{jk}^{l}}=z_{k}^{l-1}\delta_{j}^{l}\qquad\qquad\frac{\partial C}{\partial w}=z_{\text{in}}\delta_{\text{out}}.
 		\end{equation*}
-		\begin{myproof}{\color{Turquoise4!80!black}BP1}{}
+\end{riquadro}
+		\begin{myproof}{\color{LightSalmon2}BP1}{}
 			Show that $\delta^{L}_{j}:=\frac{\partial C}{\partial a^{L}_{j}}=\frac{\partial C}{\partial z^{L}_{j}}\sigma'(a^{L}_{j})$. Use the chain rule:
 			\begin{align*}
 				\delta^{L}_{j}&=\frac{\partial C}{\partial a^{L}_{j}}\\
@@ -182,11 +194,11 @@
 				&=\frac{\partial C}{\partial z^{L}_{j}}\sigma'(a^{L}_{j}).
 			\end{align*}
 		\end{myproof}
-		\begin{myproof}{\color{Turquoise4!80!black}BP2}{bp2}
+		\begin{myproof}{\color{LightSalmon2}BP2}{bp2}
 			Here we must show that 
 			\begin{align*}
 				\delta^{l}_{j}:=\frac{\partial C}{\partial a^{l}_{j}}&={\left[(\mathbf{W}^{l+1})^{\mathsf{T}}\boldsymbol{\delta}^{l+1}\odot\sigma'(\mathbf{a}^{l})\right]}_{j}\\
-				&=\sum_{k}w_{jk}^{l+1}\delta_{k}^{l+1}\cdot\sigma(a^{l}_{j}).
+				&=\sum_{k}w_{kj}^{l+1}\delta_{k}^{l+1}\cdot\sigma(a^{l}_{j}).
 			\end{align*}
 			Start from the fact that we can think of $C$ as a function of $a^{l+1}_{k}$ so we can use the chain rule:
 			\begin{align*}
@@ -207,12 +219,383 @@
 				\delta_{j}^{l}=\sum_{k}w_{kj}^{l+1}\delta_{k}^{l+1}\sigma'(a^{l}_{j}).
 			\end{equation*}
 		\end{myproof}
-		\begin{myproof}{\color{Turquoise4!80!black}BP2}{bp3}
+		\begin{myproof}{\color{LightSalmon2}BP3}{bp3}
 			We must show that $\frac{\partial C}{\partial b^{l}_{j}}=d^{l}_{j}$. Think of $C$ as a function of $a^{l}_{j}$ and use chain rule:
 			\begin{align*}
 				\frac{\partial C}{\partial b_{j}^{l}}&=\sum_{k}\frac{\partial C}{\partial a^{l}_{k}}\frac{\partial a^{l}_{k}}{b_{j}^{l}}\\
 				&=\underbracket{\frac{\partial C}{\partial a_{j}^{l}}}_{=\delta_{j}^{l}}\underbracket{\frac{\partial a_{j}^{l}}{b_{j}}}_{=1}.
 			\end{align*}
 		\end{myproof}
+		\begin{myproof}{\color{LightSalmon2}BP4}{bp4}
+			We must show that $\frac{\partial C}{\partial w_{jk}^{l}}=z_{k}^{l-1}\delta^{l}_{j}$. Use the chain rule:
+			\begin{align*}
+				\frac{\partial C}{\partial w_{jk}^{l}}&=\sum_{i}\frac{\partial C}{\partial a_{i}^{l}}\frac{\partial a_{i}^{l}}{\partial w_{jk}^{l}}\\
+				&=\frac{\partial C}{\partial a_{j}^{l}}\frac{\partial a_{j}^{l}}{\partial w_{jk}^{l}}\\
+				&=\delta_{j}^{l}\frac{\partial a_{j}^{l}}{\partial w_{jk}^{l}}
+			\end{align*}
+			but we know that 
+			\begin{align*}
+				\frac{\partial a_{j}^{l}}{\partial w_{jk}^{l}}&=\frac{\partial}{\partial w_{jk}^{l}}\left(\sum_{k}w^{l}_{jk}z^{l-1}_{k}+b_{j}^{l}\right)\\
+				&=z_{k}^{l-1}.
+			\end{align*}
+			So
+			\begin{equation*}
+				\frac{\partial C}{\partial w_{jk}^{l}}=z_{k}^{l-1}\delta^{l}_{j}.
+			\end{equation*}
+		\end{myproof}
+		\section{Improving learning}
+		\begin{riquadro}
+			Cross-entropy cost function:
+		\begin{equation*}
+			C=-\frac{1}{n}\sum_{x}\left[y\ln z+(1-y)\ln(1-z)\right].
+		\end{equation*}
+		This yields:
+		\begin{equation*}
+			\begin{array}{c}
+				\frac{\partial C}{\partial w_{j}}=\frac{1}{n}\sum_{x}x_{j}(\sigma(a)-y)\\
+				\frac{\partial C}{\partial b}=\frac{1}{n}\sum_{x}(\sigma(a)-y).
+			\end{array}
+		\end{equation*}
+		We can generalize for multi-layer networks:
+		\begin{equation*}
+			C=-\frac{1}{n}\sum_{x}\sum_{j}\left[y_{j}\ln z_{j}^{L}+(1-y_{j})\ln(1-z_{j}^{L})\right].
+		\end{equation*}
+		\end{riquadro}
+		\begin{riquadro}
+			Soft max activation with log-likelihood cost function:
+			\begin{equation*}
+				\begin{array}{c}
+					z^{L}_{j}=\frac{e^{a_{j}^{L}}}{\sum_{k}e^{a^{L}_{k}}}\\
+					C=-\ln z^{L}_{y}
+				\end{array}
+			\end{equation*}
+		\end{riquadro}
+		\section{Convergence}
+		Consider the quadratic approximation of the error function around the minimum point $\mathbf{w}^{\star}$:
+		\begin{equation*}
+			E(\mathbf{w})=E(\mathbf{w}^{\star})+\nabla(w)E(\mathbf{w}^{\star})^{\mathsf{T}}(\mathbf{w}-\mathbf{w}^{\star})+\frac{1}{2}(\mathbf{w-w}^{\star})^{\mathsf{T}}\mathbf{H}(\mathbf{w-w}^{\star})
+		\end{equation*}
+		but since $\nabla E=0$ we get
+		\begin{equation*}
+			E(\mathbf{w})=E(\mathbf{w}^{\star})+\frac{1}{2}(\mathbf{w-w}^{\star})^{\mathsf{T}}\mathbf{H}(\mathbf{w-w}^{\star}).
+		\end{equation*}
+		Since ${\{\mathbf{u}_{i}\}}_{i}$ is a orthonormal basis we can write any vector as a linear combination of $\mathbf{u}_{i}$ vectors, which allows us to write:
+		\begin{riquadro}
+			\begin{equation*}
+				E(\mathbf{w})=E(\mathbf{w}^{\star})+\frac{1}{2}\sum_{i}\lambda_{i}\alpha_{i}^{2}.
+			\end{equation*}
+		\end{riquadro}
+		\begin{myproof}{Taylor's shit}{taysht}
+			We need to show that $E(\mathbf{w})=E(\mathbf{w}^{\star})+\frac{1}{2}\sum_{i}\lambda_{i}\alpha_{i}^{2}$. We know that:
+			\begin{align*}
+				E(\mathbf{w})&=E(\mathbf{w}^{\star})+\frac{1}{2}\trans{(\mathbf{w}-\mathbf{w}^{\star})}\mathbf{H}(\mathbf{w}-\mathbf{w}^{\star})\\
+				&=E(\mathbf{w}^{\star})+\frac{1}{2}\trans{\left(\sum_{i}\alpha_{i}\mathbf{u}_{i}\right)}\mathbf{H}\left(\sum_{i}\alpha_{i}\mathbf{u}_{i}\right)\\
+				&=E(\mathbf{w}^{\star})+\frac{1}{2}\trans{\left(\sum_{i}\alpha_{i}\mathbf{u}_{i}\right)}\left(\sum_{i}\alpha_{i}\mathbf{H}\mathbf{u}_{i}\right)\\
+				&=E(\mathbf{w}^{\star})+\frac{1}{2}\trans{\left(\sum_{i}\alpha_{i}\mathbf{u}_{i}\right)}\left(\sum_{i}\alpha_{i}\lambda_{i}\mathbf{u}_{i}\right)\\
+				&=E(\mathbf{w}^{\star})+\frac{1}{2}\sum_{i}\lambda_{i}\alpha_{i}^{2}.
+			\end{align*}
+		\end{myproof}
+		And this implies:
+		\begin{myproof}{Gradient's shit}{grashit}
+			Show that $\nabla E=\sum_{i}\alpha_{i}\lambda_{i}\mathbf{u}_{i}$.
+			\begin{align*}
+				\nabla E(\mathbf{w})&=\nabla\left(E(\mathbf{w}^{\star})+\frac{1}{2}\sum_{i}\lambda_{i}\alpha_{i}^{2}\right)\\
+				&=\frac{1}{2}\sum_{i}\lambda_{i}2\alpha_{i}\nabla \alpha_{i}.
+			\end{align*}
+			To compute $\nabla\alpha_{i}$ we use the fact that $\mathbf{w-w}^{\star}=\sum_{j}\alpha_{j}\mathbf{u}_{j}$:
+			\begin{align*}
+				\trans{\mathbf{u}_{i}}(\mathbf{w-w}^{\star})&=\trans{\mathbf{u}_{i}}\left(\sum_{j}\alpha_{j}\mathbf{u}_{j}\right)\\
+				\trans{\mathbf{u}_{i}}(\mathbf{w-w}^{\star})&=\alpha_{i}\\
+				\sum_{j}w_{j}u_{i_{j}}-\sum_{j}w_{j}^{\star}u_{i_{j}}&=\alpha_{i}
+			\end{align*}
+			so
+			\begin{align*}
+				\frac{\partial}{\partial w_{k}}\left(\sum_{j}w_{j}u_{i_{j}}-\sum_{j}w_{j}^{\star}u_{i_{j}}\right)&=u_{i_{k}}\\
+				&=\frac{\partial \alpha_{i}}{\partial w_{k}}\implies\nabla \alpha_{i}=\mathbf{u}_{i}.
+			\end{align*}
+		\end{myproof}
+		\begin{riquadro}
+			We have that
+			\begin{enumerate}[$\bullet$]
+				\item $\delta\mathbf{w}=\sum_{i}\delta\alpha_{i}\mathbf{u}_{i}$
+				\item $\nabla E=\sum_{i}\alpha_{i}\lambda_{i}\mathbf{u}_{i}$
+				\item $\Delta\mathbf{u}=-\eta\nabla E$
+				\item $\varDelta\alpha=-\eta\lambda_{i}\alpha_{i}\implies \alpha^{\mathrm{new}}_{i}=(1-\eta\lambda_{i})\alpha^{\mathrm{old}}_{i}$.
+			\end{enumerate}
+		\end{riquadro}
+		This means that if $|1-\eta\lambda_{i}|<1$ then $\alpha_{i}$ decreases for each of the $T$ steps.
+		\begin{itemize}
+			\item Fastest convergence: $\eta=\frac{1}{\lambda_{\mathrm{max}}}$ (convergence rate 0, minimum reached in one step).
+			\item Direction of slowest convergence: $\lambda_{\mathrm{min}}$ where the rate is $1-\frac{\lambda_{\mathrm{min}}}{\lambda_{\mathrm{max}}}$.
+			\item Condition number of hessian matrix: $\frac{\lambda_{\mathrm{max}}}{\lambda_{\mathrm{min}}}$. The bigger it is, the slower the convergence.
+		\end{itemize}
+		\section{Momentum}
+		Normally we have 
+		\begin{equation*}
+			\mathbf{w}^{(\tau)}=\mathbf{w}^{(\tau-1)}+\Delta\mathbf{w}^{(\tau-1)}
+		\end{equation*}
+		but adding the momentum we get
+		\begin{equation*}
+			\Delta\mathbf{w}^{(\tau-1)}=-\eta\nabla E(\mathbf{w}^{(\tau-1)})+\mu\Delta\mathbf{w}^{(\tau-2)}
+		\end{equation*}
+		so \begin{riquadro}
+			\begin{equation*}
+			\Delta\mathbf{w}=-\frac{\eta}{1-\mu}\nabla E.
+		\end{equation*}
+		\end{riquadro}
+		\section{Learning rate scheduling}
+		\begin{itemize}
+			\item Linear: $\eta^{(\tau)}=(1-\frac{\tau}{K})\eta_{0}+(\frac{\tau}{K}\eta_{K})$.
+			\item Power law: $\eta^{(\tau)}=\eta_{0}(1+\frac{\tau}{s})^{c}$.
+			\item Exponential decay: $\eta^{(\tau)}=\eta_{0}c^{\frac{\tau}{s}}$
+		\end{itemize}
+		\section{Normalization}
+		\subsection{Data normalization}
+		\begin{riquadro}
+			\begin{equation*}
+				\tilde{x}_{ni}=\frac{x_{ni}-\mu_{i}}{\sigma_{i}}
+			\end{equation*}
+			for each dimension $i$.
+		\end{riquadro}
+		\subsection{Batch normalization}
+		\begin{riquadro}
+			\begin{align*}
+				\mu_{i}&=\frac{1}{K}\sum_{n=1}^{K}a_{ni}\\
+				\sigma^{2}_{i}&=\frac{1}{K}\sum_{n=1}^{K}(a_{ni}-\mu_{i})^{2}\\
+				\hat{a}_{ni}&=\frac{a_{ni}-\mu_{i}}{\sqrt{\sigma_{i}^{2}+\delta}}
+			\end{align*}
+		\end{riquadro}
+		After training we use a moving average of the mean and variance.
+		\begin{riquadro}
+		\begin{equation*}
+				\begin{array}{c}
+				\overline{\mu}_{i}^{(\tau)}=\alpha\overline{\mu}_{i}^{(\tau-1)}+(1-\alpha)\mu_{i}\\
+				\overline{\sigma}_{i}^{(\tau)}=\alpha\overline{\sigma}_{i}^{(\tau-1)}+(1-\alpha)\sigma_{i}
+			\end{array}\qquad0\leqslant\alpha\leqslant1
+		\end{equation*}
+		\end{riquadro}
+		\section{CNNs}
+		The cross-entropy between teo discrete distributions $p$ and $q$ measures how much $q$ differs from $p$.
+		\begin{equation*}
+			H(p,q)=-\sum_{v}p(v)\cdot\log(q(v)).
+		\end{equation*}
+		CNNs employ the cross-entropy loss:
+		\begin{riquadro}
+			\begin{equation*}
+				-\sum_{i=1}^{S}y_{i}\cdot\log(p_{i}).
+			\end{equation*}
+		\end{riquadro}
+		\section{Autoencoders}
+		Remember how PCA works:
+		\begin{equation*}
+			f(\mathbf{x})=\arg\min_{\mathbf{h}}||\mathbf{x}-g(\mathbf{h})||_{2}
+		\end{equation*}
+		Where $g(\mathbf{h})=\mathbf{D}\mathbf{h}$.
+			So we are interested in measuring the loss of the reconstruction
+		\begin{equation*}
+			\mathcal{L}(\mathbf{x},g(f(\mathbf{x}))).
+		\end{equation*}
+		\subsection{Sparse autoencoders}
+		Here the loss function has a penalty on $\mathbf{h}$:
+		\begin{equation*}
+			\mathcal{L}(\mathbf{x},g(f(\mathbf{x})))+\Omega(\mathbf{h}).
+		\end{equation*}
+		Consider the distribution
+		\begin{equation*}
+			p_{\mathrm{model}}(\mathbf{h},\mathbf{x})=	p_{\mathrm{model}}(\mathbf{h})	p_{\mathrm{model}}(\mathbf{x}|\mathbf{h})
+		\end{equation*}
+		and marginalizing
+		\begin{riquadro}
+			\begin{equation*}
+				\begin{array}
+{c}					p_{\mathrm{model}}(\mathbf{x})=\sum_{\mathbf{h}}	p_{\mathrm{model}}(\mathbf{h},\mathbf{x})\\
+\Downarrow\\
+\log p_{\mathrm{model}}(\mathbf{x})=\log\sum_{\mathbf{h}}	p_{\mathrm{model}}(\mathbf{h},\mathbf{x})
+				\end{array}
+		\end{equation*}
+		\end{riquadro}
+		So, given a $\widetilde{\mathbf{h}}$ generated by the encoder we have
+		\begin{align*}
+			\log p_{\mathrm{model}}(\mathbf{x})&=\log\sum_{\mathbf{h}}	p_{\mathrm{model}}(\mathbf{h},\mathbf{x})\\
+			&\approx\log p(\widetilde{\mathbf{h}},\mathbf{x})=\log p_{\mathrm{model}}(\widetilde{\mathbf{h}})+\log p_{\mathrm{model}}(\mathbf{x}|\widetilde{\mathbf{h}}).
+		\end{align*}
+		If we set $\Omega(\mathbf{h})=\lambda\sum_{i}|h_i|$ ($L^{1}$ norm of $\mathbf{h}$) then minimizing the sparsity terms is equal to maximizing the log likelihood of $p(\mathbf{h})$ assuming a Laplace prior over each component independently.
+		\begin{riquadro}
+			\begin{equation*}
+				\begin{array}{c}
+					p_{\mathrm{model}}(h_{i})=\frac{\lambda}{2}e^{-\lambda|h_{i}|}\\
+					\Downarrow\\
+					-\log 	p_{\mathrm{model}}(\mathbf{h})=\sum_{i}\left(\lambda|h_{u}|-\log\frac{1}{2}\right)=\Omega(\mathbf{h})+\mathrm{const}
+				\end{array}
+			\end{equation*}
+		\end{riquadro}
+		\subsection{Denoising autoencoders}
+		They minimize
+		\begin{equation*}
+			\mathcal{L}(\mathbf{x},g(f(\widetilde{\mathbf{x}})))
+		\end{equation*}
+		\subsection{Contractive autoencoders}
+		They minimize
+		\begin{equation*}
+				\mathcal{L}(\mathbf{x},g(f(\mathbf{x})))+\Omega(\mathbf{h})
+		\end{equation*}
+		with
+		\begin{equation*}
+			\Omega(\mathbf{h,x})=\lambda\sum_{i}||\nabla_{\mathbf{x}}h_{i}||^{2}.
+		\end{equation*}
+		\section{Transformers}
+		Consider the attention to embedding $\mathbf{y}_{n}$ as
+		\begin{riquadro}
+			\begin{equation*}
+				a_{nm}=\frac{\exp(\mathbf{x}_{n}^{\mathsf{T}}\mathbf{x}_{m})}{\sum_{m'=1}^{N}\exp(\mathbf{x}_{n}^{\mathsf{T}}\mathbf{x}_{m'})}.
+			\end{equation*}
+		\end{riquadro}
+		Therefore we can express our new embeddings $\mathbf{Y}$ as
+		\begin{riquadro}
+			\begin{align*}
+				\mathbf{Y}&=\text{SoftMax}\left[\mathbf{X}\mathbf{X}^{\mathsf{T}}\right]\mathbf{X}\\
+				&=\text{SoftMax}\left[\mathbf{Q}\mathbf{K}^{\mathsf{T}}\right]\mathbf{V}.
+			\end{align*}
+		\end{riquadro}
+		Where queries, keys and values are trainable.
+		\begin{equation*}
+			\begin{array}{c}
+				\mathbf{Q}=\mathbf{X}\mathbf{W}^{(q)}\\
+					\mathbf{K}=\mathbf{X}\mathbf{W}^{(k)}\\
+						\mathbf{V}=\mathbf{X}\mathbf{W}^{(v)}.\\
+			\end{array}
+		\end{equation*}
+		Then the embeddings get scaled by the dimensionality of key vectors
+		\begin{equation*}
+			\mathbf{Y}=\text{Attention}(\mathbf{Q},\mathbf{K},\mathbf{V})=\text{SoftMax}\left[\frac{\mathbf{Q}\mathbf{K}^{\mathsf{T}}}{\sqrt{D_{k}}}\right]\mathbf{V}.
+		\end{equation*}
+		In a multi-head scenario where $\mathbf{H}_{h}=\text{Attention}(\mathbf{Q}_{h},\mathbf{K}_{h},\mathbf{V}_{h})$ we have
+		\begin{riquadro}
+			\begin{equation*}
+				\overbracket{\mathbf{Y}(\mathbf{X})}^{N\times D}=\overbracket{\text{Concat}[\mathbf{H}_{1},\ldots,\mathbf{H}_{H}]}^{N\times HD_{v}}\overbracket{\mathbf{W}^{(o)}}^{{HD_{v}\times D}}.
+			\end{equation*}
+		\end{riquadro}
+		To improve learning it is possible to add a residual connection 
+		\begin{equation*}
+			\mathbf{Z}=\text{LayerNorm}[\mathbf{Y}(\mathbf{X})+\mathbf{X}]\qquad	\mathbf{Z}=[\mathbf{Y}(\text{LayerNorm}(\mathbf{X}))+\mathbf{X}]
+		\end{equation*}
+		and then passing through a MLP with ReLU activation
+		\begin{equation*}
+			\widetilde{\mathbf{X}}=\text{LayerNorm}[\text{MLP}(\mathbf{Z})+\mathbf{Z}]\qquad\widetilde{\mathbf{X}}=\text{MLP}[\text{LayerNorm}(\mathbf{Z})]+\mathbf{Z}.
+		\end{equation*}
+		\subsection{Positional encoding}
+		We concatenate input $\mathbf{x}$ to positional encoding $\mathbf{r}$ obtaining the representation $\mathbf{x|r}$. We can apply a linear transformation $\mathbf{w_{x}|w_{r}}$:
+		\begin{equation*}
+			\mathbf{\begin{bmatrix}
+					\mathbf{w_{x}} &\mathbf{w_{r} }
+			\end{bmatrix}}\begin{bmatrix}
+			\mathbf{x}\\
+			\mathbf{r}
+		\end{bmatrix}=\mathbf{w_{x}x+w_{r}r=w(x+r)}.
+		\end{equation*}
+		Encoding must be:
+		\begin{itemize}
+			\item unique for each position;
+			\item bounded;
+			\item generalizable to sequences of arbitrary length;
+			\item capable of expressing relative positions.
+		\end{itemize}
+		\begin{riquadro}
+			Sinusoidal positional encoding:
+			\begin{equation*}
+				\mathbf{r}_{n}=\begin{bmatrix}
+					\sin(w_{1}\cdot n)\\
+					\cos(w_{1}\cdot n)\\
+					\sin(w_{2}\cdot n)\\
+					\cos(w_{2}\cdot n)\\
+					\vdots\\
+					\sin(w_{\frac{D}{2}}\cdot n)\\
+					\cos(w_{\frac{D}{2}}\cdot n)\\
+				\end{bmatrix},\qquad w_{i}=\frac{1}{10000^{\frac{2i}{D}}}.
+			\end{equation*}
+		\end{riquadro}
+		This is good because 
+		\begin{equation*}
+			\mathbf{r}_{n}^{\mathsf{T}}\mathbf{r}_{m}=\sum_{i=1}^{\frac{D}{2}}\cos(w_{i}\cdot(n-m)).
+		\end{equation*}
+		The encoding of $n+m$ can always be expressed as a linear combination of the encodings of $n$ and $m$ and it is always possible to find a matrix $\mathbf{M}$ that depends only on $k$ such that $\mathbf{r}_{n+k}=\mathbf{Mr}_{n}$.
+		\begin{equation*}
+			\begin{bmatrix}
+				v_{1}&v_{2}\\
+				v_{3}&v_{4}
+			\end{bmatrix}\cdot\begin{bmatrix}
+			\sin(w_{i}\cdot n)\\
+			\cos(w_{i}\cdot n)
+			\end{bmatrix}=\begin{bmatrix}
+			\sin(w_{i}\cdot (n+k))\\
+			\cos(w_{i}\cdot (n+k)).
+			\end{bmatrix}
+		\end{equation*}
+		\begin{myproof}{Matrix shit}{diocane}
+			We have
+			\begin{equation*}
+				\tiny
+				\begin{bmatrix}
+					v_{1}&v_{2}\\
+					v_{3}&v_{4}
+				\end{bmatrix}\cdot\begin{bmatrix}
+					\sin(w_{i}\cdot n)\\
+					\cos(w_{i}\cdot n)
+				\end{bmatrix}=\begin{bmatrix}
+				v_{1}	\sin(w_{i}\cdot n)&v_{2}	\cos(w_{i}\cdot n)\\
+				v_{3}	\sin(w_{i}\cdot n)&v_{4}	\cos(w_{i}\cdot n)
+				\end{bmatrix}
+			\end{equation*}
+			but
+			\begin{equation*}
+				\tiny
+				\begin{bmatrix}
+					\sin(w_{i}\cdot(n+k))\\
+					\cos(w_{i}\cdot(n+k))
+				\end{bmatrix}=\begin{bmatrix}
+				\sin(w_{i}\cdot n)\cos(w_{i}\cdot k)+\cos(w_{i}\cdot n)\sin(w_{i}\cdot k)\\
+				\cos(w_{i}\cdot n)\cos(w_{i}\cdot k)-\sin(w_{i}\cdot n)\sin(w_{i}\cdot k)
+				\end{bmatrix}
+			\end{equation*}
+			so
+			\begin{align*}
+				\tiny
+				&\tiny\begin{bmatrix}
+					v_{1}\sin(w_{i}\cdot n)+v_{2}\cos(w_{i}\cdot n)\\
+					v_{3}\sin(w_{i}\cdot n)+v_{4}\cos(w_{i}\cdot n)
+				\end{bmatrix}\\
+				=&\tiny\begin{bmatrix}
+				\sin(w_{i}\cdot n)\cos(w_{i}\cdot k)+\cos(w_{i}\cdot n)\sin(w_{i}\cdot k)\\
+				\cos(w_{i}\cdot n)\cos(w_{i}\cdot k)-\sin(w_{i}\cdot n)\sin(w_{i}\cdot k)
+				\end{bmatrix}
+			\end{align*}
+			and this means
+			\begin{equation*}
+				\begin{bmatrix}
+					v_{1}&v_{2}\\
+					v_{3}&v_{4}
+				\end{bmatrix}=\begin{bmatrix}
+				\cos(w_{i}\cdot k)&\sin(w_{i}\cdot k)\\
+				-\sin(w_{i}\cdot k)&\cos(w_{i}\cdot k)
+				\end{bmatrix}
+			\end{equation*}
+		\end{myproof}
+		\subsection{GPTs}
+		The goal is to use transformers to build an autoregressive model of the form
+		\begin{riquadro}
+			\begin{equation*}
+				p(\mathbf{x}_{1},\mathbf{x}_{2},\ldots,\mathbf{x}_{N})=\prod_{n=1}^{N}p(\mathbf{x}_{n}|\mathbf{x}_{1},\mathbf{x}_{2},\ldots,\mathbf{x}_{n-1}).
+			\end{equation*}
+		\end{riquadro}
+		Here the attention weights are computed using $\mathbf{QK}^{\mathsf{T}}$ as before, but we can set the attention weights to zero for all future tokens and computing $\trans{(\mathbf{QK})}_{nm}$ as the attention weights between tokens $n$ and $m$ multiplied by a mask matrix $\mathbf{M}$ that has $-\infty$ in the upper triangular part.
+		\begin{riquadro}
+			\begin{equation*}
+				\mathbf{Y}=\text{SoftMax}\left[\frac{\trans{\mathbf{QK}}}{\sqrt{D_{k}}}\circ \mathbf{M}\right]\mathbf{V}.
+			\end{equation*}
+		\end{riquadro}
+		Temperature scaling:
+		\begin{equation*}
+			y_{i}=\frac{\exp\left(\frac{a_{i}}{T}\right)}{\sum_{j}\exp\left(\frac{a_{j}}{T}\right)}
+		\end{equation*}
 	\end{multicols*}
 \end{document}

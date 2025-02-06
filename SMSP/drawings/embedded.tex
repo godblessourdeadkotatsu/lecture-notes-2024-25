@@ -1,0 +1,28 @@
+\begin{tikzpicture}%[scale=0.8]
+\begin{axis}[
+                xlabel=\empty,
+                x axis line style={->,opacity=100},
+                ylabel=\empty,
+                xmin=-1, xmax=100,
+                ymin=-1, ymax=100,
+                axis y line=left,
+                y axis line style={->,opacity=100},
+                ytick={20,60,40},
+                yticklabels={$X_0$,$X(S_1)=X_1$,$X(S_2)=X_2$},
+                xtick={30,60},
+                xticklabels={$S_1$,$S_2$},
+                axis x line*=bottom
+                        ]
+                        \draw (0,20)--(30,20) node[circle,fill=RedViolet, pos=0,inner sep=2pt]{};
+                        \draw (30,60)--(60,60) node[circle,fill=RedViolet, pos=0,inner sep=2pt]{};
+                        \draw (60,40)--(95,40) node[circle,fill=RedViolet, pos=0,inner sep=2pt]{};
+                        \draw[dashed] (30,20)--(30,0);
+                        \draw[dashed] (60,60)--(60,0);
+                        \draw[dotted,thin] (0,40)--(60,40);
+                        \draw[dotted,thin] (0,60)--(30,60);
+\end{axis}
+\node[RedViolet,below right=0.1cm and 0.43cm, font=\footnotesize] (T) {Exp$(q_{x_0})$};
+\node[RedViolet,below right=0.1cm and 2.55cm, font=\footnotesize] (Te) {Exp$(q_{x_1})$};
+\node[above right=0.0cm and 0.63cm, font=\footnotesize] (T) {$T^{(1)}$};
+\node[above right=0.0cm and 2.75cm, font=\footnotesize] (Te) {$T^{(2)}$};
+\end{tikzpicture}

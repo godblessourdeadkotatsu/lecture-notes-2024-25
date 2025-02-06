@@ -1,6 +1,7 @@
 
-\documentclass[11pt]{article}
+\documentclass[]{book}
 \usepackage{iccr2024}
+\usepackage{pdfpages}
 
 %%%%%% add your extra packages here (if needed)                                        %%%%%
 
@@ -12,6 +13,8 @@
 %%%%% add your bibtex file that contains the bibtex entries here %%%%%
 %%%%% please include DOIs in the bibtex entries if possible      %%%%%
 \addbibresource{references.bib}
+\usepackage{tocloft}
+\renewcommand{\cftchapdotsep}{\cftdotsep}
 
 \begin{document}
 
@@ -41,7 +44,7 @@
 
 % dummy_content.tex shows how to add sections, figures, tables, formulas, and references
 % remove the following line, it just adds dummy content
-
+\tableofcontents
 \input{content}
 
 

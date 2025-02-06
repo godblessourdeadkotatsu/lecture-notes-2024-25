@@ -1,0 +1,405 @@
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath,amssymb,bbm}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks=true, allcolors=black!60!yellow]{hyperref}
+\usepackage{bookmark}
+\usepackage{lipsum} 
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm}  
+\usepackage[utf8]{inputenc} 
+\usepackage{array}
+\usepackage{pdfpages}
+\usepackage{standalone}
+\usepackage[makeroom]{cancel}
+\usepackage[many]{tcolorbox}
+\tcbuselibrary{skins,raster,theorems}
+\usepackage{mathtools}
+\usepackage{soul}
+\usepackage[scr=rsfso,cal=zapfc,frak=euler,bb=ams]{mathalfa}
+\usepackage{sectsty,titling}
+\usepackage{float}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,patterns,arrows.meta, bending, shadings,intersections,decorations}
+\usepackage{pgfplots,pgfplotstable}
+\pgfplotsset{compat=1.16}
+\usepgfplotslibrary{fillbetween}
+
+\subsectionfont{\color{RedViolet}}
+\sectionfont{\color{Yellow!80!black}}
+
+\newcounter{dummy}
+
+
+\theoremstyle{remark}
+\newtcbtheorem[number within=section]{rema}{Remark}{
+ enhanced, breakable,
+    colframe=white, coltitle=black, colbacktitle=gray!24,
+    colback=white,
+    boxed title style={interior style={left color=gray!30,right color=white!35},
+    frame style={right color=gray!30,left color=white!35},drop fuzzy shadow=gray},
+    attach boxed title to top left,
+    drop fuzzy shadow=gray,
+    boxed title style={boxrule=0.5mm, rounded corners},
+    separator sign={:},
+    description formatter=\newline,
+    theorem hanging indent/.try=0pt,
+}{}
+
+\newenvironment{remark}[1][]{
+{\par\addvspace{\baselineskip}\noindent\ignorespaces}
+ {\ignorespacesafterend} 
+ \hfill   
+ \stepcounter{dummy}
+      \ifstrempty{#1}{%   
+      \hfill
+         \begin{rema*}{}{}%                     
+      }{%        
+      \hfill
+         \begin{rema*}{}{}%                 
+      }%
+}{%
+      \end{rema*}% 
+}
+
+\newcounter{defi}
+
+\newtcbtheorem[number within=section]{nition}{Definition}{
+ enhanced, 
+    breakable,
+    interior style={left color=RedViolet!35,right color=white!29},
+    title style={left color=white,right color=white!35},
+   % boxed title style={boxrule=5mm, colframe=black,rounded corners},
+    colframe=white, coltitle=RedViolet!60!black, colbacktitle=RedViolet!34,
+    colback=white,
+    titlerule=0mm,
+    drop fuzzy shadow=gray,
+    borderline={0.5mm}{0mm}{RedViolet},
+    separator sign={:},
+    description formatter=\newline,
+    theorem hanging indent/.try=0pt,
+}{}
+
+\newenvironment{definition}[1][]{
+{\par\addvspace{\baselineskip}\noindent\ignorespaces}
+ {\ignorespacesafterend} 
+ \hfill   
+ \stepcounter{defi}
+      \ifstrempty{#1}{%   
+      \hfill
+         \begin{nition}{}{\thedefi\thedummy}%                     
+      }{%        
+      \hfill
+         \begin{nition}{}{\thedefi eheh}%                 
+      }%
+}{%
+      \end{nition}% 
+}{\par\addvspace{\baselineskip}}
+
+\newcounter{theo}
+
+\newtcbtheorem[number within=section]{thrm}{Theorem}{
+ enhanced, 
+    breakable,
+    interior style={left color=Mulberry!87!RedViolet!30,right color=Dandelion!29},
+    title style={left color=Mulberry!87!RedViolet!90,right color=Dandelion!80},
+    frame style={left color=Mulberry!87!RedViolet!90,right color=Dandelion!80},
+    colframe=white, coltitle=white, colbacktitle=RedViolet,
+    colback=RedViolet,
+    drop fuzzy shadow=gray,
+    titlerule=0mm,
+    separator sign={:},
+    description formatter=\newline,
+    theorem hanging indent/.try=0pt,
+}{}
+
+\newenvironment{theorem}[1][]{
+{\par\addvspace{\baselineskip}\noindent\ignorespaces}
+ {\ignorespacesafterend} 
+ \hfill   
+ \stepcounter{theo}
+ \stepcounter{dummy}
+      \ifstrempty{#1}{%   
+      \hfill
+         \begin{thrm}{}{\thetheo,\thedummy}%                     
+      }{%        
+      \hfill
+         \begin{thrm}{}{\thetheo aa}%                 
+      }%
+}{%
+      \end{thrm}% 
+}
+
+
+
+%lemma lemma lemmaaa
+\newcounter{lem}
+
+\newtcbtheorem[number within=section]{lemm}{Lemma}{
+ enhanced, 
+    breakable,
+    interior style={left color=RedViolet!20,right color=Plum!29},
+    title style={left color=RedViolet!70,right color=Plum!80},
+    frame style={left color=RedViolet!70,right color=Plum!80},
+    colframe=white, coltitle=white, colbacktitle=RedViolet,
+    colback=RedViolet,
+    drop fuzzy shadow=gray,
+    titlerule=0mm,
+    separator sign={:},
+    description formatter=\newline,
+    theorem hanging indent/.try=0pt,
+}{}
+
+\newenvironment{lemma}[1][]{
+{\par\addvspace{\baselineskip}\noindent\ignorespaces}
+ {\ignorespacesafterend} 
+ \hfill   
+ \stepcounter{lem}
+ \stepcounter{dummy}
+      \ifstrempty{#1}{%   
+      \hfill
+         \begin{lemm}{}{\thetheo,\thedummy}%                     
+      }{%        
+      \hfill
+         \begin{lemm}{}{\thetheo aa}%                 
+      }%
+}{%
+      \end{lemm}% 
+}
+
+
+
+\newcounter{propos}
+%now making the proposition
+\newtcbtheorem[number within=section]{prp}{Proposition}{
+ enhanced, 
+    breakable,
+    interior style={left color=Dandelion!30,right color=white!29},
+    frame style={left color=Dandelion!80,right color=Dandelion!80!black},
+    colframe=white, coltitle=Dandelion!80!black, colbacktitle=white!60,
+    colback=RedViolet,
+    drop fuzzy shadow=gray,
+    titlerule=0mm,
+    separator sign={:},
+    description formatter=\newline,
+    theorem hanging indent/.try=0pt,
+}{}
+
+\newenvironment{proposition}[1][]{
+{\par\addvspace{\baselineskip}\noindent\ignorespaces}
+ {\ignorespacesafterend} 
+ \hfill   
+ \stepcounter{propos}
+ \stepcounter{dummy}
+      \ifstrempty{#1}{%   
+      \hfill
+         \begin{prp}{}{\thepropos\thedummy eeeheheh\thedefi}%                     
+      }{%        
+      \hfill
+         \begin{prp}{}{\thetheo,\thepropos ahah}%                 
+      }%
+}{%
+  \end{prp}% 
+}
+
+
+\newcounter{proofcount}
+
+\newtcbtheorem{prova}{\textcolor{Mulberry}{\textit{Proof}}}{
+ enhanced, 
+    breakable,
+    title style={left color=white,right color=Mulberry!80},
+    frame style={left color=Mulberry!30,right color=Dandelion!80},
+    colframe=white, coltitle=white, colbacktitle=RedViolet,
+    colback=Mulberry!10,
+    drop fuzzy shadow=gray,
+    titlerule=0mm,
+    separator sign={:},
+    description formatter=\newline,
+    theorem hanging indent/.try=0pt,
+}{}
+
+\newenvironment{proof2}[1][]{
+ \stepcounter{proofcount}
+ \stepcounter{dummy}
+      \ifstrempty{#1}
+         {%   
+      \hfill
+         \begin{prova*}{}{}%        
+         \pushQED{\qed}
+      }{%        
+      \hfill
+         \begin{prova*}{}{}          \pushQED{\qed}  
+      }%
+}{
+\qedhere
+\popQED
+\end{prova*}% 
+}
+
+\newcounter{algor}
+%now making the proposition
+\newtcbtheorem{algo}{Algorithm}{
+ enhanced, 
+    breakable,
+    interior style={left color=gray!30,right color=white!29},
+    frame style={left color=gray!30,right color=gray!80},
+    title style={left color=gray!30,right color=gray!80},
+    colframe=white, coltitle=black, colbacktitle=Dandelion!60,
+    colback=RedViolet,
+    drop fuzzy shadow=gray,
+    titlerule=0mm,
+    separator sign={:},
+    description formatter=\newline,
+    theorem hanging indent/.try=0pt,
+}{}
+
+\newenvironment{algorithm}[1][]{
+{\par\addvspace{\baselineskip}\noindent\ignorespaces}
+ {\ignorespacesafterend} 
+ \hfill   
+ \stepcounter{algor}
+ \stepcounter{dummy}
+      \ifstrempty{#1}
+         {%   
+      \hfill
+         \begin{algo}{}{\thealgor\thedummy eeeheheh\thedefi}%                     
+      }{%        
+      \hfill
+         \begin{algo}{}{\thetheo,\thealgor ahah\thedummy}%                 
+      }%
+}{%
+  \end{algo}% 
+}
+
+
+\newcounter{exampl}
+
+\newtcbtheorem[number within=section]{exa}{Example}{
+ enhanced, 
+    frame empty, breakable,
+    colframe=white, coltitle=black, colbacktitle=Dandelion!24,
+    colback=white,
+    borderline={0.5mm}{0mm}{white},
+    borderline west={1mm}{0mm}{Dandelion!45},
+     attach boxed title to top left,  
+    boxed title style={boxrule=0.5mm, rounded corners,drop fuzzy shadow=gray, colframe=Dandelion!24},
+    separator sign={:},
+    description formatter=\newline,
+    theorem hanging indent/.try=0pt,
+}{}
+
+\newenvironment{example}[1][]{
+{\par\addvspace{\baselineskip}\noindent\ignorespaces}
+ {\ignorespacesafterend} 
+ \hfill   
+ \stepcounter{exampl}
+      \ifstrempty{#1}{%   
+      \hfill
+         \begin{exa}{}{\theexer\theexampl}%                     
+      }{%        
+      \hfill
+         \begin{exa}{}{\theexampl}%                 
+      }%
+}{%
+      \end{exa}% 
+}
+
+\newcounter{exer}
+
+\newtcbtheorem[number within=section]{exerc}{Exercise}{
+ enhanced, 
+    frame empty, breakable,
+    colframe=white, coltitle=black, colbacktitle=Periwinkle!24,
+    colback=white,
+    borderline={0.5mm}{0mm}{white},
+    borderline west={1mm}{0mm}{Periwinkle!45},
+    attach boxed title to top left,
+    boxed title style={boxrule=0.5mm, rounded corners,drop fuzzy shadow=gray, colframe=Periwinkle!24},
+    separator sign={:},
+    description formatter=\newline,
+    theorem hanging indent/.try=0pt,
+}{}
+
+\newenvironment{exercise}[1][]{
+{\par\addvspace{\baselineskip}\noindent\ignorespaces}
+ {\ignorespacesafterend} 
+ \hfill   
+ \stepcounter{exer}
+      \ifstrempty{#1}{%   
+      \hfill
+         \begin{exerc}{}{\theexampl\theexer\thesection}%                     
+      }{%        
+      \hfill
+         \begin{exerc}{}{\theexampl}%                 
+      }%
+}{%
+      \end{exerc}% 
+}
+
+
+
+
+\renewcommand{\labelitemi}{$\textcolor{RedViolet}{\bullet}$}
+\renewcommand{\labelitemii}{$\textcolor{RedViolet}{\cdot}$}
+\renewcommand{\labelitemiii}{$\textcolor{RedViolet}{\diamond}$}
+\renewcommand{\labelitemiv}{$\textcolor{RedViolet}{\ast}$}
+
+\newcommand{\enf}[1]{\textcolor{RedViolet}{\textbf{#1}}} %enf sta per enfasi
+\newcommand{\sott}[1]{\setulcolor{black!20!Goldenrod}\ul{#1}}
+\newcommand{\prob}{\mathbb{P}}
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\newcommand{\ev}[1]{\mathbb{E}\Bigl[{#1}\Bigr]}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\equalexpl}[1]{%
+  \underset{\substack{\uparrow\\\mathrlap{\text{\vspace{-3cm}\hspace{-1em}#1}}}}{=}}
+  \newcommand{\dif}{\mathop{}\!\mathrm{d}}
+%\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+%i comandi di MERDA di stefano
+\newcommand{\ra}{\rightarrow}
+\newcommand{\iy}{\infty}
+\newcommand{\mE}{\mathbb{E}}
+\newcommand{\mP}{\mathbb{P}}
+\newcommand{\mB}{\mathcal{B}(\mathbb{R})}
+\newcommand{\mL}{\mathbb{L}}
+\newcommand{\mLL}{\mathbb{L}^2(0,T)}
+\newcommand{\mR}{\mathbb{R}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mRd}{\mathbb{R}^d}
+\newcommand{\mN}{\mathbb{N}}
+%\newcommand{\m1}{\mathbf{1}}
+\newcommand{\mF}{\mathcal{F}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\mW}{\mathcal{W}}
+\newcommand{\mV}{\mathcal{V}}
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mez}{\frac{1}{2}}
+\newcommand{\intT}{\int_{0}^{T}}
+\newcommand{\ninf}{n \ra \iy}
+\newcommand{\nN}{n \in \mathbb{N}}
+\newcommand{\mmN}{\mathcal{N}}
+\newcommand{\BM}{(B_t)_{t\geq 0}}
+\newcommand{\PX}{(X_t)_{t\geq 0}}
+\newcommand{\var}{\text{Var}}
+\newcommand{\cov}{\text{Cov}}
+\newcommand{\BMF}{\left((B_t)_{t\geq 0},\mathcal{F}_t \right)}
+\newcommand{\mFt}{\mathcal{F}_t}
+
+\input{../drawings/A FUCKING CLOCK.tex}
+\pretitle{\begin{center}\LARGE\color{RedViolet}}
+\posttitle{\par\end{center}\vskip 0.5em}
+
+

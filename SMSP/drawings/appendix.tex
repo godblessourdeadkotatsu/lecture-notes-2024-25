@@ -1,0 +1,184 @@
+\begin{appendices}
+\chapter{R code}
+\section{MC-AR-IS comparison}
+\begin{minted}{R}
+    
+
+# Estimation of the Gaussian right tail mass ------------------------------
+
+th <- 5 # threshold of gaussian right tail
+
+# comparison naive MC - Accept-reject - Importance sampling
+     
+     true <- pnorm(th,lower.tail = FALSE)
+     set.seed(1)
+     for(i in 1:5){
+     	n <- 10^i
+     	# naive MC
+     	x <- rnorm(n)
+     	z <- which(x>th)
+     	naive_MC_est <- length(z)/n
+     	# AR
+     	M <- dnorm(th)
+     	s <- th+rexp(n)
+     	q <- runif(n,0,M*dexp(s-th))
+     	acc <- which(q<dnorm(s))
+     	AR_est <- (length(acc)/n)*M
+     	# IS
+     	y <- s
+     	w <- dnorm(y)/(exp(-(y-th)))
+     	IS_est <- sum(w)/n
+     	
+     	if (i==1) print(paste("true mass: ",format(true, digits = 4)))
+     	print(paste("n=",n,"; MC: ",format(naive_MC_est, digits = 4),"; AR: ",format(AR_est, digits = 4),"; IS: ",format(IS_est, digits = 4)))
+     	}
+
+
+# AR plot
+
+     n.p <- 100 # no.points.plotted
+     s2 <- s[1:n.p]
+     q2 <- q[1:n.p]
+     acc_rate <- length(which(s2[acc]>0))/n.p
+     
+     par(mar=c(2,5,1,1),bty="l",cex=1)
+     # comparison between q's
+     curve(
+        dnorm(x,0,1),
+        xlab="",ylab="",las=1,xlim=c(th,th+1.5),ylim=c(0,M*1.05),n=10^4,lwd=2
+    )
+     curve(dexp(x-th,rate=M),add=TRUE,lty=2,lwd=2,col=1)
+     text(th+1,M*.95,expression(Exp(x-5,M)),cex=1.2) 
+     curve(dexp(x-th)*M,add=TRUE,lty=2,lwd=2,col=1)
+     text(th+1,M*.45,expression(Mq(x)),cex=1.2) 
+     # sampling
+     curve(dnorm(x0,1),xlab="",ylab="",las=1,
+     xlim=c(th,th+1.5),ylim=c(0,M),n=10^4,lwd=2,main=paste0(
+        "Acceptance rate = ",round(acc_rate,2)
+     ))
+     curve(dexp(x-th)*M,add=TRUE,lty=2,lwd=2,col=1)
+     text(th+1,M*.5,expression(Mq(x)),cex=1.2) 
+     points(s2[acc],q2[acc],col=2,pch=19,cex=.7)
+     points(s2[-acc],q2[-acc],col=1,pch=19,cex=.7)
+
+\end{minted}
+\section{Metropolis Hastings algorithm for targeting Piosson Mixed Distribution}\label{poiscode}
+\begin{minted}{R}
+
+
+# TARGET DISTRIBUTION -----------------------------------------------------
+
+lambda1 <- 3
+lambda2 <- 15
+c <- .2
+xmax <- qpois(max(lambda1,lambda2), p = .999)
+pi <- function(x){c*dpois(x,lambda1)+(1-c)*dpois(x,lambda2)}
+par(mfrow=c(1,1),mar=c(2.5,3,1.5,1.5))
+plot(
+    0:xmax,pi(0:xmax),
+    ylim=c(0,max(pi(0:xmax))*1.2),
+    xlab="",ylab="",
+    type="h",lwd=3,las=1
+)
+
+
+# MH ROUTINE --------------------------------------------------------------
+
+MH <- function(n,x_0){ 
+     x <- rep(NA,n) 
+     x[1] <- x_0 
+     for(t in 2:n) { 
+     	y <- sample(c(max(x[t-1]-1,0),x[t-1]+1),1)
+     	accept <- runif(1) < min(1,pi(y)/pi(x[t-1])) 
+     	if (accept == TRUE) x[t] <- y else x[t] <- x[t-1]
+     	}
+     return(x)
+     }
+
+
+# EXECUTION ---------------------------------------------------------------
+
+N <- 2*10^4 # required MCMC sample size
+burn_in <- N/10     # burn-in to be discarded 
+n_0 <- burn_in+N    # needed time horizon
+x_0 <- 50 # initial state
+s <- MH(n_0,x_0) # creation of MCMC sample
+# remove burn in and thin
+thin <- 1
+m <- s[seq(burn_in,n_0,thin)]
+
+
+# PLOTS -------------------------------------------------------------------
+
+par(mfrow=c(2,1),mar=c(2.5,3,2.3,1.5))
+
+     # TRACE PLOT OF MC
+plot(m,type="l",main="",las=1,xlab="")
+mtext(
+    paste(
+        "Traceplot ( burn-in = ",burn_in,"; N =",N,", thinned every",thin,")"
+    ),line=.5
+)
+
+     # ESTIMATED DENSITY AGAINST TRUE DENSITY
+plot(
+    0:xmax+.07,
+    pi(0:xmax),
+    ylim=c(0,max(pi(0:xmax))*1.2),
+    xlab="",ylab="",
+    type="h",lwd=3,las=1
+)
+hist <- table(m)/sum(table(m))
+supp <- as.integer(names(hist))
+points(supp-.07,hist,type="h",lwd=3,col="red")
+     # compute TV distance after matching supports
+TV <- .5*(sum(abs(hist-pi(supp)))+sum(pi((0:xmax)[-supp]))) 
+# only computed on plotted x-points
+mtext(
+    paste(
+        "Target (black) and MCMC estimate (red); d_TV = ",round(TV,2)
+    ),line=.5
+)
+
+
+
+
+# AUTOCORRELATION FUNCTION and ESS ----------------------------------------
+
+library(coda)
+
+steps.shown <- 10^3
+thin <- c(1,10,50)
+burnin <- 1
+N <- steps.shown*max(thin)+burnin
+x_0 <- 30
+s <- MH(N,x_0)
+
+par(mfrow=c(length(thin),3),mar=c(2.5,3,2,1.5))
+for (i in 1:length(thin)){
+     m <- s[seq(burnin,N,thin[i])]; m=m[1:steps.shown]
+     eff=effectiveSize(m)
+     plot(
+        m,
+        type="l",
+        main="",
+        las=1,xlab="",
+        lwd=1,ylim=c(0,max(m)),
+        xlim=c(0,steps.shown)
+    )
+     mtext(paste("thinned every",thin[i],"; ESS = ",round(eff,0)),line=.5,cex=.8)
+     acf(m,lag.max=100,lwd=.5,main="",ci=.95,ylab="",las=1)
+     mtext("ACF",line=.5)
+    plot(
+        0:xmax+07,pi(0:xmax),
+        ylim=c(0,max(pi(0:xmax))*1.2),
+        xlab="",ylab="",type="h",lwd=3,las=1
+    )
+     hist <- table(m)/sum(table(m))
+     supp <- as.integer(names(hist))
+     points(supp-.07,hist,type="h",lwd=3,col="red")
+     }
+
+
+\end{minted} 
+\end{appendices}

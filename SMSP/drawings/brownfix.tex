@@ -1,0 +1,22 @@
+
+\pgfmathsetseed{654}
+\begin{tikzpicture}
+\begin{axis}[
+                xlabel=\empty,
+                x axis line style={->,opacity=100},
+                ylabel=\empty,
+                axis y line=left,
+                %ymin=-0.6,ymax=2,
+                xmin=0,xmax=50,
+                y axis line style={->,opacity=100},
+                ytick=\empty,
+                xtick={85,170},
+                xticklabels={$t_1$,$t_2$},
+                axis x line*=bottom
+                   ]     
+    \addplot[black,domain = 0:30,
+        samples = 100,
+        thick] {2*x+10*rand};
+    \addplot[black,thick]coordinates{(29.5,61.5)(50,61.5)}node[red,midway,below]{fixation};
+\end{axis} %fashion
+\end{tikzpicture}

@@ -1,0 +1,20 @@
+\begin{tikzpicture}%[scale=0.8]
+\begin{axis}[
+                xlabel=\empty,
+                x axis line style={->,opacity=100},
+                ylabel=\empty,
+                xmin=-1, xmax=100,
+                ymin=-1, ymax=100,
+                axis y line=left,
+                y axis line style={->,opacity=100},
+                ytick={20,60,40},
+                yticklabels={$h$,$j$,$i$},
+                xtick=\empty,
+                axis x line*=bottom
+                        ]
+                        \draw [dashed, thick] (0,20)--(95,20) node[RedViolet,circle,midway,inner sep=2pt,yshift=10pt]{Exp($q_{ih}$)};
+                        \draw [dashed, thick](0,60)--(95,60) node[RedViolet,circle,midway,inner sep=2pt,yshift=10pt]{Exp($q_{ij}$)};
+                        \draw [dashed, thick](0,40)--(95,40);
+
+\end{axis}
+\end{tikzpicture}

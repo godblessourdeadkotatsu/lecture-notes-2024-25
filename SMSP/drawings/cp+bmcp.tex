@@ -1,0 +1,47 @@
+\documentclass{standalone}
+\usepackage[framemethod=default]{mdframed}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage[scr=rsfs]{mathalpha}
+\usepackage[final]{pdfpages}
+\usepackage{pgfplots,pgfplotstable}%per disegni
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.16}
+\usepackage{float}%per posizionamento disegni
+\usetikzlibrary{shapes,patterns,arrows,positioning,calc,arrows.meta, bending, graphs, shadings,quotes,intersections,decorations}
+\begin{document}
+
+\pgfmathsetseed{654}
+\begin{tikzpicture}
+\begin{axis}[
+  axis x line=center,
+  axis y line=center,
+  xtick=\empty,
+  ytick=\empty,
+  xlabel style={below right},
+  ylabel style={above left},
+  xmin=-10,
+  xmax=160,
+  ymin=-100,
+  ymax=100]     
+    \addplot[smooth,black,domain = 0:30.1,
+        samples = 20,
+        thick, name path=A] {(2*x-10)+7*rand};
+        \addplot[smooth,black,domain = 29.9:80.1,
+        samples =20,
+        thick, name path=B] {(10*sin(8*(x+10))+10*rand+80};
+        \addplot[smooth,black,domain = 79.9:150,
+        samples = 25,
+        thick,name path=C] {(-x+100)+10*rand};
+    \path[name path=p1] (30,0)--(30,150);
+    \path[name path=p2] (80,0)--(80,150);
+    \fill [name intersections={of=A and p1}] (intersection-1) coordinate (a);
+    \fill [name intersections={of=B and p1}] (intersection-1) coordinate (b);
+    \fill [name intersections={of=B and p2}] (intersection-1) coordinate (c);
+    \fill [name intersections={of=C and p2}] (intersection-1) coordinate (d);
+    \draw[RedViolet,thick,dashed](a)--(b)node[midway,font=\tiny,right]{$Y_1$};
+    \draw[RedViolet,thick,dashed](c)--(d)node[midway,font=\tiny,right]{$Y_2$};
+\end{axis} %fashion
+\end{tikzpicture}
+
+\end{document}

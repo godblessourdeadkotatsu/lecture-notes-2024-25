@@ -1,0 +1,41 @@
+\documentclass{standalone}
+\usepackage{standtikz}
+\begin{document}
+\pgfmathsetseed{634}
+\begin{tikzpicture}
+\begin{axis}[
+  axis x line=center,
+  axis y line=center,
+  xtick={0,15,30,45,135,150},
+  xticklabels={$0$,$\frac{t}{n}$,$\frac{2t}{n}$,\empty,$\frac{(n-1)t}{n}$,$t$},
+  ytick=\empty,
+  xlabel style={below right},
+  ylabel style={above left},
+  xmin=-10,
+  xmax=160,
+  ymin=-10,
+  ymax=100]     
+    \addplot[smooth,black,domain = 0:150.1,
+        samples = 30,
+        thick, name path=A] {(0.6*x)-3+7*rand} node[pos=0.9,xshift=5pt,yshift=28pt,font=\scriptsize]{$X(t)$};
+        \path (axis cs:0,0) 
+        node [anchor=north west,yshift=-0.05cm] {0};
+        \path[name path=tn](15,0)--(15,200);
+        \path[name path=2tn](30,0)--(30,200);
+        \path[name path=vuoto](45,0)--(45,200);
+        \path[name path=nm1t](135,0)--(135,200);
+        \path[name path=ciao](150,0)--(150,200);
+        \fill[name intersections={of=A and tn}] (intersection-1) coordinate (a);
+        \fill[name intersections={of=A and 2tn}] (intersection-1) coordinate (b);
+        \fill[name intersections={of=A and vuoto}] (intersection-1) coordinate (c);
+        \fill[name intersections={of=A and nm1t}] (intersection-1) coordinate (d);
+        \fill[name intersections={of=A and ciao}] (intersection-1)coordinate (e);
+        \draw[dotted,RedViolet!70!white,thick](15,0)--(a);
+        \draw[dotted,RedViolet!70!white,thick](30,0)--(b);
+        \draw[dotted,RedViolet!70!white,thick](45,0)--(c);
+        \draw[dotted,RedViolet!70!white,thick](135,0)--(d);
+        \draw[dotted,RedViolet!70!white,thick](150,0)--(e);
+\end{axis} %fashion
+\end{tikzpicture}
+
+\end{document}

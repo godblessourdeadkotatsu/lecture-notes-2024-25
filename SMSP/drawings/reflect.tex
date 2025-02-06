@@ -1,0 +1,30 @@
+
+\pgfmathsetseed{654}
+\begin{tikzpicture}
+\begin{axis}[
+                xlabel=\empty,
+                x axis line style={-,opacity=100},
+                ylabel=\empty,
+                axis y line=left,
+                ymin=-0,ymax=60,
+                %xmin=0,xmax=50,
+                y axis line style={-,opacity=0},
+                ytick=\empty,
+                xtick=\empty,
+                %axis x line=bottom top
+                   ]     
+    \addplot[black,domain = 0:30,
+        samples = 100,
+        thick] {2*x+10*rand};
+        \addplot[black,domain = 30:80,
+        samples = 100,
+        thick] {-1.5*x+10*rand+90};
+        \addplot[black,domain = 80:240,
+        samples = 250,
+        thick,xshift={-20pt}] {1.4*(x+200)+10*rand-400};
+        \draw [-{Stealth},very thick,red] (35,60) to (35,50);
+        \draw [-{Stealth},very thick,red] (80,00) to (80,10);
+\end{axis} %fashion
+\node[] at (-0.5,5.7){1};
+\node[] at (-0.5,0){0};
+\end{tikzpicture}

@@ -1,0 +1,23 @@
+\begin{tikzpicture}%[scale=0.8]
+\begin{axis}[
+                xlabel=\empty,
+                x axis line style={->,opacity=100},
+                ylabel=\empty,
+                xmin=-1, xmax=100,
+                ymin=-1, ymax=100,
+                axis y line=left,
+                y axis line style={->,opacity=100},
+                ticks=none,
+                clip=false,
+                axis x line*=bottom
+                        ]
+                        \draw (0,20)--(25,20) node[circle,fill, pos=0,inner sep=2pt]{};
+                        \draw (25,50)--(50,50) node[circle,fill, pos=0,inner sep=2pt]{};
+                        \draw (50,30)--(75,30) node[circle,fill, pos=0,inner sep=2pt]{};
+                        \draw (75,75)--(100,75) node[circle,fill, pos=0,inner sep=2pt,label={$X^{(N)}$}]{};
+                        \draw[RedViolet, dashed,thick] (0,20)--(25,50) node[circle, pos=0,inner sep=2pt]{};
+                        \draw[RedViolet, dashed,thick] (25,50)--(50,30) node[circle, pos=0,inner sep=2pt]{};
+                        \draw[RedViolet, dashed,thick] (50,30)--(75,75) node[circle, RedViolet,midway,inner sep=2pt,right]{$\Tilde{X}^{(N)}$};
+
+\end{axis}
+\end{tikzpicture}

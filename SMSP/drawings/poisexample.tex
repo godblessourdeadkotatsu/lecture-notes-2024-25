@@ -1,0 +1,31 @@
+\documentclass{standalone}			
+\usepackage{../pacco}	
+\begin{document}
+\begin{tikzpicture}[-,>=stealth', line width=0.5pt, node distance=0.5cm]
+	
+	\node [circle, draw,  label=left:$i$] (two) []{};
+	\node [circle, draw] (tre) [above of=two] {};
+	\node [circle, draw] (quattro) [above of=tre] {};
+	\node [circle, draw] (cinque) [above of=quattro] {};
+	
+	\node [circle, draw] (c) [right=3cm of two]{};
+	\node [circle, draw] (b) [above of=c] {};
+	\node [circle, draw] (a) [above of= b]{};
+	
+	
+	\node [circle, draw] (d) [above of=a]{};
+	\node [circle] (e) [above of=d]{$t^-$};
+	
+	
+	\node [circle, draw, label=right:$j$,  circle] (j) [right= 1 cm of d]{};
+	\node [circle,draw](ciao)[below of=j]{};
+	\node [circle,draw](come)[below of=ciao]{};
+	\node [circle,draw](stai)[below of=come]{};
+	\node [circle](MALE)[above of=j]{$t$};
+	
+	\path (two) edge [->]node [below] {} (a);
+	\path (two) edge [->]node [below] {} (d);
+	\path (a) edge [->]node [below] {} (j);
+	\path (d) edge [->]node [below] {} (j);
+\end{tikzpicture}
+\end{document}

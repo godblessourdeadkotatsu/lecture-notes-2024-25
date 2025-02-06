@@ -1,0 +1,28 @@
+\documentclass{standalone}
+\usepackage{standtikz}
+\begin{document}
+\begin{tikzpicture}[scale=0.6]
+    \begin{axis}[
+    xlabel=\empty,
+                xtick={1},
+                ytick=\empty,
+                x axis line style={->,opacity=100},
+                ylabel=\empty,
+                xmin=0, xmax=5,
+                ymin=0, ymax=5,
+                axis y line=left,
+                y axis line style={->,opacity=100},
+                axis x line*=bottom
+    ]\addplot[RedViolet, 
+	thick, 
+	domain = 0:1,
+	samples=100, 
+ name path=iperboledemmerda
+	]
+	{1/x};
+    \draw[black, dashed](1,0)--(1,1);
+    \node[circle,anchor=west,font=\Large] at (2,2){$\infty$ mean};
+    \draw[black,->,bend left](2,2) to [bend right](0.6,1.1);
+    \end{axis}
+\end{tikzpicture}
+\end{document}

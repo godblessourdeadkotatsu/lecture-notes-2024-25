@@ -1,0 +1,10 @@
+    \begin{tikzpicture}[->,>=stealth',shorten >=2pt, line width=0.5pt, node distance=2cm]
+        \node [circle, draw] (zero) {0};
+        \node [circle, draw] (one) [right of=zero] {1};
+        \node [circle, draw] (two) [right of=one]{2};
+        \path (zero) edge [bend left] node [above] {$p_{01}$} (one);
+        \path (one) edge [bend left] node [above] {$p_{12}$} (two);
+        \path (zero) edge [loop left] node [left] {$p_{00}$} (zero);
+        \path (two) edge [bend left] node [below] {$p_{21}$} (one);
+        \path (one) edge [bend left] node [below] {$p_{10}$} (zero);
+    \end{tikzpicture}

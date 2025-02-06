@@ -1,0 +1,28 @@
+\begin{tikzpicture}%[scale=0.8]
+\begin{axis}[
+                xlabel=\empty,
+                x axis line style={->,opacity=100},
+                ylabel=\empty,
+                xmin=-1, xmax=100,
+                ymin=-1, ymax=100,
+                axis y line=left,
+                y axis line style={->,opacity=100},
+                ytick={20,60,40},
+                yticklabels={$Y_0$,$Y_1$,$Y_2=Y_3$},
+                xtick=\empty,
+                axis x line*=bottom
+                        ]
+                        \draw (0,20)--(30,20) node[circle,fill=RedViolet, pos=0,inner sep=2pt]{};
+                        \draw (30,60)--(50,60) node[circle,fill=RedViolet, pos=0,inner sep=2pt]{};
+                        \draw (50,40)--(85,40) node[circle,fill=RedViolet, pos=0,inner sep=2pt]{};
+                        \draw (85,40)--(100,40) node[circle,fill=RedViolet, pos=0,inner sep=2pt,label={self-transition}]{};
+                        \draw[dashed] (30,20)--(30,0);
+                        \draw[dashed] (50,60)--(50,0);
+                        \draw[dashed] (85,40)--(85,0);
+                        \draw[dotted,thin] (0,40)--(50,40);
+                        \draw[dotted,thin] (0,60)--(30,60);
+\end{axis}
+\node[RedViolet,below right=0.1cm and 0.43cm, font=\footnotesize] (T) {Exp$(\lambda)$};
+\node[RedViolet,below right=0.1cm and 2.15cm, font=\footnotesize] (Te) {Exp$(\lambda)$};
+\node[RedViolet,below right=0.25cm and 4.3cm, font=\footnotesize\bf] (Te) {$\ldots$};
+\end{tikzpicture}
