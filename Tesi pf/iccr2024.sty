@@ -1,4 +1,4 @@
-\usepackage[a4paper,top=2cm,bottom=1.5cm,left=1.0cm,right=1.0cm]{geometry}
+\usepackage[a4paper,top=2cm,bottom=1.5cm,left=2.5cm,right=2.5cm]{geometry}
 \usepackage[italian]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -21,9 +21,10 @@
 \usepackage{multicol}
 \usepackage[utf8]{inputenc}     
 \usepackage[italian]{babel}
-\usepackage{xcolor}
+\usepackage[x11names]{xcolor}
 \usepackage{float}
 \usepackage{lipsum}
+\usepackage{nameref}
 \usepackage{titling}
 \usepackage{authblk}
 \usepackage{dirtytalk}
@@ -32,19 +33,18 @@
 \usepackage{fancyhdr}
 \usepackage{setspace}
 \usepackage{parskip}
-\usepackage[backend=biber,style=authoryear-comp,autocite=inline,natbib = true,
+\usepackage[backend=biber,style=authoryear-comp,sorting=nyt,minalphanames=3,autocite=inline,natbib = true,
 sorting = nyt, minalphanames=3]{biblatex}
 \usepackage{csquotes}
 \usepackage{changepage}
 \usepackage{paracol}
-
+\let\cleardoublepage\clearpage
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % fancy quotes
-\definecolor{quotemark}{gray}{0.7}
 \makeatletter
 \def\fquote{%
     \@ifnextchar[{\fquote@i}{\fquote@i[]}%]
@@ -68,7 +68,7 @@ sorting = nyt, minalphanames=3]{biblatex}
          \item[]%
          \hfill
          \begin{picture}(0,0)%
-         \put(-15,-5){\makebox(0,0){\scalebox{3}{\textcolor{quotemark}{``}}}}%
+         \put(-15,-5){\makebox(0,0){\scalebox{3}{\textcolor{SteelBlue3}{``}}}}%
          \end{picture}%
          \begingroup\itshape}%
  %%%%********************************************************************
@@ -78,14 +78,14 @@ sorting = nyt, minalphanames=3]{biblatex}
  \hspace{0.8\textwidth}%
  \begin{picture}(0,0)(0,0)%
  \put(15,15){\makebox(0,0){%
- \scalebox{3}{\color{quotemark}''}}}%
+ \scalebox{3}{\color{SteelBlue3}''}}}%
  \end{picture}}%
  \ifx\tempa\empty%
  \else%
     \ifx\tempc\empty%
-       \hfill\textcolor{OliveGreen}{\rule{100pt}{2pt}}\\\mbox{}\hfill\tempa,\ \emph{\tempb}%
+       \hfill\textcolor{SteelBlue3}{\rule{100pt}{2pt}}\\\mbox{}\hfill\tempa,\ \emph{\tempb}%
    \else%
-       \hfill\textcolor{OliveGreen}{\rule{100pt}{2pt}}\\\mbox{}\hfill\tempa,\ \emph{\tempb},\ \tempc%
+       \hfill\textcolor{SteelBlue3}{\rule{100pt}{2pt}}\\\mbox{}\hfill\tempa,\ \emph{\tempb},\ \tempc%
    \fi\fi\par%
    \vspace{0.5em}%
  \end{list}%
@@ -95,12 +95,12 @@ sorting = nyt, minalphanames=3]{biblatex}
 % define page header and footer
 \pagestyle{fancy}
 \let\oldheadrule\headrule% Copy \headrule into \oldheadrule
-\renewcommand{\headrule}{\color{OliveGreen}\oldheadrule}% Add colour to \headrule
+\renewcommand{\headrule}{\color{SteelBlue3}\oldheadrule}% Add colour to \headrule
 \renewcommand{\headrulewidth}{3pt}
 \fancyhf{} % clear all header and footer fields
 \fancyhead[L]{\sffamily\bfseries\scriptsize Conservatorio "G. Verdi" di Torino}
 \chead{\sffamily\bfseries\scriptsize\thepage}
-\fancyhead[R]{\sffamily\bfseries\scriptsize Corso di Analisi delle Forme Compositive}
+\fancyhead[R]{\sffamily\bfseries\scriptsize \chaptername}
 
 \setlength{\parindent}{10pt}
 \setlength{\columnsep}{0.6cm}
@@ -114,9 +114,10 @@ sorting = nyt, minalphanames=3]{biblatex}
 \predate{}
 \postdate{}
 \date{}
-
+\renewcommand{\chaptermark}[1]{\markboth{#1}{#1}}
 % change font of section titles
-\allsectionsfont{\rmfamily\bfseries\huge}
+\chapterfont{\sffamily\bfseries\huge}
+\sectionfont{\sffamily\bfseries\large}
 % font definitions for authors and affiliations
 \renewcommand\Authfont{\small}
 \renewcommand\Affilfont{\footnotesize}
