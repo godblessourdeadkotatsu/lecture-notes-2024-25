@@ -5,11 +5,10 @@
 \usepackage[utf8]{inputenc}
 %\usepackage[scaled=0.95]{helvet}
 %\usepackage{mathptmx}
-\usepackage{titlesec}
+%\usepackage{titlesec}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
-\usepackage[dvipsnames]{xcolor}
 \usepackage{calc}
 \usepackage{tikz}
 \usepackage[colorlinks]{hyperref}
@@ -32,12 +31,10 @@
 \usepackage{booktabs}
 \usepackage{fancyhdr}
 \usepackage{setspace}
-\usepackage{parskip}
 \usepackage[backend=biber,style=authoryear-comp,sorting=nyt,minalphanames=3,autocite=inline,natbib = true,
 sorting = nyt, minalphanames=3]{biblatex}
 \usepackage{csquotes}
 \usepackage{changepage}
-\usepackage{paracol}
 \let\cleardoublepage\clearpage
 
 
@@ -92,6 +89,8 @@ sorting = nyt, minalphanames=3]{biblatex}
  }%
  \makeatother
  %%%%********************************************************************
+ \setkomafont{chapter}{\normalfont\huge\bfseries}
+ \setkomafont{chapterprefix}{\normalfont\large}
 % define page header and footer
 \pagestyle{fancy}
 \let\oldheadrule\headrule% Copy \headrule into \oldheadrule
@@ -100,24 +99,24 @@ sorting = nyt, minalphanames=3]{biblatex}
 \fancyhf{} % clear all header and footer fields
 \fancyhead[L]{\sffamily\bfseries\scriptsize Conservatorio "G. Verdi" di Torino}
 \chead{\sffamily\bfseries\scriptsize\thepage}
-\fancyhead[R]{\sffamily\bfseries\scriptsize \chaptername}
+\fancyhead[R]{\sffamily\bfseries\scriptsize ciaoo}
 
 \setlength{\parindent}{10pt}
 \setlength{\columnsep}{0.6cm}
 \setlength{\parskip}{5pt}
 
 % reduce spacing around title
-\setlength{\droptitle}{-1.2cm}
+%\setlength{\droptitle}{-1.2cm}
 
 
 % remove date from title
 \predate{}
 \postdate{}
 \date{}
-\renewcommand{\chaptermark}[1]{\markboth{#1}{#1}}
+%\renewcommand{\chaptermark}[1]{\markboth{#1}{#1}}
 % change font of section titles
-\chapterfont{\sffamily\bfseries\huge}
-\sectionfont{\sffamily\bfseries\large}
+%\chapterfont{\sffamily\bfseries\huge}
+%\sectionfont{\sffamily\bfseries\large}
 % font definitions for authors and affiliations
 \renewcommand\Authfont{\small}
 \renewcommand\Affilfont{\footnotesize}
