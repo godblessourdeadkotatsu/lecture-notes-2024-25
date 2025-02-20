@@ -1,11 +1,11 @@
-\usepackage[a4paper,top=2cm,bottom=1.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage[a4paper,top=2cm,bottom=1.5cm,left=3cm,right=3cm]{geometry}
 \usepackage[italian]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[utf8]{inputenc}
 %\usepackage[scaled=0.95]{helvet}
 %\usepackage{mathptmx}
-%\usepackage{titlesec}
+\usepackage{titlesec}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
@@ -31,8 +31,7 @@
 \usepackage{booktabs}
 \usepackage{fancyhdr}
 \usepackage{setspace}
-\usepackage[backend=biber,style=authoryear-comp,sorting=nyt,minalphanames=3,autocite=inline,natbib = true,
-sorting = nyt, minalphanames=3]{biblatex}
+\usepackage[backend=biber,style=authoryear-comp,sorting=nyt,minalphanames=3,autocite=inline,natbib = true, sorting = nyt, minalphanames=3]{biblatex}
 \usepackage{csquotes}
 \usepackage{changepage}
 \let\cleardoublepage\clearpage
@@ -89,8 +88,8 @@ sorting = nyt, minalphanames=3]{biblatex}
  }%
  \makeatother
  %%%%********************************************************************
- \setkomafont{chapter}{\normalfont\huge\bfseries}
- \setkomafont{chapterprefix}{\normalfont\large}
+ %\setkomafont{chapter}{\normalfont\huge\bfseries}
+ %\setkomafont{chapterprefix}{\normalfont\large}
 % define page header and footer
 \pagestyle{fancy}
 \let\oldheadrule\headrule% Copy \headrule into \oldheadrule
@@ -106,17 +105,17 @@ sorting = nyt, minalphanames=3]{biblatex}
 \setlength{\parskip}{5pt}
 
 % reduce spacing around title
-%\setlength{\droptitle}{-1.2cm}
+\setlength{\droptitle}{-1.2cm}
 
 
 % remove date from title
 \predate{}
 \postdate{}
 \date{}
-%\renewcommand{\chaptermark}[1]{\markboth{#1}{#1}}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{#1}}
 % change font of section titles
-%\chapterfont{\sffamily\bfseries\huge}
-%\sectionfont{\sffamily\bfseries\large}
+\chapterfont{\sffamily\bfseries\huge}
+\sectionfont{\sffamily\bfseries\large}
 % font definitions for authors and affiliations
 \renewcommand\Authfont{\small}
 \renewcommand\Affilfont{\footnotesize}
@@ -135,6 +134,7 @@ sorting = nyt, minalphanames=3]{biblatex}
 
 % void In before journals in references
 \renewbibmacro{in:}{}    
+\counterwithout*{footnote}{chapter}
 
 % use smaller font size for references
 \AtBeginBibliography{\normalsize}
