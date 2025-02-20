@@ -35,6 +35,16 @@ Let's have a fucking party!
 		\end{enumerate}
 	\end{definition}
 	In general, these processes count how many times an event happens.
+	\begin{definition}
+		A Poisson process is a counting process such that:
+		\begin{enumerate}
+			\item $N(0)=0$;
+			\item for $t_1<t_2<t_3<t_4$ we have
+			\begin{equation*}
+				N(t_2)-N(t_1)\independent N(t_4)-N(t_3)
+			\end{equation*}
+		\end{enumerate}
+	\end{definition}
 	\tableofcontents
 \clearpage
 \listoffigures  
