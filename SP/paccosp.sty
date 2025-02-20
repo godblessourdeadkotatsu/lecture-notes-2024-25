@@ -34,6 +34,7 @@
 \usepackage{array}
 \usepackage{pdfpages}
 %\usepackage{tipa} %perchè si stai zitto 
+
 \usepackage{mleftright}
 \usepackage{fancybox}
 \usepackage{standalone}
@@ -93,7 +94,24 @@
 		\end{rema*}% 
 	}
 
-\newcounter{defi}
+			
+	\newcounter{defi}
+	
+	\newtcbtheorem[number within=section]{nition}{Definition}{
+		enhanced, 
+	 breakable, sharp corners,
+		interior style={left color=SkyBlue4!60,right color=white!29},
+		title style={left color=white,right color=white!35},
+		% boxed title style={boxrule=5mm, colframe=black,sharp corners},
+		colframe=white, coltitle=SkyBlue4!60!black, colbacktitle=blue!34,
+		colback=white,
+		titlerule=0mm,
+		drop fuzzy shadow=gray,
+		borderline={0.5mm}{0mm}{SkyBlue4},
+		separator sign={:},
+		description formatter=\newline,
+		theorem hanging indent/.try=0pt,
+	}{}
 	
 	\newenvironment{definition}[1][]{
 		\stepcounter{defi}
