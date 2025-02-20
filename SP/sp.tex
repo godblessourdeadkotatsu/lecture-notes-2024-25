@@ -71,6 +71,17 @@ Let's have a fucking party!
 			\lim_{s\to t}\pr(|X(t)-X(s)|>\varepsilon)=0.
 		\end{equation*}
 		This should be enough for all finite distributions, right?\footnote{First, but not last, question without an answer.}
+		\begin{theorem}
+			Let $\{X(t)\}$ be a stochastic process such that $\ev[X^{2}(t)]<\infty$ for all $t$. Then it is continuous \ifonly{}:
+			\begin{enumerate}
+				\item $m(t)=\ev[X(t)]$ is continuous;
+				\item the covariance function
+				\begin{equation*}
+					\Gamma(s,t)=\ev[(X(t)-m(t))(X(s)-m(s))]
+				\end{equation*}
+				is continuous on its diagonal set.
+			\end{enumerate}
+		\end{theorem}
 	\end{enumerate}
 \clearpage
 \listoffigures  
