@@ -26,6 +26,15 @@ Let's have a fucking party!
 	IMMAGINE
 	We want to think, though, about a continuous space and time process: IMMAGINE
 	How can we define the continuity of the sample paths? and how can we check this property? There are some possible definitions of continuity. To control for their robustness we check whether according to each of these definitions the Poisson process, a discrete process, is correctly classified as non continuous.
+	\begin{definition}
+		A stochastic process $\{M(t)\}$ is said to be a \emph{counting process} if:
+		\begin{enumerate}[i.]
+			\item $M(t)>0$;
+			\item $M(t)$ is an integer;
+			\item $M(t)$ is increasing, meaning that $s\leq t\implies M(s)\leq M(t)$.
+		\end{enumerate}
+	\end{definition}
+	In general, these processes count how many times an event happens.
 	\tableofcontents
 \clearpage
 \listoffigures  
