@@ -96,8 +96,14 @@ Let's have a fucking party!
 				\end{equation*}
 				and, moreover,
 				\begin{equation*}
-					\ev[X(s)X(t)]=\Gamma(s,t)-\cancel{m(t)m(s)}+m(t)\ev[X(s)]+\cancel{m(s)\ev[X(t)]}
+					\ev[X(s)X(t)]=\Gamma(s,t)-\cancel{m(t)m(s)}+m(t)\ev[X(s)]+\cancel{m(s)\ev[X(t)]}.
 				\end{equation*}
+				So \ref{boh} becomes
+				\begin{align*}
+					\text{\faAdjust}&=\Gamma(s,s)+2m^{2}(s)-m^{2}(s)+\Gamma(t,t)+2m^{2}(t)-m^{2}(t)-2\ev\left[X(s)X(t)\right]\\
+					&=\Gamma(s,s)+\Gamma(t,t)-2\Gamma(s,t)+m^{2}(t)+m^{2}(s)-2m(t)m(s)\\
+					&=\Gamma(s,s)+\Gamma(t,t)-2\Gamma(s,t)+\left[m(t)-m(s)\right]^{2}.
+				\end{align*}
 			\end{fancyproof}
 		\end{theorem}
 	\end{enumerate}
