@@ -72,7 +72,7 @@ Let's have a fucking party!
 		\end{equation*}
 		This should be enough for all finite distributions, right?\footnote{First, but not last, question without an answer.}
 		\begin{theorem}
-			Let $\{X(t)\}$ be a stochastic process such that $\ev[X^{2}(t)]<\infty$ for all $t$. Then it is continuous \ifonly{}:
+			Let $\{X(t)\}$ be a stochastic process such that $\ev[X^{2}(t)]<\infty$ for all $t$. Then it is continuous in mean squares\ifonly{}:
 			\begin{enumerate}
 				\item $m(t)=\ev[X(t)]$ is continuous;
 				\item the covariance function
@@ -104,6 +104,11 @@ Let's have a fucking party!
 					&=\Gamma(s,s)+\Gamma(t,t)-2\Gamma(s,t)+m^{2}(t)+m^{2}(s)-2m(t)m(s)\\
 					&=\Gamma(s,s)+\Gamma(t,t)-2\Gamma(s,t)+\left[m(t)-m(s)\right]^{2}.
 				\end{align*}
+				Hence, if $m(t)$ is continuous and $\Gamma(s,t)$ is continuous for $s=t$ then 
+				\begin{equation*}
+					\ev\left[|X(s)-X(t)|^{2}\right]\to0.
+				\end{equation*}
+				If this holds for $m(t)$ and $\Gamma(t,t)$
 			\end{fancyproof}
 		\end{theorem}
 	\end{enumerate}
