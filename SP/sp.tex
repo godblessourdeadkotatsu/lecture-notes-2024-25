@@ -290,7 +290,13 @@ When $\Delta x$ and $\Delta t$ go to 0 in an appropriate way, we don't see ``jum
 	\caption{I miss tikzes but they take so much time.}
 	\label{fig:screenshot009}
 \end{figure}
-So we get a continuous process ${\{X_{t}\}}_{t\geq0}$ that is the random position of the time $t$. Introduce the i.i.d. \rv s $\{\varepsilon_{i}\}$ such that $\pr(\varepsilon_{i}=1)=\pr(\varepsilon_{i}=0)=\unmezz$. Then $S_{N}=\sum_{i}^{N}\varepsilon_{i}$ is the number of moves to the right (since moves to the left do not contribute to this count). In the same way, I have $N-S_{N}$ being the number of moves to the left.
+So we get a continuous process ${\{X_{t}\}}_{t\geq0}$ that is the random position of the time $t$. Introduce the i.i.d. \rv s $\{\varepsilon_{i}\}$ such that $\pr(\varepsilon_{i}=1)=\pr(\varepsilon_{i}=0)=\unmezz$. Then $S_{N}=\sum_{i}^{N}\varepsilon_{i}$ is the number of moves to the right (since moves to the left do not contribute to this count). In the same way, I have $N-S_{N}$ being the number of moves to the left. Now we can write
+\begin{align*}
+	X_{T}&=\text{positions of particles at }T=N\Delta t\\
+	&=S_{N}\Delta x-(N-S_{N})\Delta x\\
+	&=(2S_{N}-N)\Delta x\\
+	&=\sum_{k=1}^{N}(2\varepsilon_{k}-1)\Delta x
+\end{align*}
 \clearpage
 \listoffigures  
 \end{document} 
