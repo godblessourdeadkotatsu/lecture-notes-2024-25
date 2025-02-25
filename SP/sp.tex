@@ -295,8 +295,15 @@ So we get a continuous process ${\{X_{t}\}}_{t\geq0}$ that is the random positio
 	X_{T}&=\text{positions of particles at }T=N\Delta t\\
 	&=S_{N}\Delta x-(N-S_{N})\Delta x\\
 	&=(2S_{N}-N)\Delta x\\
-	&=\sum_{k=1}^{N}(2\varepsilon_{k}-1)\Delta x
+	&=\sum_{k=1}^{N}(2\varepsilon_{k}-1)\Delta x.
 \end{align*}
+\begin{remark}
+	For any two times $t=n\Delta t$ and $T=N\Delta t$, $0<t<T$, we can write:
+	\begin{align*}
+		X_{T}&=(X_{T}-X_{t})+(X_{t}-X_{0})\\
+		&=\sum_{k=n+1}^{N}(2\varepsilon_{k}-1)\Delta x+\sum_{k=1}^{n}(2\varepsilon_{k}-1)\Delta x.
+	\end{align*}
+\end{remark}
 \clearpage
 \listoffigures  
 \end{document} 
