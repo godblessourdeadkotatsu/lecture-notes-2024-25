@@ -344,8 +344,20 @@ So this should be the variance of our random walk. If we take the limit for $x$ 
 	\emph{Definition of Brownian Motion} (1923, by Norbert Wiener).\\
 	A stochastic process $B={\{B_{t}\}}_{t\geq 0}$ defined on a probability space $(\Omega,\F,\pr)$ and taking values in $\R$ is called \emph{standard Brownian motion} (or \emph{standard Wiener process}) if:
 	\begin{enumerate}
-		\item the function $t\mapsto B_{t}$ is \ul{continuous} from $\R_{+}$ to $\R$ and $B_{0}=0$ (both almost surely).
+		\item the function $t\mapsto B_{t}$ is \ul{continuous} from $\R_{+}$ to $\R$ and $B_{0}=0$ (both almost surely);
+		\item $B$ has \ul{stationary increments} (they don't depend on the origin):
+		\begin{equation*}
+			B_{t}-B_{s}\sim B_{t+h}-B_{s+h}\qquad\every 0<s<t\qquad\every f>0;
+		\end{equation*}
+		\item $B$ has \ul{independent} increments, i.e. for any $0\leq t_{0}\leq t_{1}<\leq t_{2}\leq\ldots\leq t_{n}$ and $n\geq 1$ we have:
+		\begin{equation*}
+			B_{t_1}-B_{t_0}, B_{t_2}-B_{t_1},\ldots,B_{t_{n}}-B_{t_{n-1}}\qquad\text{independent};
+		\end{equation*}
+		\item $B_{t}\distnorm{0,t}$ for $\every t\geq 0$.
 	\end{enumerate}
+\end{definition}
+\begin{defintion}
+	\emph{General \bm{}}
 \end{definition}
 \clearpage
 \listoffigures  
