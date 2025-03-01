@@ -370,7 +370,9 @@ We can now proceed to define the $d$-dimensional \bwm{}:
 \begin{definition}
 	A $d$-dimensional \bwm, $B={\{B_{t}\}}_{t\geq 0}$ is a stochastic process indexed by $[0,\infty)$ taking values on $\R^{d}$ such that:
 	\begin{enumerate}
-		\item $B_{0}(\omega)=0$ \as{} $\every\omega\in\Omega$
+		\item $B_{0}(\omega)=0$ \as{} $\every\omega\in\Omega$;
+		\item $B_{t_{n}}-B_{t_{n-1}},\ldots,B_{t_{1}}-B_{t_{0}}$ are independent fo $\every n>1,\;0\leq t_{1},t_{2}<\ldots<t_{n}<\infty$ (\emph{independent increments});
+		\item $B_{t}-B_{s}\sim B_{t+h}-B_{s+h}$ for $\every h>0$, $\every 0\leq s<t<\infty$ (\emph{stationary increments});
 	\end{enumerate}
 \end{definition}
 \clearpage
