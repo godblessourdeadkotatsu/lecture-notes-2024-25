@@ -388,7 +388,13 @@ for almost all $\omega$. A standard \bwm{} on $\R^{d}$ is obtained by setting
 \begin{equation*}
 	B=(B^{1},B^{2},\ldots,B^{d})
 \end{equation*}
-where $B^{2},B_{2},\ldots$ are independent \bwm{} on $\R$ called \ul{coordinate process}.
+where $B^{2},B_{2},\ldots$ are independent \bwm{} on $\R$ called \ul{coordinate processes}.
+\begin{definition}
+	The continuous process $W$ is called \emph{Wiener process} with respect to $\mathscr{A}$ if it is adapted to $\mathscr{A}$ (check that adaptness is included in the above definitions!) and 
+	\begin{equation*}
+		\ev_{s}f[W_{s+t}-W_{s}]=\int_{\R}\dx\left[\frac{e^{-\frac{x^{2}}{4t}}}{\sqrt{2\pi t}}f(x)\right]
+	\end{equation*}
+\end{definition}
 \clearpage
 \listoffigures  
 \end{document} 
