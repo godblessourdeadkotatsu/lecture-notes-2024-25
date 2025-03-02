@@ -621,7 +621,11 @@
 	#1] (tmpcall) at (0,0) {#2};
 	\node at (tmpcall.pointer){\calloutquoteauthor};    
 }  											
-							
+			
+			
+			\pgfmathdeclarefunction{gauss}{2}{%
+				\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+			}				
 
 \renewcommand\leq\leqslant
 \renewcommand\geq\geqslant			
