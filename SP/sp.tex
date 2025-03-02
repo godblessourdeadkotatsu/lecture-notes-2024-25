@@ -476,7 +476,16 @@ This is still technically a measure because it integrates to 1, but it is not a 
 	\ev\left[e^{i\lambda x}\right]=e^{-1\lambda\frac{\sigma^{2}}{2}}\xrightarrow{\sigma\to0}\ubracketthin{1}_{\claptext{characteristic function of degenerate \rv s.}}.
 \end{equation*}
 The main point about this is that we could still take a limit. If we were working with density we couldn't have done that.\par
-The alternative definition for gaussian 
+The alternative definition for Gaussian processes are:
+\begin{definition}
+	A vector valued \rv{} $X$ has $n$-dimensional standard Gaussian distribution if its $n$ coordinates are standard Gaussian in $\R^{1}$ and are independent.
+\end{definition} 
+\begin{definition}
+	A vector valued \rv $Y:\Omega\to\R^{n}$ is Gaussian if there exists a vector valued $X$ having $n$-dimensional standard Gaussian distribution and $m\times n$ matrix $A$ and a $m$-dimensional vector $b$ such that
+	\begin{equation*}
+		Y=AX+b\qquad\text{and }A
+	\end{equation*}
+\end{definition}
 \clearpage
 \listoffigures  
 \end{document} 
