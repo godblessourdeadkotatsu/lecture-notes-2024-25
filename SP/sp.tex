@@ -449,7 +449,9 @@ So that
 	\ev\left[e^{i\langle\lambda,\Gamma\rangle}\right]=e^{i\langle\lambda,m\rangle-\unmezz	\langle\lambda,\Sigma\lambda\rangle}.
 \end{equation*}
 The basic idea is that I can linearly transform a random vector and it still is a Gaussian \rv. Fourier transform always exists even for limits, while it is not so easy for distributions.
-\begin{tikzpicture}
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
 	\begin{axis}[every axis plot post/.append style={
 			mark=none,domain=-2:3,samples=50,smooth}, % All plots: from -2:2, 50 samples, smooth, no marks
 		axis x line*=bottom, % no box around the plot, only x and y axis
@@ -458,7 +460,10 @@ The basic idea is that I can linearly transform a random vector and it still is 
 		\addplot {gauss(0,0.5)};
 		\addplot {gauss(1,0.75)};
 	\end{axis}
-\end{tikzpicture}
+	\end{tikzpicture}
+	\label{fig:gaugau}
+	\caption{Degenerate.}
+\end{figure}
 \clearpage
 \listoffigures  
 \end{document} 
