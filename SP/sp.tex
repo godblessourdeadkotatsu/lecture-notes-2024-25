@@ -356,6 +356,7 @@ So this should be the variance of our random walk. If we take the limit for $x$ 
 		\item $B_{t}\distnorm{0,t}$ for $\every t\geq 0$.
 	\end{enumerate}
 \end{definition}
+\subsection{Definitions}
 \begin{definition}
 	\emph{General Brownian motion} (Brownian motion with drift).\\
 	\begin{equation*}
@@ -472,9 +473,10 @@ If I take $\sigma\to0$ then the density degenerates into a Dirac measure.
 \end{figure}
 This is still technically a measure because it integrates to 1, but it is not a density anymore since we lose dimensionality on $\R$ which is\footnote{As I learn now.} the meaning of becoming a subspace! But now consider the characteristic function
 \begin{equation*}
-	\ev\left[e^{i\lambda x}\right]=e^{-1\lambda\frac{\sigma^{2}}{2}}\xrightarrow{\sigma\to0}\ubracketthin{1}_{\claptext{characteristic function of degenerate \rv s.}}
+	\ev\left[e^{i\lambda x}\right]=e^{-1\lambda\frac{\sigma^{2}}{2}}\xrightarrow{\sigma\to0}\ubracketthin{1}_{\claptext{characteristic function of degenerate \rv s.}}.
 \end{equation*}
-The main point about
+The main point about this is that we could still take a limit. If we were working with density we couldn't have done that.\par
+The alternative definition for gaussian 
 \clearpage
 \listoffigures  
 \end{document} 
