@@ -450,8 +450,9 @@ So that
 \end{equation*}
 The basic idea is that I can linearly transform a random vector and it still is a Gaussian \rv. Fourier transform always exists even for limits, while it is not so easy for distributions. What happens if we apply to a Gaussian vector a matrix that turns it into a subspace? Do I care? Not much! But imagine the classic Gaussian \rv:
 \begin{equation*}
-	f(x)=\frac{1}{\sqrt{2\pi \sigma^{2}}}\exp\left\{-\frac{x^{2}}{2\sigma^{2}}\right\}
+	f(x)=\frac{1}{\sqrt{2\pi \sigma^{2}}}\exp\left\{-\frac{x^{2}}{2\sigma^{2}}\right\}.
 \end{equation*}
+If I take $\sigma\to0$ then the density degenerates into a Dirac measure.
 \begin{figure}[h]
 	\centering
 	\begin{tikzpicture}
@@ -469,6 +470,7 @@ The basic idea is that I can linearly transform a random vector and it still is 
 	\label{fig:gaugau}
 	\caption{It will become a dirac measure... but that is not a fucking density.}
 \end{figure}
+This is still technically a measure because it integrates to 1, but it is not a density anymore since we lose dimensionality on $\R!
 \clearpage
 \listoffigures  
 \end{document} 
