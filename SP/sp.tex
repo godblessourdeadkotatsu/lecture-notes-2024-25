@@ -414,8 +414,22 @@ where $\{\xi_{i}\}$ are i.i.d. \rv s $\xi_{i}\distnorm{0,1}$, so this object is 
 	\begin{equation*}
 		\begin{array}{rclr}
 			\frac{\dif}{\dif \lambda}\ev\left[e^{i\lambda\Gamma}\right]\Big|_{\lambda=0}&=&im&m=\ev[\Gamma]\\
-			\frac{\dif^{2}}{\dif\lambda^{2}}\ev\left[e^{i\lambda\Gamma}\right]\Big|_{\lambda 0}&=&-\ev\left[\Gamma^{2}\right]&
+			\frac{\dif^{2}}{\dif\lambda^{2}}\ev\left[e^{i\lambda\Gamma}\right]\Big|_{\lambda 0}&=&-\ev\left[\Gamma^{2}\right].&
 		\end{array}
+	\end{equation*}
+\end{definition}
+\begin{definition}
+	A random vector
+	\begin{equation*}
+		\Gamma=(\Gamma_{1},\Gamma_{2},\ldots,\Gamma_{n})\in\R^{n}
+	\end{equation*}
+	is Gaussian if the scalar product 
+	\begin{equation*}
+		\langle\lambda,\Gamma\rangle\qquad\every\lambda\in\R^{n}
+	\end{equation*}
+	is a one-dimensional Gaussian \rv{} with:
+	\begin{equation*}
+		\ev\left[e^{i\langle\lambda,\Gamma\rangle}\right]=e^{i\ev\left[\langle\lambda,\Gamma\rangle\right]-\unmezz\var\left(\langle\lambda,\Gamma\rangle\right)}.
 	\end{equation*}
 \end{definition}
 \clearpage
