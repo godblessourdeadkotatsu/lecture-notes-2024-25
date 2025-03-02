@@ -435,7 +435,12 @@ where $\{\xi_{i}\}$ are i.i.d. \rv s $\xi_{i}\distnorm{0,1}$, so this object is 
 So setting 
 \begin{equation*}
 	\begin{array}{cc}
-		m=(m_{1},\ldots,m_{n})\in\R^{n}&m_{j}=\ev[\Gamma_{j}]
+		m=(m_{1},\ldots,m_{n})\in\R^{n}&m_{j}=\ev[\Gamma_{j}]\\
+		\Sigma={(\sigma_{jk})}_{jk}\in\R^{n\times m}&\begin{array}{rl}
+			\sigma_{jk}&=\ev\left[(\Gamma_{j}-m_{j})(\Gamma_{k}-m_{k})\right]\\
+			&=\cov(\Gamma_{j},\Gamma_{k})\\
+			&=\Sigma_{j,k}
+		\end{array}
 	\end{array}
 \end{equation*}
 \clearpage
