@@ -518,6 +518,14 @@ What about another definition? I think we need it
 	is a multivariate Gaussian random vector (possibly degenerate).
 \end{definition}
 Now we have defined a class of processes:
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[framed]
+		\draw[filled] (0,0) circle (1.5cm) node {$A$}
+		(1,0) circle (1.5cm) node {$B$};
+		\node[anchor=south] at (current bounding box.north) {$A \cup B$};
+	\end{tikzpicture}
+\end{figure}
 There is another class: the Levy processes: they have independent and stationary increment (so they are Markov processes) but unlike \bwm{} we don't require continuity on the sample path, but just \ul{continuity on the right of sample paths} and \ul{admit left limit}.
 \clearpage
 \listoffigures  
