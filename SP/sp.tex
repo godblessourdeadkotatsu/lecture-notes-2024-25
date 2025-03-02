@@ -487,6 +487,15 @@ The alternative definition for Gaussian processes are:
 	\end{equation*}
 \end{definition}
 In this case $Y$ us a linear transformation of the Gaussian vector and $A$ projects $X$ in a $m$-dimensional subspace. This is the same procedure we do with Principal Component Analysis, where we diagonalize a matrix and other passages I don't remember and I don't care about.
+There are some properties:
+\begin{proposition}
+	\begin{itemize}
+		\item Let $X\distnorm{0,\Sigma_{n}}$. The distribution of $\left[X_{k+1,\ldots,k+n}}\right]$ conditioned to $\left[X_{1}=x_{1},\ldots,X_{k}=x_{k}\right]$ is \begin{equation*}
+		W(0,\Sigma_{2|1})
+		\end{equation*}
+		
+	\end{itemize}
+\end{proposition}
 \clearpage
 \listoffigures  
 \end{document} 
