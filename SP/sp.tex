@@ -561,8 +561,14 @@ but, anyway, for the \bwm{} to be gaussian all $\Gamma_{n}$ must be gaussian.
 			B_{t}\distnorm{0,t}\\
 			B_{t_{2}}-B_{t_{1}}\distnorm{0,t_{2}-t_{1}}\\
 			\vdots\\
-			B_{t_{n}}-B_{t_{n-1}}\distnorm{0, t_{n}-t_{n-1}}
+			B_{t_{n}}-B_{t_{n-1}}\distnorm{0, t_{n}-t_{n-1}}.
 		\end{array}
+	\end{equation*}
+	This means that 
+	\begin{equation*}
+		\left(B_{t_{1}},\ldots, B_{t_{n}}\right)^{\trsp}\distnorm{\left[\begin{smallmatrix}
+				0\\0\\ \vdots\\0\\
+		\end{smallmatrix}\right],[t_{i}\wedge t_{j}]^{n}_{i,j=1,\ldots n}}
 	\end{equation*}
 \end{remark}
 \clearpage
