@@ -522,7 +522,7 @@ Now we have defined a class of processes:
 	\centering
 	\begin{tikzpicture}
 		\draw[thick] (0,0) circle (1.5cm) node[anchor=east,text width=2cm,xshift=1cm,yshift=0.2cm] {Gaussian processes}
-		(2,0) circle (1.5cm) node[anchor=west, text width=1.8cm,yshift=0.2cm] {Markov processes} (1,-1.5) circle (1.5cm) node[anchor=north] {Martingle tools};
+		(2,0) circle (1.5cm) node[anchor=west, text width=1.8cm,yshift=0.2cm] {Markov processes} (1,-1.5) circle (1.5cm) node[anchor=north] {Martingale tools};
 		\node[anchor=south,yshift=-2.3cm,xshift=-0.3cm,red] at (current bounding box.north) {$BM$};
 	\end{tikzpicture}
 	\caption{Balls.}
@@ -534,6 +534,10 @@ There is another class: the Levy processes: they have independent and stationary
 		\Gamma_{n}=\left(B_{t_{1}},B_{t_{2}},\ldots,B_{t_{n}}\right)^{\trsp}\qquad 0\leq t_{1}<t_{2}<\ldots<t_{n}<\infty,\quad\every n>0
 	\end{equation*}
 \end{definition}
+There are properties about the increments
+\begin{equation*}
+	(B_{t_{1}}-B_{t_{0}},B_{t_{2}}-B_{t_{1}},\ldots,B_{t_{n}}-B_{t_{n-1}})
+\end{equation*}
 \clearpage
 \listoffigures  
 \end{document} 
