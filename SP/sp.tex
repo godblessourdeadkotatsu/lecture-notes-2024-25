@@ -545,6 +545,13 @@ but, anyway, for the \bwm{} to be gaussian all $\Gamma_{n}$ must be gaussian.
 		\ev\left[B_{t}B_{s}\right]=s\wedge t.
 	\end{equation*}
 \end{proposition}
+\begin{fancyproof}
+	Assume, without loss of generality, that $s<t$. Then
+	\begin{align*}
+		\ev\left[B_{t}B_{s}\right]&=\ev\left[(B_{t}-B_{s}+B_{s})B_{s}\right]\\
+		&=\ubracketthin{\ev\left[(B_{t}-B_{s})B_{s}\right]}_{\claptext{independent incrememnts}}+\ubracketthin{\ev[B^{2}_{s}]}_{\var(B_{s})=s}
+	\end{align*}
+\end{fancyproof}
 \clearpage
 \listoffigures  
 \end{document} 
