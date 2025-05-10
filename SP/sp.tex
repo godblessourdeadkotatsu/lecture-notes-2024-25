@@ -4803,6 +4803,10 @@ We need to compute the second moment
 	\ev{\left(\frac{1}{\sqrt{U_{k}+U_{k}^{2}}}\right)^{2}}=\int_{0}^{1}\frac{1}{x+x^{2}}\dx=+\infty
 \end{equation*}
 and so we have infinite variance which means $\infty$ confidence interval which means kill yourself.
+In this case we have 
+\begin{equation*}
+	I=\int_{0}^{1}\frac{2}{\sqrt{1+x}}\cdot\frac{1}{s\sqrt{x}}\dx,\quad f_X(x)=\frac{1}{2\sqrt{x}}\indi_{[0,1]}(x).
+\end{equation*}
 \listoffigures  
 \end{document} 
 
