@@ -4913,6 +4913,14 @@ The issue with simulating a Brownian path with a computer is that time is contin
 \begin{equation*}
 	0=t_{0}<\ubracketthin{t_{1}}_{\frac{T}{n}}<\ldots<\ubracketthin{t_{n-1}}_{\frac{n-1}{n}T}<\ubracketthin{t_{n}}_{T}.
 \end{equation*}
+We generate $B_{t_{k}}$, $k=1,\ldots,n$ and then we construct a function $[0,T]\ni t\mapsto\hat{B}_{t}$. either by linear interpolation or piecewise filling.\par
+We need to simulate a random vector $\begin{bmatrix}
+	B_{t_{1}}\\
+	\vdots\\
+	B_{t_{n}}
+\end{bmatrix}\distnorm{\mathbf{0},\frac{T}{n}\begin{bmatrix}
+	1&\cdots&\cdots
+	\end{bmatrix}}$
 \listoffigures  
 \end{document} 
 
