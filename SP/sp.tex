@@ -4745,6 +4745,46 @@ The idea is to write $I$ as an expectation:
 	I=\ev{\frac{g(x)}{f_{X}(x)}}
 \end{equation*}
 where $X$ is a \rv{} with probability distribution function $f_{X}$. There are conditions to write $I$ as an expectation: we need that $f_{X}(x)=0\to g(x)=0$ and that $\sup(g)\subset\sup(f_{X})\in[a,b]$.
+Let us consider $X_1,X_2,\ldots,X_n$ with $n\independent$ \rv s with probability density function $f_{X}$. Then
+\begin{equation*}
+	\vartheta_2=\frac{1}{n}\sum_{k=1}^{n}\frac{g(x_k)}{f_X(x_k)}
+\end{equation*}
+is an estimator of $I$; more precisely, if $\ev{\left|\frac{g(x)}{f_X(x)}\right|}<\infty$ then by LLN
+\begin{equation*}
+	\vartheta_2\xrightarrow[n\to\infty]{\mathrm{a.s.}}I.
+\end{equation*}
+We need to find the confidence interval. Using the CLT we have
+\begin{equation*}
+	\ev{\left(\frac{g(x)}{f_X(x)}\right)^{2}}<\infty\implies\sqrt{n}\frac{(\vartheta_2)}{\sigma}\xrightarrow[n\to\infty]{\mathrm{d}}\mathsf{N}(0,1)
+\end{equation*}
+where
+\begin{equation*}
+	\sigma^{2}=\var\left(\frac{g(X)}{f_X(X)}\right).
+\end{equation*}
+In practice, we replace $\sigma$ by the estimator $S_n$ that comes from
+\begin{equation*}
+	S_n^2=\frac{1}{n-1}\sum_{k=1}^{n}\left(\frac{g(X_k)}{f_X(X_k)}-\vartheta_2\right)^{2}.
+\end{equation*}
+By LLN
+\begin{equation*}
+	S_n^{2}\xrightarrow[n\to\infty]{\mathrm{a.s.}}\sigma^{2}\qquad\text{and}\qquad S_n\convpr\sigma.
+\end{equation*}
+\begin{corollary}
+	If $\ev{\frac{g(x)^{2}}{f_X(x)^{2}}}<\infty$ then
+	\begin{equation*}
+		\sqrt{n}\frac{(\vartheta_2-I)}{S_n}\convd\mathsf{N}(0,1).
+	\end{equation*}
+\end{corollary}
+\begin{fancyproof}
+	We use Slutsky's lemma:
+	\begin{equation*}
+		\text{if }\begin{cases}
+			A_{n}\convd A\\
+			B_{n}\convpr \ubracketthin{b}_{\claptext{deterministic}}
+		\end{cases}\text{ then }\quad \frac{A_{n}}{B_{n}}\convd\frac{A}{b}.
+	\end{equation*}
+	In our case $A=\sqrt{n}\frac{\vartheta_2-I}{\sigma}$ and $B_{n}=\frac{S_{n}}{\sigma}$.
+\end{fancyproof}
 \listoffigures  
 \end{document} 
 
