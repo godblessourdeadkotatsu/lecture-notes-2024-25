@@ -4920,10 +4920,16 @@ We need to simulate a random vector $\begin{bmatrix}
 	B_{t_{n}}
 \end{bmatrix}\distnorm{\mathbf{0},\frac{T}{n}\begin{bmatrix}
 	1&\cdots&\cdots&1\\
-	\vdots&2&\cdots&\cdots\\
-	\vdots&\vdots&\ddots&\cdots\\
+	\vdots&2&\cdots&\vdots\\
+	\vdots&\vdots&\ddots&\vdots\\
 	1&\cdots&\cdots&n
-	\end{bmatrix}}$
+	\end{bmatrix}}$. How to do this in practice?
+\begin{revise}
+	Let $\Gamma$ be symmetric positive semi-definite. Then $\exists\underset{n\times n}{A}$ such that $\Gamma=AA^{\trsp}$. So \\
+	\begin{equation*}
+		X\distnorm{\mathbf{0},I}\implies Y:=AX\distnorm{\mathbf{0},\Gamma}.
+	\end{equation*}
+\end{revise}
 \listoffigures  
 \end{document} 
 
