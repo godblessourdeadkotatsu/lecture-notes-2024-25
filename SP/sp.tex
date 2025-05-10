@@ -4729,7 +4729,22 @@ In general, the hit or miss method is based on a sequence of $n$ experiments and
 	so now I can use asymptotic frequency to estimate $e^{-I}$. This is cool since many processes are in the form of $e^{-\text{something}}$. 
 \end{itemize}
 \subsection{Sample mean method}
-
+Up to now, we have linked the integral to probability and just estimated the latter. But we may also consider the integral not as a probability but as an expectation. In this case we have
+\begin{equation*}
+	I\int_{a}^{b}g(x)\dx\qquad\infty\mathcolor{SeaGreen3}{\leq}a<b\mathcolor{SeaGreen3}{\leq}\infty
+\end{equation*}
+so there are no boundaries and it can be over $\infty$!
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/screenshot070}
+	\caption{Here there is no $c$ dominating $g$.}
+	\label{fig:screenshot070}
+\end{figure}
+The idea is to write $I$ as an expectation:
+\begin{equation*}
+	I=\ev{\frac{g(x)}{f_{X}(x)}}
+\end{equation*}
+where $X$ is a \rv{} with probability distribution function $f_{X}$. There are conditions to write $I$ as an expectation: we need that $f_{X}(x)=0\to g(x)=0$ and that $\sup(g)\subset\sup(f_{X})\in[a,b]$.
 \listoffigures  
 \end{document} 
 
