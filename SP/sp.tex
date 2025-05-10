@@ -4983,11 +4983,14 @@ so we only generate normal i.i.d random variables.
 		\ev{\sup_{t\in[0,T]}|\hat{B}_{t}-B_{t}|}\leq\frac{c_{t}}{\sqrt{n}}\qquad\every n\geq 1.
 	\end{equation*}
 \end{theorem}
-\begin{proof}
+\begin{fancyproof}
 	\begin{enumerate}[\circnum]
-		\item $\pr\left(\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|>\delta\right)$
+		\item $\pr\left(\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|>\delta\right)$ for $\delta>0$.
+		\begin{align*}
+			\pr\left(\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|>\delta\right)&=\pr\left(\left\{\sup_{t\in[0,T]}B_{t}-\hat{B}_{t}>\delta\right\}\cup\left\{\sup_{t\in[0,T]}-B_{t}+\hat{B}_{t}>\delta\right\}\right)
+		\end{align*}
 	\end{enumerate}
-\end{proof}
+\end{fancyproof}
 \listoffigures  
 \end{document} 
 
