@@ -4875,6 +4875,18 @@ We have
 	&=\ev{e^{\frac{25}{2}}\cdot\indig{X\geq-5}}\\
 	&=e^{\frac{25}{2}}\cdot\pr(X\geq-5).
 \end{align*}
+We have used the fact that 
+\begin{equation*}
+	\ev{e^{5x}\cdot\indig{x>0}}=\ev{e^{\frac{25}{2}}\cdot\indig{x\geq-5}}.
+\end{equation*}
+What about the variance, which we want to reduce? The application showed that the margin of the confidence interval is high. Our candidate control variable is $C=e^{5x}$. Why is that? Because we know $\ev{e^{5x}}$: it is a Laplace transform
+\begin{equation*}
+	\every X\in L^{1}\qquad\mathcal{L}\{X\}(\lambda)=\ev{e^{\lambda X}}\qquad\every\lambda\in\mathbb{C}.
+\end{equation*}
+For $X\distnorm{0,1}$, $\mathcal{L}\{X\}$ is known:
+\begin{equation*}
+	\ev{e^{\lambda X}}=e^{\frac{\lambda^{2}}{2}}\qquad\every\lambda\in\mathbb{C}.
+\end{equation*}
 \listoffigures  
 \end{document} 
 
