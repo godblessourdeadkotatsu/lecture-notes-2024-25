@@ -4652,8 +4652,33 @@ Define $p$ as
 \end{align*}
 so 
 \begin{equation*}
-	I=\ubracketthin{c(b-a)}_{\claptext{area of $\Omega$}}\cdot\ubracketthin{p}_{\mathclap{\frac{\text{area of }S}{\text{area of }\Omega}}}
+	I=\ubracketthin{c(b-a)}_{\claptext{area of $\Omega$}}\cdot\ubracketthin{p}_{\mathclap{\frac{\text{area of }S}{\text{area of }\Omega}}}.
 \end{equation*}
+We can approximate the value of $I$ using asymptotic empirical frequency. Let $(X_1,Y_1),(X_2,Y_2),\ldots,(X_n,Y_n)$ be $n$ independent copies of $(X,Y)$. We have that $N^{S}_{n}$, the number of couples belonging to $S$,  is a sum of Bernoulli \rv s:
+\begin{equation*}
+	N^{S}_{n}=\sum_{n}^{k=1}\indig{(X_{k},Y_k)\in S}\sim\mathsf{Bin}(n,p)
+\end{equation*}
+so by the LLN we have
+\begin{equation*}
+	\frac{N_{n}^{S}}{n}\xrightarrow[n\to\infty]{\mathrm{a.s.}}p.
+\end{equation*}
+We want to get
+\begin{equation*}
+	\vartheta_{1}:=\frac{c(b-a)N^{S}_{n}}{n}\xrightarrow[n\to\infty]{\mathrm{a.s.}}I
+\end{equation*}
+so that $\vartheta_{1}$ is an estimator of $I$. It is a non biased estimator because
+\begin{equation*}
+	\ev{\vartheta_{1}}=\frac{c(b-a)\cancel{n}p}{\cancel{n}}=I.
+\end{equation*}
+We are basically counting the number of points under the function. \par
+We now want to compute the confidence interval.
+\begin{theorem}
+	\emph{Moire-Laplace theorem}. If $X\sim\mathsf{Bin}(n,p)$ then
+	\begin{equation*}
+		\pr\left(\lambda_1\leq\frac{X-np}{\sqrt{np(1-a)}}\leq\lambda_2\right)\xrightarrow[n\to\infty]{}\int_{\lambda_1}^{\lambda_2}\frac{1}{\sqrt{2\pi}}e^{-\frac{y^{2}}{2}}\dy.
+	\end{equation*}
+\end{theorem}
+This is the baby-ahh version of the central limit theorem.
 \listoffigures  
 \end{document} 
 
