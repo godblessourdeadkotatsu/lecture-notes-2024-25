@@ -4789,6 +4789,7 @@ About the confidence interval: with probability $1-\alpha$, $I$ belongs to
 \begin{equation*}
 	\left[\vartheta_2-z_{\alpha}\frac{S_n}{\sqrt{n}},\vartheta_2+z_\alpha\frac{S_{n}}{\sqrt{n}}\right].
 \end{equation*}
+\subsection{Variance reduction: Importance Sampling}
 We need to be careful: the CLT works only if the second moment is finite.
 For example: consider
 \begin{equation*}
@@ -4809,8 +4810,9 @@ In this case we have
 \end{equation*}
 Hence we have 
 \begin{equation*}
-	I=\ev{\frac{2}{\sqrt{1+x}}}\qquad\text{with }X\sim f_X\sim U^{2},\qquad U\distunif{[0,1]}
+	I=\ev{\frac{2}{\sqrt{1+x}}}\qquad\text{with }X\sim f_X\sim U^{2},\qquad U\distunif{[0,1]}.
 \end{equation*}
+This new expectation has finite variance and is thus safe for Monte-Carlo.
 \listoffigures  
 \end{document} 
 
