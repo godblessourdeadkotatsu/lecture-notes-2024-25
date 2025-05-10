@@ -4977,7 +4977,17 @@ The direct calculation is:
 \end{equation*}
 so we only generate normal i.i.d random variables.
 \subsection{First approach}
-The roadmap is:
+\begin{theorem}
+	If ${(\hat{B}_{t})}_{t\in[0,T]}$ is the piecewise approximation of the \bwm{} there exists a constant $c_{t}$ depending on time such that
+	\begin{equation*}
+		\ev{\sup_{t\in[0,T]}|\hat{B}_{t}-B_{t}|}\leq\frac{c_{t}}{\sqrt{n}}\qquad\every n\geq 1.
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	\begin{enumerate}[\circnum]
+		\item $\pr\left(\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|>\delta\right)$
+	\end{enumerate}
+\end{proof}
 \listoffigures  
 \end{document} 
 
