@@ -4638,7 +4638,10 @@ This is valid if $\exists c>0\text{ s.t. }0\leq g(x)<c$ for $\every x\in[a,b]$. 
 \end{figure}
 Let $(X,Y)$ be a random couple uniformly distributed on $\Omega$:
 \begin{equation}
-	f_{(X,Y)}(x,y)=
+	f_{(X,Y)}(x,y)=\begin{cases}
+		\frac{1}{c(b-a)}&\text{if }(x,y)\in\Omega\\
+		0&\text{otherwise}.
+	\end{cases}
 \end{equation}
 \listoffigures  
 \end{document} 
