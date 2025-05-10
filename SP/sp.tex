@@ -4898,6 +4898,14 @@ For $X\distnorm{0,1}$, $\mathcal{L}\{X\}$ is known:
 The one-dimensional \bwm{} is the unique Gaussian process with continuous trajectories such that $\ev{B_{s}B_{t}}=s\wedge t$.
 \begin{fancyproof}
 	This is the proof of both of these properties.
+	\begin{align*}
+		\begin{bmatrix}
+			B_{t_{1}}\\
+			\vdots\\
+			B_{t_{n}}
+		\end{bmatrix}&\sim\frac{1}{(2\pi)^{\frac{n}{2}}\sqrt{\prod_{j=1}^{n}(t_{j}-t_{j-1})}}e^{-\unmezz\sum_{j=1}^{n}\frac{(x_{j}-x_{j-1})^{2}}{t_{j}-t_{j-1}}}\dif\mathbf{x}\\
+		&=\frac{1}{(2\pi)^{\frac{n}{2}}\sqrt{\mathsf{det}\Sigma}}e^{-\unmezz\langle\mathbf{x},\Sigma^{-1}\mathbf{x}\rangle}\dif\mathbf{x}
+	\end{align*}
 \end{fancyproof}
 \listoffigures  
 \end{document} 
