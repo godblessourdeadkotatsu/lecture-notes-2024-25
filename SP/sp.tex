@@ -4825,13 +4825,22 @@ To reduce the variance we can use \emph{importance sampling}. The aim is to choo
 \begin{proposition}
 	The minimal value equals
 	\begin{equation*}
-		\left(\int_{a}^{b}\frac{g(x)^{2}}{f_X(x)}\right)^{2}-I^{2}
+		\left(\int_{a}^{b}|g(x)^{2}|\dx\right)^{2}-I^{2}
 	\end{equation*}
 	and is obtained for
 	\begin{equation*}
 		f_X(x)=\frac{|g(x)|}{\int_{a}^{b}|g(x)|\dx}.
 	\end{equation*}
 \end{proposition}
+\begin{fancyproof}
+	We have, by Cauchy-Schwartz,
+	\begin{align*}
+		\left(\int_{a}^{b}|g(x)^{2}|\dx\right)^{2}&=\left(\int_{a}^{b}\frac{|g(x)|}{\sqrt{f_X(x)}}\sqrt{f_X(x)}\dx\right)^{2}\\
+		&\leq\int_{a}^{b}\frac{g(x)^{2}}{f_X(x)}\cdot\ubracketthin{\int_{a}^{b}f_X(x)\dx}_{=1}\\
+		&=\int_{a}^{b}\left(\frac{g(x)}{f_X(x)}\right)^{2}f_X(x)\dx\\
+		&=\ev{\left(\frac{g(x)}{f_X(x)}\right)^{2}}.
+	\end{align*}
+\end{fancyproof}
 \listoffigures  
 \end{document} 
 
