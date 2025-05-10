@@ -4987,7 +4987,8 @@ so we only generate normal i.i.d random variables.
 	\begin{enumerate}[\circnum]
 		\item $\pr\left(\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|>\delta\right)$ for $\delta>0$.
 		\begin{align*}
-			\pr\left(\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|>\delta\right)&=\pr\left(\left\{\sup_{t\in[0,T]}B_{t}-\hat{B}_{t}>\delta\right\}\cup\left\{\sup_{t\in[0,T]}-B_{t}+\hat{B}_{t}>\delta\right\}\right)
+			\pr\left(\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|>\delta\right)&=\pr\left(\left\{\sup_{t\in[0,T]}B_{t}-\hat{B}_{t}>\delta\right\}\cup\left\{\sup_{t\in[0,T]}-B_{t}+\hat{B}_{t}>\delta\right\}\right)\\
+			&\leq 2\pr\left(\sup_{t\in[0,T]}B_{t}-\hat{B}_{t}>\delta\right)\quad\text{refl. principle}
 		\end{align*}
 	\end{enumerate}
 \end{fancyproof}
