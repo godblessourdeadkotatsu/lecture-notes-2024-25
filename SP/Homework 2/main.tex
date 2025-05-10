@@ -1,0 +1,540 @@
+% !TeX spellcheck = en_US
+\documentclass[12pt]{article}
+\input{defs.tex}
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\begin{document}
+	\textcolor{UM_Brown}{
+		\begin{center}
+			\textbf{\Large Stochastic Processes}\\
+			\vspace{5pt}
+			Homework 2 \\
+			\vspace{5pt}
+			\textbf{M.S. in Stochastics and Data Science}\\
+			\vspace{20pt}
+			\textit{Niccolò Disassonia} 863128 \\
+			\textit{Varaga Haghoubians} 1088805\\
+			\textit{Lorenzo Sala} 943481\\
+			\vspace{5pt}
+			\today
+		\end{center}
+		\vspace{10pt}
+		\hrule
+	}
+	
+	
+	
+	
+	%%%%%%%%%%%%%%% NEW SECTION %%%%%%%%%%%%%%% 
+	\section*{Exercise 1}
+	Consider the one-dimensional diffusion process $\{X(t)\}$ defined on the interval $(0,\infty)$ with drift $\mu(x)=\frac{1}{2x}$ and infinitesimal variance $\sigma^{2}(x)=1$. Let $a=0$ and $b=\infty$ be the boundaries of the state space.
+	\begin{enumerate}
+		\item Compute the \emph{scale function} $s(x)$ up to a constant.
+		\item Compute the \emph{speed measure} $m(x)$ up to a constant.
+		\item Determine the \emph{nature of boundaries} $0$ and $\infty$. For each boundary decide whether it is: 
+		\begin{itemize}
+			\item regular;
+			\item exit;
+			\item entrance;
+			\item natural.
+		\end{itemize}
+		\item Interpret the classification in terms of the behavior of the process near $0$ and $\infty$. Is the process \emph{recurrent} or \emph{transient}?
+	\end{enumerate}
+	\subsection*{Solution}
+	\begin{enumerate}
+		\item We know that the scale function (or measure) $S(x)$ for a process $x$ is defined as
+		\begin{equation*}
+			S(x)=\int^{x}s(\eta)\dif\eta=\int^{x}\exp\left\{-\int^{\eta}\frac{2\mu(\xi)}{\sigma^{2}(\xi)}\dif\xi\right\}\dif\eta.
+		\end{equation*} 
+		We start by computing the scale \textit{density} $s(\eta)$:
+		\begin{align*}
+			s(\eta)&=\exp\left\{-\int^{\eta}\frac{2\mu(\xi)}{\sigma^{2}(\xi)}\dif\xi\right\}\\
+			&=\exp\left\{\int^{\eta}\frac{2\cdot\frac{1}{2\eta}}{1}\dif\xi\right\}\\
+			&=\exp\left\{-\int^{\eta}\frac{1}{\xi}\dif\xi\right\}\\
+			&=\exp\left\{-\ln(\eta)\right\}=\frac{1}{\eta}.
+		\end{align*}
+		We can now plug this into the formula for $S(x)$ so that we get
+		\begin{equation*}
+			S(x)=\int^{x}\frac{1}{\eta}\dif\eta=\ln |x|+c
+		\end{equation*}
+		where $c\in\R$ is an additive constant.
+		\item We know that the speed measure $M(x)$ for a process $x$ is
+		\begin{equation*}
+			M(x)=\int^{x}m(y)\dy=\int^{x}\frac{1}{\sigma^{2}(x)s(x)}\dy.
+		\end{equation*} 
+		We need to compute the speed \textit{density} $m(y)$:
+		\begin{align*}
+			m(y)&=\frac{1}{\sigma^{2}(y)s(y)}\\
+			&=\frac{1}{1\cdot\frac{1}{y}}=y.
+		\end{align*}
+		So by plugging this result into the formula for $M(x)$ we get:
+		\begin{equation*}
+			M(x)=\int^{x}y\dy=\frac{1}{2}x^{2}+c
+		\end{equation*}
+		where $c\in\R$ is an additive constant.
+		\item Recall the scheme for the classification of boundaries (in this case, for the lower boundary $a$):
+		\begin{table}[H]
+			\centering
+			\resizebox{1.02\textwidth}{!}{
+				\begin{tabular}{|>{\columncolor[gray]{0.8}}c>{\columncolor[gray]{0.8}}c>{\columncolor[gray]{0.8}}c>{\columncolor[gray]{0.8}}c|c|c|c|c|}
+					\hline
+					\multicolumn{4}{|c|}{\textbf{Criteria}} &\multicolumn{4}{c|}{\textbf{Terminology}}\\
+					\hline\rowcolor{red}
+					$S(a,x]$&$M(a,x]$&$\Sigma(a)$&$N(a)$&\textbf{Feller} & \multicolumn{3}{c|}{\textbf{Gikhman and Skorokhod}} \\
+					\hline
+					$<\infty$ & $<\infty$ & $<\infty$ & $<\infty$ & \multicolumn{2}{c|}{Regular}& \multirow{3}{*}{Attracting}&\multirow{2}{*}{Attainable}\\ \cline{1-6}
+					$<\infty$ & $=\infty$ & $<\infty$ & $=\infty$&\multicolumn{2}{c|}{Exit-Trap-Absorbing}& &\\ \cline{1-6}\cline{8-8}
+					$<\infty$ & $=\infty$ & $=\infty$ & $=\infty$ &\multirow{3}{*}{\makecell{Natural\\ $(\Sigma(l)=\infty,N(l)=\infty)$}}&\makecell{Attracting,\\ unattainable}& &\multirow{4}{*}{Unattainable}\\ \cline{6-7}\cline{1-4}
+					$=\infty$ & $<\infty$ & $=\infty$ & $=\infty$&&\multirow{3}{*}{\makecell{Natural\\$(S(l,x]=\infty$}}&\multirow{3}{*}{Nonattracting}&\\ \cline{1-4}
+					$=\infty$ &	$=\infty$ &	$=\infty$ &	$=\infty$ &&&&\\\cline{5-5}\cline{1-4}
+					$=\infty$ &	$<\infty$ &	$=\infty$ &	$<\infty$ &Entrance&&&\\\hline
+			\end{tabular}}
+		\end{table}
+		In our case, $a=0$ so we are left with the task of computing 
+		\begin{equation*}
+			S(0,x]\quad M(0,x]\quad \Sigma(0) \quad N(0).
+		\end{equation*}
+		\begin{itemize}
+			\item	We can compute $M(0,x]$straight away:
+			\begin{align*}
+				M(0,x]&=\int_{0}^{x}y\dy=\unmezz y^{2}\bigg|^{x}_{0}=\unmezz x^{2}<\infty.
+			\end{align*}
+			\item On the other hand, $S(0,x]$ presents itself as an improper integral which does not converge (since we cannot compute $\ln0$ directly):
+			\begin{align*}
+				S(0,x]&=\int_{0}^{x}\frac{1}{\eta}\dif\eta\\
+				&=\lim_{\varepsilon\to0^{+}}\int_{\varepsilon}^{x}\frac{1}{\eta}\dif\eta\\
+				&=\lim_{\varepsilon\to0^{+}}\left(\ln x-\ln \varepsilon\right)=\infty.
+			\end{align*}
+			\item We now have to compute $\Sigma(0)$. We defined the function $\Sigma(l)$ as
+			\begin{align*}
+				\Sigma(l)&=\lim_{a\searrow l}\int_{a}^{x}S[a,\xi]\dif M(\xi)\\
+				&=\int_{l}^{x}M[\eta,x]\dif S(\eta).
+			\end{align*}
+			We know that
+			\begin{equation*}
+				M[\eta,x]=\int_{\eta}^{x}y\dy=\unmezz y^{2}\bigg|^{x}_{\eta}=\unmezz \left(x^{2}-\eta^{2}\right).
+			\end{equation*}
+			We also know that $\dif S(\eta)=s(\eta)\dif\eta$ and since we already know that $s(\eta)=\frac{1}{\eta}$
+			\begin{equation*}
+				\dif S(\eta)=s(\eta)\dif\eta=\frac{1}{\eta}\dif\eta.
+			\end{equation*}
+			Putting all together in the formula for $\Sigma(l)$ with $l=0$ we get
+			\begin{align*}
+				\Sigma(0)&=\int_{0}^{x}\left(\unmezz\left(x^{2}-\eta^{2}\right)\right)\cdot\frac{1}{\eta}\dif\eta\\
+				&=\unmezz\int_{0}^{x}\left(x^{2}-\eta^{2}\right)\cdot\frac{1}{\eta}\dif\eta\\
+				&=\unmezz\biggl[x^{2}\cdot\ubracketthin{\int^{x}_{0}\frac{1}{\eta}\dif\eta}_{=\infty}-\ubracketthin{\int_{0}^{x}\eta\dif\eta}_{\unmezz x^{2}<\infty}\biggr]
+			\end{align*}
+			Since the first term of the subtraction is infinite, we have that
+			\begin{equation*}
+				\Sigma(0)=\infty.
+			\end{equation*}
+			\item We defined $N(l)$ as
+			\begin{align*}
+				N(l)&=\int_{l}^{x}S[\eta,x]\dif M(x)\\
+				&=\int_{l}^{x}M(l,\xi]\dif S(\xi).
+			\end{align*}
+			We already know that, for $l=0$ then
+			\begin{equation*}
+				M(0,\xi]=\int_{0}^{\xi}m(y)\dy=\int_{0}^{\xi}y\dy=\frac{\xi^{2}}{2}
+			\end{equation*}
+			and
+			\begin{equation*}
+				\dif S(\xi)=\frac{1}{\xi}\dif\xi.
+			\end{equation*}
+			So putting all together we get
+			\begin{align*}
+				N(0)&=\int_{0}^{x}\frac{\xi^{2}}{2}\cdot\frac{1}{\xi}\dif\xi\\
+				&=\unmezz\int_{0}^{x}\xi\dif\xi\\
+				&=\unmezz\cdot\frac{x^{2}}{2}=\frac{x^{2}}{4}<\infty\qquad \every x\in\R.
+			\end{align*}
+		\end{itemize}
+		So our situation for the boundary $a=0$ is
+		\begin{equation*}
+			S(0,x]=\infty\quad M(0,x]<\infty\quad \Sigma(0)=\infty \quad N(0)<\infty.
+		\end{equation*}
+		So, according to the Feller terminology this boundary is:
+		\begin{itemize}[$\diamond$]
+			\item an entrance boundary (or a ``natural boundary'' according to the Skorokhod terminology);
+			\item non-attracting;
+			\item unattainable.
+		\end{itemize}
+		We now have to do the same exact procedure for the upper boundary $b=\infty$ for which we have to compute
+		\begin{equation*}
+			S(x,\infty]\quad M(x,\infty]\quad \Sigma(\infty) \quad N(\infty).
+		\end{equation*}
+		\begin{itemize}
+			\item  We know that 
+			\begin{align*}
+				S(x,\infty)&=\int_{x}^{\infty}\frac{1}{\eta}\dif\eta\\
+				&=\lim_{\varepsilon\to\infty}\int_{x}^{b}\frac{1}{\eta}\dif\eta\\
+				&=\lim_{\varepsilon\to\infty}\left(\ln b-\ln x\right)=\infty.
+			\end{align*}
+			\item We know that 
+			\begin{equation*}
+				M(x,\infty]=\int_{x}^{\infty}y\dif y=\unmezz y^{2}\bigg|^{\infty}_{x}=\infty.
+			\end{equation*}
+			\item We know that
+			\begin{equation*}
+				\Sigma(\infty)=\int_{x}^{\infty}M[x,\xi]\dif S(\xi)
+			\end{equation*}
+			and since $M[x,\xi]=\int_{x}^{\xi}\eta\dif\eta=\frac{\xi^{2}-x^{2}}{2}$ and $\dif S(\xi)=\frac{1}{\xi}\dif\xi$ we get that
+			\begin{align*}
+				\Sigma(\infty)&=\int_{x}^{\infty}\frac{\xi^{2}-x^{2}}{2}\cdot\frac{1}{\xi}\dif\xi\\
+				&=\unmezz\int_{x}^{\infty}\left(\xi-\frac{x^{2}}{\xi}\right)\dif\xi\\
+				&=\unmezz\ubracketthin{\int_{x}^{\infty}\xi\dif\xi}_{=\infty}-x^{2}\ubracketthin{\int_{x}^{\infty}\frac{1}{\xi}\dif\xi}_{=\infty}.
+			\end{align*}
+			Since $\int_{x}^{\infty}\frac{1}{\xi}\dif\xi$ grows logarithmically and this it is slower than $\int_{x}^{\infty}\xi\dif\xi$ then we have
+			\begin{equation*}
+				\Sigma(\infty)=\infty.
+			\end{equation*}
+			\item For this problem it is easier to use the alternative definition of $N(l)$. We know that
+			\begin{equation*}
+				N(\infty)=\int_{x}^{\infty}S[x,\xi]\dif M(\xi).
+			\end{equation*}
+			Since $\dif M(\xi)=m(\xi)\dif\xi$ we can write
+			\begin{equation*}
+				N(\infty)=\int_{x}^{\infty}S[x,\xi]\cdot m(\xi)\dif\xi.
+			\end{equation*}
+			Moreover, we know that $$S[x,\xi]=\int_{x}^{\xi}\frac{1}{\eta}\dif\eta=\ln\xi-\ln x$$ and that $m(\xi)=\xi$ so we can write
+			\begin{align*}
+				N(\infty)&=\int_{x}^{\infty}\xi(\ln\xi-\ln x)\dif\xi\\
+				&=\int_{x}^{\infty}\xi\ln\xi\dif\xi-\ln x\int_{x}^{\infty}\xi\dif\xi.
+			\end{align*}
+			We want to analyze the behavior of both $\int_{x}^{\infty}\xi\ln\xi\dif\xi$ and $\int_{x}^{\infty}\xi\dif\xi$.
+			\begin{itemize}
+				\item In $\int_{x}^{\infty}\xi\ln\xi\dif\xi$ we have $\xi$ that grows faster than $\ln\xi$, so $\xi\ln\xi\xrightarrow{\xi\to\infty}\infty$ so the integral diverges to $\infty$.
+				\item In $\int_{x}^{\infty}\xi\dif\xi$ we have
+				\begin{equation*}
+					\int_{x}^{\infty}\xi\dif\xi=\frac{\xi^{2}}{2}\bigg|_{x}^{\infty}
+				\end{equation*}
+				but since $\frac{\xi^{2}}{2}\xrightarrow{\xi\to\infty}\infty$ then the integral diverges to $\infty$.
+			\end{itemize}
+			So we have
+			\begin{equation*}
+				N(\infty)=\infty-\ln x\cdot\infty=\infty
+			\end{equation*}
+			since $\ln x$ is finite.
+		\end{itemize}
+		So our situation for the boundary $b=\infty$ is
+		\begin{equation*}
+			S(0,x]=\infty\quad M(0,x]=\infty\quad \Sigma(0)=\infty \quad N(0)=\infty.
+		\end{equation*}
+		So, according to the Feller terminology this boundary is:
+		\begin{itemize}[$\diamond$]
+			\item a natural boundary (according to both terminologies);
+			\item non-attracting;
+			\item unattainable.
+		\end{itemize}
+		\item We know that $0$ is an entrance boundary: this means that the process cannot ``enter'' 0 but if it starts from 0 then it can exit and drift away. On the other hand $\infty$ is a natural boundary, so the process can neither start from it or reach it in finite time from the interior of the diffusion interval. 
+		So this means that the process will drift away from 0 and will never return to it. This, together with the fact that $\infty$ is unattainable and non-attracting, makes the process \emph{transient.}
+	\end{enumerate}
+	\section*{Exercise 2}
+	Show that:
+	\begin{enumerate}
+		\item the equilibrium distribution for the Wiener process between two reflecting barriers is a truncated exponential if the drift is non-zero and a uniform distribution if the drift is zero;
+		\item the equilibrium distribution for the Ornstein-Uhlenbeck process between two reflecting barriers is a truncated normal distribution;
+		\item $\{X(t)\}$ is not a Markov process when $\{X(t)\}$ is the displacement process of a particle whose velocity $U(t)$ follows the Ornstein-Uhlenbeck process.
+	\end{enumerate}
+	
+	\subsection*{Solution}
+	\begin{enumerate}
+		\item If Brownian motion has a real drift and is locked between two reflective barriers, its overall conduct (the distribution of the equilibrium) depends on the drift. \par
+		We know that the stationary distribution $\psi(x)$ satisfies the Fokker-Planck equation
+		\begin{equation*}
+			0=\unmezz\frac{\partial^{2}}{\partial y^{2}}\left[\sigma^{2}(y)\psi(y)\right]-\frac{\partial}{\partial y}\left[\mu(y)\psi(y)\right]
+		\end{equation*} which can be solved to yield
+		\begin{equation*}
+			\psi(x)=m(x)\left[c_{1}S(x)+c_{2}\right].
+		\end{equation*}
+		Let's analyze the two different cases, when $\mu(x)=0$ and when $\mu(x)\neq0$.
+		\begin{itemize}
+			\item \emph{No drift}. We know that
+				\begin{align*}
+				m(y)=\frac{1}{\sigma^{2}(y)s(y)}
+			\end{align*}
+			and in this case
+			\begin{align*}
+				s(y)&=\exp\left\{-\int^{y}\frac{2\mu(\xi)}{\sigma^{2}(\xi)}\dif\xi\right\}\\
+				&=\exp\left\{-\int^{y}\frac{2\cdot 0}{1}\dif\xi\right\}\\
+				&=e^{0}=1
+			\end{align*}
+			so we get
+			\begin{equation*}
+				\mu(y)=1.
+			\end{equation*}
+			We can also calculate $S(x):$
+			\begin{align*}
+					S(x)&=\int^{x}s(\eta)\dif\eta\\
+					&=\int^{x}1\dif\eta=x.
+			\end{align*}
+			This means that the solution to the Fokker-Planck equation becomes
+			\begin{equation*}
+				\psi(x)=c_{1}\cdot x+c_{2}.
+			\end{equation*}
+			To determine the values of $c_{1}$ and $c_{2}$ we must take into account the conditions on the stationary distribution:
+			\begin{equation*}
+				\begin{cases}
+					\psi(x)\geq0\\
+					\int_{I}\psi(x)\dx=1.
+				\end{cases}
+			\end{equation*}
+		For the conditions of non-negativity to hold, we try setting $c_{1}=0\implies\psi(x)=c_{2}$.
+		Knowing that the Wiener process between two reflecting boundaries $a$ and $b$ has diffusion interval $I=(a,b)$, the total probability condition becomes
+		\begin{align*}
+			&\int_{I}\psi(x)\dx=1\\
+			\implies&\int_{a}^{b}c_{2}\dx=1\\
+			\implies&c_{2}(b-a)=1\\
+			\implies& c_{2}=\frac{1}{b-a}.
+		\end{align*}
+		So what we get is 
+		\begin{equation*}
+			\psi(x)=\frac{1}{b-a}\qquad x\in[a,b]
+		\end{equation*}
+		which is exactly the uniform distribution we were looking for.
+		\item \emph{With drift}. Since we are talking about a Wiener process, we have $\mu(x)=\mu$ constant. Here the values for $m(x)$ and $S(x)$ change and so does the solution to the Fokker-Planck equation. We have
+		\begin{align*}
+			s(y)&=\exp\left\{-\int^{y}\frac{2\mu}{1}\dif\xi\right\}\\
+			&\exp\left\{-2\mu\int^{y}\dif\xi\right\}=e^{-2\mu x}
+		\end{align*}
+		so our speed density becomes
+		\begin{equation*}
+			m(y)=\frac{1}{1\cdot e^{-2\mu x}}=e^{2\mu x}.
+		\end{equation*}
+		The scale measure $S(x)$ becomes
+		\begin{align*}
+			S(x)&=\int^{x}e^{-2\mu\eta}\dif\eta.
+		\end{align*}
+		If we integrate from $-\infty$ then this integral is not well-defined for $\mu>0$ but in this case we know that the lower bound is our reflecting boundary $a$. So we get
+		\begin{equation*}
+			S(x)=\frac{e^{-2\mu\eta}}{-2\mu}\bigg|_{a}^{x}=\frac{1}{2\mu}\left(e^{-2\mu x}-e^{-2\mu a}\right).
+		\end{equation*}
+		This means that the solution to the Fokker-Planck equation becomes
+		\begin{align*}
+			\psi(x)&=e^{2\mu x}\left[c_{1}\frac{1}{2\mu}\left(e^{-2\mu x}-e^{-2\mu a}\right)+c_{2}\right]\\
+			&=e^{2\mu x}\left[\frac{c_{1}}{2\mu}\left(e^{-\mu x}-e^{-\mu a}\right)+c_{2}\right]\\
+			&=\frac{c_{1}}{2\mu}\left(e^{2\mu x}e^{-2\mu x}-e^{2\mu x}e^{2\mu a}\right)+c_{2}e^{2\mu x}\\
+			&=\frac{c_{1}}{2\mu}\left(1-e^{2\mu(x-a)}\right) +c_{2}e^{2\mu x}.
+		\end{align*}
+		As before, we try setting $c_1=0$ so that the equilibrium distribution becomes
+		\begin{equation*}
+			\psi(x)=c_2e^{2\mu x}
+		\end{equation*}
+		and so that the normalization condition becomes
+		\begin{align*}
+			\int_{a}^{b}\psi(x)\dx=\int_{a}^{b}c_{2}e^{2\mu x}\dx=1.
+		\end{align*}
+		So we get
+		\begin{align*}
+			c_2\int_{a}^{b}e^{2\mu x}\dx&=\frac{c_2}{2\mu}\left(e^{2\mu b}-e^{2\mu a}\right)=1 \qquad\text{this is okay because }\mu\neq0\\
+			\implies&c_2=\frac{2\mu}{e^{2\mu b}-e^{2\mu a}}.
+		\end{align*}
+		This gives us
+		\begin{equation*}
+			\psi(x)=\frac{2\mu\cdot e^{2\mu x}}{e^{2\mu b}-e^{2\mu a}},\qquad x\in[a,b],\mu \neq0
+		\end{equation*}
+		which is a truncated exponential distribution with parameter $\lambda=-2\mu$.
+	\end{itemize}
+	\item For the Ornstein-Uhlenbeck process we have
+	\begin{equation*}
+		\begin{cases}
+			\mu(x)=-\frac{x}{\vartheta}\\
+			\sigma^{2}(x)=\sigma^{2}.	\end{cases}
+	\end{equation*}
+	We need to perform the calculations. We have that
+	\begin{align*}
+		s(y)&=\exp\left\{-\int^{y}\frac{-2\frac{\xi}{\vartheta}}{\sigma^{2}}\dif\xi\right\}\\
+		&=\exp\left\{\int^{y}\frac{2\xi}{\vartheta\sigma^{2}}\dif\xi\right\}\\
+		&=\exp\left\{\frac{1}{\vartheta\sigma^{2}}\int^{y}2\xi\dif\xi\right\}\\
+		&=\exp\left\{\frac{y^{2}}{\vartheta\sigma^{2}}\right\}.
+	\end{align*}
+	We get that
+	\begin{equation*}
+		m(y)=\frac{1}{\sigma^{2}\exp\left\{\frac{y^{2}}{\vartheta\sigma^{2}}\right\}}=\frac{1}{\sigma^{2}}\exp\left\{-\frac{y^{2}}{\vartheta\sigma^{2}}\right\}.
+	\end{equation*}
+	Moving on to $S(x)$:
+	\begin{align*}
+		S(x)&=\int^{x}\exp\left\{\frac{\eta^{2}}{\vartheta\sigma^{2}}\right\}\dif\eta.
+	\end{align*}
+	This is not solvable in closed form... Anyway, we get that our stationary distribution satisfies
+	\begin{align*}
+		\psi(x)&=m(x)\left[c_{1}S(x)+c_{2}\right]\\
+		&=\frac{1}{\sigma^{2}}\exp\left\{-\frac{x^{2}}{\vartheta\sigma^{2}}\right\}\left[c_1\int^{x}\exp\left\{\frac{\eta^{2}}{\vartheta\sigma^{2}}\right\}\dif\eta+c_2\right]\\
+		&=c_1\frac{1}{\sigma^{2}}\exp\left\{-\frac{x^{2}}{\vartheta\sigma^{2}}\right\}\int^{x}\exp\left\{\frac{\eta^{2}}{\vartheta\sigma^{2}}\right\}\dif\eta+c_2\frac{1}{\sigma}\exp\left\{-\frac{x^{2}}{\vartheta\sigma^{2}}\right\}.
+	\end{align*}
+	We gladly set $c_1=0$ to get
+	\begin{equation*}
+		\psi(x)=c_2\frac{1}{\sigma^{2}}\exp\left\{-\frac{x^{2}}{\vartheta\sigma^{2}}\right\}.
+	\end{equation*}
+	We use the normalization constraint (with respect to the diffusion interval with boundaries $[a,b]$) to obtain
+	\begin{align*}
+		&\int_{a}^{b}c_2\frac{1}{\sigma^{2}}\exp\left\{-\frac{x^{2}}{\vartheta\sigma^{2}}\right\}\dx=1\\
+		\implies&c_2\frac{1}{\sigma^{2}}\int_{a}^{b}\exp\left\{-\frac{x^{2}}{\vartheta\sigma^{2}}\right\}\dx=1\\
+		\implies&c_2=\frac{\sigma^{2}}{\int_{a}^{b}\exp\left\{-\frac{x^{2}}{\vartheta\sigma^{2}}\right\}\dx}.
+	\end{align*}
+	If we plug this back into the solution of the Fokker-Planck equation and we get
+	\begin{equation*}
+		\psi(x)=\frac{\exp\left\{-\frac{x^{2}}{\vartheta\sigma^{2}}\right\}}{\int_{a}^{b}\exp\left\{-\frac{x^{2}}{\vartheta\sigma^{2}}\right\}\dx}\qquad x\in[a,b]
+	\end{equation*}
+	which is the density function of truncated Gaussian distribution at $a$ and $b$.
+	
+\item If $X(t)$ is the displacement process with velocity $U(t)$ then we have that
+\begin{equation*}
+	X(t)=\int_{0}^{t}U(y)\dy.
+\end{equation*}
+We need to show that 
+\begin{equation*}
+	\pr(X(t+s)\in A|\F_{t})\neq\pr(X(t+s)\in A|X(t)).
+\end{equation*}
+An alternative definition of Markov property that can be found in \cite[64]{rene} is that any $d$-dimensional $\F_{t}$ adapted stochastic process ${\{X_{t}\}}_{t\geq0}$ with right continuous paths is a Markov process if it satisfies
+\begin{equation*}
+	\ev\left[u(X(t+s))\mid\F_{t}\right]=\ev\left[u(X(t+s)\mid X(t))\right]
+\end{equation*}
+for $\every s,t\geq0, u\in\mathcal{B}(\R^{d})$.
+We can write $X(t+s)$ as 
+\begin{equation*}
+	X(t+s)=X(t)+\int_{t}^{t+s}U(y)\dy.
+\end{equation*}
+This means that 
+\begin{align*}
+	\ev\left[X(t+s)|\F_{t}\right]&=\ev\left[\left.X(t)+\int_{t}^{t+s}U(y)\dy\right|\F_{t}\right]\\
+	&=\ubracketthin{X(t)}_{\mathclap{\in  \F_{t}}}+\ev\left[\left.\int_{t}^{t+s}U(y)\dy\right|\F_{t}\right]
+\end{align*}
+and we know that Ornstein-Uhlenbeck processes are Markov, therefore
+\begin{equation*}
+	\ev[U(y)|\F_{t}]=\ev[U(y)|U(t)]\qquad\text{for }y>t.
+\end{equation*}
+So by linearity of expectation and Fubini's theorem we have
+\begin{equation*}
+	\ev\left[X(t+s)|\F_{t}\right]=X(t)+\int_{t}^{t+s}\ev\left[U(y)|U(t)\right]\dy.
+\end{equation*}
+We now want to compute $\ev\left[u(X(t+s)\mid X(t))\right]$. Again, we start from the ``split'' version of $X(t+s)$.
+\begin{align*}
+	\ev\left[X(t+s)\mid X(s)\right]&=\ev\left[\left.X(t)+\int_{t}^{t+s}U(y)\dy\right|X(t)\right]\\
+	&=X(t)+\ev\left[\left.\int_{t}^{t+s}U(y\dy)\right|X(t)\right]\\
+	&=X(t)+\int_{t}^{t+s}\ev\left[U(y)|X(t)\right]\dy.
+\end{align*}
+But now we cannot say that $\ev\left[U(y)|X(t)\right]=\ev\left[U(y)|U(t)\right]$ as before, so we got that 
+\begin{equation*}
+	\ev\left[u(X(t+s))\mid\F_{t}\right]\neq\ev\left[u(X(t+s)\mid X(t))\right]
+\end{equation*}
+And so the process $X(t)$ is \textit{not} Markov. This makes sense intuitively because $X$, being the integral of $U$, ``smooths out'' the velocity. This makes the information generated by $X$ at time $t$ insufficient to know about the displacement at time $t+s$.
+	\end{enumerate}
+	
+	\section*{Exercise 3}
+	Consider a variant ${\{S_{n}\}}_{n\leq0}$ of the classical random walk such that $S_{n}=\sum_{i=0}^{n}X_{i}$ but $\{X_{i}\}$ is a sequence i.i.d. random variables with $\pr(X_{i}=1)=\pr(X_{i}=-1)=\frac{1}{4}$ and $\pr(X_{i}=0)=\frac{1}{2}$.
+	\begin{enumerate}
+		\item Determine the diffusion limit of this random walk.
+		\item Determine its diffusion interval and the nature of its boundaries.
+		\item Does this process admit stationary distribution? Justify the answer.
+	\end{enumerate}
+	\subsection*{Solution}
+	\begin{enumerate}
+		\item By diffusion limit here we mean investigating the distribution of ${\{S_{n}\}}_{n\leq0}$ as the step size tends to 0. We want to apply the Central Limit Theorem and for this we need the mean and the variance of $X_i$.
+		We know that
+		\begin{equation*}
+			\ev\left[{X_{i}}\right]=1\cdot\frac{1}{4}+(-1)\cdot\frac{1}{4}+0\cdot\frac{1}{2}=0
+		\end{equation*}
+		and that
+		\begin{align*}
+			\var(X_{i})&=\ev\left[X_{i}^{2}\right]-\ev\left[X_{i}\right]^{2}\\
+			&=\left(1^{2}\cdot\frac{1}{4}+(-1)^{2}\cdot\frac{1}{4}+0^{2}\cdot\unmezz\right)-0^{2}\\
+			&=\unmezz.
+		\end{align*}
+		If we turn to the variance of $S_{n}$ we see that, due to the fact that the $X_{i}$'s are i.i.d., 
+		\begin{equation*}
+			\var(S_{n})=\sum_{i=0}^{n}\var(X_{i})=(n+1)\cdot\frac{1}{2}.
+		\end{equation*}
+		This is not something we should be surprised of: variances have an additive nature in sums, so we could say that, having a step in time (that in this case is 1 unit of time between each step of the random walk),
+		\begin{equation*}
+			\mathrm{variance}\propto n.
+		\end{equation*}
+		In diffusion processes we have that the time step is not fixed as it is here, but it is continuous. This is problematic because it causes the variance to explode as $n\to\infty$ if it is directly proportional to the number of time steps. The variance must be proportional to the time step so that changing the size of the step $\Delta t$ doesn't change the behavior of the process.
+		\begin{equation*}
+			\mathrm{variance}\propto \mathrm{time~step}.
+		\end{equation*}
+		Each time step we will basically add a fixed variance $\sigma^{2}$ to the random step length: after $n$ steps we will have $n\sigma^{2}$ cumulative variance; we want this variance to be the same when we take a single time step of length $n\Delta t$ and this corresponds to scaling by $\sqrt{n}$ so that the variance does not explode when letting $n\to\infty$. For this purpose we define the scaled random walk
+		\begin{equation*}
+			S^{\star}_{(n)}(t)=\frac{1}{\sqrt{n}}\sum_{i=1}^{nt}X_{i}.
+		\end{equation*}
+		Here the random walk is rescaled by \textit{space} by a factor of $\frac{1}{\sqrt{n}}$ and by \textit{time} by ``fitting'' $nt$ steps of the random walk in a time $t$. This means that instead of 1 unit of time per step, we make each step take time $\Delta t=\frac{1}{n}$. The effect of this is that as $n\to\infty$ the steps will become smaller (as effect of the space rescaling) and they will happen ever more often in a time $t$ (by effect of the time rescaling). \par
+		We can now apply the CLT. We know that since $\ev\left[X_{i}\right]=0$ then
+		\begin{equation*}
+			\ev\left[S^{\star}_{(n)}(t)\right]=0
+		\end{equation*}
+		and since $\var(X_{i})=\unmezz$ then
+		\begin{align*}
+			\var\left(S^{\star}_{(n)}(t)\right)&=\frac{1}{n}\cdot\sum_{i=1}^{nt}\var(X_{i})\\
+			&=\frac{1}{\cancel{n}}\cdot \cancel{n}t\cdot\unmezz=\frac{t}{2}.
+		\end{align*}
+		This means that by means of the CLT
+		\begin{equation*}
+			S^{\star}_{(n)}(t)\convd\mathsf{N}\left(0,\frac{t}{2}\right)\qquad\text{as }n\to\infty
+		\end{equation*}
+		and this hints at the fact that the limiting process may be a Brownian motion with diffusion coefficient $\sigma^{2}=\unmezz$. We can check the 4 properties of Brownian motion:
+		\begin{enumerate}[\circnum]
+			\item initial condition:
+			\begin{equation*}
+				S^{\star}_{(n)}(0)=0
+			\end{equation*}
+			for every $n$, even when $n\to\infty$;
+			\item independent increments: this is true since the random walk had independent increments;
+			\item stationary and normally distributed increments: for $t\leq s$ we have
+			\begin{equation*}
+				S^{\star}_{(n)}(t)-S^{\star}_{(n)}(s)=\frac{1}{\sqrt{(n)}}\sum_{i=ns+1}^{nt}X_{i}\xrightarrow[n\to\infty]{d}\mathsf{N}\left(0,\frac{t-s}{2}\right)
+			\end{equation*}
+			since this is always a sum of $(t-s)n$ i.i.d. \rv s $X_{i}$ with variance $\unmezz$;
+			\item continuity of paths: by Donsker's theorem\footcite[198]{rene} we know that, if the increments of the random walk have zero mean and finite variance, then 
+			\begin{equation*}
+				S^{\star}_{(n)}(t)\xrightarrow[n\to\infty]{d}B_{t}\qquad\every t\in(0,1].
+			\end{equation*}
+			This convergence gives pointwise but not uniform results: to get the latter, we need the \textit{invariance principle} by Donsker\footcite[199]{rene}: if $\Phi:\mathcal{C}([0,1],\R)\to\R$ (the space of continuous real-valued functions defined on $[0,1]$) is a uniformly continuous bounded functional then
+			\begin{equation*}
+				\lim_{n\to\infty}\ev\left[\Phi\left(S^{\star}_{(n)}(\cdot)\right)\right]=\ev\left[\Phi(B(\cdot))\right].
+			\end{equation*}
+			This implies that the limit process lives in $\mathcal{C}([0,1],\R)$ and therefore the limit (which is the Brownian motion) has continuous sample paths almost surely.
+			\[
+			S^{\star}_{(n)}(\cdot) \Rightarrow B(\cdot)
+			\quad \text{in } \mathcal{C}([0,1], \mathbb{R}).
+			\]
+		\end{enumerate}
+		\item The state space of the random walk is $\mathbb{Z}$ so the diffusion interval is $(-\infty,+\infty)$. To classify these borders we need to compute, as before, the four quantities of interest. In this case $\mu(x)=0$ and $\sigma^{2}=\unmezz$.
+		\begin{enumerate}[i)]
+			\item \textit{scale measure} $S(x)$:
+			\begin{align*}
+				S(x)&=\int^{x}_{-\infty}\exp\left\{-\int^{\eta}\frac{0}{\unmezz}\dif\xi\right\}\dif\eta\\
+				&=\int^{x}_{-\infty}\exp\left\{0\right\}\dif\eta\\
+				&=\int^{x}_{-\infty}1\dif\eta=\infty.
+			\end{align*}
+			\item \textit{speed measure} $M(x)$:
+			\begin{align*}
+				M(x)&=\int_{-\infty}^{x}\frac{1}{\sigma^{2}(y)\cdot s(y)}\dy\\
+				&=\int_{-\infty}^{x}\frac{1}{\unmezz\cdot 1}\dy\\
+				&=\int_{-\infty}^{x}2\dy=\infty.
+			\end{align*}
+		\end{enumerate}
+		We already have that $S(-\infty,x)=S(x,+\infty)=\infty$ and $M(-\infty,x)=M(x,+\infty)=\infty$. Since we defined
+		\begin{equation*}
+			\Sigma(l)=\int_{l}^{x}M[\eta,x]\dif S(\eta)\quad\mathrm{and}\quad N(l)=\int_{l}^{x}M(l,\xi]\dif S(\xi)
+		\end{equation*}
+		then we will have also that $\Sigma(-\infty)=\Sigma(\infty)=\infty$ and $N(-\infty)=N(\infty)=\infty$. According to our table, this means that both boundaries will be 
+		\begin{itemize}
+			\item natural;
+			\item non-attracting;
+			\item unattainable.
+		\end{itemize}
+		\item A natural boundary is not accessible from the interior of the state space and it is neither reflecting or absorbing. We know that an hypothetical stationary distribution $\psi(x)$ should satisfy
+		\begin{equation*}
+			\psi(x)=m(x)\left[c_{1}S(x)+c_{2}\right]
+		\end{equation*}
+		and that if we cannot find the constants $c_{1}$ and $c_{2}$ such that $\psi(x)$ is a density then the stationary distribution doesn't exist. In our case we have $m(x)=2$ and $\left[c_{1}S(x)+c_{2}\right]=\left[c_{1}\cdot\infty+c_{2}\right]$ so we will never find constants such that $\psi(x)$ integrates to 1! Even choosing $c_{1}=0$ we have
+		\begin{equation*}
+			\int_{I}\psi(x)\dx=\int_{-\infty}^{\infty}2c_{2}\dx=\infty.
+		\end{equation*}
+		This makes sense because the process can move arbitrarily in any direction (there is no drift) and it will never return with certainty to any compact region.
+	\end{enumerate}
+	\printbibliography
+\end{document}

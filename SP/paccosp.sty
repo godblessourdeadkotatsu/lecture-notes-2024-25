@@ -1,0 +1,680 @@
+%THIS IS STICGASTUC OPROCEOCES%
+
+\usepackage[lining,semibold,scaled=1]{ebgaramond}% Latex BOLD renders with ebgaramond semibold
+
+\usepackage[T1]{fontenc} % best for Western European languages
+
+\usepackage{amsmath,amsthm}% must be loaded before newtxmath
+\usepackage[cmintegrals,baskerville,cmbraces]{newtxmath}
+%\usepackage{fontspec} %I want to be a XeLaTeX bitch but my heard is in pdftex...
+%\usepackage{lmodern}
+
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+%\usepackage{ebgaramond-maths}
+
+\usepackage{bbding}
+\usepackage[scr=euler,cal=dutchcal,frak=euler,bb=dsfontserif,bbsymbols]{mathalfa}
+\usepackage{bbm}
+\usepackage{bm}
+%\usepackage{amsmath,amssymb,bbm}
+\usepackage{graphicx}
+\usepackage[x11names,table]{xcolor}
+\usepackage[colorlinks=true, allcolors=Aquamarine4]{hyperref}
+\usepackage{lilyglyphs}%absolutely necessary
+\usepackage{lipsum} 
+\usepackage[shortlabels]{enumitem}   
+\usepackage{array}
+\usepackage{pdfpages}
+\usepackage{xfrac}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{arydshln}
+\usepackage{fix-cm}
+\usepackage{xparse}
+%\usepackage{tipa} %perchè si stai zitto 
+\usepackage{tabularx}
+\usepackage{hhline}
+\usepackage{mleftright}
+\usepackage{fancybox}
+\usepackage{standalone}
+\usepackage{microtype}
+\usepackage{csquotes}
+\usepackage{titlesec}
+\usepackage{forest}
+\usepackage{censor}
+\usepackage{makecell}
+\usepackage{movement-arrows}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[makeroom,thicklines]{cancel}
+\usepackage[many]{tcolorbox}
+\tcbuselibrary{skins,raster,theorems}
+\usepackage{mathtools}
+\usepackage{soul}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{wrapfig}
+\usepackage{authblk}
+\usepackage{sectsty,titling}
+\usepackage{float}
+\usepackage{fontawesome5}
+\usepackage{tikz}
+\usetikzlibrary{automata,shapes,arrows,positioning,patterns,arrows.meta, bending, shadings,intersections,shadows,decorations,fit,backgrounds,circuits.ee.IEC,shapes.callouts,fadings}
+\usepackage{pgfplots,pgfplotstable}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{fillbetween}
+
+\renewcommand{\CancelColor}{\color{Green4}}
+
+\newcounter{dummy}
+\theoremstyle{remark}
+\newtcbtheorem{rema}{Remark}{
+	enhanced, breakable, rounded corners,
+	colframe=white, coltitle=black, colbacktitle=OliveDrab1!24,
+	colback=white,
+	interior style={top color=PaleGreen3!31!MistyRose3, bottom color=white}, rounded corners,
+		frame style={top color=PaleGreen3!31!MistyRose3,bottom color=white!35},
+	separator sign={:},
+	fonttitle=\itshape,
+	description formatter=\newline,
+	theorem hanging indent/.try=0pt,
+}{}
+\newtcolorbox{algobox}[1]{
+	enhanced jigsaw, 
+	interior style={
+		pattern={checkerboard},
+		pattern color= SeaGreen4!20
+		},
+	breakable,
+	coltitle=white,
+	colbacktitle=black, 
+	title = #1, 
+	colframe=black, 
+	fonttitle=\bfseries\ttfamily,
+	sharp corners
+	}
+\newenvironment{remark}[1][]{
+	\ifstrempty{#1}{%   
+		\begin{rema*}{}{}%                     
+		}{%        
+			\begin{rema*}{}{}%                 
+			}%
+		}{%
+		\end{rema*}% 
+	}
+
+			
+	\newcounter{defi}
+	
+	\newtcbtheorem[number within=section]{nition}{Definition}{
+		enhanced, 
+	 breakable, sharp corners,
+		colframe=SpringGreen4!70!black, coltitle=white, 
+		fonttitle=\bfseries,
+		colbacktitle=SpringGreen4,
+		colback=DarkSeaGreen3!70!LemonChiffon3,
+		titlerule=1pt,
+		separator sign={:},
+		description formatter=\newline,
+		theorem hanging indent/.try=0pt,
+	}{}
+	
+	\newenvironment{definition}[1][]{
+		\stepcounter{defi}
+		\ifstrempty{#1}{%   
+			\begin{nition}{}{\thedefi\thedummy}%                     
+			}{%        
+				\begin{nition}{}{\thedefi eheh}%                 
+				}%
+			}{%
+			\end{nition}% 
+		}{\addvspace{\baselineskip}}
+		
+		\newcounter{theo}
+		
+		\newtcbtheorem[number within=section]{thrm}{Theorem}{
+			enhanced, 
+			breakable,
+			sharp corners,
+			colframe=Chartreuse4, 
+			coltitle=Chartreuse4, colbacktitle=white,
+			colback=LemonChiffon3,
+			titlerule=1pt,
+			fonttitle=\bfseries,
+			separator sign={:},
+			description formatter=\newline,
+			theorem hanging indent/.try=0pt,
+		}{}
+		
+		\newenvironment{theorem}[1][]{ 
+			\stepcounter{theo}
+			\stepcounter{dummy}
+			\ifstrempty{#1}{%   
+				\begin{thrm}{}{\thetheo,\thedummy}%                     
+				}{%        
+					\begin{thrm}{}{\thetheo aa}%                 
+					}%
+				}{%
+				\end{thrm}% 
+			}
+			
+			\newtcolorbox{corollary}{
+			enhanced, 
+			breakable,
+			sharp corners,
+			coltext=white,
+			colframe=SpringGreen3!80!black, coltitle=white, colback=black!80!SpringGreen3,
+			colbacktitle=gray!80!SpringGreen3,
+			titlerule=0mm,
+			separator sign={:},
+			fonttitle=\bfseries,
+			description formatter=\newline,
+			title={Corollary}
+			}{}
+			
+			%lemma lemma lemmaaa
+			\newcounter{lem}
+			
+			\newtcbtheorem[number within=section]{lemm}{Lemma}{
+				enhanced, 
+				breakable,
+				sharp corners,
+				fonttitle=\bfseries,
+				colframe=SkyBlue4!70!Green4!50, coltitle=SkyBlue4!70!Green4, colbacktitle=SkyBlue4!70!Green4!50,
+				colback=SkyBlue4!70!Green4,
+				coltext=white,
+				titlerule=0mm,
+				separator sign={:},
+				description formatter=\newline,
+				theorem hanging indent/.try=0pt,
+			}{}
+			
+			\newenvironment{lemma}[1][]{ 
+				\stepcounter{lem}
+				\stepcounter{dummy}
+				\ifstrempty{#1}{%   
+					\begin{lemm}{}{\thetheo,\thedummy}%                     
+					}{%        
+						\begin{lemm}{}{\thetheo aa}%                 
+						}%
+					}{%
+					\end{lemm}% 
+				}
+				
+				
+				
+				\newcounter{propos}
+				%now making the proposition
+				\newtcbtheorem[number within=section]{prp}{Proposition}{
+					enhanced, 
+					breakable,
+					sharp corners,
+					colframe=LemonChiffon4!70, coltitle=white,
+					colback=LemonChiffon2,
+					colbacktitle=LightGoldenrod4,
+					fonttitle=\bfseries,
+					titlerule=0.3mm,
+					separator sign={:},
+					description formatter=\newline,
+					theorem hanging indent/.try=0pt,
+				}{}
+				
+				\newenvironment{proposition}[1][]{ 
+					\ifstrempty{#1}
+					{%   
+						\begin{prp}{}{\thepropos\thedummy eeeheheh\thedefi}%                     
+						}{%        
+							\hfill
+							\begin{prp}{}{\thetheo,\thepropos ahah}%                 
+							}%
+						}{%
+						\end{prp}% 
+					}
+					
+					
+					\newenvironment{diagram}[1][]{
+						\ifstrempty{#1}
+						{%   
+								\begin{tikzpicture}[circuit ee IEC,x=2cm,y=0.8cm,semithick,
+									every info/.style={font=\small},
+									set resistor graphic=var resistor IEC graphic,
+									set diode graphic=var diode IEC graphic,
+									set make contact graphic= var make contact IEC graphic]
+							}{%        
+									\begin{tikzpicture}[circuit ee IEC,x=2cm,y=0.8cm,semithick,
+										every info/.style={font=\small},
+										set resistor graphic=var resistor IEC graphic,
+										set diode graphic=var diode IEC graphic,
+										set make contact graphic= var make contact IEC graphic]  
+								}%
+							}{
+							\end{tikzpicture}
+						}
+						
+			
+							
+						\newcounter{algor}
+						%now making the proposition
+						\newtcbtheorem{algo}{Complexity analysis}{
+							enhanced, 
+							breakable,
+							interior style={left color=red!30,right color=white!29},
+							title style={left color=red!30,right color=red!80},
+							colframe=white, coltitle=black, colbacktitle=red!60,
+							colback=red!80!black,
+							titlerule=0mm,
+							separator sign={:},
+							description formatter=\newline,
+							theorem hanging indent/.try=0pt,
+						}{}
+						
+						\newenvironment{complexity}[1][]{
+							{\par\noindent\ignorespaces}
+							{\ignorespacesafterend} 
+							\hfill   
+							\stepcounter{algor}
+							\stepcounter{dummy}
+							\ifstrempty{#1}
+							{%   
+								\hfill
+								\begin{algo}{}{\thealgor\thedummy eeeheheh\thedefi}%                     
+								}{%        
+									\hfill
+									\begin{algo}{}{\thetheo,\thealgor ahah\thedummy}%                 
+									}%
+								}{%
+								\end{algo}% 
+							}
+							
+							
+							\newcounter{exampl}
+							
+							\newtcbtheorem[number within=section]{exa}{Example}{
+								enhanced jigsaw, 
+								frame empty, breakable,
+								colframe=white, coltitle=black,
+								colback=white,
+								opacityback=0,
+								sharp corners,
+								borderline west={1mm}{0mm}{CadetBlue4},
+								attach boxed title to top left,  
+								boxed title style={boxrule=0.5mm,drop fuzzy shadow=gray, colframe=CadetBlue4, sharp corners, interior style={left color=white, right color=CadetBlue4!50}},
+								separator sign={:},
+								opacityframe=.5,
+								description formatter=\newline,
+								theorem hanging indent/.try=0pt,
+							}{}
+							
+							\newenvironment{example}[1][]{
+								\stepcounter{exampl}
+								\ifstrempty{#1}{%   
+									\begin{exa}{}{\theexer\theexampl}%                     
+									}{%       
+										\begin{exa}{}{\theexampl}%                 
+										}%
+									}{%
+									\end{exa}% 
+								}
+								
+								\newcounter{exer}
+\NewDocumentEnvironment{carray}{o}{%
+	\begin{equation*}
+		\begin{array}{*{\IfNoValueTF{#1}{1}{#1}}{>{\displaystyle}c}}
+		}{%
+		\end{array}
+	\end{equation*}
+}
+\NewDocumentEnvironment{larray}{o}{%
+	\begin{equation*}
+		\begin{array}{*{\IfNoValueTF{#1}{1}{#1}}{>{\displaystyle}l}}
+		}{%
+		\end{array}
+	\end{equation*}
+}
+%pretty proud for these two mfs :)
+	\newlength{\hatchspread}
+\newlength{\hatchthickness}
+\newlength{\hatchshift}
+\newcommand{\hatchcolor}{}
+% declaring the keys in tikz
+\tikzset{hatchspread/.code={\setlength{\hatchspread}{#1}},
+	hatchthickness/.code={\setlength{\hatchthickness}{#1}},
+	hatchshift/.code={\setlength{\hatchshift}{#1}},% must be >= 0
+	hatchcolor/.code={\renewcommand{\hatchcolor}{#1}}}
+% setting the default values
+\tikzset{hatchspread=3pt,
+	hatchthickness=0.4pt,
+	hatchshift=0pt,% must be >= 0
+	hatchcolor=black}
+% declaring the pattern
+\pgfdeclarepatternformonly[\hatchspread,\hatchthickness,\hatchshift,\hatchcolor]% variables
+{custom north east lines}% name
+{\pgfqpoint{\dimexpr-2\hatchthickness}{\dimexpr-2\hatchthickness}}% lower left corner
+{\pgfqpoint{\dimexpr\hatchspread+2\hatchthickness}{\dimexpr\hatchspread+2\hatchthickness}}% upper right corner
+{\pgfqpoint{\dimexpr\hatchspread}{\dimexpr\hatchspread}}% tile size
+{% shape description
+	\pgfsetlinewidth{\hatchthickness}
+	\pgfpathmoveto{\pgfqpoint{0pt}{\dimexpr\hatchspread+\hatchshift}}
+	\pgfpathlineto{\pgfqpoint{\dimexpr\hatchspread+0.15pt+\hatchshift}{-0.15pt}}
+	\ifdim \hatchshift > 0pt
+	\pgfpathmoveto{\pgfqpoint{0pt}{\hatchshift}}
+	\pgfpathlineto{\pgfqpoint{\dimexpr0.15pt+\hatchshift}{-0.15pt}}
+	\fi
+	\pgfsetstrokecolor{\hatchcolor}
+	%    \pgfsetdash{{1pt}{1pt}}{0pt}% dashing cannot work correctly in all situation this way
+	\pgfusepath{stroke}
+}
+\newcounter{exercise}[subsection]
+\newtcolorbox[use counter=exercise]{exercise}{
+	enhanced standard jigsaw,
+	sharp corners,
+	breakable=false,
+	interior titled code={
+		\path[
+		draw=white,
+		sharp corners,
+		pattern=crosshatch dots,
+		pattern color=OliveDrab1!60,
+		hatchspread=10pt,
+		hatchthickness=50pt,
+		hatchcolor=OliveDrab2!10,
+		]
+		(interior.south east) rectangle (interior.north west);
+	},
+	title={Exercise~\thetcbcounter},
+	coltitle=OliveDrab4!50!black,
+	colframe=OliveDrab4,
+	coltext=OliveDrab4,
+	fonttitle=\bfseries\itshape,
+	colbacktitle=OliveDrab3!20}
+	
+\newtcolorbox{revise}{
+	enhanced jigsaw,
+	colback=SpringGreen4!5!white,sharp corners, colframe=DarkSeaGreen3!75!black,
+	breakable,
+	fonttitle=\bfseries,
+	title={Revise with Kotatsu!}}
+	\newtcolorbox{insult}{
+		enhanced jigsaw,
+		colback=red!5!white,sharp corners, colframe=red,
+		breakable,
+		fonttitle=\bfseries,
+		interior style={left color=red!70,right color=white!29},
+		halign title=flush center,
+		title={\faExclamationTriangle \; I am losing my grip on reality \faExclamationTriangle}}
+		
+	\newtcolorbox{notation}{
+		enhanced jigsaw,
+		opacityback=0,
+		colback=white, colframe=Aquamarine4!80!SteelBlue2,
+		attach boxed title to top left ={yshift=-\tcboxedtitleheight/2,yshifttext=-\tcboxedtitleheight/2,xshift=0.3cm},
+		boxed title style={%
+			colback=Aquamarine4!80!SteelBlue2,
+			opacityback=1
+		},
+		boxrule=0.5mm,top=0mm,bottom=0mm,
+		rounded corners,
+		coltitle=white,
+		drop shadow,
+		fonttitle=\bfseries,
+		title={Note the notation!}}	
+	
+			
+	
+	\newtcolorbox{proofbox}{
+		enhanced,
+		colback=red!5!white,sharp corners, colframe=gray!10!Cornsilk2!20,
+		breakable,
+		coltitle=black,
+		fonttitle=\bfseries\itshape,
+		interior style={gray!20},
+		title={Proof}}	
+		
+		\newenvironment{fancyproof}[1][]{
+			\ifstrempty{#1}{%   
+				\begin{proofbox} \begin{proof}[\unskip\nopunct]                   
+				}{%        
+					\begin{proofbox} \begin{proof}[\unskip\nopunct]%                 
+					}%
+				}{%
+				\end{proof}\end{proofbox}% 
+			}					
+									\let\oldemptyset\emptyset
+									\let\emptyset\varnothing
+									
+									
+									\renewcommand{\labelitemi}{$\textcolor{OliveDrab3}{\bullet}$}
+									\renewcommand{\labelitemii}{$\textcolor{SeaGreen2}{\diamond}$}
+									\renewcommand{\labelitemiii}{$\textcolor{SkyBlue4}{\diamond}$}
+									\renewcommand{\labelitemiv}{$\textcolor{SkyBlue4}{\ast}$}
+									
+									\newcommand{\enf}[1]{\textcolor{Green4}{\textbf{#1}}} %enf sta per enfasi
+					\let\emph\enf
+									\newcommand{\sott}[1]{\setulcolor{SkyBlue3}\ul{#1}}
+									\let\underline\sott
+
+									\newcommand{\prob}{\mathbb{P}}
+									\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+									\newcommand{\evs}{\mathbb{E}}
+									\newcommand{\ev}[1]{\mathbb{E}\left[#1\right]}
+									\newcommand{\evBig}[1]{\mathbb{E}\Bigl[#1\Bigr]}
+									\newcommand{\evbigg}[1]{\mathbb{E}\biggl[#1\biggr]}
+									\newcommand{\evbig}[1]{\mathbb{E}\bigl[#1\bigr]}
+									\newcommand{\evn}[1]{\mathbb{E}[#1]}
+									\newcommand{\expg}[1]{\exp\left\{#1\right\}}
+									\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+									\newcommand{\Z}{\mathbb{Z}}
+									\newcommand{\R}{\mathbb{R}}
+									\newcommand{\N}{\mathbb{N}}
+									\newcommand{\T}{\mathbb{T}}
+									\newcommand{\Tbar}{\overline{\T}}
+									\newcommand{\A}{\mathscr{A}}
+									\newcommand{\Nstar}{\N^{*}}
+									\newcommand{\Rext}{\overline{\R}}
+									\newcommand{\io}{\text{ i.o.}}
+									\newcommand{\normale}{\mathcal{N}}
+									\newcommand{\equalexpl}[1]{%
+										\underset{\substack{\uparrow\\\mathrlap{\text{\vspace{-3cm}\hspace{-1em}#1}}}}{=}}
+									\newcommand{\dif}{\mathop{}\!\mathrm{d}}
+									\newcommand{\convas}{\xrightarrow[]{\text{a.s.}}}
+									\newcommand{\convpr}{\xrightarrow[]{\pr}}
+									\newcommand{\convd}{\xrightarrow[]{\text{d}}}
+									\newcommand{\convlp}{\xrightarrow[]{\lp}}
+									\newcommand{\lone}{L^{1}}
+									\newcommand{\convw}{\xrightarrow[]{\mathrm{weak}}}
+									\newcommand{\as}{\text{ a.s.}}
+									\newcommand{\asstnr}{\sim N(0,1)}
+									%\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+\newcommand{\dx}{\dif x}
+\newcommand{\dy}{\dif y}
+\newcommand{\dt}{\dif t}
+\newcommand{\du}{\dif u}
+\newcommand{\ds}{\dif s}
+\newcommand{\dw}{\dif\omega}
+\newcommand{\dz}{\dif z}
+\newcommand{\dmu}{\dif\mu}
+\newcommand{\dpr}{\dif\pr}
+\newcommand{\E}{\mathscr{E}}
+\newcommand{\B}{\mathscr{B}}
+\newcommand{\F}{\mathscr{F}}
+\newcommand{\G}{\mathscr{G}}
+\newcommand{\HS}{\mathscr{H}}
+\newcommand{\Zn}{\mathscr{Z}}
+\newcommand{\D}{\mathscr{D}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\rbar}{\overline{\R}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\xxbar}{\overline{\xbar}}
+\newcommand{\xtilde}{\widetilde{X}}
+\newcommand{\ifonly}{\underline{if and only if}}
+\newcommand{\inprod}[1]{\langle #1 \rangle}
+\renewcommand{\laplace}[1]{\mathcal{L}_{\lambda}\left\{#1\right\}}
+
+\newcommand{\ubracketthin}[1]{\underbracket[0.3pt]{#1}}
+\newcommand{\claptext}[1]{\mathclap{\text{#1}}}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+		\node[shape=circle,draw,
+		shading=ball, ball color=SpringGreen3!70,
+		,inner sep=1.5pt] (char) {\scriptsize\bfseries #1};}}
+\newcommand{\circnum}{\protect\circled{\arabic*}}
+\newcommand{\circlet}{\protect\circled{\alph*}}	
+\newcommand{\bbg}[1]{%
+	\ooalign{$#1$\cr\raisebox{-.2pt}{$#1$}\cr\raisebox{.2pt}{$#1$}\cr\textcolor{white}{$\mkern0.2mu#1$}}%
+}
+\newcommand{\tickend}{\hspace*{\fill}\faCheckCircle}
+\newcommand{\leb}{\bbg{\lambda}}
+			
+									%i comandi di MERDA di stefano
+									\newcommand{\ra}{\rightarrow}
+									\newcommand{\iy}{\infty}
+									\newcommand{\mE}{\mathbb{E}}
+									\newcommand{\mP}{\mathbb{P}}
+									\newcommand{\mB}{\mathcal{B}(\mathbb{R})}
+									\newcommand{\mL}{\mathbb{L}}
+									\newcommand{\ninfty}{n\to$\infty$}
+									\newcommand{\tinfty}{t\to$\infty$}
+									\newcommand{\xinfty}{x\to$\infty$}
+									\newcommand{\yinfty}{y\to$\infty$}
+									\newcommand{\mLL}{\mathbb{L}^2(0,T)}
+									\newcommand{\mR}{\mathbb{R}}
+									\newcommand{\mC}{\mathcal{C}}
+									\newcommand{\mRd}{\mathbb{R}^d}
+									\newcommand{\mN}{\mathbb{N}}
+									%\newcommand{\m1}{\mathbf{1}}
+									\newcommand{\mF}{\mathcal{F}}
+									\newcommand{\mM}{\mathcal{M}}
+									\newcommand{\mW}{\mathcal{W}}
+									\newcommand{\mV}{\mathcal{V}}
+									\newcommand{\mA}{\mathcal{A}}
+									\newcommand{\mez}{\frac{1}{2}}
+									\newcommand{\intT}{\int_{0}^{T}}
+									\newcommand{\nN}{n \in \mathbb{N}}
+									\newcommand{\mmN}{\mathcal{N}}
+									\newcommand{\PX}{(X_t)_{t\geq 0}}
+									\newcommand{\var}{\mathbb{V}\!\mathrm{ar}\,}
+									\newcommand{\cov}{\mathbb{C}\mathrm{ov}\,}
+									\newcommand{\lp}{L^{p}}
+									\newcommand{\BMF}{{(B_t)}_{t\geq 0}}
+									\newcommand{\BMD}{$\mathrm{BM}^{d}$}
+									\newcommand{\mFt}{\mathcal{F}_t}
+									\newcommand{\every}{\forall\,}
+									\newcommand{\dyadic}{\mathcal{d}}
+									\newcommand{\norm}[1]{\left|\negthinspace\left|#1\right|\negthinspace\right|}
+									\newcommand{\trsp}{\mathsf{T}}
+		\newcommand{\pr}{\mathbb{P}}
+		\newcommand{\indi}{\mathbb{1}}
+		\newcommand{\indig}[1]{\indi_{\left\{#1\right\}}}
+		\newcommand{\sumiinf}{\sum_{i=1}^{\infty}}
+		\newcommand{\sumkinf}{\sum_{k=1}^{\infty}}
+		\newcommand{\sumjinf}{\sum_{j=1}^{\infty}}
+		\newcommand{\sumninf}{\sum_{n=1}^{\infty}}
+		\newcommand{\sumin}{\sum_{i=1}^{n}}
+		\newcommand{\sumkn}{\sum_{k=1}^{n}}
+		\newcommand{\sumjn}{\sum_{j=1}^{n}}
+		\newcommand{\sumik}{\sum_{i-1}^{k}}
+		\newcommand{\sumnk}{\sum_{n=1}^{k}}
+		\newcommand{\sumionf}{\sum_{i=0}^{\infty}}
+		\newcommand{\sumkonf}{\sum_{k=0}^{\infty}}
+		\newcommand{\sumjonf}{\sum_{j=0}^{\infty}}
+		\newcommand{\sumnonf}{\sum_{n=0}^{\infty}}
+		\newcommand{\sumion}{\sum_{i=0}^{n}}
+		\newcommand{\sumkon}{\sum_{k=0}^{n}}
+		\newcommand{\sumjon}{\sum_{j=0}^{n}}
+		\newcommand{\sumiok}{\sum_{i=0}^{k}}
+		\newcommand{\bwm}{Brownian motion}
+		\newcommand{\distexp}[1]{\sim\mathsf{Exp}\left(#1\right)}
+		\newcommand{\distnorm}[1]{\sim\mathsf{N}\left(#1\right)}
+		\newcommand{\distbernoulli}[1]{\sim\mathsf{Be}\left(#1\right)}
+		\newcommand{\distunif}[1]{\sim\mathsf{U}\left(#1\right)}
+		\newcommand{\distgeom}[1]{\sim\mathsf{Geom}\left(#1\right)}
+		\newcommand{\trns}[1]{{#1}^{\scriptscriptstyle\mathsf{T}}}
+		\newcommand{\iid}{\stackrel{\mathrm{iid}}{\sim}}
+		\newcommand{\ift}{\text{if }}
+		\newcommand{\unmezz}{\frac{1}{2}}
+		\newcommand{\sa}{$\sigma$-algebra}	\newcommand{\rv}{random variable}
+		\titleformat{\section}{\color{Green3}}{\color{red}\thesection}{1em}{}
+		\subsectionfont{\color{Aquamarine4}\bfseries}
+									\pretitle{\begin{center}\LARGE\color{SkyBlue2}}
+		\sectionfont{\color{Green4}\bfseries}
+										\pretitle{\begin{center}\LARGE\color{SkyBlue2}}
+											\newcommand{\prefacename}{Preface}
+	\newcommand{\cinlar}{Çinlar }
+											\newenvironment{preface}{
+												\vspace*{\stretch{2}}
+												{\noindent \bfseries \huge\color{SkyBlue4} \prefacename}
+												\begin{center}
+													% \phantomsection \addcontentsline{toc}{chapter}{\prefacename} % enable this if you want to put the preface in the table of contents
+													\thispagestyle{plain}
+												\end{center}%
+											}
+											{\vspace*{\stretch{5}}}
+											
+											
+											\newenvironment{closethedeal}{
+												\vspace*{\stretch{2}}
+												{\noindent \bfseries \huge\color{SkyBlue4} That's all, folks}
+												\begin{center}
+													% \phantomsection \addcontentsline{toc}{chapter}{\prefacename} % enable this if you want to put the preface in the table of contents
+													\thispagestyle{plain}
+												\end{center}%
+											}
+											{\vspace*{\stretch{5}}}
+\pgfkeys{%
+	/calloutquote/.cd,
+	width/.code                   =  {\def\calloutquotewidth{#1}},
+	position/.code                =  {\def\calloutquotepos{#1}}, 
+	author/.code                  =  {\def\calloutquoteauthor{#1}},
+	/calloutquote/.unknown/.code   =  {\let\searchname=\pgfkeyscurrentname
+		\pgfkeysalso{\searchname/.try=#1,                                
+			/tikz/\searchname/.retry=#1},\pgfkeysalso{\searchname/.try=#1,
+			/pgf/\searchname/.retry=#1}}
+}  
+
+
+\newcommand\calloutquote[2][]{%
+	\pgfkeys{/calloutquote/.cd,
+		width               = 5cm,
+		position            = {(0,-1)},
+		author              = {}}
+	\pgfqkeys{/calloutquote}{#1}                   
+	\node [rectangle callout,draw,callout relative pointer={\calloutquotepos},text width=\calloutquotewidth,/calloutquote/.cd,
+	#1] (tmpcall) at (0,0) {#2};
+	\node at (tmpcall.pointer){\calloutquoteauthor};    
+}  		
+
+
+\newcommand\lemmethink[2][]{%
+	\pgfkeys{/calloutquote/.cd,
+		width               = 5cm,
+		position            = {(0,-1)},
+		author              = {}}
+	\pgfqkeys{/calloutquote}{#1}                   
+	\node [cloud callout,draw,callout relative pointer={\calloutquotepos},text width=\calloutquotewidth,/calloutquote/.cd,
+	#1] (tmpcall) at (0,0) {#2};
+	\node at (tmpcall.pointer){\calloutquoteauthor};    
+}  											
+			
+			
+			\pgfmathdeclarefunction{gauss}{2}{%
+				\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+			}				
+
+\renewcommand\leq\leqslant
+\renewcommand\geq\geqslant			
+
+						\usepackage[
+						backend=biber,
+						style=authoryear,
+						sorting=nyt
+						]{biblatex}			\posttitle{\par\end{center}\vskip 0.5em}
+						
