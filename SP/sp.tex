@@ -4966,10 +4966,14 @@ We need to simulate a random vector $\begin{bmatrix}
 	\Gamma=\sqrt{\frac{T}{n}}\cdot\ubracketthin{\begin{bmatrix}1&\ldots&0\\
 		\vdots&\ddots&\vdots\\
 		1&\ldots&1
-	\end{bmatrix}}_{n\times n}\begin{bmatrix}1&\ldots&1\\
+	\end{bmatrix}}_{n\times n}\ubracketthin{\begin{bmatrix}1&\ldots&1\\
 \vdots&\ddots&\vdots\\
 0&\ldots&1
-\end{bmatrix}}_{n\times n}
+\end{bmatrix}}_{n\times n}\sqrt{\frac{T}{n}}.
+\end{equation*}
+The direct calculation is:
+\begin{equation*}
+	B_{t_{1}},\ldots,B_{t_{n}}=\left(B_{t_{1}},B_{t_{2}}-B_{t_{1}}+B_{t_{1}},\ldots,B_{t_{1}}+\sum_{j=2}^{n}(B_{t_{j}}-B_{t_{j-1}})\right)
 \end{equation*}
 \listoffigures  
 \end{document} 
