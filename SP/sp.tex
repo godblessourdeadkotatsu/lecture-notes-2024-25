@@ -4858,7 +4858,10 @@ We now compute the variance of $\vartheta_c$:
 	&\overset{\text{i.d.}}{=}\frac{1}{n}\var\left(Y_1-\beta(C-\mu_{C})\right)\\
 	&=\frac{1}{n}\left(\var(Y)+\beta^{2}\var(C)-2\beta\cov(Y,C)\right).
 \end{align*}
-If $\beta^{2}\var(C)-2\beta\cov(Y,C)<0$ then $\var(\vartheta_c)<\var(\vartheta_2)$ while $\ev{\vartheta_c}=\ev{\vartheta_2}=I$.
+If $\beta^{2}\var(C)-2\beta\cov(Y,C)<0$ then $\var(\vartheta_c)<\var(\vartheta_2)$ while $\ev{\vartheta_c}=\ev{\vartheta_2}=I$. The minimal value is obtained with 
+\begin{equation*}
+	\beta^{\star}=\frac{\cov(Y,C)}{\var(C)}=\left(1-\rho^{2}_{Y,C}\right)\var(Y)\qquad\rho^{2}_{Y,C}=\text{correlation coefficient}.
+\end{equation*}
 \listoffigures  
 \end{document} 
 
