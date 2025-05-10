@@ -379,4 +379,34 @@ We ﬁrst state the following technical lemma:
 	\end{equation*}
 	and since $Y$ is a linear subspace $\overline{y}+ry\in Y$ so that $\norm{z-\overline{y}-ry}\geq \alpha$. Therefore $\norm{x-y}\geq\frac{\alpha}{r}\geq 1-\varepsilon$ by assumption on $r=\norm{z-\overline{y}}$. Since this is true for any $y\in Y$, this proves the result.
 \end{fancyproof}
+\begin{lemma}
+	If $\left(X,\dnorm\right)$ is a normed space, any linear subspace of finite dimension is closed. 
+\end{lemma}
+\begin{theorem}
+	\emph{Riesz Theorem}. A normed space $\left(X,\dnorm\right)$ is finite dimensional if and only if the closed unit ball $B_{c}(0,1)=\left\{x\in X;\norm{x}\leq 1\right\}$ of $X$ is compact.
+\end{theorem}
+\begin{fancyproof}
+	We already know that in finite dimensional spaces the closed and bounded subsets are compact. Assume that $B_{c}(0,1)$ is compact. Argue by contradiction that $X$ is infinite dimensional. Let us pick $\mathcal{e}_{0}\in X$ with $\norm{\mathcal{e}_{0}}=1$ and let $$F_0=\mathsf{Span}(\mathcal{e}_{0})=\left\{t\mathcal{e}_{0},t\in\R\right\}.$$
+	According to the previous Lemma, $F_{0}$ is a closed linear subspace of $X$ (since it is of dimension 1). Being $X$ infinite dimensional, $F_{0}\neq X$. According to Riesz Lemma, there exists $\mathcal{e}_{1}\notin F_{0}$ such that $\norm{e_{1}}=1$ and $\min_{x\in F_{0}}\norm{x-\mathcal{e}}_{1}\geq\unmezz$. Set then $F_{1}=\mathsf{Span}(\mathcal{e}_{0},\mathcal{e}_{1})$. One constructs inductively a sequence ${(\mathcal{e})}_{n}\subset X$ such that $\norm{\mathcal{e}_{n}}=1$ and such that the finite dimensional space $F_{n}=\mathsf{Span}(\mathcal{e}_{0},\ldots,\mathcal{e}_{n})$ satisfies
+	\begin{equation*}
+		\mathcal{e}_{n}\notin F_{n-1}\qquad\text{and }\inf_{x\in F_{n-1}}\norm{x-\mathcal{e}_{n}}\geq\unmezz.
+	\end{equation*}
+	In particular, ${(\mathcal{e}_{n})}_{n}\subset B_{c}(0,1)$ which is compact so that a subsequence of ${(e_{n})}_{n}$ should converge. But, for any $n>m\in\N$, $\norm{\mathcal{e}_{n}-\mathcal{e}_{m}}\geq\unmezz$ (since $\mathcal{e}_{n}\notin F_{m}$). This is a contradiction.
+\end{fancyproof}
+\section{Banach spaces}
+\subsection{Cauchy sequences \& Banach spaces}
+\begin{definition}
+	Let $(X,\dnorm)$ be a normed space. A sequence ${(x_{n})}_{n}\subset X$ of elements in $X$ is a Cauchy sequence if for any $\varepsilon>0$ there exists $N=N(\varepsilon)\in\N$ such that
+	\begin{equation*}
+		\norm{x_{n}-x_{m}}\leq\varepsilon\qquad\every n,m\geq\N.
+	\end{equation*}
+\end{definition}
+One easily checks that every Cauchy sequence ${(x_{n})}_{n}\subset X$ is bounded. Indeed, by definition, for any $\varepsilon>0$ there is $N\in\N$ such that
+\begin{equation*}
+	\norm{x_{n}-x_{m}}<\varepsilon\qquad\every n,m\geq N.
+\end{equation*} 
+For, say, $\varepsilon=1$ and $m=N$ we see that for $\every n\geq N$
+\begin{equation*}
+	\norm{x_{n}}=\norm{x_{n}-x_{N}+x_{N}}\leq\norm{x_{n}-x_{N}}+\norm{x_{N}}\leq 1+\norm{x_{N}}.
+\end{equation*}
 \end{document}

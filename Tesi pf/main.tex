@@ -1,8 +1,8 @@
 
-\documentclass[12pt,openany,oneside]{book}
-\linespread{1.2}
+\documentclass[12pt,twoside]{book}
 \input{iccr2024.sty}
 \usepackage{pdfpages}
+\linespread{1.2}
 
 %%%%%% add your extra packages here (if needed)                                        %%%%%
 
@@ -17,15 +17,32 @@
 \usepackage{tocloft}
 \renewcommand{\cftchapdotsep}{\cftdotsep}
 
-\begin{document}
+
 
 %-------------------------------------------------------------------------------------------
 %%%%% add your title here %%%%%
-\title{Anthony Braxton: vibrazioni e de-costruzioni} 
+\newcommand{\logo}[1]{%
+	\postauthor{%
+	\end{tabular}\par\end{center}
+\begin{center}\includegraphics[scale=0.3]{#1}\end{center}
+\vskip0.5em}%
+}
+
+\newcommand{\subtitle}[1]{%
+	\posttitle{%
+		\par\end{center}
+	\begin{center}\large#1\end{center}
+	\vskip0.5em}%
+	}
+
+\title{Paul Bley: melodie oblique}
+\subtitle{Breve discussione su un innovatore silenzioso}
+\logo{logo}
 
 %%%%% add authors and affiliations here %%%%%
 \author[1]{Lorenzo~Sala}
 
+\begin{document}
 %%%%% don't change these 2 lines %%%%%
 \maketitle
 \thispagestyle{fancy}
@@ -49,7 +66,6 @@
 
 
 %-------------------------------------------------------------------------------------------
-\input{discografia}
 \printbibliography
 
 \end{document}

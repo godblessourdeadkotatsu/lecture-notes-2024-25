@@ -1,11 +1,11 @@
 %THIS IS STICGASTUC OPROCEOCES%
 
-\usepackage[lining,semibold,scaled=1.05]{ebgaramond}% Latex BOLD renders with ebgaramond semibold
+\usepackage[lining,semibold,scaled=1]{ebgaramond}% Latex BOLD renders with ebgaramond semibold
 
 \usepackage[T1]{fontenc} % best for Western European languages
 
 \usepackage{amsmath,amsthm}% must be loaded before newtxmath
-\usepackage[cmintegrals,libertinus]{newtxmath}
+\usepackage[cmintegrals,baskerville,cmbraces]{newtxmath}
 %\usepackage{fontspec} %I want to be a XeLaTeX bitch but my heard is in pdftex...
 %\usepackage{lmodern}
 
@@ -28,13 +28,21 @@
 %\usepackage{amsmath,amssymb,bbm}
 \usepackage{graphicx}
 \usepackage[x11names,table]{xcolor}
-\usepackage[colorlinks=true, allcolors=DarkSeaGreen4]{hyperref}
+\usepackage[colorlinks=true, allcolors=Aquamarine4]{hyperref}
+\usepackage{lilyglyphs}%absolutely necessary
 \usepackage{lipsum} 
 \usepackage[shortlabels]{enumitem}   
 \usepackage{array}
 \usepackage{pdfpages}
+\usepackage{xfrac}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{arydshln}
+\usepackage{fix-cm}
+\usepackage{xparse}
 %\usepackage{tipa} %perchè si stai zitto 
-
+\usepackage{tabularx}
+\usepackage{hhline}
 \usepackage{mleftright}
 \usepackage{fancybox}
 \usepackage{standalone}
@@ -43,6 +51,7 @@
 \usepackage{titlesec}
 \usepackage{forest}
 \usepackage{censor}
+\usepackage{makecell}
 \usepackage{movement-arrows}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
@@ -52,6 +61,7 @@
 \usepackage{mathtools}
 \usepackage{soul}
 \usepackage{multicol}
+\usepackage{multirow}
 \usepackage{caption}
 \usepackage{wrapfig}
 \usepackage{authblk}
@@ -59,16 +69,14 @@
 \usepackage{float}
 \usepackage{fontawesome5}
 \usepackage{tikz}
-\usetikzlibrary{automata,shapes,arrows,positioning,patterns,arrows.meta, bending, shadings,intersections,shadows,decorations,fit,backgrounds,circuits.ee.IEC,shapes.callouts}
+\usetikzlibrary{automata,shapes,arrows,positioning,patterns,arrows.meta, bending, shadings,intersections,shadows,decorations,fit,backgrounds,circuits.ee.IEC,shapes.callouts,fadings}
 \usepackage{pgfplots,pgfplotstable}
-\pgfplotsset{compat=1.16}
+\pgfplotsset{compat=1.18}
 \usepgfplotslibrary{fillbetween}
 
 \renewcommand{\CancelColor}{\color{Green4}}
 
 \newcounter{dummy}
-
-
 \theoremstyle{remark}
 \newtcbtheorem{rema}{Remark}{
 	enhanced, breakable, rounded corners,
@@ -81,7 +89,20 @@
 	description formatter=\newline,
 	theorem hanging indent/.try=0pt,
 }{}
-
+\newtcolorbox{algobox}[1]{
+	enhanced jigsaw, 
+	interior style={
+		pattern={checkerboard},
+		pattern color= SeaGreen4!20
+		},
+	breakable,
+	coltitle=white,
+	colbacktitle=black, 
+	title = #1, 
+	colframe=black, 
+	fonttitle=\bfseries\ttfamily,
+	sharp corners
+	}
 \newenvironment{remark}[1][]{
 	\ifstrempty{#1}{%   
 		\begin{rema*}{}{}%                     
@@ -151,14 +172,12 @@
 			enhanced, 
 			breakable,
 			sharp corners,
-			interior style={left color=Thistle1,right color=LightSteelBlue4!50},
-			title style={right color=LightSteelBlue4,left color=Thistle1},
-			frame style={right color=LightSteelBlue4,left color=Thistle1},
-			colframe=white, coltitle=LightSteelBlue4, colbacktitle=SkyBlue4,
-			colback=SkyBlue4,
-			drop fuzzy shadow=Cyan4!50!black,
+			coltext=white,
+			colframe=SpringGreen3!80!black, coltitle=white, colback=black!80!SpringGreen3,
+			colbacktitle=gray!80!SpringGreen3,
 			titlerule=0mm,
 			separator sign={:},
+			fonttitle=\bfseries,
 			description formatter=\newline,
 			title={Corollary}
 			}{}
@@ -169,12 +188,11 @@
 			\newtcbtheorem[number within=section]{lemm}{Lemma}{
 				enhanced, 
 				breakable,
-				interior style={left color=SkyBlue4!20,right color=Cyan4!10},
-				title style={left color=SkyBlue4!70,right color=Cyan4!10},
-				frame style={left color=SkyBlue4!70,right color=Cyan4!10},
-				colframe=white, coltitle=white, colbacktitle=SkyBlue4,
-				colback=SkyBlue4,
-				drop fuzzy shadow=gray,
+				sharp corners,
+				fonttitle=\bfseries,
+				colframe=SkyBlue4!70!Green4!50, coltitle=SkyBlue4!70!Green4, colbacktitle=SkyBlue4!70!Green4!50,
+				colback=SkyBlue4!70!Green4,
+				coltext=white,
 				titlerule=0mm,
 				separator sign={:},
 				description formatter=\newline,
@@ -309,6 +327,21 @@
 								}
 								
 								\newcounter{exer}
+\NewDocumentEnvironment{carray}{o}{%
+	\begin{equation*}
+		\begin{array}{*{\IfNoValueTF{#1}{1}{#1}}{>{\displaystyle}c}}
+		}{%
+		\end{array}
+	\end{equation*}
+}
+\NewDocumentEnvironment{larray}{o}{%
+	\begin{equation*}
+		\begin{array}{*{\IfNoValueTF{#1}{1}{#1}}{>{\displaystyle}l}}
+		}{%
+		\end{array}
+	\end{equation*}
+}
+%pretty proud for these two mfs :)
 	\newlength{\hatchspread}
 \newlength{\hatchthickness}
 \newlength{\hatchshift}
@@ -351,35 +384,34 @@
 		draw=white,
 		sharp corners,
 		pattern=crosshatch dots,
-		pattern color=SkyBlue3,
+		pattern color=OliveDrab1!60,
 		hatchspread=10pt,
 		hatchthickness=50pt,
-		hatchcolor=SkyBlue1!10,
+		hatchcolor=OliveDrab2!10,
 		]
 		(interior.south east) rectangle (interior.north west);
 	},
 	title={Exercise~\thetcbcounter},
-	coltitle=black,
-	fonttitle=\bfseries,
-	colbacktitle=SkyBlue1!20}
+	coltitle=OliveDrab4!50!black,
+	colframe=OliveDrab4,
+	coltext=OliveDrab4,
+	fonttitle=\bfseries\itshape,
+	colbacktitle=OliveDrab3!20}
 	
 \newtcolorbox{revise}{
 	enhanced jigsaw,
-	colback=red!5!white,sharp corners, colframe=LightSteelBlue4!75!black,
+	colback=SpringGreen4!5!white,sharp corners, colframe=DarkSeaGreen3!75!black,
 	breakable,
-	drop shadow,
 	fonttitle=\bfseries,
-	interior style={left color=CadetBlue3!30,right color=white!29},
-	frame style={left color=DodgerBlue4,right color=DodgerBlue1},
 	title={Revise with Kotatsu!}}
 	\newtcolorbox{insult}{
 		enhanced jigsaw,
 		colback=red!5!white,sharp corners, colframe=red,
 		breakable,
-		drop shadow={red!80!black},
 		fonttitle=\bfseries,
 		interior style={left color=red!70,right color=white!29},
-		title={You fucking prick}}
+		halign title=flush center,
+		title={\faExclamationTriangle \; I am losing my grip on reality \faExclamationTriangle}}
 		
 	\newtcolorbox{notation}{
 		enhanced jigsaw,
@@ -421,8 +453,8 @@
 									\let\emptyset\varnothing
 									
 									
-									\renewcommand{\labelitemi}{$\textcolor{SteelBlue4}{\bullet}$}
-									\renewcommand{\labelitemii}{$\textcolor{blue}{\cdot}$}
+									\renewcommand{\labelitemi}{$\textcolor{OliveDrab3}{\bullet}$}
+									\renewcommand{\labelitemii}{$\textcolor{SeaGreen2}{\diamond}$}
 									\renewcommand{\labelitemiii}{$\textcolor{SkyBlue4}{\diamond}$}
 									\renewcommand{\labelitemiv}{$\textcolor{SkyBlue4}{\ast}$}
 									
@@ -433,7 +465,13 @@
 
 									\newcommand{\prob}{\mathbb{P}}
 									\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
-									\newcommand{\ev}{\mathbb{E}}
+									\newcommand{\evs}{\mathbb{E}}
+									\newcommand{\ev}[1]{\mathbb{E}\left[#1\right]}
+									\newcommand{\evBig}[1]{\mathbb{E}\Bigl[#1\Bigr]}
+									\newcommand{\evbigg}[1]{\mathbb{E}\biggl[#1\biggr]}
+									\newcommand{\evbig}[1]{\mathbb{E}\bigl[#1\bigr]}
+									\newcommand{\evn}[1]{\mathbb{E}[#1]}
+									\newcommand{\expg}[1]{\exp\left\{#1\right\}}
 									\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
 									\newcommand{\Z}{\mathbb{Z}}
 									\newcommand{\R}{\mathbb{R}}
@@ -479,18 +517,21 @@
 \newcommand{\xxbar}{\overline{\xbar}}
 \newcommand{\xtilde}{\widetilde{X}}
 \newcommand{\ifonly}{\underline{if and only if}}
+\newcommand{\inprod}[1]{\langle #1 \rangle}
+\renewcommand{\laplace}[1]{\mathcal{L}_{\lambda}\left\{#1\right\}}
 
 \newcommand{\ubracketthin}[1]{\underbracket[0.3pt]{#1}}
 \newcommand{\claptext}[1]{\mathclap{\text{#1}}}
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
 		\node[shape=circle,draw,
-		shading=ball, ball color=SkyBlue1!70,
+		shading=ball, ball color=SpringGreen3!70,
 		,inner sep=1.5pt] (char) {\scriptsize\bfseries #1};}}
 \newcommand{\circnum}{\protect\circled{\arabic*}}
 \newcommand{\circlet}{\protect\circled{\alph*}}	
 \newcommand{\bbg}[1]{%
 	\ooalign{$#1$\cr\raisebox{-.2pt}{$#1$}\cr\raisebox{.2pt}{$#1$}\cr\textcolor{white}{$\mkern0.2mu#1$}}%
 }
+\newcommand{\tickend}{\hspace*{\fill}\faCheckCircle}
 \newcommand{\leb}{\bbg{\lambda}}
 			
 									%i comandi di MERDA di stefano
@@ -523,7 +564,8 @@
 									\newcommand{\var}{\mathbb{V}\!\mathrm{ar}\,}
 									\newcommand{\cov}{\mathbb{C}\mathrm{ov}\,}
 									\newcommand{\lp}{L^{p}}
-									\newcommand{\BMF}{\left((B_t)_{t\geq 0},\mathcal{F}_t \right)}
+									\newcommand{\BMF}{{(B_t)}_{t\geq 0}}
+									\newcommand{\BMD}{$\mathrm{BM}^{d}$}
 									\newcommand{\mFt}{\mathcal{F}_t}
 									\newcommand{\every}{\forall\,}
 									\newcommand{\dyadic}{\mathcal{d}}
@@ -531,6 +573,7 @@
 									\newcommand{\trsp}{\mathsf{T}}
 		\newcommand{\pr}{\mathbb{P}}
 		\newcommand{\indi}{\mathbb{1}}
+		\newcommand{\indig}[1]{\indi_{\left\{#1\right\}}}
 		\newcommand{\sumiinf}{\sum_{i=1}^{\infty}}
 		\newcommand{\sumkinf}{\sum_{k=1}^{\infty}}
 		\newcommand{\sumjinf}{\sum_{j=1}^{\infty}}
@@ -560,7 +603,7 @@
 		\newcommand{\unmezz}{\frac{1}{2}}
 		\newcommand{\sa}{$\sigma$-algebra}	\newcommand{\rv}{random variable}
 		\titleformat{\section}{\color{Green3}}{\color{red}\thesection}{1em}{}
-		\subsectionfont{\color{SkyBlue4!90!black}\bfseries}
+		\subsectionfont{\color{Aquamarine4}\bfseries}
 									\pretitle{\begin{center}\LARGE\color{SkyBlue2}}
 		\sectionfont{\color{Green4}\bfseries}
 										\pretitle{\begin{center}\LARGE\color{SkyBlue2}}
