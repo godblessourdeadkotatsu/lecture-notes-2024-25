@@ -4572,7 +4572,6 @@ In particular, we can exploit this to generate \rv s from many discrete distribu
 	\end{algobox}
 	This makes sense if we think of $S_{n}$ like an approximation of $f$. The algorithm stops when $f(y)=Ucg(y)$ but this happens with probability 0.
 \end{enumerate}
-\subsection{Approximating integrals}
 We are very invested in knowing how to approximate integrals. After all expectations are integrals! Imagine we are working with an integral
 \begin{equation*}
 	I=\int_{U}g(x)\dx\qquad U\subset\R^{d}.
@@ -4585,7 +4584,7 @@ Think about this: we have to approximate
 	If we know that $c\geq g(x)\geq0$ then we have a ``rectangle'' that we can throw points into and see how many of these fall below the function. The proportion between those points and the total number of points should give us the integral.
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.6\linewidth]{img/screenshot063}
+		\includegraphics[width=0.4\linewidth]{img/screenshot063}
 		\caption{Under a starry sky.}
 		\label{fig:screenshot063}
 	\end{figure}
