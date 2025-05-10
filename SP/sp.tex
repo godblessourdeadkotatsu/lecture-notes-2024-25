@@ -4940,6 +4940,16 @@ We need to simulate a random vector $\begin{bmatrix}
 			0&&\sqrt{\lambda_{n}}
 		\end{bmatrix}
 	\end{equation*}
+	and set $A:=UD_{1}$ then
+	\begin{align*}
+		AA^{\trsp}&=UD_{1}(UD_{1})^{\trsp}\\
+		&=U\ubracketthin{D_{1}D_{1}}_{=D}U^{\trsp}\\
+		&=UDU^{\trsp}=\Gamma.
+	\end{align*}
+	Si the existence is proven. Since $X\distnorm{\mathbf{0},I}$ 
+	\begin{equation*}
+		\var(AX)=A(\var X)A^{\trsp}=AA^{\trsp}=\Gamma.
+	\end{equation*}
 \end{fancyproof}
 \listoffigures  
 \end{document} 
