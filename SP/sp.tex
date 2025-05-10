@@ -4821,7 +4821,17 @@ and we can apply the CLT for $\frac{2}{\sqrt{1+u^{2}}}$ with $U\distunif{[0,1]}$
 	\vartheta_2=\frac{1}{n}\sum_{k=1}^{n}\frac{1}{\sqrt{1+u_{k}^{2}}}
 \end{equation*}
 with $U_k\overset{i.i.d.}{\sim}\mathsf{U}([0,1])$.\par
-To reduce the variance we can use \emph{importance sampling}. The aim is to choose $f_X$
+To reduce the variance we can use \emph{importance sampling}. The aim is to choose $f_X$ such that $\ev{\left(\frac{g(x)}{f_X(x)}\right)^{2}}<\infty$ and $\var(\vartheta_2)$ is minimized.
+\begin{proposition}
+	The minimal value equals
+	\begin{equation*}
+		\left(\int_{a}^{b}\frac{g(x)^{2}}{f_X(x)}\right)^{2}-I^{2}
+	\end{equation*}
+	and is obtained for
+	\begin{equation*}
+		f_X(x)=\frac{|g(x)|}{\int_{a}^{b}|g(x)|\dx}.
+	\end{equation*}
+\end{proposition}
 \listoffigures  
 \end{document} 
 
