@@ -4621,7 +4621,22 @@ This has some problems:
 	\item for high dimension it takes a shitload of time.
 \end{itemize}
 \subsection{``Hit or miss'' method}
-This is easy to generalize
+This is easy to generalize for more than one dimension, but we analyze the case for $d=1$. We have
+\begin{equation*}
+	I=\int_{a}^{b}g(x)\dx\qquad\text{with }-\infty<a<b<+\infty.
+\end{equation*}
+This is valid if $\exists c>0\text{ s.t. }0\leq g(x)<c$ for $\every x\in[a,b]$. We do not need regularity! Introduce
+\begin{align*}
+	\Omega&=[a,b]\times[0,x]\\
+	S&=\left\{(x,y)\in\Omega:y\leq g(x)\right\}.
+\end{align*}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/screenshot067}
+	\caption{$S$ is a subspace of $\Omega$.}
+	\label{fig:screenshot067}
+\end{figure}
+
 \listoffigures  
 \end{document} 
 
