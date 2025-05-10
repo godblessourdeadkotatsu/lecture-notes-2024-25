@@ -4931,6 +4931,9 @@ We need to simulate a random vector $\begin{bmatrix}
 	\end{equation*}
 	A positive, semi definite matrix admits infinite square roots (i.e. such that $AA^{\trsp}=\Gamma$) but there exists a unique lower triangular matrix $A$ such that  $AA^{\trsp}=\Gamma$. This matrix is called the \emph{Cholesky matrix}\footnote{In Python, use \texttt{numpy.linalg.cholesky}}.
 \end{revise}
+\begin{fancyproof}
+	$\Gamma$ is symmetric, so there exists an orthogonal $U$ such that $\Gamma=UDU^{\trsp}$ with $D=\mathsf{diag}(\ubracketthin{\lambda_{1},\ldots,\lambda_{n}}_{\claptext{eigenvalues}})$
+\end{fancyproof}
 \listoffigures  
 \end{document} 
 
