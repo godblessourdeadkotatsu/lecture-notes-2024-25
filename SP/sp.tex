@@ -4888,7 +4888,7 @@ For $X\distnorm{0,1}$, $\mathcal{L}\{X\}$ is known:
 	\ev{e^{\lambda X}}=e^{\frac{\lambda^{2}}{2}}\qquad\every\lambda\in\mathbb{C}.
 \end{equation*}
 \section{Simulation of a \bwm}
-\subsection{Recap and definitions}
+\subsection{Definition and approach}
 \begin{definition}
 	\emph{Invariance property}:
 	\begin{equation*}
@@ -4906,8 +4906,10 @@ The one-dimensional \bwm{} is the unique Gaussian process with continuous trajec
 		\end{bmatrix}&\sim\frac{1}{(2\pi)^{\frac{n}{2}}\sqrt{\prod_{j=1}^{n}(t_{j}-t_{j-1})}}e^{-\unmezz\sum_{j=1}^{n}\frac{(x_{j}-x_{j-1})^{2}}{t_{j}-t_{j-1}}}\dif\mathbf{x}\\
 		&=\frac{1}{(2\pi)^{\frac{n}{2}}\sqrt{\mathsf{det}\Sigma}}e^{-\unmezz\langle\mathbf{x},\Sigma^{-1}\mathbf{x}\rangle}\dif\mathbf{x}
 	\end{align*}
-	with $\Sigma=[t_{j}\wedge t_{k}]^{n}_{j,k=1}$
+	with $\Sigma=[t_{j}\wedge t_{k}]^{n}_{j,k=1}$ (recall the Schilling book).
 \end{fancyproof}
+A $d-$dimensional \bwm{} is characterized by $d$ independent one-dimensional \bwm s.\par
+The issue with simulating a Brownian path with a computer is that time is continuous. We will make use of the above properties to simulate a one-dimensional \bwm{} and a $d$-dimensional in general.
 \listoffigures  
 \end{document} 
 
