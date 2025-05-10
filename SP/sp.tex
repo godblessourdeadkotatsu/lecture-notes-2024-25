@@ -4785,6 +4785,24 @@ By LLN
 	\end{equation*}
 	In our case $A=\sqrt{n}\frac{\vartheta_2-I}{\sigma}$ and $B_{n}=\frac{S_{n}}{\sigma}$.
 \end{fancyproof}
+About the confidence interval: with probability $1-\alpha$, $I$ belongs to
+\begin{equation*}
+	\left[\vartheta_2-z_{\alpha}\frac{S_n}{\sqrt{n}},\vartheta_2+z_\alpha\frac{S_{n}}{\sqrt{n}}\right].
+\end{equation*}
+We need to be careful: the CLT works only if the second moment is finite.
+For example: consider
+\begin{equation*}
+	\int_{0}^{1}\frac{\dx}{\sqrt{x+x^{2}}}=\ev{\frac{1}{\sqrt{U+U^{2}}}}\qquad U\distunif{[0,1]}.
+\end{equation*}
+In this case 
+\begin{equation*}
+	\vartheta_2=\frac{1}{n}\sum_{k=1}^{n}\frac{1}{U_{k}+U^{2}_{k}}\qquad\text{with }U_{k}\distunif{[0,1]}.
+\end{equation*}
+We need to compute the second moment
+\begin{equation*}
+	\ev{\left(\frac{1}{\sqrt{U_{k}+U_{k}^{2}}}\right)^{2}}=\int_{0}^{1}\frac{1}{x+x^{2}}\dx=+\infty
+\end{equation*}
+and so we have infinite variance which means $\infty$ confidence interval which means kill yourself.
 \listoffigures  
 \end{document} 
 
