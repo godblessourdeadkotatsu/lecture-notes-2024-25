@@ -4988,8 +4988,13 @@ so we only generate normal i.i.d random variables.
 		\item $\pr\left(\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|>\delta\right)$ for $\delta>0$.
 		\begin{align*}
 			\pr\left(\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|>\delta\right)&=\pr\left(\left\{\sup_{t\in[0,T]}B_{t}-\hat{B}_{t}>\delta\right\}\cup\left\{\sup_{t\in[0,T]}-B_{t}+\hat{B}_{t}>\delta\right\}\right)\\
-			&\leq 2\pr\left(\sup_{t\in[0,T]}B_{t}-\hat{B}_{t}>\delta\right)\quad\text{refl. principle}
+			&\leq 2\pr\left(\sup_{t\in[0,T]}B_{t}-\hat{B}_{t}>\delta\right)\quad\text{refl. principle}\\
+			&\leq 2\pr\left(\max_{1\leq k\leq n}\sup_{t\in[t_{k},t_{k-1}]}B_{t}-\hat{B}_{t}>\delta\right)\\
+			&\leq2n\pr\left(\sup_{t\in[0,t_{1}]}B_{t}-\hat{B}_{t_{0}}|\delta\right)\\
+			&\leq2n\pr\left(\sup_{t\in\left[0,\frac{T}{n}\right]}B_{t}\geq\delta\right)\\
+			&\leq4n\pr\left(B_{\frac{T}{n}}>\delta\right)\distnorm{0,\frac{T}{n}}.
 		\end{align*}
+		This is called Andre's reflection principle.
 	\end{enumerate}
 \end{fancyproof}
 \listoffigures  
