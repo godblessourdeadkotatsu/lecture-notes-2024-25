@@ -4812,7 +4812,11 @@ Hence we have
 \begin{equation*}
 	I=\ev{\frac{2}{\sqrt{1+x}}}\qquad\text{with }X\sim f_X\sim U^{2},\qquad U\distunif{[0,1]}.
 \end{equation*}
-This new expectation has finite variance and is thus safe for Monte-Carlo.
+This new expectation has finite variance and is thus safe for Monte-Carlo:
+\begin{equation*}
+	\ev{\frac{2}{1+x}}^{2}=4\int_{0}^{1}\frac{1}{1+x}\cdot\frac{1}{2\sqrt{x}}\dx<\infty
+\end{equation*}
+and we can apply the CLT for $\frac{2}{1+u^{s}}$ with $U\distunif{[0,1]}$.
 \listoffigures  
 \end{document} 
 
