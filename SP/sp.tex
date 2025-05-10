@@ -4844,7 +4844,21 @@ To reduce the variance we can use \emph{importance sampling}. The aim is to choo
 If $f_X(x)\approx|g(x)|$ then we are close to minimizing. ``High values'' based on $g$ should be sampler more frequently.\par
 Another way of controlling variance is using the \emph{stratification method}.
 \subsection{Variance reduction: Control Variable method}
-Here we have $I=\ev{Y}$ for some $Y$ and $\vartheta_2=\frac{1}{b}\sum_{k=1}^{n}Y_k$.
+Here we have $I=\ev{Y}$ for some $Y$ and $\vartheta_2=\frac{1}{b}\sum_{k=1}^{n}Y_k$. Let $C$ be a \rv{} such that we know the value of $\mu_C=\ev{C}.$ Thus
+\begin{equation*}
+	\ev{Y}=\ev{Y-\beta(C-\mu_C)}\qquad\every\beta\in\R.
+\end{equation*}
+We define
+\begin{equation*}
+	\vartheta_c=\frac{1}{n}\sum_{k=1}^{n}\left(Y_k-\beta(C_k-\mu_{C})\right)\qquad\text{with }(Y_k,C_k)\text{ i.i.d.}
+\end{equation*}
+We now compute the variance of $\vartheta_c$:
+\begin{align*}
+	\vartheta_c&\overset{\independent}{=}\frac{1}{n^{2}}\sum_{k=1}^{n}\var\left(Y_k-\beta(C_k-\mu_{C})\right)\\
+	&\overset{\text{i.d.}}{=}\frac{1}{n}\var\left(Y_1-\beta(C-\mu_{C})\right)\\
+	&=\frac{1}{n}\left(\var(Y)+\beta^{2}\var(C)-2\beta\cov(Y,C)\right).
+\end{align*}
+If $\beta^{2}\var(C)-2\beta\cov(Y,C)<0$ then $\var(\vartheta_c)<\var(\vartheta_2)$ while $\ev{\vartheta_c}=\ev{\vartheta_2}=I$.
 \listoffigures  
 \end{document} 
 
