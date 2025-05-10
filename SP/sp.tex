@@ -4643,6 +4643,13 @@ Let $(X,Y)$ be a random couple uniformly distributed on $\Omega$:
 		0&\text{otherwise}.
 	\end{cases}
 \end{equation}
+Define $p$ as
+\begin{align*}
+	p&=\pr((X,Y)\in S)\\
+	&=\int\int\indi_S(x,y)f_{(X,Y)}(x,y)\dx\dy\\
+	&=\frac{1}{c(b-a)}\int_{a}^{b}\left(\int_{0}^{g(x)}\dy\right)\dx\\
+	&=\frac{1}{c(b-a)}\ubracketthin{\int_{a}^{b}g(x)}\dx
+\end{align*}
 \listoffigures  
 \end{document} 
 
