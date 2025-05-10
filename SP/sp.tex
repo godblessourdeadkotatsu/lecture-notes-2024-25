@@ -4862,6 +4862,19 @@ If $\beta^{2}\var(C)-2\beta\cov(Y,C)<0$ then $\var(\vartheta_c)<\var(\vartheta_2
 \begin{equation*}
 	\beta^{\star}=\frac{\cov(Y,C)}{\var(C)}=\left(1-\rho^{2}_{Y,C}\right)\var(Y)\qquad\rho^{2}_{Y,C}=\text{correlation coefficient}.
 \end{equation*}
+As an example, consider
+\begin{equation*}
+	I=\ev{\indig{X>0}\cdot e^{5 X}}\qquad\text{with }X\distnorm{(0,1)}.
+\end{equation*}
+We have
+\begin{align*}
+	I&=\int_{0}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{x^{2}}{2}}\cdot e^{5x}\dx\\
+	&=\int_{0}^{\infty}\frac{1}{\sqrt{2\pi}}e^{5x-\frac{x^{2}}{2}}\dx\\
+	&=\frac{e^{\frac{25}{2}}}{\sqrt{2\pi}}\int_{0}^{\infty}e^{-\frac{(x-5)^{2}}{2}}\dx\\
+	&=\frac{e^{\frac{25}{2}}}{\sqrt{2\pi}}\int_{-5}^{\infty}e^{-\frac{y^{2}}{2}}\dy\\
+	&=\ev{e^{\frac{25}{2}}\cdot\indig{X\geq-5}}\\
+	&=e^{\frac{25}{2}}\cdot\pr(X\geq-5).
+\end{align*}
 \listoffigures  
 \end{document} 
 
