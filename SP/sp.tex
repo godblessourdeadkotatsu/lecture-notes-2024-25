@@ -4678,7 +4678,58 @@ We now want to compute the confidence interval.
 		\pr\left(\lambda_1\leq\frac{X-np}{\sqrt{np(1-a)}}\leq\lambda_2\right)\xrightarrow[n\to\infty]{}\int_{\lambda_1}^{\lambda_2}\frac{1}{\sqrt{2\pi}}e^{-\frac{y^{2}}{2}}\dy.
 	\end{equation*}
 \end{theorem}
-This is the baby-ahh version of the central limit theorem.
+This is the baby-ahh version of the central limit theorem. Let us consider a confidence level $1-\alpha$. Then we denote $z_\alpha$ the quantile of the Gaussian distribution such that
+\begin{equation*}
+	\Phi(z_\alpha)=1-\frac{\alpha}{2}
+\end{equation*}
+where $\Phi(z)=\int_{-\infty}^{z}\frac{1}{\sqrt{2\pi}}e^{-\frac{y^{2}}{2}}\dy$. We have that with probability $1-\alpha$
+\begin{equation*}
+	\frac{X-np}{\sqrt{np(1-p)}}\in\left[-\sfrac{z}{\alpha},\sfrac{z}{\alpha}\right].
+\end{equation*}
+Applying this to $\vartheta_{1}$ we have
+\begin{equation*}
+	I\in\left[\vartheta_1-\frac{z_\alpha}{\sqrt{n}}\sqrt{p(1-p)}c(b-a);\vartheta_1+\frac{z_\alpha}{\sqrt{n}}\sqrt{p(1-p)}c(b-a)\right].
+\end{equation*}
+In practice we replace $p$ with $\frac{N^{S}_{n}}{n}$ since $p$ is unknown. The rate of convergence is $\frac{1}{\sqrt{n}}\cdot \text{a constant}$ while the deterministic method has a convergence rate of $\mathcal{O}\left(\frac{g''}{n^{2}}\right)$. The hit or miss method doesn't explode with $n$! Now we want to compute the variance of this estimator:
+\begin{align*}
+	\var(\vartheta_1)&=\frac{c^{2}(b-a)^{2}}{n^{2}}np(1-p)\\
+	&=\frac{I(c(b-a)-I)}{n}.
+\end{align*}
+In order to increase the precision we need to minimize the numerator.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/screenshot068}
+	\caption{Of course...}
+	\label{fig:screenshot068}
+\end{figure}
+This is not always explicitly computable. We could also think about splitting the function so that we can use different more fitting values of $c$.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/screenshot069}
+	\caption{Just like this!}
+	\label{fig:screenshot069}
+\end{figure}
+In general, the hit or miss method is based on a sequence of $n$ experiments and each experiment concerns 1 point but there are variations to this:
+\begin{itemize}
+	\item if one experiment is to consider $k$ points which should be under the curve we have
+	\begin{align*}
+		p&=\pr((X_1,Y_1)\in S,(X_2,Y_2)\in S,\ldots,(X_k,Y_k)\in S)\\
+		&=\pr\left((X_1,Y_1)\in S\right)^{k}\\
+		&=\frac{\left(\int_{a}^{b}g(x)\dx\right)^{k}}{c^{k}(b-a)^{k}}.
+	\end{align*}
+	Using the asymptotic frequency we are able to give a confidence interval for $I^{k}$. 
+	\item If one experiment consists in choosing a Poisson distributed number of points uniformly distributed on $\Omega$ we can compute the probability that no points are below the curve $g$.
+	\begin{align*}
+		p&=\sum_{k=0}^{\infty}\pr(K=k,(X_1,Y_1)\notin S,\ldots,(X_k,Y_k)\notin S)\\
+		&=\sum_{k=0}^{\infty}\frac{\lambda^{k}}{k!}e^{-\lambda}\left(1-\frac{\int_{a}^{b}g(x)\dx}{c(b-a)}\right)^{k}\\
+		&=\expg{\lambda-\frac{\lambda\int_{a}^{b}g(x)\dx}{c(b-a)}-\lambda}\\
+		&=\expg{-\frac{\lambda}{c(b-a)}\int_{a}^{b}g(x)\dx}\\
+		&=\expg{\int_{a}^{b}g(x)\dx}\qquad\text{if }\lambda=c(b-a)
+	\end{align*}
+	so now I can use asymptotic frequency to estimate $e^{-I}$. This is cool since many processes are in the form of $e^{-\text{something}}$. 
+\end{itemize}
+\subsection{Sample mean method}
+
 \listoffigures  
 \end{document} 
 
