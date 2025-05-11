@@ -5015,7 +5015,10 @@ so we only generate normal i.i.d random variables.
 		We can use this fact to say that
 		\begin{align*}
 			\ev{\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|^{p}}^{\frac{1}{p}}&\leq\left(p\int_{0}^{\infty}\delta^{p-1}\ubracketthin{\frac{4n}{\sqrt{2\pi}}\int_{\frac{\delta\sqrt{n}}{\sqrt{t}}}^{\infty}e^{-\frac{y^{2}}{2}}\dy}_{\pr(A\geq\delta)}\dif\delta\right)\\
-			\text{by Fubini }&\leq\left(p\int_{0}^{\infty}\int_{0}^{\infty}\delta^{p-1}\frac{4n}{\sqrt{2\pi}}\indig{\delta\leq\frac{y\sqrt{t}}{\sqrt{n}}}e^{-\frac{y^{2}}{2}}\dy\dif\delta\right)^{\frac{1}{p}}
+			\text{by Fubini }&\leq\left(p\int_{0}^{\infty}\int_{0}^{\infty}\delta^{p-1}\frac{4n}{\sqrt{2\pi}}\indig{\delta\leq\frac{y\sqrt{t}}{\sqrt{n}}}e^{-\frac{y^{2}}{2}}\dy\dif\delta\right)^{\frac{1}{p}}\\
+			&\leq\left(\int_{0}^{\infty}\left(\frac{y\sqrt{t}}{\sqrt{n}}\right)^{p}\frac{4n}{\sqrt{2\pi}}e^{-\frac{y^{2}}{2}}\dy\right)^{\frac{1}{p}}\\
+			&\leq\frac{\sqrt{t}}{(2\pi)^{\frac{1}{2p}}}n^{\frac{1}{p}-\unmezz}\left(\int_{0}^{\infty}y^{p}e^{-\frac{y^{2}}{2}}\dy\right)^{\frac{1}{p}}\\
+			&\leq c_{t}n^{\frac{1}{p}-\unmezz}.
 		\end{align*}
 	\end{enumerate}
 \end{fancyproof}
