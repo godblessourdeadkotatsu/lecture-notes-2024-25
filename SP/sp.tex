@@ -5003,6 +5003,11 @@ so we only generate normal i.i.d random variables.
 			\sup_{[0,T]}|B_{t}-\hat{B}_{t}|\convpr0
 		\end{equation*}
 		as $n\to\infty$.
+		\item By Holder inequality we have that
+		\begin{equation*}
+			\ev{\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|}\leq\ev{\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|^{p}}^{\frac{1}{p}}.
+		\end{equation*}
+		Let $A$ be a positive \rv{} with a density which decreases exponentially fast
 	\end{enumerate}
 \end{fancyproof}
 \listoffigures  
