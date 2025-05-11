@@ -4994,7 +4994,15 @@ so we only generate normal i.i.d random variables.
 			&\leq2n\pr\left(\sup_{t\in\left[0,\frac{T}{n}\right]}B_{t}\geq\delta\right)\\
 			&\leq4n\pr\left(B_{\frac{T}{n}}>\delta\right)\distnorm{0,\frac{T}{n}}.
 		\end{align*}
-		This is called Andre's reflection principle.
+		This is called Andre's reflection principle. From this it follows that 
+		\begin{equation*}
+			\pr\left(\sup_{[0,T]}|B_{t}-\hat{B}_{t}|>\delta\right)\leq\frac{4n}{\sqrt{2\pi}}\int_{\frac{\delta\sqrt{n}}{\sqrt{t}}}^{\infty}e^{-\frac{y^{2}}{2}}\dy\xrightarrow[n\to\infty]{}0
+		\end{equation*}
+		so
+		\begin{equation*}
+			\sup_{[0,T]}|B_{t}-\hat{B}_{t}|\convpr0
+		\end{equation*}
+		as $n\to\infty$.
 	\end{enumerate}
 \end{fancyproof}
 \listoffigures  
