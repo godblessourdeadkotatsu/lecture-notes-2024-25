@@ -5031,10 +5031,16 @@ so we only generate normal i.i.d random variables.
 	\end{enumerate}
 \end{fancyproof}
 What the fuck?\par
-Say we have to generate a $n$-dim random vecotre and use it to approximate a \bwm. We have
+Say we have to generate a $n$-dim random vector and use it to approximate a \bwm. We have
 \begin{equation*}
 	\left(B_{\frac{T}{n}},B_{\frac{2T}{n}},\ldots,B_{T}\right)\sim\left(\sqrt{\frac{T}{n}}X_1,\sqrt{\frac{T}{n}}X_1+\sqrt{\frac{T}{n}}X_2,\ldots,\sqrt{\frac{T}{n}}X_1+\ldots+\sqrt{\frac{T}{n}}X_n\right)
-\end{equation*}
+\end{equation*}.
+What we need to do is:
+\begin{enumerate}
+	\item extract a $n$-dimensional Gaussian vector;
+	\item use Cholesky algorithm to make the covariance matrix lower rectangular
+	\item calculate the cumulative sum (each sum will give a point of the \bwm).
+\end{enumerate}
 \listoffigures  
 \end{document} 
 
