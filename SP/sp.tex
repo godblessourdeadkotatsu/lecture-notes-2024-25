@@ -5020,8 +5020,18 @@ so we only generate normal i.i.d random variables.
 			&\leq\frac{\sqrt{t}}{(2\pi)^{\frac{1}{2p}}}n^{\frac{1}{p}-\unmezz}\left(\int_{0}^{\infty}y^{p}e^{-\frac{y^{2}}{2}}\dy\right)^{\frac{1}{p}}\\
 			&\leq c_{t}n^{\frac{1}{p}-\unmezz}.
 		\end{align*}
+		So we have that 
+		\begin{equation*}
+			\sqrt{n}\ev{\sup_{t\in[0,T]}|B_{t}-\hat{B}_{t}|}\leq c_{t}n^{\frac{1}{p}}\qquad\every p\geq 1.
+		\end{equation*}
+		For $p=n$
+		\begin{equation*}
+			n^{\frac{1}{n}}=e^{\frac{\ln n}{n}}\to1.
+		\end{equation*}
 	\end{enumerate}
 \end{fancyproof}
+What the fuck?\par
+Say we have to generate a $n$-dim random vecotre and use it to approximate a \bwm.
 \listoffigures  
 \end{document} 
 
