@@ -5041,6 +5041,25 @@ What we need to do is:
 	\item use Cholesky algorithm to make the covariance matrix lower rectangular
 	\item calculate the cumulative sum (each sum will give a point of the \bwm).
 \end{enumerate}
+\begin{minted}{python}
+	from math import *
+	import numpy.random as npr
+	import numpy as np
+	import matplotlib.pyplot as plt
+	import numpy.linalg as alg
+	
+	# number of steps of the time grid
+	N=10000
+	delta=1/N
+	t=np.linspace(0,1,N+1)
+	for i in range(4):
+	X=npr.normal(0,1,size=N)
+	Brownian=np.array([0])
+	Brownian=np.append(Brownian,np.cumsum(np.sqrt(delta)*X))
+	plt.plot(t,Brownian)
+	plt.title('4 trajectories of the Brownian Motion')
+	plt.show()
+\end{minted}
 \listoffigures  
 \end{document} 
 
