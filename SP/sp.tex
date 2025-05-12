@@ -5041,7 +5041,14 @@ What we need to do is:
 	\item use Cholesky algorithm to make the covariance matrix lower rectangular
 	\item calculate the cumulative sum (each sum will give a point of the \bwm).
 \end{enumerate}
-\begin{minted}{python}
+\begin{minted}
+	[
+	frame=lines,
+	framesep=2mm,
+	baselinestretch=1.2,
+	fontsize=\footnotesize,
+	linenos
+	]{python3}
 from math import *
 import numpy.random as npr
 import numpy as np
