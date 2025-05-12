@@ -5041,32 +5041,99 @@ What we need to do is:
 	\item use Cholesky algorithm to make the covariance matrix lower rectangular
 	\item calculate the cumulative sum (each sum will give a point of the \bwm).
 \end{enumerate}
-\begin{minted}
-	[
-	frame=lines,
-	framesep=2mm,
-	baselinestretch=1.2,
-	fontsize=\footnotesize,
-	linenos
-	]{python3}
-from math import *
-import numpy.random as npr
-import numpy as np
-import matplotlib.pyplot as plt
-import numpy.linalg as alg
-# number of steps of the time grid
-N = 10000
-delta = 1 / N
-t = np.linspace(0, 1, N + 1)
-for i in range(4):
-	X = npr.normal(0, 1, size=N)
-	Brownian = np.array([0])
-	Brownian = np.append(Brownian, np.cumsum(np.sqrt(delta) * X))
-	plt.plot(t, Brownian)
-plt.title('4 trajectories of the Brownian Motion')
-plt.show()
-\end{minted}
-\listoffigures  
+\subsection{Levy's original argument}
+Let us assume that we have simulated the \bwm{} on a time grid of size $n$. If we want to generate a \bwm{} on a thinner time grid we need to do everything again from scratch which is shit. To avoid this, we work with time grids of $2^{n}$ and us Brownian bridges.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/screenshot071}
+	\caption{To ``add'' new information between two points we use a Brownian bridge.}
+	\label{fig:screenshot071}
+\end{figure}
+We want to describe the value of $B_{\frac{2k+1}{2^{n+1}}}$ when $B_{\frac{k}{2^{n}}}$ and $B_{\frac{k+1}{2^{n}}}$ are known.
+\begin{proposition}
+	If $X\distnorm{0,\sigma_{1}^{2}}\independent Y\distnorm{0,\sigma_{2}^{2}}$ then
+	\begin{equation*}
+		X|X+Y\distnorm{\frac{(X+Y)\sigma_{1}^{2}}{\sigma_{1}^{2}+\sigma_{2}^{2}},\frac{\sigma_{1}^{2}\sigma_{2}^{2}}{\sigma_{1}^{2}+\sigma_{2}^{2}}}.
+	\end{equation*}
+\end{proposition}
+\begin{fancyproof}
+	We have $X+Y\distnorm{0,\sigma_{1}^{2}+\sigma_{2}^{2}}$ so
+	\begin{equation*}
+		\ev{f(X)g(X+Y)}=\frac{1}{\sqrt{2\pi}\sigma_{1}\sigma_{2}}\int\int f(x)g(x+y)e^{-\frac{x^{2}}{2\sigma_{1}^{2}}-\frac{y^{2}}{2\sigma_{2}^{2}}}\dx\dy.
+	\end{equation*}
+	Perform a change of variable
+	\begin{equation*}
+		\begin{cases}
+			u=x\\
+			v=x+y
+		\end{cases}
+	\end{equation*}
+	and get 
+	\begin{equation*}
+		\ev{f(X)g(X+Y)}=\frac{1}{\sqrt{2\pi}\sigma_{1}\sigma_{2}}\int\int f(y)g(v)e^{-\frac{u^2}{2\sigma^{2}_{1}}-\frac{(v-y)^{2}}{2\sigma_{2}^{2}}}\dif v\du
+	\end{equation*}
+	so the conditional distribution is
+	\begin{equation*}
+		\begin{array}{>{\displaystyle}c}
+			\frac{\sqrt{\sigma_{1}^{2}+\sigma_{2}^{2}}}{\sqrt{2\pi}\sigma_{1}\sigma_{2}}\expg{-\frac{u^{2}}{2\sigma_{1}^{2}}+\frac{v^{2}}{2\left(\sigma_{1}^{2}+\sigma_{2}^{2}\right)}-\frac{v^{2}}{2\sigma_{2}^{2}}-\frac{u^{2}}{2\sigma_{1}^{2}}+\frac{2uv}{2\sigma_{2}}}\\
+			\Downarrow\\
+			\frac{\sqrt{\sigma_{1}^{2}+\sigma_{2}^{2}}}{\sqrt{2\pi}\sigma_{1}\sigma_{2}}\expg{-\unmezz\left(u-\frac{v\sigma_1^{2}}{\sigma_{1}^{2}+\sigma_{2}^{2}}\right)^{2}\frac{\sigma_{1}^{2}+\sigma_{2}^{2}}{\sigma_{1}^{2}\sigma_{2}^{2}}}.
+		\end{array}
+	\end{equation*}
+\end{fancyproof}
+In the Brownian case we have that the sum $B_{t_{3}}-B_{t_{1}}$ is known and
+\begin{equation*}
+	\ubracketthin{B_{t_{3}}-B_{t_{2}}}_{\mathsf{N}(0,t_{3}-t_{2})}\independent\ubracketthin{B_{t_{2}}-B_{t_{1}}}_{\mathsf{N}(0,t_{2}-t_{1})}.
+\end{equation*}
+\begin{proposition}
+	We have that
+	\begin{equation*}
+		B_{t_{2}}-B_{t_{1}}\mid B_{t_{3}}-B_{t_{1}}\distnorm{\frac{(B_{t_{3}}-B_{t_{1}})(t_{2}-t_{1})}{t_{3}-t_{1}},\frac{(t_{2}-t_{1})(t_{3}-t_{1})}{t_{3}-t_{1}}}.
+	\end{equation*}
+	So we have
+	\begin{equation*}
+		B_{t_{2}}\sim B_{t_{1}}+\frac{t_{2}-t_{1}}{t_{3}-t_{1}}\left(B_{t_{3}}-B_{t_{1}}\right)+\sqrt{\frac{(t_{2}-t_{1})(t_{3}-t_{2})}{t_{3}-t_{1}}}\ubracketthin{G}_{\mathclap{\distnorm{0,1}}}.
+	\end{equation*}
+\end{proposition}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/screenshot072}
+	\caption{Another very necessary figure}
+	\label{fig:screenshot072}
+\end{figure}
+\subsection{Karhunen-Loeve theorem}
+We know that if 
+	${(X_{t})}_{t\geq0}\text{ is a \bwm}\implies(X_{t})\text{ is a Gaussian}$ continuous process with covariance function $K(s,t)=s\wedge t$. Let us construct the linear operator $T_{k}:L^{2}([a,b])\to L^{2}([a,b])$:
+	\begin{equation*}
+		T_{k}(f)(t)=\int_{a}^{b}K(s,t)f(s)\ds.
+	\end{equation*} 
+	We can see that $T_{k}$ is a probability kernel. Since it is a linear operator we can use the spectral decomposition and compute eigenfunctions and eigenvalues $(e_{k},\lambda_{k})$.
+\begin{theorem}
+	(Mercer). Since $K$ is symmetric positive semidefinite then ${(e_{k})}_{k}$ is an orthogonal basis and $K$ has the representation
+	\begin{equation*}
+		K(s,t)=\sum_{k-1}^{\infty}\lambda_{k}e_{k}(s)e_{k}(t).
+	\end{equation*}
+\end{theorem}
+We construct 
+\begin{equation*}
+	X_{t}=\sum_{k=1}^{\infty}\sqrt{\lambda_{k}}G_{k}e_{k}(t)
+\end{equation*}
+where $G_{k}$ is a sequence of i.i.d. Gaussian random variable $\mathsf{N}(0,1)$. $X_{t}$ converges in $L^{2}$. Moreover
+\begin{align*}
+	\ev{X_{t}X_{s}}&=\sum_{k,j=1}^{\infty}\sqrt{\lambda_{k}\lambda_{j}}\ubracketthin{\ev{G_{k}G_{j}}}_{\claptext{0 if $k\neq j$}}e_{k}(t)e_{j}(s)\\
+	&=\sum_{k=1}^{\infty}\lambda_{k}e_{k}(t)e_{k}(s)\\
+	&=K(s,t).
+\end{align*}
+\appendix
+\chapter{Code}
+\includepdf[pages=1,pagecommand=\section{Simulation of \rv s},scale=0.9]{notebook/lesson1}
+\includepdf[pages=2-4,scale=0.9]{notebook/lesson1}
+\includepdf[pages=1,pagecommand=\section{Monte Carlo methods},scale=0.9]{notebook/lesson2}
+\includepdf[pages=2,scale=0.9]{notebook/lesson2}
+\includepdf[pages=1,pagecommand=\section{Simulation of \bwm},scale=0.9]{notebook/lesson3}
+\includepdf[pages=2-7,scale=0.9]{notebook/lesson3}
+\chapter{Homeworks}
+%\listoffigures  
 \end{document} 
 
 
