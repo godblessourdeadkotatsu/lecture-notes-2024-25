@@ -19,6 +19,8 @@ So let's have a fucking party!
 		\vskip1.2cm
 		
 		\hfill Kotatsu
+		\vskip1.2cm
+		Check the source code for this and other notes in my GitHub repo $\to$ \href{https://github.com/godblessourdeadkotatsu/lecture-notes-2024-25/tree/main/SP}{\faGithubSquare}
 	\end{preface}
 	\clearpage
 	\tableofcontents
@@ -1791,13 +1793,13 @@ Their sample paths is very different!
 \begin{remark}
 	We have 
 	\begin{equation*}
-		M_{t}\sim M_{t}-B_{t}\quad\every y\geq 0 \qquad\text{given and fixed.}
+		M_{t}\sim M_{t}-B_{t}\quad\every t\geq 0 \qquad\text{given and fixed.}
 	\end{equation*}
 \end{remark}
 \begin{fancyproof}
 	By symmetry,\begin{align*}
-		M_{t}\sim\sup_{s\leq t}(-B_{s})&=\sup_{s\leq t}((-B_{s}+B_{t})-B_{t})\\
-		&=\sup_{s\leq t}\Big[\ubracketthin{(B_{t}-B_{t-s})-B_{s}}_{\claptext{$\widetilde{B}_{s}:$ time inversion symmetry}}\Big]\\
+		M_{t}\sim\sup_{s\leq t}(-B_{s})&=\sup_{s\leq t}((B_{t}-B_{s})-B_{t})\\
+		&=\sup_{s\leq t}\Big[\ubracketthin{(B_{t}-B_{t-s})}_{\claptext{$\widetilde{B}_{s}:$ time inversion symmetry}}\Big]-B_{t}\\
 		&=\sup_{s\leq t}\widetilde{B}_{s}-B_{t}\sim M_{t}-B_{t}.
 	\end{align*}
 \end{fancyproof}
@@ -2165,22 +2167,22 @@ Of course this is not a stopping time because to assess whether a 0 is the last 
 	Take
 	\begin{align*}
 		h(s)&=\pr(B_{u}\neq 0,\every u\in[s,t])\\
-		\text{\scriptsize conditioning the $\pr$ to the value of $B$ at $s\rightarrow$}&=\int_{\R}\pr^{B_{s(\omega)}}(B_{u-s},\every u\in[s,t])\cdot\pr(B_{s\in\dif b})\\
+		\text{\scriptsize conditioning the $\pr$ to the value of $B$ at $s\rightarrow$}&=\int_{\R}\pr^{B_{s(\omega)}}(B_{u-s}\neq0,\every u\in[s,t])\cdot\pr(B_{s}\in\dif b)\\
 	\end{align*}
 	So my process at time $s$ will be in $B_{s}(\omega)=b$. I can write the probability conditioned to being in $b$ as $\pr^{b}$. What the fuck is this horrid notation now?
 	\begin{align*}
-		\int_{\R}\pr^{B_{s(\omega)}}(B_{u-s},\every u\in[s,t])\cdot\pr(B_{s\in\dif b})&=\int_{\R}\pr^{b}(B_{u-s}\neq0,\every u\in[s,t])f_{B_{s}}(b)\dif b\\
-		&=\int_{\R}\pr^{0}(B_{u-s}\neq-b,\every u\in[s,t])f_{B_{s}}\tag*{\faCocktail}\label{cock}\\
+		\int_{\R}\pr^{B_{s(\omega)}}(B_{u-s},\every u\in[s,t])\cdot\pr(B_{s}\in\dif b)&=\int_{\R}\ubracketthin{\pr^{b}}_{\mathrlap{\pr(\cdot\mid B_s(\omega)=b)}}(B_{u-s}\neq0,\every u\in[s,t])f_{B_{s}}(b)\dif b\\
+		&=\int_{\R}\pr^{0}(B_{u-s}\neq-b,\every u\in[s,t])f_{B_{s}}(b)\dif b\\
 		&=\int_{\R}\pr^{0}(B_{v}\neq-b,\every v\in[0,t-s])f_{B_{s}}(b)\dif b\\
-		&=\int_{\R}\pr^{0}(\tau_{-b}>t-s)\ubracketthin{f_{B_{s}}(b)}_{\mathclap{\frac{1}{\sqrt{2\pi s}}e^{-\frac{b^{2}}{2s}}}}\dif b.
+		&=\int_{\R}\pr^{0}(\tau_{-b}>t-s)\ubracketthin{f_{B_{s}}(b)}_{\mathclap{\frac{1}{\sqrt{2\pi s}}e^{-\frac{b^{2}}{2s}}}}\dif b.\tag*{\faCocktail}\label{cock}
 	\end{align*}
 	Note that
 	\begin{equation*}
-		\pr^{0}(\tau_{b}\geq t-2)=2\sqrt{\frac{1}{2\pi(t-s)}}\int_{0}^{b}e^{-\frac{x^{2}}{2(t-2)}}\dx
+		\pr^{0}(\tau_{b}\geq t-s)=2\frac{1}{\sqrt{2\pi(t-s)}}\int_{0}^{b}e^{-\frac{x^{2}}{2(t-s)}}\dx
 	\end{equation*}
 	so
 	\begin{equation*}
-		\eqref{cock}=2\int_{0}^{\infty}\left(\sqrt{\frac{1}{2\pi(t-s)}}\int_{0}^{b}e^{-\frac{x^{2}}{2(t-2)}}\dx\right)\cdot\frac{1}{\sqrt{2\pi s}}\cdot e^{-\frac{b^{2}}{2s}}\dif b.
+		\eqref{cock}=2\int_{0}^{\infty}\left(\frac{1}{\sqrt{2\pi(t-s)}}\int_{0}^{b}e^{-\frac{x^{2}}{2(t-s)}}\dx\right)\cdot\frac{1}{\sqrt{2\pi s}}\cdot e^{-\frac{b^{2}}{2s}}\dif b.
 	\end{equation*}
 	So, calling $\beta=\frac{b}{\sqrt{s}}$ and $\mu=\frac{x}{\sqrt{t-s}}$, we get
 	\begin{equation*}
@@ -2238,7 +2240,7 @@ The shape is symmetric: there is a high probability of values at the extreme of 
 	\end{itemize}
 	This means that (and this is \emph{arcsin law III})
 	\begin{equation*}
-		\pr(\ubracketthin{M}_{\claptext{time of last maximum}}<X)=\frac{2}{\pi}\arcsin\sqrt{x}.
+		\pr(\ubracketthin{M}_{\claptext{time of last maximum}}<x)=\frac{2}{\pi}\arcsin\sqrt{x}.
 	\end{equation*}
 \end{remark}
 What about the \emph{arcsin law II}? Consider a \bwm{} $(B_{t})$ and
@@ -2475,7 +2477,7 @@ Subdivide an interval $[a,b]$ through a finite collection of disjoint intervals 
 	\end{equation*}
 	The the sequence of \rv s
 	\begin{equation*}
-		V_{b}=\sum_{(s,t]\in\mathcal{A}_{n}}|B_{t}-B_{s}|^{2}
+		V_{n}=\sum_{(s,t]\in\mathcal{A}_{n}}|B_{t}-B_{s}|^{2}
 	\end{equation*}
 	converges in $L^{2}$ and in probability to the length $b-a$.
 \end{theorem}
@@ -2514,7 +2516,7 @@ Subdivide an interval $[a,b]$ through a finite collection of disjoint intervals 
 	For each $(s,t]$ we have length $(b-a)2^{-n}$ and this means that
 	\begin{align*}
 		\ev{V_{n}}&=b-a\\
-		\var V_{n}&=2^{n}(b-a)^{2}2^{-n}.
+		\var V_{n}&=(b-a)^{2}2^{-n}.
 	\end{align*}
 	If we use Chebyshev's inequality we get
 	\begin{equation*}
@@ -2550,7 +2552,7 @@ As we can see in figure \ref{fig:codio} the function has an extremely oscillator
 	Let $\Omega_{ab}$ be the set of $\omega$ such that $V_{n}\to(b-a)$. Pick $\omega\in\Omega_{ab}$ and let $v^{\star}$ be the total variation of $B(\omega)$. By contradiction, let $v^{\star}<\infty$. We have
 	\begin{align*}
 		\sum_{(s,t]\in\mathcal{A}_{n}}|B_{t}-B_{s}|^{2}&\leq\sup_{(s,t]\in\mathcal{A}_{n}}|B_{t}-B_{s}|\sum_{(s,t]\in\mathcal{A}_{n}}|B_{t}-B_{s}|\\
-		&\leq\left(\sup_{(s,t]\in\mathcal{A}_{n}}|B_{t}-B_{s}\right)v^{\star}
+		&\leq\left(\sup_{(s,t]\in\mathcal{A}_{n}}|B_{t}-B_{s}|\right)v^{\star}
 	\end{align*}
 	but
 	\begin{equation*}
@@ -2587,9 +2589,10 @@ We can see how differentiable functions are always Hölder continuous due to the
 	\end{align*}
 	As $n\to\infty$ we have $$\sup_{(s,t]\in\mathcal{A}_{n}}|t-s|^{2\alpha-1}\to0$$ if $\alpha>\unmezz$, so
 	\begin{equation*}
-		\sum_{(s,t]\in\mathcal{A}_{n}}|B_{t}(\omega)-B_{s}(\omega|^{2})\to0\implies\omega\notin\Omega_{ab}
+		\sum_{(s,t]\in\mathcal{A}_{n}}|B_{t}(\omega)-B_{s}(\omega)|^{2}\to0\implies\omega\notin\Omega_{ab}
 	\end{equation*}
-	by convergence of quadratic variation. This holds of $\every\omega$ in the intersection of $\Omega_{ab}$, $\every$ rational $a,b|a<b$.
+	by convergence of quadratic variation. But this impossible because we know that the quadratic variation of the \bwm{} must be $b-a$. \par
+	This holds of $\every\omega$ in the intersection of $\Omega_{ab}$, $\every$ rational $a,b|a<b$. 
 \end{fancyproof}
 \begin{remark}
 	The result holds for $\alpha=\unmezz$ too:
@@ -2621,7 +2624,7 @@ The central limit theorem holds as well:
 \end{equation*}
 This is like saying
 \begin{equation*}
-	\limsup\frac{B_{t}}{\sqrt{t}}=+\infty\qquad\liminf\frac{B_{t}}{\sqrt{t}}=-\infty\frac{B_{t}}{\sqrt{t}}=-\infty
+	\limsup\frac{B_{t}}{\sqrt{t}}=+\infty\qquad\liminf\frac{B_{t}}{\sqrt{t}}=-\infty
 \end{equation*}
 What we have discovered is that our sample path will always grow slower than the bisector!
 \begin{figure}[H]
@@ -2759,7 +2762,7 @@ Since continuity of a process is tied to the increments, we should analyze them.
 	Let $\Delta_{h}X(t)$ be the increment of the process $X(t)$ in an interval of size $h$.
 \end{definition}
 \begin{equation*}
-	\Delta_{h}X(t)=(X(t-h))-X(t).
+	\Delta_{h}X(t)=(X(t-h)-X(t)).
 \end{equation*}
 \begin{figure}[h]
 	\centering
@@ -2781,7 +2784,7 @@ Keep in mind that the infinitesimal mean and variance are the mean and variance 
 	A diffusion process is characterized as having the following conditions:
 	\begin{enumerate}
 		\item it has strong Markov property;
-		\item $\lim_{h\searrow0}\pr(|\Delta_{h}X(t)|>\varepsilon|X(t)=x)=0$, $x\in I$;
+		\item $\lim_{h\searrow0}\frac{1}{h}\pr(|\Delta_{h}X(t)|>\varepsilon|X(t)=x)=0$, $x\in I$;
 		\item $\mu(x,t)$ and $\sigma^{2}(x,t)$ are continuous functions of $x$ and $t$.
 	\end{enumerate}
 \end{remark}
@@ -2814,7 +2817,7 @@ This is equivalent to the Dynkin condition, but it is much easier to check: we a
 	\begin{equation*}
 		\lim_{h\searrow0}\frac{1}{h}\ev{\left(\Delta_{h}X(t)\right)^{r}|X(t)=x}\qquad r=3,4,\ldots
 	\end{equation*}
-	For diffurion processes these infinitesimal moments are zero for r>2.
+	For diffusion processes these infinitesimal moments are zero for r>2.
 \end{definition}
 \begin{lemma}
 	If a standard process satisfies
@@ -2862,7 +2865,7 @@ We can define a diffusion process:
 	We will need a new type of integral to deal with this shit: the Ito integral. Which is bad and stupid.
 	\item We can use martingales and, in particular, the \emph{Storook-Varadhan} martingale. We do not care.
 \end{enumerate}
-A diffusion process which is often used is the \emph{Orstein-Uhlenbeck} process:
+A diffusion process which is often used is the \emph{Ornstein-Uhlenbeck} process:
 \begin{equation*}
 	I=(-\infty,+\infty),\;\begin{cases}
 		\mu(x)=-\alpha(x)\\
@@ -2873,10 +2876,10 @@ Where $\alpha>0$, $\sigma>0$ are arbitrary. This gives us the following stochast
 \begin{equation*}
 	\dif X_{t}=-\alpha X_{t}\dt+\sigma\dif B_{t}.
 \end{equation*}
-Not considering the noise (that in this model is represented by the \bwm{} component) we describe the phenomenon as a simple first order differential equation that we can quite easily solve. Then we add pack the noise (that contains all stochastic elements) and so we have our perturbed model.\par
+Not considering the noise (that in this model is represented by the \bwm{} component) we describe the phenomenon as a simple first order differential equation that we can quite easily solve. Then we add back the noise (that contains all stochastic elements) and so we have our perturbed model.\par
 There are other methods to ``build'' new diffusions.
 \begin{theorem}
-	Let $X(t)$ be a regular diffusion process on $I=(\lambda,r)$ (it bakes no difference open or closed). Let $\mu(x)$ and $\sigma^{2}(x)$ be its infinitesimal moments. Let $g(x)$ be a strictly monotone function on $I$ with continuous first and second derivatives $g'(x)$ and $g''(x)$ for $x\in(l,r)$. Then the transformed process
+	Let $X(t)$ be a regular diffusion process on $I=(l,r)$ (it makes no difference open or closed). Let $\mu(x)$ and $\sigma^{2}(x)$ be its infinitesimal moments. Let $g(x)$ be a strictly monotone function on $I$ with continuous first and second derivatives $g'(x)$ and $g''(x)$ for $x\in(l,r)$. Then the transformed process
 	\begin{equation*}
 		Y(t)=g(X(t))
 	\end{equation*}
@@ -2884,7 +2887,7 @@ There are other methods to ``build'' new diffusions.
 	\begin{equation*}
 		\begin{array}{c}
 			\mu_{Y}(y)=\unmezz\sigma^{2}(x)g''(x)+\mu(x)g'(x)\big|_{x=g^{-1}(y)}\\
-			\sigma^{2}_{Y}(y)=\sigma^{2}(x)g'(x)\big|_{x=g^{-1}(g)}
+			\sigma^{2}_{Y}(y)=\sigma^{2}(x)g'(x)\big|_{x=g^{-1}(y)}
 		\end{array}
 	\end{equation*}
 	Where $y=g(x)$.
@@ -2892,7 +2895,7 @@ There are other methods to ``build'' new diffusions.
 \begin{fancyproof}
 	Let $g$ be strictly increasing and twice continuously differentiable. Take the Taylor expansion (this is a classic way of dealing with these things)
 	\begin{equation*}
-		g(x+\Delta X)=g(x)+\Delta Xg'(x)=\frac{(\Delta X)^{2}}{2}g''(x)+\unmezz(\Delta X)^{2}\left[g''(\xi)-g''(x)\right]
+		g(x+\Delta X)=g(x)+\Delta Xg'(x)+\frac{(\Delta X)^{2}}{2}g''(x)+\unmezz(\Delta X)^{2}\left[g''(\xi)-g''(x)\right]
 	\end{equation*}
 	for $x\leq\xi<x+\Delta X$. Substitute 
 	\begin{equation*}
@@ -3121,7 +3124,7 @@ and \ref{pasta} becomes the \emph{Kolmogorov backward equation}:
 \end{equation*}
 Also, the transition density function $f(y,t|x,0)$ satisfies the Kolmogorov backward equation
 \begin{equation*}
-	\frac{\partial f(y,t|x,0)}{\partial t}=\mu(x)\frac{\partial f(y,t|x,0)}{\partial x}=\unmezz\sigma^{2}(x)\frac{\partial^{2}f(y,t|x,0)}{\partial x^{2}}\tag*{\faBackspace}\label{backspace}
+	\frac{\partial f(y,t|x,0)}{\partial t}=\mu(x)\frac{\partial f(y,t|x,0)}{\partial x}+\unmezz\sigma^{2}(x)\frac{\partial^{2}f(y,t|x,0)}{\partial x^{2}}\tag*{\faBackspace}\label{backspace}
 \end{equation*}
 for $t>0$, $l<x,y<r$.
 \begin{remark}
@@ -3138,7 +3141,7 @@ Both of the \bwm s in figure \ref{fig:screenshot050} satisfy \ref{bward} and \re
 	It is difficult to prove that $F,f,u$ are differentiable in $t$ and twice differentiable in $x$ so we start from these hypotheses and we prove that $f(y,t|x,0)$ satisfies \ref{backspace}.\par
 	We know that the transition density function $f$ satisfies the \emph{Chapman-Kolmogorov/Smoluchowski} equation
 	\begin{equation*}
-		f(x,t|x_{0},t_{0})=\int_{I}f(x,t|y,\tau)f(y,\tau|x_{0}|t_{0})\dy.\tag*{\faWalking}\label{walking}
+		f(x,t|x_{0},t_{0})=\int_{I}f(x,t|y,\tau)f(y,\tau|x_{0},t_{0})\dy.\tag*{\faWalking}\label{walking}
 	\end{equation*}
 	\begin{figure}[H]
 		\centering
@@ -3181,7 +3184,7 @@ Both of the \bwm s in figure \ref{fig:screenshot050} satisfy \ref{bward} and \re
 	\end{align*}
 	Now divide by $(-\Delta t)$ and let $\Delta t\to0$ so that
 	\begin{equation*}
-		\frac{\partial f(x,t|x_{0}|t_{0})}{\partial t_{0}}=-\sum^{\infty}_{n=1}\frac{1}{n!}\frac{\partial^{n}f(x,t|x_{0},t_{0})}{\partial x^{n}_{0}}\ubracketthin{\lim_{\Delta t\searrow0}\frac{1}{\Delta t}\int_{I}(y-x_{0})^{n}f(y,t_{0}|x_{0},t_{0}-\Delta t)\dy}_{A_{n}(x_{0},t_{0})}
+		\frac{\partial f(x,t|x_{0},t_{0})}{\partial t_{0}}=-\sum^{\infty}_{n=1}\frac{1}{n!}\frac{\partial^{n}f(x,t|x_{0},t_{0})}{\partial x^{n}_{0}}\ubracketthin{\lim_{\Delta t\searrow0}\frac{1}{\Delta t}\int_{I}(y-x_{0})^{n}f(y,t_{0}|x_{0},t_{0}-\Delta t)\dy}_{A_{n}(x_{0},t_{0})}
 	\end{equation*}
 	where $A_{n}(x_{0},t_{0})$ are the infinitesimal moments of a diffusion process
 	\begin{equation*}
@@ -3371,7 +3374,7 @@ Take the \bwm{} with drift with
 We observe that the transformation 
 \begin{equation*}
 	\begin{cases}
-		x_{0}'=\frac{\sqrt{2}}{\sigma}(x_{0},\mu_t)\\
+		x_{0}'=\frac{\sqrt{2}}{\sigma}(x_{0}-\mu_t)\\
 		t_{0}'=t_{0}
 	\end{cases}
 \end{equation*}
@@ -3417,7 +3420,7 @@ As an example, we see the Ornstein-Uhlenbeck process (also known as Vasicek proc
 \end{equation*}
 This is the easier diffusion process after \bwm. It is Gaussian so we can write
 \begin{equation*}
-	\frac{\partial f}{\partial t}=\frac{\partial}{\partial x}\left(\frac{x}{\vartheta}f\right)+\frac{\sigma^{2}}{2}\frac{\partial^{2}f}{\partial x^{2}}.
+	\frac{\partial f}{\partial t}=\frac{\partial}{\partial x}\left(-\frac{x}{\vartheta}f\right)+\frac{\sigma^{2}}{2}\frac{\partial^{2}f}{\partial x^{2}}.
 \end{equation*}
 We can use Fourier transforms to solve it:
 \begin{equation*}
@@ -3529,7 +3532,7 @@ The we consider three problems:
 	that is the probability of crossing $b$ earlier than $a$.
 	\item\label{prob2} Find
 	\begin{equation*}
-		v(x)=\ev{T^{\star}|X(x)=x}\qquad a<x<b.
+		v(x)=\ev{T^{\star}|X(0)=x}\qquad a<x<b.
 	\end{equation*}
 	\item\label{prob3} For a bounded continuous function $g$ find
 	\begin{equation*}
@@ -3645,13 +3648,13 @@ We write
 \end{itemize}
 So
 \begin{equation*}
-	\mathfrak{L}f(x)=\unmezz\frac{\dif}{\dif M}\left[\frac{\dif f(x)}{\dif S}\right].
+	\mathfrak{L}f(x)=\unmezz\frac{\dif}{\dif M(x)}\left[\frac{\dif f(x)}{\dif S(x)}\right].
 \end{equation*}
 This is called \emph{canonical representation of the differential infinitesimal operator}. It is now easy to write the solutions:
 \begin{enumerate}[\bfseries A:]
 	\item canonical representation of the problem A:
 	\begin{equation*}
-		\unmezz\frac{\dif}{\dif M}\left[\frac{\du(x)}{\dif S}\right]=0\qquad\begin{array}{l}
+		\unmezz\frac{\dif}{\dif M(x)}\left[\frac{\du(x)}{\dif S(x)}\right]=0\qquad\begin{array}{l}
 			x\in(a,b)\\
 			u(a)=0\\
 			u(b)=1.
@@ -3659,12 +3662,12 @@ This is called \emph{canonical representation of the differential infinitesimal 
 	\end{equation*}
 	Integrate twice:
 	\begin{equation*}
-		\frac{\dif u(x)}{\dif S(x)}=\beta\implies u(x)=a+\beta S(x)\quad x\in(a,b).
+		\frac{\dif u(x)}{\dif S(x)}=\beta\implies u(x)=\alpha+\beta S(x)\quad x\in(a,b).
 	\end{equation*}
 	We use the boundary conditions:
 	\begin{equation*}
 		\begin{array}{>{\displaystyle}c}
-			u(a)=0\implies a=-\beta S(a)\\
+			u(a)=0\implies \alpha=-\beta S(a)\\
 			u(b)=1\implies \beta=\frac{1}{S(b)}\\
 			\Downarrow\\
 			u(x)=\frac{S(x)-S(a)}{S(b)-S(a)}\qquad x\in[a,b].
@@ -3767,7 +3770,7 @@ and take the limit for $t\to\infty$.
 	\caption{Classic Chapman-Kolmogorov action here. Going to $y$ is like going to $y$ and doing a pit-stop at $z$.}
 	\label{fig:screenshot058}
 \end{figure}
-It is possible to prove that $\psi(x)$ satisfies the Fokker-Plank equation 
+It is possible to prove that $\psi(x)$ satisfies the {Fokker-Plank} equation with $\frac{\partial f}{\partial t}=0$ since we know that the distribution doesn't change anymore as $t$ changes:
 \begin{equation*}
 	0=\unmezz\frac{\partial^{2}}{\partial y^{2}}\left[\sigma^{2}(y)\psi(y)\right]-\frac{\partial}{\partial y}\left[\mu(y)\psi(y)\right].\tag*{\faBuffer}\label{buffer}
 \end{equation*}
@@ -3892,7 +3895,7 @@ Let's start with the first problem. For each sample path starting at $X(0)=x\in(
 		\end{align*}
 		so
 		\begin{equation*}
-			T_{l^{+}}\geq T_{l}=\inf\{t\geq0 X(t)=l\}\implies T_{l^{+}}\geq T_{l}.
+			T_{l^{+}}\geq T_{l}=\inf\{t\geq0| X(t)=l\}\implies T_{l^{+}}\geq T_{l}.
 		\end{equation*}
 	\end{itemize}
 	So $T_{l^{+}}\geq T_{l}$ and $T_{l^{+}}\leq T_{l}$. This means that \begin{equation*}
@@ -3905,9 +3908,9 @@ Let's start with the first problem. For each sample path starting at $X(0)=x\in(
 		\begin{equation*}
 			\pr(T_{l^{+}}\leq T_{b}|X(0)=x)>0\qquad\every l<x<b<r.
 		\end{equation*}
-		\item If $S(l,x_{0}]0\infty$ for some $x_{0}\in(l,r)$ then
+		\item If $S(l,x_{0}]=\infty$ for some $x_{0}\in(l,r)$ then
 		\begin{equation*}
-			\pr(T_{l^{+}}\leq T_{b}|X(0)=x)00\qquad\every l<x<b<r.
+			\pr(T_{l^{+}}\leq T_{b}|X(0)=x)=\infty\qquad\every l<x<b<r.
 		\end{equation*}
 	\end{enumerate}
 \end{lemma}
@@ -3987,7 +3990,7 @@ Remember that $\ev{T_{a}|X(0)=x}=\infty$!
 \end{lemma}
 Remember that 
 \begin{equation*}
-	\Sigma(l)=\int_{l}^{x}S(l,\xi]\dif M(\xi)=\int_{l}^{a}M[\eta,x]\dif(\eta)
+	\Sigma(l)=\int_{l}^{x}S(l,\xi]\dif M(\xi)=\int_{l}^{a}M[\eta,x]\dif S(\eta)
 \end{equation*}
 measures the time that the process takes to reach $l$ or another state $b$ starting from an interior point $x<b$. Really?
 \begin{definition}
@@ -5124,8 +5127,417 @@ where $G_{k}$ is a sequence of i.i.d. Gaussian random variable $\mathsf{N}(0,1)$
 	&=\sum_{k=1}^{\infty}\lambda_{k}e_{k}(t)e_{k}(s)\\
 	&=K(s,t).
 \end{align*}
+So, to recap, we have 2 approaches to generate a \bwm:
+\begin{enumerate}
+	\item using a time grid $0\leq t_{0}\leq\ldots\leq t_{n}$. This suffices to generated the Gaussian vector $(B_{t_{1}},\ldots,B_{t_{n}})$ with covariance matrix $K(i,j)=\frac{T}{n}\min\{i,j\}$ where $i=\frac{t_{i}}{n}$ and $j=\frac{t_{j}}{n}$. If a matrix $A$ satisfies $K=AA^{\trsp}$ (Cholesky factorization of $A$) then 
+	\begin{equation*}
+		(B_{t_{1}},\ldots,B_{t_{n}})\sim A\cdot G
+	\end{equation*}
+	with $G\distnorm{0,1}$. We have two extensions.
+	\begin{enumerate}
+		\item The Ornstein-Uhlenbeck process ${(X_{t})}_{t\geq0}$ is a continuous Gaussian process with 
+		\begin{equation*}
+			\begin{array}{l}
+				X_{0}\distnorm{0,1}\\
+				\ev{X_{t}}=0\\
+				\Gamma(s,t)=\exp\{-\ubracketthin{\gamma}_{>0}|t-s|\}.
+			\end{array}
+		\end{equation*}
+		\item the fractional \bwm ${(B_{t}^{\mathsf{H}})}_{t\geq0}$ is a continuous Gaussian process satisfying 
+		\begin{itemize}
+			\item $B^{\mathsf{H}}_{0}=0$;
+			\item $\ev{B^{\mathsf{H}}}$;
+			\item $\ev{B_{t}^{\mathsf{H}}B_{s}^{\mathsf{H}}}=\unmezz\left(|t|^{2\mathsf{H}}+|s|^{2\mathsf{H}}-|t-s|^{2\mathsf{H}}\right)$.
+		\end{itemize} 
+		Prove that for $\mathsf{H}=\unmezz$, $B^{\mathsf{H}}$ is a \bwm.
+	\end{enumerate}
+	\item Another approach is having $K$ decomposed in an orthonormal basis of $L^{2}([a,b])$:
+	\begin{align*}
+		K(s,t)=\sum_{k=1}^{\infty}\lambda_ke_k(s)e_k(t)
+	\end{align*}
+	where
+	\begin{equation*}
+		X_t=\sum_{k=1}^{\infty}\sqrt{\lambda_k}G_ke_k(t)
+	\end{equation*}
+	defines the continuous Gaussian process with covariance function $K(s,t)$.
+\end{enumerate}
+Let's apply this to the \bwm{} on the interval $(0,1]$: first find the eigenvalues:
+\begin{align*}
+	\int_{0}^{1}e(s)\ds&=\lambda e(t)\qquad t\in[0,1]\\
+	\implies\int_{0}^{1}(s\wedge t)e(s)\ds&=\lambda e(t)\\
+	\implies\int_{0}^{t}se(s)\ds+t\int_{t}^{1}e(s)\ds&=\lambda e(t).
+\end{align*}
+We take the derivative to get
+\begin{equation*}
+	te(t)+\int_{t}^{1}e(s)\ds-te(t)=\lambda e'(t).
+\end{equation*}
+We observe that $e'(1)=0$ and $e(0)=0$. Take the derivative again
+\begin{align*}
+	-e(t)&=\lambda e''(t)\\
+	\implies e(t)&=A\sin\left(\frac{t}{\sqrt{\lambda}}\right)+B\cos\left(\frac{t}{\sqrt{\lambda}}\right)
+\end{align*}
+and we get 
+\begin{equation*}
+	\begin{cases}
+		e_k(t)=\sqrt{2}\sin\left(\left(k-\unmezz\right)\pi t\right)\\
+		\lambda_k=\frac{1}{\left(k-\unmezz\right)^{2}}\pi^{2}.
+	\end{cases}
+\end{equation*}
+The \bwm{} satisfies
+\begin{equation*}
+	B_t=\sqrt{2}\sum_{n=1}^{N}G_k\frac{\sin\left(k-\unmezz\pi t\right)}{\left(k-\unmezz\right)\pi}.
+\end{equation*}
+\subsection{Simulation of $d$-dimensional \bwm}
+We have 
+\begin{equation*}
+	B_{t}=\left(B_{t}^{1},B_{t}^{2},\ldots,B_{t}^{d}\right)
+\end{equation*}
+that corresponds to $d$ independent \bwm s.
+\begin{equation*}
+	B_{t}-B_{s}\distnorm{\mathbf{0},(t-s)I^{d}}
+\end{equation*}
+with $I^{d}$ being the identity matrix of dimension $d\times d$. 
+\begin{definition}
+	A \emph{$Q$-\bwm{}} is a $d$-dimensional \bwm{} such that
+	\begin{equation*}
+		B_{t}-B_{s}\distnorm{\mathbf{0},(t-s)Q}
+	\end{equation*}
+	where $Q$ is a $d\times d$ matrix.
+\end{definition}
+To generate a $Q$-\bwm:
+\begin{enumerate}
+	\item find $A$ such that $A^{\trsp}A=Q$;
+	\item generate a $d$-dimensional \bwm;
+	\item $A((B_{t}^{1},B_{t}^{2},\ldots,B_{t}^{d})$ is a $Q$-\bwm.
+\end{enumerate}
+\begin{exercise}
+	Find a $Q$-\bwm{} with
+	\begin{equation*}
+		Q=\begin{bmatrix}
+			1&1&-0.8\\
+			1&1.04&-0.8\\
+			-0.8&-0.8&0.8
+		\end{bmatrix}.
+	\end{equation*}
+\end{exercise}
+The $Q$-\bwm{} is a ``well behaving'' \bwm which doesn't go craaazy in all directions. But I will, very soon. \par
+Sometimes... Our \bwm{} is not really a \bwm. 
+\begin{itemize}
+	\item The electric potential of neurons looks like a \bwm{} but its is actually bounded between 0 and 1. Also, neurons have memory.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.4\linewidth]{img/screenshot073}
+		\caption{Blud was lacking}
+		\label{fig:screenshot073}
+	\end{figure}
+	\item The price of a financial asset looks like a \bwm{} but actually we can see that its volatility depends on the price. Lower prices generate smaller volatility, higher prices generate more volatility.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.4\linewidth]{img/screenshot074}
+		\caption{Blud was lacking AGAIN}
+		\label{fig:screenshot074}
+	\end{figure}
+	It is more connected with the exponential of the \bwm.
+\end{itemize}
+\section{The SDE (or: how I learned not to worry and to refuse solving Cauchy problems)}
+\subsection{A brief overview}
+For differential equations, the initial value problem is
+\begin{equation*}
+	\begin{cases}
+		x=\frac{\dx}{\dt}=a(t,x(t))\\
+		x(t_{0})=x_{0}
+	\end{cases}\tag*{\faWhatsapp}\label{initialvalue}.
+\end{equation*}
+In general, there are no explicit expressions.
+\begin{theorem}
+	\emph{Cauchy-Lpischitz}. Let $U\subset\R^{d}$ be an open set and $a:[0,T]\times U\to\R^{d}$ be a Lipschitz continuous function. Then $\existsAlt M$ such that
+	\begin{equation*}
+		|a(t,x)-a(t,y)|\leq M|x-y|\qquad\every(t,x),(t,y)\in[0,T]\times U.
+	\end{equation*}
+\end{theorem}
+So for any $x_0\in U$ there exists a unique solution to \ref{initialvalue}. How could we approximate this solution $x(t)$? \par
+The basic differential method is the \emph{Euler method}. We introduce a time grid $0=t_0<t_1<\ldots<t_{n}=T$ that is regular, with a step size of $\Delta=t_k-t_{k-1}$. If $(y_0,y_1,\ldots,y_n)$ is an approximation of $x(t)$ oh the time grid we define the global error as
+\begin{equation*}
+	e_n=y_n-x(t_{n}).
+\end{equation*}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/screenshot075}
+	\caption{Sorry for my handwriting.}
+	\label{fig:screenshot075}
+\end{figure}
+\begin{theorem}
+	Let us assume that $\norm{\ddot{x}}$, the norm of second derivative of $x$ with respect to $t$, is bounded on $[0,T]$. Then defining
+	\begin{equation*}
+		y_{n+1}=y_{n}+a(t_{n},x(t_{n}))
+	\end{equation*}
+	we get
+	\begin{equation*}
+		\norm{e_n}\leq\frac{1}{2n}\left(e^{MT}-1\right)\sup\norm{\ddot{x}}\cdot \Delta.
+	\end{equation*}
+\end{theorem}
+The Euler method is of order $1$. Methods of order $p$ have
+\begin{equation*}
+	\norm{e_n}=\mathcal{O}(\Delta^{p})\qquad\text{as }\Delta\to0
+\end{equation*}
+which means it is bounded by a constant of order $\Delta^{p}$ as $\Delta\to0$.
+\begin{fancyproof}
+	We have
+	\begin{align*}
+		x(t_{n+1})&=x(t_{n})+\dot{x}(t_{n})\Delta+\ddot{x}(\vartheta_n)\frac{\Delta^{2}}{2}\quad\vartheta_n\in[t_{n},t_{n+1}]\\
+		&=x(t_{n})+a(t_{n},x(t_{n}))\Delta+\ddot{x}(\vartheta_n)\frac{\Delta^{2}}{2}.
+	\end{align*}
+	We also have
+	\begin{align*}
+		e_{n+1}&=y_{n+1}-x(t_{n+1})\\
+		&=y_{n}-a(t_{n},y_{n})\Delta-x(t_{n})-a(t_{n},x(t_{n}))\Delta-\ddot{x}(\vartheta_n)\frac{\Delta^{2}}{2}.
+	\end{align*}
+	By the previous theorem we have
+	\begin{equation*}
+		\norm{e_{n+1}}\leq\norm{e_n}+\ubracketthin{M\norm{e_n}\Delta}_{\claptext{Due to Lipschitz property of $a$}}+\unmezz\sup\norm{\ddot{x}}\Delta^{2}.
+	\end{equation*}
+	We notice that
+	\begin{equation*}
+		e_0=y_0=x_0=0
+	\end{equation*}
+	so
+	\begin{equation*}
+		\norm{e_{n+1}}\leq\frac{(1+M\Delta)^{n+1}-1}{(1+M\Delta)-1}\unmezz\sup\ddot{x}\Delta^{2}.
+	\end{equation*}
+\end{fancyproof}
+\begin{remark}
+	It is possible to modify the Euler method:
+	\begin{equation*}
+		\begin{array}{rl}
+			y_{n+1}=y_{n}+&\xcancel{a(t_{n},y_{n})\Delta}\\
+			&a(t_{n+1},y_{n+1})\Delta.
+		\end{array}
+	\end{equation*}
+	This is called the ``backward'' or ``implicit'' Euler method.
+\end{remark}
+To compute the value of $y_{n+1}$ we need to solve an equation. This method is boring as shit and horrible and I hope I will never be required to do it but it is also more stable.
+\subsection{The stochastic integral}
+We want to generalize the ordinary differential equations to the statistic framework. We have already seen the \emph{stochastic differential equation}
+\begin{equation*}
+	\dif X_{t}=b(t,X_{t})\dt+\sigma(t,X_{t})\dif B_{t}.
+\end{equation*}
+\begin{insult}
+	I'll tell you something. This thing doesn't mean shit, it is not even an abuse of notation. This is LITERALLY a made up thing that DOESN'T MEAN ANYTHING and servers ZERO purpose if not to shorten the integral form of this equation.
+\end{insult}
+The integral form of this SDE, which is the ``real'' thing, is 
+\begin{equation*}
+	X_t=X_{0}+\ubracketthin{\int_{0}^{t}b(s,X_s)\ds}_{\text{classic Riemann-Stieltjes integral}}+\ubracketthin{\int_{0}^{t}\sigma(s,X_{s})\dif B_s}_{\text{statement of the utterly deranged}}.
+\end{equation*}
+It makes no sense to write $\dif B_{s}$ because... \bwm{} is nowhere differentiable. We need a new kind of integral for this. Consider the normal Riemann integral method.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{img/screenshot076}
+	\caption{I just learned what a Lebesgue integral is for probability theory and now this shit. Crazy.}
+	\label{fig:screenshot076}
+\end{figure}
+Here we have
+\begin{equation*}
+	\int_{0}^{t}f(s)\ds=\sum_{k}f(t_{k})(t_{k+1}-t_k).
+\end{equation*}
+The idea is using the forward Euler discretization
+\begin{equation*}
+	\sum_{k=0}^{N-1}B_{t_{k}}\ubracketthin{\left(B_{t_{k+1}}-B_{t_{k}}\right)}_{:=\Delta B_{n}}.
+\end{equation*}
+Ir we look at what happens between $t_{k}$ and $t_{k+1}$
+\begin{equation*}
+	\int_{t_{k}}^{t_{k+1}}B_{s}\ds\xrightarrow{\text{\tiny since BM is continuous $B_{s}\sim B_{t_{k}}$}} B_{t_{k}}\int_{t_{k}}^{t_{k-1}}\ds.
+\end{equation*}
+We want to compute the expectation
+\begin{equation*}
+	\sum_{k=0}^{N-1}\ev{B_{t_{k}}}\ev{\Delta B_{n}}=0.\tag*{\faDog}\label{dogo}
+\end{equation*}
+The \faBackward\; Euler method is
+\begin{align*}
+	\text{\ref{dogo}}&=\sum_{k=0}^{N-1}B_{t_{k+1}}\left(B_{t_{k+1}}-B_{t_{k}}\right)\\
+	&=\sum_{k=0}^{N-1}\left[\left(B_{t_{k}}+B_{t_{k+1}-B_{t_{k}}}\right)\left(B_{t_{k+1}}-B_{t_{k}}\right)\right]\\
+	&=\sum_{k=0}^{N-1}\ev{B_{t_{k}}\Delta B_{n}}+\ev{\Delta B^{2}_{n}}=T\neq0.
+\end{align*} 
+We could also use the ``intermediate rule'' (or ``trapezoidal rule'').
+\begin{equation*}
+	\ev{\sum\left(\frac{B_{t_{k}}+B_{t_{k+1}}}{2}\right)\left(B_{t_{k+1}}-B_{t_{k}}\right)}=\frac{T}{2}.
+\end{equation*}
+So, to recap we have the forward Euler discretization
+\begin{equation*}
+	\int_{0}^{t}f(s)\ds=\lim_{N\to\infty}\sum_{n=0}^{N-1}f(t_{n})(t_{n+1}-t_{n}).
+\end{equation*}
+The Euler trapezoidal method yields the same result. For a positive measure $\mu$ we have
+\begin{equation*}
+	\int_{0}^{t}f(s)\ds=\lim_{N\to\infty}\sum_{n=0}^{N-1}f(t_{n})\mu\left([t_{n}-t_{n+1})\right).
+\end{equation*}
+For the stochastic integral we need to study the limit
+\begin{equation*}
+	\sum_{n=0}^{N-1}f(t_{n},B_{n})(B_{t_{n+1}}-B_{t_{n}})\to\int_{0}^{1}f(s,B_{s})\dif B_{s}.
+\end{equation*}
+We use the forward method which defines Ito. If we use the trapezoidal method then we end up with Shatonovich's integral. Go figure.
+\begin{theorem}
+	Assume there exists a constraint $c>0$ such that
+	\begin{equation*}
+		|f(t,x)-f(s,y)|\leq c\left(|t-s|+|x-y|\right).
+	\end{equation*}
+	We consider two time grids of the interval $[0,T]$:
+	\begin{equation*}
+		\begin{array}{>{\displaystyle}l}
+			\left\{t_{n}\right\}^{N}_{n=0}, t_{0}=0,t_{N}=T\\
+			\left\{\bar{t}_{n}\right\}^{\bar{N}}_{n=0},\bar{t}=0,\bar{t}_{\bar{N}}=T.
+		\end{array}
+	\end{equation*}
+	With the forward Euler approximation we get
+	\begin{align*}
+		I&=\sum_{n=0}^{N-1}f(t_{n},B_{t_{n}})(B_{t_{n+1}}-B_{t_{n}})\\
+		\bar{I}&=\sum_{n=0}^{\bar{N}-1}f(\bar{t}_{n},B_{\bar{t}_{n}})(B_{t_{n+1}}-B_{t_{n}}).
+	\end{align*}
+	Then
+	\begin{equation*}
+		\ev{(I-\bar{I})^{2}}=\vartheta(\Delta t_{
+		\max})
+	\end{equation*}
+	where $\Delta t_{\max}=\max\left\{t_{n+1}-t_{n},t_{n+2}-t_{n+1}\ldots\right\}$ 
+\end{theorem}
+\begin{fancyproof}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.4\linewidth]{img/screenshot077}
+		\caption{Two different parts of the interval}
+		\label{fig:screenshot077}
+	\end{figure}
+	We have that an interval is made of 
+	\begin{equation*}
+		f(t_{n},B_{t_{n}})(B_{t_{n+1}}-B_{s})+f(t_{n},B_{t_{n}})(B_{s}-B_{t_{n}}).
+	\end{equation*}
+	We define a finer time grid $\left\{\hat{t}_{k}\right\}=\left\{\bar{t}_{n}\right\}\cup\left\{t_{n}\right\}$ made of the union of all nodes. In this grid
+	\begin{equation*}
+		I-\bar{I}=\sum_{k}\Delta f_{k}\Delta B_{k}\to B_{\hat{t}_{k+1}}-B_{\hat{t}_k}
+	\end{equation*}
+	and
+	\begin{equation*}
+		\Delta f_{k}=f(t_{n},B_{t_{n}})-f(\bar{t}_{n},B_{t_{n}})\quad\text{if }\begin{cases}
+			\hat{t}_{k}\in[t_{n},t_{n+1}]\\
+			\hat{t}_{k}\in[t_{m},t_{m+1}]
+		\end{cases}
+	\end{equation*}
+	hence
+	\begin{align*}
+		\ev{\left(I-\bar{I}\right)^{2}}&=\sum_{k,l}\ev{\Delta f_{k}\Delta f_l\Delta B_k\Delta B_l}\\
+		&=2\sum_{k>l}\ev{\Delta f_k\Delta f_l\Delta B_k\Delta B_l}+\sum_k\ev{(\Delta f_k)^{2}\Delta B^{2}_k}
+	\end{align*}
+	due to the independence of $B_{t_{k+1}}-B_{t_{k}}$ with respect to $\F_{t_{k}}$. So we get
+	\begin{equation*}
+		\ev{\Delta f_k\Delta f_l\Delta B_k\Delta B_k}=\ev{\Delta f_k\Delta f_l\Delta B_l}\cdot\ubracketthin{\ev{\Delta B_k}}_{=0}
+	\end{equation*}
+	and therefore
+	\begin{equation*}
+		\ev{(\Delta f_k)^{2}\Delta B_k^{2}}=\ev{(\Delta f_k)^{2}}\ubracketthin{
+		\ev{\Delta B^{2}_k}}_{t_{k-1}-t_{k}}.
+	\end{equation*}
+	Use Lipschitz property
+	\begin{align*}
+		(\Delta f_k)^{2}&\overset{\claptext{Lipschitz}}{\leq}c^{2}\left(\Delta t_{\max}+|B_{t_{n}}-B_{\bar{t}_{n}}|\right)^{2}\\
+		&\leq 2c^{2}\left(\Delta t_{\max}^{2}+|B_{t_{n}}-B_{\bar{t}_{m}}|^{2}\right)
+	\end{align*}
+	So 
+	\begin{equation*}
+		\ev{(I-\bar{I})^{2}}\leq 2c^{2}\Delta t^{2}_{\max}T+2c^{2}\Delta t_{\max}T.
+	\end{equation*}
+	So $I$ is depending on $\Delta t_{\max}$ and it is a Cauchy sequence in a Hilbert space (a \rv{} with finite second moment) with
+\begin{equation*}
+		\begin{array}{l}
+		\norm{X}=\sqrt{\ev{X^{2}}}\\
+		\langle X,Y\rangle+\ev{XY}.
+	\end{array}
+\end{equation*}
+$I(\Delta t_{\max})$ converges to some limit that defines the Ito integral in $L^{2}$.
+\end{fancyproof}
+\begin{remark}
+	\begin{equation*}
+		\sqrt{\ev{(I-\bar{I})^{2}}}\leq c\sqrt{\Delta t_{\max}}.
+	\end{equation*}
+	If $f(t,x)=f(t)$ (it does not depend on $x$) then we have faster convergence:
+	\begin{equation*}
+		\sqrt{\ev{(I-\bar{I})^{2}}}\leq c\Delta t_{\max}.
+	\end{equation*}
+\end{remark}
+\begin{definition}
+	A function $f:[0,1]\times\Omega\to\R$ is adapted if $f(t,0)$ only depends on events that are generated by $(B_{s},s\leq t)$.
+\end{definition}
+This allows us to extend the Ito integral to adapted functions. If
+\begin{equation*}
+	\ev{|f(t+s,\cdot)-f(t,\cdot)}\leq cs
+\end{equation*}
+then the conclusion of the previous theorem still holds.
+\subsection{Properties of the Ito integral}
+\begin{theorem}
+	If $f$ and $g$ are integrable (for example being Lipschitz) then
+	\begin{enumerate}[\circnum]
+		\item $\int_{0}^{T}c_1f(s,\cdot)+c_2g(s,\cdot)\dif B_s=c_1\int_{0}^{T}f(s,\cdot)\dif B_s+c_s\int_{0}^{T}g(s,\cdot)\dif B_s$;
+		\item $\ev{\int_{0}^{T}f(s,\cdot)\dif B_s}=0$;
+		\item $\ev{\left(\int_{0}^{T}f(s,\cdot)\dif B_s\right)\left(\int_{0}^{T}g(s,\cdot)\dif B_s\right)}=\int_{0}^{T}\ev{f(s,\cdot)g(s,\cdot)}\ds$.
+	\end{enumerate}
+\end{theorem}
+For $d$-dimensional integrals this means having
+\begin{equation*}
+	B_t=\left(B_t^1,B_t^2,\ldots,B_t^d\right)\quad f(t,\cdot):[0,T]\times\Omega\to\R^{d}
+\end{equation*}
+so that we get
+\begin{equation*}
+	\begin{array}{>{\displaystyle}c}
+		\int_0^Tf(s,\cdot)\dif B_s=\sum_{i=1}^{d}\int_{0}^{T}f_i(s,\cdot)\dif B_s\\
+		\Downarrow\\
+		\int_0^Tf(s,\cdot)\dif B_s\approx\sum_{i=1}^{d}\sum_{n=0}^{N-1}f_i(t_n,\cdot)\left(B_{t_{n-1}}^{i}-B_{t_{n}}^{i}\right).
+	\end{array}
+\end{equation*}
+We can thus apply the Euler and Milstein schemes with $d=1$.
+\begin{equation*}
+	X_t=X_0+\int_{0}^{t}b(s,X_s)\ds+\int_{0}^{t}\sigma(s,X_s)\dif B_s.\tag*{\faDev}\label{dev}
+\end{equation*}
+We assume that $b$ and $\sigma$ are Lipschitz continuous:
+\begin{align*}
+	|b(t,x)-b(t,y)|&\leq c|x-y|\quad\text{for }t\in[0,T]\\
+	|\sigma(t,x)-\sigma(t,y)|&\leq c|x-y|\quad\text{with linear growth}\\
+	|b(t,x)|^{2}&\leq c(1+|x|^{2}).
+\end{align*}
+Let's assume that $\ev{X^{2}_{0}}\leq\infty$. The there exists a continuous stochastic process ${(X_{t})}_{t\in[0,T]}$ adapted and satisgying 
+\begin{equation*}
+	\ev{\int_{0}^{T}X^{2}_{s}\ds}<\infty\text{ s.t. \ref{dev} }\pr-\as{}
+\end{equation*}
+Moreover this process is pathwise unique.
+\begin{equation*}
+	\pr\left(\sup_{0\leq t\leq T}\left|X_{t}-\widetilde{X}_{t}\right|>\delta\right)\qquad\every\delta>0.
+\end{equation*}
+\begin{remark}
+	If $b$ and $\sigma$ do not depend on $t$
+	\begin{equation*}
+		\begin{cases}
+			b(t,x)=b(x)\\
+			\sigma(t,x)=\sigma(x)
+		\end{cases}
+	\end{equation*}
+	then the SDE is homogeneous.
+\end{remark}
+Introduce the Euler scheme with $\Delta=\max\left\{t_{j}-t_{j-1}\right\}$ on the time grid:
+\begin{equation*}
+	X^{\Delta}_{t_{j}}=X^{\Delta}_{t_{j-1}}+b\left(t_{j-1},X^{\Delta}_{j-1}\right)\Delta+\sigma\left(t_{j-1},X^{\Delta}_{j-1}\right)\left(B_{t_{j}}-B_{t_{j-1}}\right).
+\end{equation*}
+Then ${\left(X^{\Delta}_{t_{j}}\right)}_{j=0,\ldots,n}$ is an approximation of $X_{t}$. $X^{\Delta}_{t}$ is a strong approximation of $X$ of order $\beta$ if
+\begin{equation*}
+	\ev{|X_{t}^{\Delta}-X_{t}|}\leq c\cdot\Delta^{\beta}.
+\end{equation*} 
+Let $g\in \mathscr{C}^{n}(\R)$. Then $X^{\Delta}$ is a weak approximation of $x$ of order $\beta$ if
+\begin{equation*}
+	\left|\ev{g(X_{t}^{\Delta})}-\ev{g(X_{t})}\right|\leq c\Delta^{\beta}
+\end{equation*}
+We are now able to compute 
+\begin{equation*}
+	\ev{g(X_{t})}\approx\frac{1}{N}\sum_{n=1}^{N}g\left(X_{T}^{\Delta,n}\right)
+\end{equation*}
+which is the application of Monte Carlo methods to the Euler scheme.
 \appendix
 \chapter{Code}
+This is the code shared by Professor Hermann. These are jupyter notebook that you can find on my \href{https://github.com/godblessourdeadkotatsu/lecture-notes-2024-25/tree/main/SP}{GitHub repo}. \faGithub
 \includepdf[pages=1,pagecommand=\section{Simulation of \rv s},scale=0.9]{notebook/lesson1}
 \includepdf[pages=2-4,scale=0.9]{notebook/lesson1}
 \includepdf[pages=1,pagecommand=\section{Monte Carlo methods},scale=0.9]{notebook/lesson2}
@@ -5133,8 +5545,14 @@ where $G_{k}$ is a sequence of i.i.d. Gaussian random variable $\mathsf{N}(0,1)$
 \includepdf[pages=1,pagecommand=\section{Simulation of \bwm},scale=0.9]{notebook/lesson3}
 \includepdf[pages=2-7,scale=0.9]{notebook/lesson3}
 \chapter{Homeworks}
-%\listoffigures  
+These are the homeworks that we had to do this year. They are unreviewed, so take these at your own risk. For example, I am pretty sure the answer to the first question of the first homework is wrong.
+\addcontentsline{toc}{section}{Homework 1}
+\includepdf[pages=-,scale=0.9]{Homework 1/main}
+
+\addcontentsline{toc}{section}{Homework 2}
+\includepdf[pages=-,scale=0.9]{Homework 2/main}
+\listoffigures  
 \end{document} 
 
 
-%THIS IS THE DARK AGE OF LOVE   
+%THIS IS THE DARK AGE OF LOVE   $\cdot$

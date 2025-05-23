@@ -16,9 +16,9 @@
 			\vspace{5pt}
 			\textbf{M.S. in Stochastics and Data Science}\\
 			\vspace{20pt}
-			\textit{Niccolò Disassonia} 863128 \\
+			\censor{\textit{Niccolò Disassonia} 863128 \\
 			\textit{Varaga Haghoubians} 1088805\\
-			\textit{Lorenzo Sala} 943481\\
+			\textit{Lorenzo Sala} 943481\\}
 			\vspace{5pt}
 			\today
 		\end{center}
@@ -221,7 +221,7 @@
 		\end{itemize}
 		So our situation for the boundary $b=\infty$ is
 		\begin{equation*}
-			S(0,x]=\infty\quad M(0,x]=\infty\quad \Sigma(0)=\infty \quad N(0)=\infty.
+			S(x,\infty]=\infty\quad M(x,\infty]=\infty\quad \Sigma(\infty)=\infty \quad N(\infty)=\infty.
 		\end{equation*}
 		So, according to the Feller terminology this boundary is:
 		\begin{itemize}[$\diamond$]
@@ -264,7 +264,7 @@
 			\end{align*}
 			so we get
 			\begin{equation*}
-				\mu(y)=1.
+				m(y)=1.
 			\end{equation*}
 			We can also calculate $S(x):$
 			\begin{align*}
@@ -389,7 +389,7 @@ We need to show that
 \begin{equation*}
 	\pr(X(t+s)\in A|\F_{t})\neq\pr(X(t+s)\in A|X(t)).
 \end{equation*}
-An alternative definition of Markov property that can be found in \cite[64]{rene} is that any $d$-dimensional $\F_{t}$ adapted stochastic process ${\{X_{t}\}}_{t\geq0}$ with right continuous paths is a Markov process if it satisfies
+We know that an alternative definition of Markov property is that any $d$-dimensional $\F_{t}$ adapted stochastic process ${\{X_{t}\}}_{t\geq0}$ with right continuous paths is a Markov process if it satisfies
 \begin{equation*}
 	\ev\left[u(X(t+s))\mid\F_{t}\right]=\ev\left[u(X(t+s)\mid X(t))\right]
 \end{equation*}
