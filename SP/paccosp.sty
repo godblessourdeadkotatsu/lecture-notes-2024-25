@@ -259,43 +259,7 @@
 							}{
 							\end{tikzpicture}
 						}
-						
-			
-							
-						\newcounter{algor}
-						%now making the proposition
-						\newtcbtheorem{algo}{Complexity analysis}{
-							enhanced, 
-							breakable,
-							interior style={left color=red!30,right color=white!29},
-							title style={left color=red!30,right color=red!80},
-							colframe=white, coltitle=black, colbacktitle=red!60,
-							colback=red!80!black,
-							titlerule=0mm,
-							separator sign={:},
-							description formatter=\newline,
-							theorem hanging indent/.try=0pt,
-						}{}
-						
-						\newenvironment{complexity}[1][]{
-							{\par\noindent\ignorespaces}
-							{\ignorespacesafterend} 
-							\hfill   
-							\stepcounter{algor}
-							\stepcounter{dummy}
-							\ifstrempty{#1}
-							{%   
-								\hfill
-								\begin{algo}{}{\thealgor\thedummy eeeheheh\thedefi}%                     
-								}{%        
-									\hfill
-									\begin{algo}{}{\thetheo,\thealgor ahah\thedummy}%                 
-									}%
-								}{%
-								\end{algo}% 
-							}
-							
-							
+
 							\newcounter{exampl}
 							
 							\newtcbtheorem[number within=section]{exa}{Example}{

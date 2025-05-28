@@ -339,7 +339,7 @@ So this should be the variance of our random walk. If we take the limit for $x$ 
 	\begin{align*}
 		X_{T}&=(2S_{N}-\ubracketthin{N}_{\mathclap{\evs 2 S_{N}}})\Delta X\\
 		&=\frac{2 S_{N}-\evs 2 S_{N}}{\mathcolor{Green4}{\sqrt{N}}}\mathcolor{Green4}{\sqrt{N}}\Delta X\\
-		&=\frac{2S_{N}-\evs 2 S_{N}}{\sqrt{\var(2S_{N})}}\ubracketthin{\sqrt{N}}_{\sqrt{\frac{T}{\delta t}}}\ubracketthin{\Delta X}_{{\sigma\sqrt{\Delta t}}}\\
+		&=\frac{2S_{N}-\evs 2 S_{N}}{\sqrt{\var(2S_{N})}}\ubracketthin{\sqrt{N}}_{\sqrt{\frac{T}{\Delta t}}}\ubracketthin{\Delta X}_{{\sigma\sqrt{\Delta t}}}\\
 		&=\frac{2S_{N}-\evs 2 S_{N}}{\ubracketthin{\sqrt{\var(2S_{N})}}_{\claptext{This gets to $Z\distnorm{0,1}$ as $N\to\infty$}}}\sigma\sqrt{T}.
 	\end{align*}
 	So we get that this quantity gets to $Z\sigma\sqrt{t}$ and it is true for each $t$:
@@ -648,7 +648,7 @@ There are some properties:
 \begin{proposition}
 	\begin{itemize}
 		\item Let $X\distnorm{0,\Sigma_{n}}$. The distribution of $\left[X_{k+1,\ldots,k+n}\right]$ conditioned to $\left[X_{1}=x_{1},\ldots,X_{k}=x_{k}\right]$ is \begin{equation*}
-		W(0,\Sigma_{2|1})
+		\mathsf{N}(0,\Sigma_{2|1})
 		\end{equation*}
 		where 
 		\begin{equation*}
@@ -895,7 +895,7 @@ So, since we saw that the BM has Gaussian distribution then it exists! But hold 
 			\item[1.] We know $W_{0}=0$.\hspace*{\fill}\faCheckCircle
 			\item [2.-3.] If $t_{0}=0<t_{1}<\ldots<t_{n}$ then
 			\begin{align*}
-				W_{t_{h}}-W_{t_{j-1}}&=B_{t_{j}+a}-\cancel{B_{a}}-B_{t_{j-1}+a}+\cancel{B_{a}}\\
+				W_{t_{j}}-W_{t_{j-1}}&=B_{t_{j}+a}-\cancel{B_{a}}-B_{t_{j-1}+a}+\cancel{B_{a}}\\
 				&=B_{t_{j}-a}-B_{t_{j-1}+a}\distnorm{0,t_{j}-t_{j-1}}
 			\end{align*}
 			so the independence of the increments and their stationarity follows from those of $B_{t}$.\hspace*{\fill}\faCheckCircle
@@ -1006,7 +1006,7 @@ This is nothing new from what we already knew. We just added the complex definit
 \newtcolorbox{gold}[1]{enhanced jigsaw, interior style={shade, ball color=Gold1!40},breakable,coltitle=white,colbacktitle=Gold4, title = #1, colframe=black, fonttitle=\bfseries,sharp corners}
 \begin{gold}{Three golden martingales}
 	\begin{enumerate}
-		\item ${(B_{t})}_{t\geq0}$;
+		\item ${(|B_{t}|)}_{t\geq0}$;
 		\item ${(B_{t}^{2}-t)}_{t\geq 0}$ (or $B_{t}^{2}-\dt$ if $B_{t}$ is a $\mathrm{BM}^{d}$);
 		\item ${\left(e^{\sigma B_{t}-\frac{\sigma^{2}}{2}t}\right)}_{t\geq 0}$.
 	\end{enumerate}
@@ -1023,7 +1023,7 @@ This is nothing new from what we already knew. We just added the complex definit
 		\end{equation*}
 		Hence, it has expectation
 		\begin{align*}
-			\evs|B_{t}|&=\int_{0}^{\infty}f_{|B_{t}|}(y)\dy\\
+			\ev{|B_{t}|}&=\int_{0}^{\infty}f_{|B_{t}|}(y)\dy\\
 			&=\sqrt{\frac{2}{\pi t}}t\int_{0}^{\infty}y\cdot\frac{1}{t}\cdot e^{-\frac{y^{2}}{2t}}\dy\\
 			\text{change of variable: }&u=\frac{y^{2}}{2t}\implies \du=\frac{y}{t}\dy\implies\dy=\du\frac{t}{y}\\
 			&=\sqrt{\frac{2t}{\pi}}\ubracketthin{\int_{0}^{\infty}e^{-u}\du}_{=1}\\
@@ -1080,7 +1080,7 @@ This is nothing new from what we already knew. We just added the complex definit
 	\begin{align*}
 		\evs[M_{t}^{\lambda}|\F_{s}]&=e^{\frac{t}{2}|\lambda^{2}|}\evs\left[e^{i\inprod{\lambda,B_{t}-B_{s}+B_{s}}}|\F_{s}\right]\\
 		&=e^{\frac{t}{2}|\lambda^{2}|}\ubracketthin{\evs\left[e^{i\inprod{\lambda, B_{t}-B_{s}}}|\F_{s}\right]}_{B_{t}-B_{s}\independent\F_{s}}e^{i\inprod{\lambda, B_{s}}}\\
-		&=e^{\frac{t}{2}|\lambda^{2}|}e^{i\inprod{\lambda, B_{s}}}\evs\Bigl[e^{i\inprod{\lambda,\overbracket{B_{t}-B_{s}}^{B_{t-2}}}}\Bigr]\\
+		&=e^{\frac{t}{2}|\lambda^{2}|}e^{i\inprod{\lambda, B_{s}}}\evs\Bigl[e^{i\inprod{\lambda,\overbracket{B_{t}-B_{s}}^{B_{t-s}}}}\Bigr]\\
 		&=e^{\frac{t}{2}|\lambda^{2}|}e^{i\inprod{\lambda,B_{s}}}\ubracketthin{e^{-\frac{t-s}{2}\lambda^{2}}}_{\claptext{characteristic function of $\mathsf{N}(0,t-s)$}}.
 	\end{align*}
 \end{enumerate}
@@ -1333,7 +1333,7 @@ We proved that \bwm{} has the martingale property. We will now use the Doob's op
 	\begin{equation*}
 		\begin{array}{c}
 			\evs B_{t}=0\\
-			-a\pr(B_{\tau}=-1)+b\pr(B_{\tau}=b)=0.
+			-a\pr(B_{\tau}=-a)+b\pr(B_{\tau}=b)=0.
 		\end{array}
 	\end{equation*}
 	Furthermore, we know
@@ -1377,7 +1377,7 @@ Remember that the one-dimensional \bwm{} is recurrent, meaning that it visits 1 
 \end{equation*}
 and
 \begin{equation*}
-	\B_{\tau_{1}}=1\text{ and }\evs B_{\tau_{1}}=\evs B^{2}_{\tau_{1}}=1.
+	\ev{B_{\tau_{1}}}=1\text{ and }\evs B_{\tau_{1}}=\evs B^{2}_{\tau_{1}}=1.
 \end{equation*}
 This means that
 \begin{equation*}
@@ -2171,7 +2171,7 @@ Of course this is not a stopping time because to assess whether a 0 is the last 
 	\end{align*}
 	So my process at time $s$ will be in $B_{s}(\omega)=b$. I can write the probability conditioned to being in $b$ as $\pr^{b}$. What the fuck is this horrid notation now?
 	\begin{align*}
-		\int_{\R}\pr^{B_{s(\omega)}}(B_{u-s},\every u\in[s,t])\cdot\pr(B_{s}\in\dif b)&=\int_{\R}\ubracketthin{\pr^{b}}_{\mathrlap{\pr(\cdot\mid B_s(\omega)=b)}}(B_{u-s}\neq0,\every u\in[s,t])f_{B_{s}}(b)\dif b\\
+		\int_{\R}\pr^{B_{s}(\omega)}(B_{u-s},\every u\in[s,t])\cdot\pr(B_{s}\in\dif b)&=\int_{\R}\ubracketthin{\pr^{b}}_{\mathrlap{\pr(\cdot\mid B_s(\omega)=b)}}(B_{u-s}\neq0,\every u\in[s,t])f_{B_{s}}(b)\dif b\\
 		&=\int_{\R}\pr^{0}(B_{u-s}\neq-b,\every u\in[s,t])f_{B_{s}}(b)\dif b\\
 		&=\int_{\R}\pr^{0}(B_{v}\neq-b,\every v\in[0,t-s])f_{B_{s}}(b)\dif b\\
 		&=\int_{\R}\pr^{0}(\tau_{-b}>t-s)\ubracketthin{f_{B_{s}}(b)}_{\mathclap{\frac{1}{\sqrt{2\pi s}}e^{-\frac{b^{2}}{2s}}}}\dif b.\tag*{\faCocktail}\label{cock}
@@ -2286,7 +2286,7 @@ Truly horrible. Here is a cheatsheet:
 	\hline
 	\emph{Arcsin law III}&\emph{Arcsin law IV}\\
 	\hline
-	$\pr({M}<X)=\frac{2}{\pi}\arcsin\sqrt{x}$&$\alpha=\frac{2}{\pi}\arccos\sqrt{\frac{t_{0}}{t}}$\\
+	$\pr({M}<x)=\frac{2}{\pi}\arcsin\sqrt{x}$&$\alpha=\frac{2}{\pi}\arccos\sqrt{\frac{t_{0}}{t}}$\\
 	\hline
 \end{tabular}
 \end{center}
@@ -4330,7 +4330,7 @@ In particular, we can exploit this to generate \rv s from many discrete distribu
 		Let $f$ be a Borel non-negative function. Then
 		\begin{align*}
 			\ev{f(X,Y)}&=\ev{f\left(\sqrt{2V}cos(2\pi U),\sqrt{2V}\sin(2\pi U)\right)}\\
-			&=\int_{0}^{\infty}\int_{0}^{1}f\left(\sqrt{2v}cos(2\pi u),\sqrt{2v}\sin(2\pi u)\right)\ubracketthin{e^{-v}}_{\claptext{exponential density}}\dif v\du.
+			&=\int_{0}^{\infty}\int_{0}^{1}f\left(\sqrt{2v}\cos(2\pi u),\sqrt{2v}\sin(2\pi u)\right)\ubracketthin{e^{-v}}_{\claptext{exponential density}}\dif v\du.
 		\end{align*}
 		To perform a change of variable form $(U,V)$ to $(X,Y)$ we need the determinant of the Jacobian matrix
 				\begin{equation*}
@@ -4750,7 +4750,7 @@ The idea is to write $I$ as an expectation:
 where $X$ is a \rv{} with probability distribution function $f_{X}$. There are conditions to write $I$ as an expectation: we need that $f_{X}(x)=0\to g(x)=0$ and that $\sup(g)\subset\sup(f_{X})\in[a,b]$.
 Let us consider $X_1,X_2,\ldots,X_n$ with $n\independent$ \rv s with probability density function $f_{X}$. Then
 \begin{equation*}
-	\vartheta_2=\frac{1}{n}\sum_{k=1}^{n}\frac{g(x_k)}{f_X(x_k)}
+	\vartheta_2=\frac{1}{n}\sum_{k=1}^{n}\frac{g(X_k)}{f_X(X_k)}
 \end{equation*}
 is an estimator of $I$; more precisely, if $\ev{\left|\frac{g(x)}{f_X(x)}\right|}<\infty$ then by LLN
 \begin{equation*}
@@ -5114,7 +5114,7 @@ We know that if
 \begin{theorem}
 	(Mercer). Since $K$ is symmetric positive semidefinite then ${(e_{k})}_{k}$ is an orthogonal basis and $K$ has the representation
 	\begin{equation*}
-		K(s,t)=\sum_{k-1}^{\infty}\lambda_{k}e_{k}(s)e_{k}(t).
+		K(s,t)=\sum_{k=1}^{\infty}\lambda_{k}e_{k}(s)e_{k}(t).
 	\end{equation*}
 \end{theorem}
 We construct 
@@ -5535,7 +5535,228 @@ We are now able to compute
 	\ev{g(X_{t})}\approx\frac{1}{N}\sum_{n=1}^{N}g\left(X_{T}^{\Delta,n}\right)
 \end{equation*}
 which is the application of Monte Carlo methods to the Euler scheme.
-\appendix
+\subsection{The Euler-Maruyama method}
+Our SDE is
+\begin{equation*}
+	\begin{cases}
+		\dif X_t=b(t,X_t)\dt+\sigma(t,B_t)\dif B_t\\
+		X_0\qquad\text{fixed}.
+	\end{cases}
+\end{equation*}
+On the time interval $[0,T]$ we approximate ${(X_{t})}_{t\in[0,T]}$ by ${(X^{\Delta}_{t})}_{t\in[0,T]}$ where $\Delta=\max\left\{t_{n+1}-t_{n}\right\}$ for $0\leq n\leq N$. We use the Euler method:
+\begin{equation*}
+	\begin{cases}
+		X^{\Delta}_{t_{n+1}}=X^{\Delta}_{t_{n}}+b(t_{n},X_{t_{n}}^{\Delta})(t_{n+1}-t_{n})+\sigma(t_{n},X^{\Delta}_{t_{n}})(B_{t_{n+1}}-B_{t_{n}})\\
+		X^{\Delta}_0=x_0
+	\end{cases}.
+\end{equation*}
+Here ${(X^{\Delta}_{t})}_{t\in[0,T]}$ is the piecewise extension of $X^{\Delta}_{t_{n}}$.
+\begin{equation*}
+	X^{\Delta}_{t}=X^{\Delta}_{t_{n}}\qquad\every t\in[t_{n},t_{n+1}].
+\end{equation*}
+\begin{theorem}
+	Under the following assumptions
+	\begin{align*}
+		&|b(t,x)-b(t,y)|+|\sigma+(t,\alpha)-\sigma(t,y)|\leq k|a-y|\\
+		&|b(t,x)|+|\sigma(t,x)|\leq k(1+|x|)\\
+		&|b(t,x)-b(s,x)|+|\sigma(t,x)-\sigma(s,x)|\leq(t(1+|x|))\sqrt{t-s}
+	\end{align*}
+	the Euler scheme has a strong convergence of order 2:
+	\begin{equation*}
+		\sup_{t\in T}\ev{|X^{\Delta}_{t}-X_{t}}\leq c_{t}\sqrt{\Delta}.
+	\end{equation*}
+\end{theorem}
+\begin{fancyproof}
+	We define $n(t)=\max\left\{n:t_{n}\leq t\right\}$. We have
+	\begin{align*}
+		X_{t}^{\Delta}&=X^{\Delta}_{t_{n(t)}}=X_{0}+\int_{0}^{t_{n(t)}}b\left(t_{n(s)},X^{\Delta}_{t_{n(s)}}\right)\ds+\int_{0}^{t_{n(t)}}\sigma\left(t_{n(s)},X^{\Delta}_{t_{n(s)}}\right)\dif B_s.
+	\end{align*}
+	Define
+	\begin{equation*}
+		Z(t):=\sup_{t\leq T}\ev{\left|X^{\Delta}_{t}-X_{t}\right|^{2}}.
+	\end{equation*}
+	We have
+	\begin{align*}
+		X^{\Delta}_{t}-X_{t}=&\color{Gold3}\boxed{\color{black}\begin{aligned}
+				&\int_{0}^{t_{n(t)}}b\left(t_{n(s)},X^{\Delta}_{t_{n(s)}}\right)-b\left(t_{n(s)},X^{\Delta}_{s}\right)\ds+\\
+		&+\int_{0}^{t_{n(t)}}\sigma\left(t_{n(s)},X^{\Delta}_{t_{n(s)}}\right)-\sigma\left(t_{n(s)},X^{\Delta}_{s}\right)\dif B_s+\\
+		\end{aligned}}\tag*{\Large \color{Gold3}a}\\
+	&\color{SeaGreen3}\boxed{\color{black}\begin{aligned}
+				&+\int_{0}^{t_{n(t)}}b\left(t_{n(s)},X^{\Delta}_{s}\right)\ds+\int_{0}^{t_{n(t)}}\sigma\left(t_{n(s)},X^{\Delta}_{s}\right)-\sigma\left(s,X_s\right)\dif B_s-\\
+		\end{aligned}}\tag*{\Large \color{SeaGreen3}b}\\
+		&\color{Turquoise3}\boxed{\color{black}\begin{aligned}
+				&-\int_{t_{n(t)}}^{t}b(s,X_s)\ds-\int_{t_{n(t)}}^{t}\sigma(s,X_s)\dif B_s
+		\end{aligned}}\tag*{\Large \color{Turquoise3}c}
+	\end{align*}
+	and we know that 
+	\begin{equation*}
+		\begin{array}{>{\displaystyle}c}
+			(\textcolor{Gold3}{a}+\textcolor{SeaGreen3}{b}+\textcolor{Turquoise3}{c})^{2}\leq3\textcolor{Gold3}{a}^{2}+3\textcolor{SeaGreen3}{b}+3\textcolor{Turquoise3}{c}^{2}\\
+			\Downarrow\\
+			z(t)=3z_1(t)+3z_2(t)+3z_3(t)
+		\end{array}
+	\end{equation*}
+	so by Cauchy-Schwartz we get
+	\begin{align*}
+		z_1(t)&\leq2\sup_{t\leq T}\int_{0}^{t_{n(t)}}\ev{\left(b\left(t_{n(s)},X^{\Delta}_{t_{n(s)}}\right)-b\left(t_{n(s)},X_{s}\right)\right)^{2}}\ds+\\
+		&+2\sup_{t\leq T}\ev{\left(\sigma\left(t_{n(s)},X^{\Delta}_{t_{n(s)}}\right)-\sigma\left(t_{n(s)},X_{s}\right)\right)^{2}}\dif B_s\\
+		&\overset{\text{Lipschitz}}{\leq}n c_t\int_{0}^{T}\ubracketthin{\ev{\left(X^{\Delta}_{t_{n(s)}}-X_{s}\right)^{2}}}_{\mathclap{\leq\ubracketthin{\sup_{0\leq t\leq s}\ev{\left|X^{\Delta}_{t}-X_{t}^{2}\right|}}_{z(t)}}}\ds
+			\end{align*}
+	so
+	\begin{equation*}
+		z_1(t)=nc_{t}\int_{0}^{t}z(t)\dt.
+	\end{equation*}
+	Similarly, we obtain
+	\begin{equation*}
+		z_2(t)\leq c\Delta\qquad z_3(t)\leq c\Delta.
+	\end{equation*}
+	So up to now we have
+	\begin{equation*}
+		z(t)\leq \tilde{c}_{t}\Delta+\tilde{c}_{t}\int_{0}^{T}z(t)\dt.
+	\end{equation*}
+	\begin{lemma}
+		\emph{Grönwall's lemma}: if $u$ is a positive function such that
+		\begin{equation*}
+			u(t)\leq a+\int_{0}^{t}b(s)u(s)\ds
+		\end{equation*}
+		then
+		\begin{equation*}
+			u(t)\leq ae^{\int_{0}^{x}b(s)\ds}.
+		\end{equation*}
+	\end{lemma}
+	We apply this and get
+	\begin{equation*}
+		z(t)\leq\tilde{c}_{t}\delta e^{\tilde{c}_{t}}
+	\end{equation*}
+	and therefore
+	\begin{equation*}
+		\sqrt{z(t)}\leq \tilde{c}_{t}\sqrt{\Delta}.
+	\end{equation*}
+\end{fancyproof}
+We need to introduce the stochastic calculus in rder to obtain the Taylor expansion of $f(X_{t})$ at the second order. Take a \bwm{} $B$. I want to compare $(B_{t})^{2}$ (here $f(x)=x^{2}$). We know
+\begin{equation*}
+	(B_{t})^{2}=\lim_{N\to\infty}\left(\sum_{k=1}^{N}B_{t\frac{k}{N}}-B_{\frac{t(k-1)}{N}}\right)^{2}
+\end{equation*}
+so
+\begin{align*}
+	B_{t}&=B_{t}-B_{t\frac{N-1}{N}}+B_{t\frac{N-1}{N}}-\ldots+B_{0}\\
+		&=lim_{N\to\infty}\sum_{k,j=1}^{N}\left(B_{t\frac{k}{N}}-B_{\frac{t(k-1)}{N}}\right)\left(B_{t\frac{j}{N}}-B_{\frac{t(j-1)}{N}}\right)\\
+		&=lim_{N\to\infty}2\sum_{k\geq j}\ldots+\sum_{k=1}^{N}\left(B_{t\frac{k}{N}}-B_{\frac{t(k-1)}{N}}\right)^{2}\\
+		&=\lim_{N\to\infty}2+\sum_{k=1}^{N}\left(B_{t\frac{k}{N}}-B_{\frac{t(k-1)}{N}}\right)B_{\frac{t(k-1)}{N}}+\frac{1}{N}\sum_{k=1}^{N}\left(B_{t\frac{k}{N}}-B_{\sqrt{N}\frac{t(k-1)}{N}}\right)^{2}.
+\end{align*}
+By the LLN this is equal to
+\begin{equation*}
+	2\int_{0}^{t}B_s\dif B_s+t.
+\end{equation*}
+The conclusion si that
+\begin{equation*}
+	B_{t}^{2}=2\int_{0}^{t}B_s\dif B_s+t.
+\end{equation*}
+If $t\to y(t)$ is a $\mathscr{C}^{2}$ continuous function with $y(0)=0$ then
+\begin{equation*}
+	y^{2}(t)=2\int_{0}^{t}y(s)y'(s)\ds.
+\end{equation*}
+\begin{theorem}
+	Let $(X_{t})$ be the solution of the SDE
+	\begin{equation*}
+		\begin{cases}
+			\dif X_t=b(t,X_t)\dt+\sigma(t,B_t)\dif B_t\\
+			X_0=x_0
+		\end{cases}
+	\end{equation*}
+	and let $f$ be a $\mathscr{C}^{2}$ continuous function. Then
+	\begin{align*}
+		f(X_{t})&=f(X_{0})+\int_{0}^{T}\left(f'(X_{s})b(X_{t})+\unmezz f''(X_{s})\sigma^{2}(X_{s})\right)\ds+\int_{0}^{t}f'(X_{s})\ubracketthin{\sigma(X_{s})\dif B_s}_{\dif X_{t}}.
+	\end{align*}
+\end{theorem}
+An idea to improving the Euler scheme is assuming that $b$ and $\sigma$ don't depend on $t$.
+\begin{equation*}
+	\sigma(t,x)=\sigma(x)\qquad b(t,x)=b(x).
+\end{equation*}
+For the Euler-Maruyama method this means that
+\begin{equation*}
+	\int_{t}^{t+\Delta}b(X_{s})\ds\approx b(X_{t})\Delta
+\end{equation*}
+and
+\begin{equation*}
+	\int_{t}^{t+\Delta}\sigma(X_{s})\dif B_s\approx\sigma(X_{t})(B_{t+\Delta}-B_{t})\approx\sigma(X_{t})\sqrt{\Delta}G.
+\end{equation*}
+In order to improve the method we need to develop the stochastic integral
+\begin{equation*}
+	\sigma(X_{s})\approx\sigma(X_{t})+\int_{t}^{s}\sigma'(X_{n})\sigma(X_{n})\dif B_n.
+\end{equation*}
+We obtain the approximation scheme
+\begin{equation*}
+	\begin{cases}
+		X^{\Delta}_{t_{n+1}}=X^{\Delta}_{t_{n}}+b(X^{\Delta}_{t_{n}})\Delta+\sigma\left(X^{\Delta}_{t_{n}}\right)\left(B_{t_{n+1}}-B_{t_{n}}\right)+\unmezz\sigma'\left(X^{\Delta}_{t_{n}}\right)\sigma\left(X_{t_{n}}\right)\left(\left(B_{t_{n+1}-B_{t_{n}}}\right)^{2}\Delta\right)\\
+		X_{0}^{\Delta}=X_{0}.
+	\end{cases}
+\end{equation*}
+This scheme is called the \emph{Milstein scheme}.
+\begin{theorem}
+	If $\sigma$ and $b$ are $\mathscr{C}^{2}$ continuous with bounded distances, then
+	\begin{equation*}
+		\ev{\sup_{t\leq T}\left|X^{\Delta}_{t}-X_{t}\right|^{2}}\leq c\Delta^{2}.
+	\end{equation*}
+\end{theorem}
+This method is of order 1.
+\begin{remark}
+	If $\sigma=0$ this is simply the Euler method for ODEs.
+\end{remark}
+\subsection{Exact simulation method}
+We consider 
+\begin{equation*}
+	\begin{cases}
+		\dif X_t=b(t,X_t)\dt+\dif B_t\\
+		X_0=x_0
+	\end{cases}
+\end{equation*}
+Where $\sigma=1$. Remember that in rejection sampling, in order to generate $X$ with density $f$ we generate $Y$ with density $g$ and test
+\begin{equation*}
+	U\leq\frac{f(y)}{cg(y)}.
+\end{equation*}
+For any positive measure function $\psi$ we have
+\begin{align*}
+	\ev{\psi(x)}&=\int\psi(x)f(x)\dx\\
+	&=c\ev{\psi(y)\frac{f(y)}{cg(y)}}\\
+	&=c\ev{\psi(y)\indig{U\leq\frac{f(y)}{cg(y)}}}\\
+	&=M:\ev{M}=1
+\end{align*}
+The Girsanov theorem tells us that for the solution $X_t$ of the SDE there exists a martingale $M_{t}$ such that
+\begin{equation*}
+	\ev{\psi(X_t)}=\ev{\psi(B_{t})M_{t}}
+\end{equation*}
+with $\ev{M_{t}}=1$. Using Ito's formula we can prove that
+\begin{equation*}
+	M_{t}=\expg{\beta(t,x)-\int_{0}^{t}\gamma(s,B_s)
+		\dif B_s}
+\end{equation*}
+where $s(t,x)=\int_{x_0}^{x}b(t,y)\dy$ and $\gamma(t,x)=\frac{\partial \beta}{t}+\unmezz\left(\frac{\partial b}{\partial x}+b^{2}\right)$. We assume that
+\begin{align*}
+	&\beta\leq\beta_{\max}\to\text{constant}\\
+	&0\geq\gamma\geq k\to\text{constant}.
+\end{align*}
+\begin{algobox}{Exact simulation}
+	\begin{itemize}
+		\item Step 1: generate $N\sim\mathsf{Pois}(kt)$ points uniformly on $(0,t)\times[0,k]$. Order the abscissa 
+		\begin{equation*}
+			(t_{1},y_{1}),(t_{2},y_{2}),\ldots,(t_{n},y_n)
+		\end{equation*}
+		with $t_1<t_2<\ldots<t_m$.
+		 \item Step 2: generate a Gaussian vector that corresponds to
+		\begin{equation*}
+			\left(B_{t_{1}},B_{t_{2}},\ldots,B_{t_{n}},B_{T}\right).
+		\end{equation*}
+		\item Step 3: generaate $V\distunif{[0,1]}\independent N$.
+		\item Step 4: test if
+		\begin{align*}
+			y_{i}&>\gamma(t_{i},B_{t_{1}})\every i\in{1,\ldots,N}\\
+			Ve^{\beta_{\max}}&\leq e^{\beta(x,B_{t})}
+		\end{align*}
+		then set $z=B_{t}$, otherwise go to step 1.
+	\end{itemize}
+\end{algobox}
+\appendix 
 \chapter{Code}
 This is the code shared by Professor Hermann. These are jupyter notebook that you can find on my \href{https://github.com/godblessourdeadkotatsu/lecture-notes-2024-25/tree/main/SP}{GitHub repo}. \faGithub
 \includepdf[pages=1,pagecommand=\section{Simulation of \rv s},scale=0.9]{notebook/lesson1}
@@ -5548,7 +5769,6 @@ This is the code shared by Professor Hermann. These are jupyter notebook that yo
 These are the homeworks that we had to do this year. They are unreviewed, so take these at your own risk. For example, I am pretty sure the answer to the first question of the first homework is wrong.
 \addcontentsline{toc}{section}{Homework 1}
 \includepdf[pages=-,scale=0.9]{Homework 1/main}
-
 \addcontentsline{toc}{section}{Homework 2}
 \includepdf[pages=-,scale=0.9]{Homework 2/main}
 \listoffigures  
