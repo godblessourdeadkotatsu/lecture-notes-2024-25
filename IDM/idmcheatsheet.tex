@@ -1,0 +1,141 @@
+% Template created by Karol Kozioł (www.karol-koziol.net) for ShareLaTeX
+
+\documentclass[a4paper,9pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage[x11names]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{bm}
+\usepackage{tcolorbox}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\tcbuselibrary{skins,raster,theorems,breakable}
+
+\usepackage{amsmath,amssymb,textcomp}
+\usepackage{mathtools}
+\everymath{\displaystyle}
+\usepackage{multicol}
+\setlength{\columnseprule}{0pt}
+\setlength{\columnsep}{20.0pt}
+
+
+\usepackage{geometry}
+\geometry{a4paper,left=10mm,right=10mm,top=10mm,bottom=15mm}
+
+\newcommand{\trans}[1]{{#1}^{\mathsf{T}}}
+
+		\newtcolorbox{riquadro}{enhanced, breakable,frame style={top color=Aquamarine3,bottom color=Aquamarine3},colback=black!80,coltext=Aquamarine3!50}
+% custom title
+\makeatletter
+\renewcommand*{\maketitle}{%
+	\noindent
+	\begin{minipage}{0.4\textwidth}
+		\begin{tikzpicture}
+			\node[rectangle,rounded corners=6pt,inner sep=10pt,fill=SteelBlue4,text width= 0.95\textwidth] {\color{white}\Huge \@title};
+		\end{tikzpicture}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.55\textwidth}
+		\begin{tikzpicture}
+			\node[rectangle,rounded corners=3pt,inner sep=10pt,draw=Turquoise4,text width= 0.95\textwidth] {\LARGE \@author};
+		\end{tikzpicture}
+	\end{minipage}
+}%
+\makeatother
+\newtcbtheorem[number within=section]{myproof}{Proof}{
+	enhanced, sharp corners, breakable,
+	colframe=LightSalmon1, coltitle=black, colbacktitle=gray!24,
+	coltext=LightSalmon1!60,
+	colback=black!80,
+	rounded corners,
+	fonttitle=\bfseries,
+	separator sign={:},
+	theorem hanging indent/.try=0pt,
+}{ciao}
+
+% custom section
+\usepackage[explicit]{titlesec}
+\newcommand*\sectionlabel{}
+
+\titleformat{\section}
+{\gdef\sectionlabel{}
+	\normalfont\rmfamily\Large\bfseries}
+{\gdef\sectionlabel{\thesection\ }}{0pt}
+{
+	\noindent
+	\begin{tikzpicture}
+		\node[rectangle,rounded corners=3pt,inner sep=4pt,fill=Turquoise4,text width= 0.95\columnwidth] {\color{white}\sectionlabel#1};
+	\end{tikzpicture}
+}
+\titlespacing*{\section}{0pt}{0pt}{-10pt}
+\newcommand*\subsectionlabel{}
+\titleformat{\subsection}
+{\gdef\subsectionlabel{}
+	\normalfont\rmfamily\Large\bfseries}
+{\gdef\subsectionlabel{\thesubsection\ }}{0pt}
+{
+	\noindent
+	\begin{tikzpicture}
+		\node[rectangle,inner sep=4pt,fill=Turquoise4!60!black,rounded corners=3pt,text width= 0.9\columnwidth] {\color{white}\subsectionlabel#1};
+	\end{tikzpicture}
+}
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}
+
+
+% custom footer
+\usepackage{fancyhdr}
+\makeatletter
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot[C]{\footnotesize \textcopyright\ \@date\ \ \@author}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\makeatother
+
+
+\title{Il Diocane: Introduction to Data Mining Cheatsheet}
+\author{\faSynagogue\;Kotatsu, the Bringer of Jewishness\;\faMenorah}
+\date{\today}
+
+
+
+\begin{document}
+	
+\maketitle
+	
+\begin{multicols*}{2}
+\section{Similarity and dissimilarity}
+\begin{riquadro}
+	Entropy:
+	\begin{equation*}
+		H(X)=-\sum_{i=1}^{n}p_{i}\log_{2}p_i.
+	\end{equation*}
+	Sample entropy:
+	\begin{equation*}
+		H(X)=-\sum_{i=1}^{n}\frac{m_{i}}{m}\log_{2}\frac{m_{i}}{m}
+	\end{equation*}
+	Mutual information:
+	\begin{equation*}
+		I(X,Y)=H(X)+H(X)-H(X,Y)
+	\end{equation*}
+	where $H(X,Y)=-\sum_{i=1}^{n}\sum_{j=1}^{n}p_{ij}\log_{2}p_{ij}$. For discrete variables the maximum mutual information is 
+	\begin{equation*}
+		\log_{2}(\min\{n_{x},n_{y}\})
+	\end{equation*}
+	where $n_{x}$ is th number of values that $X$ can take.
+\end{riquadro}
+We can combine similarities with
+\begin{equation*}
+	\mathrm{similarity}(\mathbf{x},\mathbf{y})=\frac{\sum_{k=1}^{n}w_k\delta_{k}s_{k}((\mathbf{x},\mathbf{y}))}{\sum_{k=1}^{n}w_k\delta_{k}}
+\end{equation*}
+with
+\begin{equation*}
+	\delta_{k}=\begin{cases}
+		0&\text{\footnotesize\parbox{2.5cm}{if both attribute are asymmetric AND they are both zero or if one of them is missing}}\\
+		1&\text{\footnotesize otherwise}
+	\end{cases}
+\end{equation*}
+\end{multicols*}
+\end{document}
