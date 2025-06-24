@@ -1,0 +1,103 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage[x11names]{xcolor}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usepackage{bm}
+\usepackage[most]{tcolorbox}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\tcbuselibrary{skins,raster,theorems,breakable}
+
+\usepackage{amsmath,amssymb,textcomp}
+\usepackage{mathtools}
+\everymath{\displaystyle}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{mathrsfs}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{array}
+\setlength{\columnseprule}{0pt}
+\setlength{\columnsep}{20.0pt}
+
+
+\usepackage{geometry}
+\geometry{a4paper,left=10mm,right=10mm,top=10mm,bottom=15mm}
+
+\newcommand{\trans}[1]{{#1}^{\mathsf{T}}}
+\newcommand{\ev}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\unmezz}{\frac{1}{2}}
+\newcommand{\pr}{\mathbb{P}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\gr}[1]{\mathbf{#1}}
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\dx}{\dif x}
+
+
+\newtcolorbox{riquadro}[1][]{enhanced, breakable,frame style={top color=OrangeRed4!60,bottom color=OrangeRed4!80},colback=black!80,coltext=OrangeRed4!50,title=#1,fonttitle=\bfseries,halign title=center,coltitle=black!80}
+\makeatletter
+\renewcommand*{\maketitle}{%
+	\noindent
+	\begin{minipage}{0.4\textwidth}
+		\begin{tikzpicture}
+			\node[rectangle,rounded corners=6pt,inner sep=10pt,fill=Coral3,text width= 0.95\textwidth] {\color{white}\Huge \@title};
+		\end{tikzpicture}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.55\textwidth}
+		\begin{tikzpicture}
+			\node[rectangle,rounded corners=3pt,inner sep=10pt,draw=Coral4,text width= 0.95\textwidth] {\LARGE \@author};
+		\end{tikzpicture}
+	\end{minipage}
+}%
+\makeatother
+\newtcbtheorem[number within=section]{myproof}{Proof}{
+	enhanced, sharp corners, breakable,
+	colframe=LightSalmon1, coltitle=black, colbacktitle=gray!24,
+	coltext=LightSalmon1!60,
+	colback=black!80,
+	rounded corners,
+	fonttitle=\bfseries,
+	separator sign={:},
+	theorem hanging indent/.try=0pt,
+}{ciao}
+
+% custom section
+\usepackage[explicit]{titlesec}
+\newcommand*\sectionlabel{}
+
+\titleformat{\section}
+{\gdef\sectionlabel{}
+	\normalfont\rmfamily\Large\bfseries}
+{\gdef\sectionlabel{\thesection\ }}{0pt}
+{
+	\noindent
+	\begin{tikzpicture}
+		\node[rectangle,rounded corners=3pt,inner sep=4pt,fill=IndianRed4,text width= 0.95\columnwidth] {\color{white}\sectionlabel#1};
+	\end{tikzpicture}
+}
+\titlespacing*{\section}{0pt}{0pt}{-10pt}
+\newcommand*\subsectionlabel{}
+\titleformat{\subsection}
+{\gdef\subsectionlabel{}
+	\normalfont\rmfamily\Large\bfseries}
+{\gdef\subsectionlabel{\thesubsection\ }}{0pt}
+{
+	\noindent
+	\begin{tikzpicture}
+		\node[rectangle,inner sep=4pt,fill=Coral4!30!black,rounded corners=3pt,text width= 0.9\columnwidth] {\color{white}\subsectionlabel#1};
+	\end{tikzpicture}
+}
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}
+
+% custom footer
+\usepackage{fancyhdr}
+\makeatletter
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot[C]{\footnotesize \textcopyright\ \@date\ \ \@author}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\makeatother
