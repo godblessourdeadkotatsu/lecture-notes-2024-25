@@ -16,6 +16,122 @@
 	\maketitle
 	
 	\begin{multicols*}{2}
+	\section{Strong and weak ties}
+	\subsection{Triadic closure}
+	\begin{riquadro}[Clustering coefficient]
+		$$C_{t}(i)=\frac{2\tau(i)}{k_{i}(k_{i}-1)}.$$
+		High: friendship transitivity, low: compare with random graph (edges reshuffled).
+	\end{riquadro}
+	We say that an edge joining two nodes $A$ and $B$ in a graph is a bridge if deleting the edge
+	would cause $A$ and $B$ to lie in two different components.\\
+	We say that an edge joining two nodes $A$ and $B$ in a graph is a local bridge if its
+	endpoints $A$ and $B$ have no friends in common — in other words, if deleting the edge
+	would increase the distance between $A$ and $B$ to a value $> 2$. The span is the distance its endpoints would be from each other if the edge was deleted.
+	\begin{riquadro}[Neighbourhood Overlap]
+		\begin{equation*}
+			O_{AB}=\frac{|N(A)\cap N(B)|}{|N(A)\cup N(B)|}
+		\end{equation*}
+		(without counting $A$ or $B$).
+	\end{riquadro}
+	\begin{equation*}
+		O_{AB}=0\iff(A,B)\text{ is a local bridge}.
+	\end{equation*}
+	Embeddedness: $|N(A)\cap N(B)|$.
+	\subsection{Structural holes}
+	Benefits:
+	\begin{itemize}
+		\item informational advantage;
+		\item creativity;
+		\item gatekeeping;
+		\item may be fucked by triadic closure.
+	\end{itemize}
+	\section{Homophily}
+	\begin{riquadro}[Homophily test]
+		Check if 
+		\begin{equation*}
+			\#\text{ of cross group edges}<2pq
+		\end{equation*}
+		and if it is significantly less then there is a strong signal of homophily.
+	\end{riquadro}
+	The average of $i$'s neighbours' degrees is
+	\begin{equation*}
+		k_{nn}(i)=\frac{1}{k_{j}}\sum_{j}a_{ij}k_{j};
+	\end{equation*}
+	with a little abuse of notation define the \textbf{degree correlation function} as the average of all the $k_{nn}\left(k_{i}\right)$ for all nodes whose degree is $k$.
+	\begin{riquadro}[Degree correlation function]
+		\begin{equation*}
+			k_{nn}(k)={\ang{k_{nn}(i)}}_{i:k_{i}=k}.
+		\end{equation*}
+	\end{riquadro}
+	This is the average of all the neighbours' degree of $k$-degree nodes.
+	Closures with foci:
+	\begin{itemize}
+		\item triadic closure (friendship transitivity);
+		\item focal closure (selection);
+		\item membership closure (influence).
+	\end{itemize}
+	\section{Centrality measures}
+	Average degree of the network:
+	\begin{equation*}
+		\ang{k}=\frac{\sum_{i}k_{i}}{N}=\frac{2L}{N}
+	\end{equation*}
+	\begin{riquadro}[Closeness]
+		\begin{equation*}
+			g_{i}=\frac{1}{\sum_{j\neq i}\ell_{ij}}
+		\end{equation*}
+		where $\ell_{ij}$ is the distance between nodes $i$ and $j$.
+	\end{riquadro}
+	A node is the more central the closer it is to the other nodes, on average.
+		\begin{riquadro}[Betweenness]
+		\begin{equation*}
+			b_{i}=\sum_{h\neq j\neq i}\frac{\sigma_{hj}(u)}{\sigma_{hj}}.
+		\end{equation*}
+		If $n_{k}$ is the number of nodes with degree $k$ then $f_{k}=\frac{n_{k}}{N}$ is the frequency of degree $k$.
+	\end{riquadro}
+	\begin{riquadro}[Heterogeneity parameter]
+		\begin{equation*}
+			\kappa=\frac{\ang{k^{2}}}{\ang{k}^{2}}
+		\end{equation*}
+		with
+		\begin{equation*}
+			\ang{k}=\frac{\sum_{i}k_{i}}{N}\qquad\ang{k^{2}}=\frac{\sum_{i}k^{2}_{i}}{N}
+		\end{equation*}
+		\end{riquadro}
+		if most degrees have the same value $k_{0}$
+		\begin{equation*}
+			\ang{k}\approx k_{0},\quad\ang{k^{2}}\approx k_{0}^{2}\implies \kappa\approx1
+		\end{equation*}
+		and we have $\kappa\gg1$ if the distribution is very heterogeneous 
+\section{Network models}
+\begin{riquadro}[Power law distribution]
+	\begin{equation*}
+		f(k)=ak^{-c}
+	\end{equation*}
+\end{riquadro}
+	The network is \textbf{scale free} with $2<c<3$ when $N\to\infty\implies \ang{k^{2}\to\infty}$. We can approximate with a straight line
+\begin{equation*}
+	y=\log a-cx.
+\end{equation*}
+\begin{riquadro}[RichGetRicher process]
+	\begin{enumerate}
+		\item Nodes are created in a sequence $1,2,\ldots,N$.
+		\item For each node $j$ that joins the network:
+		\begin{itemize}
+			\item w.p. $p$ page $i$ is selected uniformly at random and a link $(j,i)$ is created;
+			\item w.p. $1-p$ page $i$ is selected uniformly at random, $l$ is the page $i$ is connected to, then a link $(j,l)$ is created.
+		\end{itemize}
+	\end{enumerate}
+\end{riquadro}
+Connection between Zipf's law, Pareto's law and power law:
+\begin{itemize}
+	\item Zipf: $k\approx j^{-b}$;
+	\item Pareto: $\pr(K>k)\approx k^{-y}$;
+	\item Power law: $f(k)\approx k^{-c}$.
+\end{itemize}
+It is possible to prove that 
+\begin{equation*}
+	c=1+\gamma\qquad\gamma=\frac{1}{b}.
+\end{equation*}
 	\section{Community detection}
 	Internal link density for community $C$:
 	\begin{align*}
@@ -657,5 +773,199 @@
 	\begin{equation*}
 		R_{0}<1\implies\lim_{n\to\infty}q_{n}=0.
 	\end{equation*}
+	Recall the heterogeneity parameter
+	\begin{equation*}
+		\kappa=\frac{\langle k^{2}\rangle}{\langle k\rangle^{2}}.
+	\end{equation*}
+	In random networks $\kappa\approx 1$, if the distribution is heterogeneous $\kappa\gg1$. The degree distribution is approximated by a power law
+	\begin{equation*}
+		p_{k}\propto k^{-\gamma}
+	\end{equation*}
+	with $2<\gamma\leq 3$ then $\langle k^{2}\rangle\to\infty$. Define as $s(t)$, $i(t)$ and $r(t)$ as the fraction of S, I and R individuals at time $t$. The initial conditions with only one infect at $t=0$ are
+	\begin{equation*}
+		\begin{array}{c}
+			i(0)=\frac{1}{N}\\
+			s(0)=1-i(0)\\
+			r(0)=0.
+		\end{array}
+	\end{equation*}
+	The infected node transmits the disease with probability $\beta:i+s\xrightarrow{\beta}i+i$.
+	\begin{riquadro}[Fully mixed hypothesis]
+		an infected individual comes into contact with other $\langle k\rangle s(t)$
+		susceptible individuals in a unit time. 
+	\end{riquadro}
+	\subsection{No recovery: SI}
+	This means that the new infections $\dif i(t)$ during a time $\dt$ is
+	\begin{equation*}
+		\dif i(t)=\beta\langle k\rangle s(t)i(t)\dt.
+	\end{equation*}
+	and since $s(t)=1-i(t)$ we get
+	\begin{equation*}
+		\frac{\dif i}{\dt}=\beta\langle k\rangle i(1-i)\implies\frac{\dif i}{i}+\frac{\dif i}{1-i}=\beta\langle k\rangle\dt.
+	\end{equation*}
+	Integrating both sides yields
+	\begin{equation*}
+		\ln i-\ln(1-i)+C=\beta\langle k\rangle t.
+	\end{equation*}
+	From an initial condition $i_{0}=i(0)$ we get $C$:
+	\begin{equation*}
+		C=\ln(1-i_{0})-\ln i_{0}.
+	\end{equation*}
+	So
+	\begin{equation*}
+			\begin{array}{>{\displaystyle}c}
+				\ln i-\ln(1-i)+\ln(1-i_{0})-\ln i_{0}=\beta\langle k\rangle t\\
+				\Downarrow\\
+				i=\frac{i_{0}e^{\beta\ang{k}t}}{1-i_{0}+i_{0}e^{\beta\ang{k}{t}}}
+			\end{array}
+	\end{equation*}
+	which is the logistic curve.
+	\subsection{Recovery: SIS}
+	Individuals recover with rate $\mu:i\xrightarrow{\mu}s$. Is there a threshold for $R_{0}=\frac{\beta\ang{k}}{\mu}$? We now have
+	\begin{equation*}
+		\frac{\dif i}{\dt}=\beta\ang{k}i(1-i)-\mu i
+	\end{equation*}
+	which is solved by
+	\begin{equation*}
+		i=\left(1-\frac{\mu}{\beta\ang{k}}\right)\frac{Ce^{(\beta\ang{k}-\mu)t}}{1+Ce^{\left(\beta\ang{k}-\mu\right)t}}.
+	\end{equation*}
+	With initial condition $i_{0}=i(0)$ we have
+	\begin{equation*}
+		C=\frac{i_{0}}{1-i_{0}-\frac{\mu}{\beta\ang{k}}}.
+	\end{equation*}
+	\begin{itemize}
+		\item If $R_{0}>1\implies \beta\ang{k}>\mu$, then $\lim_{t\to\infty}i(t)=1-\frac{\mu}{\beta\ang{k}}$.
+		\item If $R_{0}<1\implies \beta\ang{k}<\mu$, then $\lim_{t\to\infty}i(t)=0$.
+	\end{itemize}
+	\subsection{Recovery and resistance: SIR}
+	Individuals recover with rate $\mu:i\xrightarrow{\mu}r$. Is there a threshold for $R_{0}=\frac{\beta\ang{k}}{\mu}$? We have
+	\begin{align*}
+		\frac{\dif s}{\dt}&=-\beta\ang{k}is=-\beta\ang{k}i(1-r-i)\\
+		\frac{\dif i}{\dt}&=\beta\ang{k}i(1-r-i)-\mu i\\
+		\frac{\dif r}{\dt}&=\mu i.
+	\end{align*}
+	The boundaries conditions are 
+	\begin{equation*}
+		\begin{array}{l}
+			s+r+i=1\\
+			s(0)=s_{0}\\
+			r(0)=r_{0}\\
+			i(0)=i_{0}=1-s_{0}.
+		\end{array}
+	\end{equation*}
+	To compute the asymptotic value of $r$ we have that
+	\begin{align*}
+		\frac{\dif r}{\dt}&=\mu\left(1-r-s_{0}e^{-R_{0}r}\right)=0\\
+		&\implies r=1-s_{0}e^{-R_{0}r}.
+	\end{align*}
+	For large networks with $N\to\infty$ we have $s_0\approx 1$ so $r=1-e^{-R_{0}r}$ so
+	\begin{itemize}
+		\item if $R_{0}>1$ then $\lim_{t\to\infty}r=1$;
+		\item if $R_{0}<1$ then $\lim_{t\to\infty}r=0$.
+	\end{itemize}
+	We have
+	\begin{equation*}
+		\frac{\dif s}{\dt}=-\beta\ang{k}si\implies i=-\frac{i}{\beta\ang{k}s}\frac{\dif s}{\dt}
+	\end{equation*}
+	and
+	\begin{equation*}
+		\frac{\dif r}{\dt}=\mu i\implies i=\frac{1}{\mu}\frac{\dif r}{\dt}
+	\end{equation*}
+	so putting them together we have
+	\begin{align*}
+		&\frac{1}{\mu}\frac{\dif r}{\dt}=-\frac{1}{\beta\ang{k}s}\frac{\dif s}{\dt}\\
+		\implies&\frac{\beta\ang{k}}{\mu}\frac{\dif r}{\dt}=-\frac{1}{s}\frac{\dif s}{\dt}\\
+		\implies&\frac{1}{2}\frac{\dif s}{\dt}=-R_{0}\frac{\dif r}{\dt}\\
+		\implies&\ln s=-R_{0}r+C \\
+		\implies&\ln s=-R_{0}r+\ln s_{0}\\
+		\implies&s=s_{0}e^{-R_{0}r}
+	\end{align*}
+	but since $s+r+i=1$ and $\frac{\dif r}{\dt}=\mu i$ we have
+	\begin{equation*}
+		\frac{\dif r}{\dt}=\mu\left(1-r-s_{0}e^{-R_{0}r}\right).
+	\end{equation*}
+	\begin{riquadro}[Degree-block approximation]
+		Assumes nodes with the same degree are statistically equivalent. $i_{k}=\frac{I_{k}}{N_{k}}$ is the fraction of nodes with degree $k$ that are infected among all $N_{k}$ degree-$k$ nodes in the network. The total fraction of infected nodes can be calculated as it follows:
+		\begin{equation*}
+			i=\sum_kp_ki_k.
+		\end{equation*}
+	\end{riquadro}
+	\subsection{SI model on a network}
+	Each degree $k$ has its equation
+	\begin{equation*}
+		\frac{\dif i_{k}}{\dt}=\beta(1-i_{k})k\Theta_{k}.
+	\end{equation*}
+	We do not use the average $k$ anymore but we have the density function $\Theta_k$ (fraction of infected neighbours of a susceptible node with degree $k$). If $i_{k}$ is small:
+	\begin{equation*}
+		\frac{\dif i_{k}}{\dt}\approx\beta k\Theta_{k}.
+	\end{equation*}
+	$\Theta_{k}$ is independent of $k$:
+	\begin{equation*}
+		\Theta_{k}\approx i_{0}\frac{\ang{k}-1}{\ang{k}}e^{\frac{1}{\tau}}\qquad\text{with }\tau=\frac{\ang{k}}{\beta\left(\ang{k^{2}}-\ang{k}\right)}.
+	\end{equation*}
+	$\tau$ is the characteristic time of spread. 
+	\begin{align*}
+		&\frac{\dif i_{k}}{\dt}\approx\beta ki_{0}\frac{\ang{k}-1}{\ang{k}}e^{\frac{1}{\tau}}\\
+		\implies&i_{k}=i_{0}\left(1+\frac{k\ang{k}-1}{\ang{k^{2}}-\ang{k}}\left(e^{\frac{1}{\tau}}-1\right)\right).
+	\end{align*}
+	The higher the degree of a node, the more likely it is to become infected. We can write
+	\begin{equation*}
+		i_{k}=g(t)+kf(t)
+	\end{equation*}
+	and calculate the total fraction of infected nodes
+	\begin{align*}
+		i&=\int_{0}^{k_{\max}}i_{k}p_{k}\dif k\\
+		&=i_{0}\left(1+\frac{\ang{k}^{2}-\ang{k}}{\ang{k^{2}}-\ang{k}}\left(e^{\frac{1}{\tau}-1}\right)\right).
+	\end{align*}
+	We have that the characteristic time $\tau=\frac{\ang{k}}{\beta\left(\ang{k^{2}}-\ang{k}\right)}$:
+	\begin{itemize}
+		\item in random networks (where $\kappa=\frac{\ang{k^{2}}}{\ang{k}^{2}}\approx 1\implies\ang{k^{2}}\approx\ang{k}^{2}$) is $\tau\approx\frac{1}{\beta\ang{k}}$;
+		\item in heterogeneous networks (where $\kappa\gg1\implies\ang{k^{2}}\gg\ang{k}^{2}$) is $\tau\ll\frac{1}{\beta\ang{k}}$;
+		\item in scale-free networks (where $\ang{k^{2}}\xrightarrow{N\to\infty}\infty$) is $\tau\to0$.
+	\end{itemize}
+	\subsection{SIS model on a network}
+	Here the continuum equation is
+	\begin{equation*}
+		\frac{\dif i_{k}}{\dt}=\beta\left(1-i_{k}\right)k\Theta_{k}(t)-\mu i_{k}.
+	\end{equation*}
+	The characteristic time becomes
+	\begin{equation*}
+		\tau=\frac{\ang{k}}{\beta\ang{k^{2}}-\mu\ang{k}}.
+	\end{equation*}
+	Define the spreading rate $\lambda=\frac{\beta}{\mu}$ which gives us $R_{0}=\lambda\ang{k}$. We want to look for the epidemic threshold $\lambda_{c}$ (the pathogen can spread if $\lambda>\lambda_{c}$). This means finding $\tau>0$.
+	\begin{align*}
+		\tau>0&\implies\frac{\ang{k}}{\beta\ang{k^{2}}-\mu\ang{k}}>0\\
+		&\implies \beta\ang{k^{2}}>\mu\ang{k}\\
+		&\implies\lambda=\frac{\beta}{\mu}>\frac{\ang{k}}{\ang{k^{2}}}\\
+		&\implies\lambda_{c}=\frac{\ang{k}}{\ang{k^{2}}}.
+	\end{align*}
+	\begin{itemize}
+		\item In random networks we have $\ang{k^{2}}\approx\ang{k}$ so $\lambda_{c}\approx\frac{1}{\ang{k}}$.
+		\item In heterogeneous networks we have $\ang{k^{2}}\gg\ang{k}^{2}$ so $\lambda_{c}$ is expected to vanish for increasingly homogeneous networks.
+		\item In scale-free networks (where $\ang{k^{2}}\xrightarrow{N\to\infty}\infty$) we have $\lambda_{c}=0$.
+	\end{itemize}
+	\subsection{Random immunization}
+	We need to monitor $\lambda$. Let's assume the pathogen follows the SIS model: a random fraction of individuals $g$ is immunized. The effective degree of each susceptible node goes from $\ang{k}$ to $\ang{k}(1-g)$ and the spreading rate becomes $\lambda'=\lambda(1-g)$. For a high $g_{c}$ $\lambda'$ may fall below the epidemic threshold $\lambda_{c}$. On a random network:
+	\begin{align*}
+	&	\lambda_{c}=\lambda(1-g_{c})=(1-g_{c})\frac{\beta}{\mu}\approx\frac{1}{\ang{k}}\\
+	\implies&g_{c}\approx1-\frac{\mu}{\beta\ang{k}}.
+	\end{align*}
+	On a network with $\kappa\gg1$:
+	\begin{align*}
+		&	\lambda_{c}=\lambda(1-g_{c})=(1-g_{c})\frac{\beta}{\mu}\approx\frac{\ang{k}}{\ang{k^{2}}}\\
+		\implies&g_{c}\approx1-\frac{\mu\ang{k}}{\beta\ang{k^{2}}}.
+	\end{align*}
+	In scale-free networks $g_{c}=1$. In the real world random immunization is inefficient because of vanishing epidemic threshold.
+	\begin{riquadro}[Friendship paradox]
+		\begin{itemize}
+			\item Group 0: a random fraction of nodes $p$.
+			\item Group 1: select randomly a link from each node in group 0. We stop at the set of nodes to which these links connect to.
+			\item Immunize group 1.
+		\end{itemize}
+	\end{riquadro}
+	\subsection{Forecasts and prevention}
+	\begin{riquadro}[GLEAM]
+		Network-based computational model. It maps each geographic location into the nodes of a network: transport is provided by global transportation data (``schedules'') and it estimates the epidemic parameters relying on chronological data.
+	\end{riquadro}
 	\end{multicols*}
 \end{document}

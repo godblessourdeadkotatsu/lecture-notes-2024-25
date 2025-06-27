@@ -658,7 +658,7 @@ If a state is accessible from another state it means that the chain can go there
     In this case all the states communicate, since it is possible to go from one to any other with at most 5$<\infty$ steps. 
     \end{minipage}
 \end{example}
-Communicating states form an \enf{equivalence class}: the relation is reflective, symmetric and transitive. This can be proved using the Chapman-Kolmogorov equation (Eq. \ref{chapkolm}). $S$ can be split in two or more classes of communicating states, thus obtaining a \textbf{macroscopic description} of the chain dynamics.
+Communicating states form an \enf{equivalence class}: the relation is reflective, symmetric and transitive. This can be proven using the Chapman-Kolmogorov equation (Eq. \ref{chapkolm}). $S$ can be split in two or more classes of communicating states, thus obtaining a \textbf{macroscopic description} of the chain dynamics.
 \begin{example}\label{irr}
 \[
     \begin{tikzpicture}[node distance=2cm]
@@ -733,7 +733,7 @@ Periodicity is a \enf{class property}: if $i,j$ communicate then they have the s
         \end{figure}
     \end{minipage} \hfill
     \begin{minipage}{0.45\textwidth}
-        The chain is aperiodic: I can get from 3 back again to 3 in 3 steps of in 4,5,6,$\ldots$ if I cycle in 2.
+        The chain is aperiodic: I can get from 3 back again to 3 in 3 steps or in 4,5,6,$\ldots$ if I cycle in 2.
         \[p_{33}^{(n)}>0\qquad n\geqslant 3.\]
         The greatest common denominator is 1: $d(3)=1$
     \end{minipage}
@@ -750,7 +750,7 @@ T_i=\inf\{n\geqslant 1: X_n=i\}
 \]
 
 \begin{definition}
-    A state $i$ is said do be \enf{recurrent} if \[\prob(T_i<\infty|X_0=i)=1\],  or equivalently \[\prob(T_i<\infty \quad\text{for some}\quad n|X_0=i)=1\] which means that the return time is finite almost surely. The state $i$ is otherwise said to be \enf{transient}.
+    A state $i$ is said do be \enf{recurrent} if \[\prob(T_i<\infty|X_0=i)=1\]  or equivalently \[\prob(T_i<\infty \quad\text{for some}\quad n|X_0=i)=1\] which means that the return time is finite almost surely. The state $i$ is otherwise said to be \enf{transient}.
 \end{definition}
 A transient $i$ is such that \[\prob(T_i<\infty|X_0=i)<1.\]It is worth noting that a transient state still has a positive probability of coming back on $\infty$.
 
@@ -929,8 +929,8 @@ We are now interested in establishing how a chain can be classified as positive 
         \node[text width=4cm] [below of=3] {Case with odd mutations;};
     \end{tikzpicture}
     \]
+	\end{example}
     More generally, the task can be difficult. Often, so-called \textit{Lypaunov methods} are useful as a sufficient conidition.
-\end{example}
 
 \begin{proposition}
     Let $P$ be irreducible and let $h:S\rightarrow\R$ be such that $h(i)\geqslant0 \;\forall i \in S$ and:
@@ -951,7 +951,7 @@ The second condition says that $h(\cdot)$ decreases in expectation outside $S_0$
 \subsubsection{Stationarity}
 Note:
 \begin{align*}
-    \prob(X_n=j) &= \overbrace{\sum_{i\in S}\prob(X_0=i)\prob(X_n=j|P_0=i) }^{\mathclap{\text{disintegrating the joint}}}\\
+    \prob(X_n=j) &= \overbrace{\sum_{i\in S}\prob(X_0=i)\prob(X_n=j|X_0=i) }^{\mathclap{\text{disintegrating the joint}}}\\
     &=\sum_{i\in S}\lambda_i p_{ij}^{(n)}=\left(\lambda P^n\right)_j
 \end{align*}
 $\left(\lambda P^n\right)_j$ can be seen as the marginal distribution of $X$ at time $n$: in other words
@@ -959,7 +959,7 @@ $\left(\lambda P^n\right)_j$ can be seen as the marginal distribution of $X$ at 
 
 \begin{definition}
     A non negative (row) vector $\pi=(\pi_i, i\in S)$ is said to be an \enf{invariant measure} for $P$ if $\pi P=\pi$, called \enf{global balance equation}. Namely:
-    \[\sum_{i \in S} \pi_i p_{oj}=\pi_j \]
+    \[\sum_{i \in S} \pi_i p_{ij}=\pi_j \]
     i.e. marginalizing out the initial state with respect to $\pi$, the marginal measure after one step is preserved:
     \[
     X_0 \sim \pi \implies X_i \sim \pi P = \pi
@@ -967,7 +967,7 @@ $\left(\lambda P^n\right)_j$ can be seen as the marginal distribution of $X$ at 
 \end{definition}
 Furthermore,
 \[
-\pi P^2=\underbrace{\pi P}_{\pi}=\pi P= \pi
+\pi P^2=\underbrace{\pi P}_{\pi}\cdot P=\pi P= \pi
 \]
 Iterativity yields that $\pi P^n=\pi$, therefore
 \[
@@ -1207,16 +1207,22 @@ Let
     <x,y>:= \sum_{i \in S} x_i y_i \pi_i.
 \end{equation*}
 \begin{definition}
-    We define 
-        \begin{equation*}
-            \ell_2(\pi) := \{x \in \mathbb{R}^S: <x,x> < \infty\}.
-        \end{equation*}
-        A matrix $P$ is \enf{self-adjoint with respect to} $\pi$ if 
-        \begin{equation*}
-            <Px,y> = <x, Py>, \hspace{1 cm} x,y \in \ell_2(\pi).
-        \end{equation*}
-\end{definition}\begin{proposition}
-     Markov chain with transition matrix $P$ is reversible with respect to $\pi$ if and only if $P$ is self-adjoint with respect to $\pi$.
+    Let \( \pi = (\pi_i)_{i \in S} \) be a probability distribution (or more generally, a positive measure) on the state space \( S \).
+    
+    Define the Hilbert space:
+    \[
+    \ell_2(\pi) := \left\{ x : S \to \mathbb{R} \ \middle| \ \langle x, x \rangle_\pi := \sum_{i \in S} x_i^2 \pi_i < \infty \right\}
+    \]
+    with the inner product:
+    \[
+    \langle x, y \rangle_\pi := \sum_{i \in S} x_i y_i \pi_i.
+    \]
+
+    A transition matrix \( P \) is said to be \emph{self-adjoint with respect to \( \pi \)} if for all \( x, y \in \ell_2(\pi) \),
+    \[
+    \langle Px, y \rangle_\pi = \langle x, Py \rangle_\pi.
+    \]
+\end{definition}\begin{proposition} Markov chain with transition matrix $P$ is reversible with respect to $\pi$ if and only if $P$ is self-adjoint with respect to $\pi$.
 \end{proposition}
 It can be proved that if $P$ is reversible with respect to $\pi$, then the \enf{time reversal}
         \begin{equation*}
