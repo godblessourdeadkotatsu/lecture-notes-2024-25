@@ -132,17 +132,198 @@ It is possible to prove that
 \begin{equation*}
 	c=1+\gamma\qquad\gamma=\frac{1}{b}.
 \end{equation*}
+\section{Models of networks}
+\subsection{Random networks}
+Most real world networks have low average path length.
+\begin{riquadro}[Gilbert random network model]
+	\begin{enumerate}
+		\item Start with $N$ nodes and zero links.
+		\item Go over all pairs of nodes. For each pair of nodes $i$ and $j$ toss the coin and decide whether to connect $i$ and $j$.
+	\end{enumerate}
+\end{riquadro}
+Expected number of links $\ang{L}$ of a random network with $N$ nodes:
+\begin{equation*}
+	\ang{L}=p\frac{N(N-1)}{2}.
+\end{equation*}
+Expected density of links $d$ of a random network:
+\begin{equation*}
+	d=\frac{\ang{L}}{\frac{N(N-1)}{2}}=\frac{\frac{pN(N-1)}{2}}{\frac{N(N-1)}{2}}=p
+\end{equation*}
+Expected average degree: it is the number of heads with probability of yielding heads equal to $p$ and $t$ trials equal to the number of potential neighbours of a node ($t=N-1$):
+\begin{equation*}
+	\ang{k}=p(N-1).
+\end{equation*}
+Probability that a node has $k$ neighbours: binomial distribution.
+\begin{equation*}
+	\pr(k)={N-1\choose k}p^{k}(1-p)^{(N-1)-k}.
+\end{equation*}
+Since nodes have approximately the same degree $k$, for $k$ large enough the total number of nodes within a distance $d$ is:
+\begin{equation*}
+	N_{d}\approx k(k-1)^{d}\approx k^{d}.
+\end{equation*}
+To cover the whole network we need 
+\begin{equation*}
+	d_{\max}\approx\frac{\log N}{\log k}
+\end{equation*}
+steps. \\
+The probability that two nodes are connected is just the probability $p$ that any two nodes of the graph are connected:
+\begin{equation*}
+	C_{i}=p=\frac{\ang{k}}{N-1}\approx\frac{\ang{k}}{N}.
+\end{equation*}
+In general, the average clustering coefficient is lower than on real networks of the same size and average degree (no hubs!).
+\subsection{Small world networks}
+We seek to build a network with small-world property and high clustering coefficient.
+\begin{riquadro}[Watts-Strogatz model]
+	We have $N$ nodes forming a regular ring lattice with degree $k$. With probability $p$ rewire a link randomly.
+\end{riquadro}
+Expected number of rewired links:
+\begin{equation*}
+	pL=\frac{pNk}{2}.
+\end{equation*}
+These networks have the high clustering coefficient and have the small world property, but there are no hubs (damn).
+\begin{riquadro}[Configuration model]
+	Builds networks with a pre-definite degree sequence. We use a list of $N$ numbers $k_{1},\ldots,k_{n}$ where $k_{i}$ is the degree of node $i$. Each node must have as many stubs as its assigned degree, then attach the stubs at random.
+\end{riquadro}
+Here the randomization preserves the degree.
+\subsection{Preferential models networks}
+\begin{riquadro}[Network growth]
+	\begin{enumerate}
+		\item A new node comes with a given number of stubs.
+		\item The stubs are attached to some of the old nodes.
+	\end{enumerate}
+\end{riquadro}
+	This features:
+\begin{itemize}
+	\item growth;
+	\item preferential attachment.
+\end{itemize}
+Example: Polya's urn. 
+\begin{riquadro}[Barabàsi-Albert model]
+	\begin{enumerate}
+		\item Start with $m_{0}$ nodes (usually fully connected).
+		\item At each step a new node $i$ is added to the system and sets $m$ links with some of the older nodes ($m\leq m_{0}$).
+		\item The probability that the new node $i$ chooses an older node $j$ as neighbour is proportional to the degree $k_{j}$ of $j$:
+		\begin{equation*}
+			\Pi(i\leftrightarrow j)=\frac{k_{j}}{\sum_lk_l}.
+		\end{equation*}
+		\item The procedure ends when the given number $N$ of nodes is reached.
+	\end{enumerate}
+\end{riquadro}
+We see that preferential attachment is necessary for the formation of hubs, time alone is not enough.
+\section{Power laws}
+Recall that the heterogeneity parameter is a measure of the distribution's broadness:
+\begin{equation*}
+	\kappa=\frac{\ang{k^{2}}}{\ang{k}^{2}}.
+\end{equation*} 
+As a function of degree $k$, what fraction of nodes has the degree $k$? Empirical findings:
+\begin{equation*}
+	f(k)\approx k^{-c}
+\end{equation*}
+\begin{riquadro}[Power law distribution]
+	\begin{equation*}
+		f(k)=ak^{-c}.
+	\end{equation*}
+\end{riquadro}
+For $2<c<3$ we have that when $N\to\infty$ then $\ang{k}^{2}\to\infty$: \textbf{scale free network}. The distribution is unbounded when $N\to\infty$, with infinite variance. Tails are heavier than we expect so there are pages more popular than expected. \\
+We can approximate the power law:
+\begin{equation*}
+	\begin{array}{c}
+		f(k)=ak^{-c}=\log f(k)=\log a+c\log k\\
+		\Downarrow\\
+		y=\log a-cx.
+	\end{array}
+\end{equation*}
+Power laws are produced by feedback effects: but popularity is a fragile thing. We can predict that a power law can emerge after a while, so we can predict that there will be hubs.\\
+Define a r.v. $X_{j}(t)=\#$ of links to $j$ at a time step $t$ with:
+\begin{equation*}
+	\begin{cases}
+		X_{j}(0)=0\\
+		X_{j}(t+1)=X_{j}(t)+\frac{p}{t}+\frac{(1-p)X_{j}(t)}{t}.
+	\end{cases}
+\end{equation*}
+Taking the derivative we get
+\begin{equation*}
+	\frac{\dx_{j}}{\dt}=\frac{p}{t}+\frac{(1-p)x_{j}}{t}=\frac{p+qx_{j}}{t}.
+\end{equation*}
+So
+\begin{align*}
+	&\frac{\dx_{j}}{\dt}=\frac{p+qx_{j}}{t}\\
+	\implies&\frac{1}{p+qx_{j}}\cdot\frac{\dx_{j}}{\dt}\dt=\frac{1}{t}\dt.
+\end{align*}
+Integrating both sides yields:
+\begin{align*}
+	&\int\frac{1}{p+qx_{j}}\cdot\dx_{j}=\int\frac{1}{t}\dt\\
+	\implies&q\left(\frac{\ln(p+qx_{j})}{q}+c_{1}\right)=q\left(\ln t+c_{2}\right)\\
+	\implies&\ln\left(p+qx_{j}\right)=q\ln t+c.
+\end{align*}
+Set $A=e^{c}$ and exponentiate both sides"
+\begin{align*}
+	&p+qx_{j}=At^{q}\\
+	\implies&x_{j}(t)=\frac{1}{q}\left(At^{q}-p\right).
+\end{align*}
+Using the initial condition:
+\begin{equation*}
+	0=\frac{1}{q}\left(Aj^{q}-p\right)\implies A=\frac{p}{j^{q}}.
+\end{equation*}
+Substitute and get
+\begin{align*}
+	x_{j}(t)&=\frac{1}{q}\left(\frac{p}{j^{q}}t^{q}-p\right)\\
+	&=\frac{p}{q}\left[{\left(\frac{t}{q}\right)}^{p}-1\right].
+\end{align*}
+\begin{riquadro}
+	\begin{equation*}
+		x_{j}(t)=\frac{p}{q}\left[\left(\frac{t}{j}\right)^{q}-1\right]
+	\end{equation*}
+\end{riquadro}
+What fraction of all functions $x_{j}$ satisfies $x_{j}\geq k$ at time $t$?
+\begin{equation*}
+	x_{j}(t)=\frac{p}{q}\left[\left(\frac{t}{j}\right)^{q}-1\right]\geq k.
+\end{equation*}
+We can rewrite it in terms of $j$:
+\begin{riquadro}
+	\begin{equation*}
+	j\leq t\left(\frac{q}{p}k+1\right)^{-\frac{1}{q}}.
+\end{equation*}
+\end{riquadro}
+The fraction of values $j$ that satisfy the above inequality is:
+\begin{align*}
+	F(k)&=\frac{1}{t}\cdot t\left(\frac{q}{p}k+1\right)^{-\frac{1}{q}}\\
+	&=\left(\frac{q}{p}k+1\right)^{-\frac{1}{q}}
+\end{align*}
+so we have a power law:
+\begin{equation*}
+	F(k)\propto k^{-\frac{1}{q}}.
+\end{equation*}
+To find $f(k)$ take the derivative:
+\begin{align*}
+	-\frac{\dif F}{\dif k}&=-\frac{\dif\left(\frac{q}{p}k+1\right)^{-\frac{1}{q}}}{\dif k}\\
+	&=\frac{1}{q}\cdot\frac{q}{p}\cdot\left(\frac{q}{p}k+1\right)^{-1-\frac{1}{q}}\\
+	&=\frac{1}{q}\cdot\left(\frac{q}{p}k+q\right)^{-1-\frac{1}{q}}\propto k^{-\left(1+\frac{1}{q}\right)}
+\end{align*}
+which is a power law with exponent
+\begin{equation*}
+	1+\frac{1}{q}=1+\frac{1}{1-p}.
+\end{equation*}
+So we have
+\begin{equation*}
+	\lim_{p\to1}\left(1+\frac{1}{p}\right)=\infty
+\end{equation*}
+which means that when link formation is governed by random choice large numbers of in-degree are extremely rare and
+\begin{equation*}
+	\lim_{p\to0}\left(1+\frac{1}{p}\right)=2
+\end{equation*}
+which means that the growth is mainly governed by preferential attachment.
 	\section{Community detection}
 	Internal link density for community $C$:
 	\begin{align*}
 		\delta^{\mathrm{int}}_{C}&=\frac{L_{C}}{L_{C}^{\max}}\\
 		&=\frac{L_{C}}{{N_{C}\choose 2}}\\
-		&=\frac{2L_{C}}{N_{C}(N_{C}-1)}
+		&=\frac{2L_{C}}{N_{C}(N_{C}-1)}.
 	\end{align*}
 		\subsection{Clusterin'}
 		\begin{riquadro}[Kernighan-Lin algorithm]
 			\begin{enumerate}
-				\item Split randomly in two groups $A$ and $B$ of predetermined size $N_{A}$ and $N_{B}$.\\
+				\item Split randomly in two groups $A$ and $B$ of predetermined size $N_{A}$ and $N_{B}$.
 				\item Choose each pair of nodes one in $A$ and the other in $B$ and compute the variation in cut size (inter-group links) if you swap them.
 				\item The pair with the largest decrease in cut size is swapped and locked.
 				\item Rinse and repeat till cut size doesn't decrease no' mo'.
