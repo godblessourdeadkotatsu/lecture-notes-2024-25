@@ -1329,7 +1329,7 @@ The total variation distance is
 \end{proposition}
 
         \begin{proof2}
-            Consider $A \subset S$ and 
+            Consider $A \subset S$, with $\tau$ being the coupling time. 
         \begin{align*}
             \mathbb{P}(Z_n \in A) - \mathbb{P}(Y_n \in A) &= \mathbb{P}(Z_n \in A, n < \tau) + \mathbb{P}(Z_n \in A, n \geq \tau) +\\
             &- \mathbb{P}(Y_n \in A, n < \tau) - \mathbb{P}(Y_n \in A, n \geq \tau) \\
@@ -1454,23 +1454,24 @@ In summary:
             1 &\text{ with probability } \frac{1}{2} \\
         \end{cases}
     \end{align*}
-    So, either they meet at $n = 0$ or they never meet. 
-\end{example}
+    So, either they meet at $n = 0$ or they never meet.
 It's useful to remind that are talking about almost sure meeting, not with probability $1$. Which factor breaks the conclusion of meeting almost surely? The chain is:
 \begin{itemize}
     \item positive recurrent;
     \item irreducible;
     \item \sott{not} aperiodic.
 \end{itemize}
+So get the fuck out!
+\end{example}
 \begin{theorem}
-    \enf{Ergodic theorem}. Let $X\sim Markov(\lambda,P)$ be irreducible and let $m_i=\mathbb{E}\Bigl[T_i|X_0=i\Bigr]$. Then, almost surely,
-        \[\frac{1}{N}\sum_{n=1}^N\mathbbm{1}(X_n=j)\xrightarrow[N\rightarrow\infty]{}\Pi_j=\frac{1}{m_j}.\]
+    \enf{Ergodic theorem}. Let $X\sim Markov(\lambda,P)$ be irreducible and let $m_i=\mathbb{E}\Bigl[T_i|X_0=i\Bigr]$ be the expected passage time at $i$. Then, almost surely,
+        \[\frac{1}{N}\sum_{n=1}^N\mathbbm{1}(X_n=j)\xrightarrow[N\rightarrow\infty]{}\pi_j=\frac{1}{m_j}.\]
         Moreover, if $P$ is positive recurrent with unique stationary distribution $\pi$ and $f:S\rightarrow\mathbb{R}$ with respect to $\pi$, then
-        \[\frac{1}{N}\sum_{n=1}^Nf(X_n)\xrightarrow[N\rightarrow\infty]{}\sum_{j\in S}f(j)\Pi_j.\]
+        \[\frac{1}{N}\sum_{n=1}^Nf(X_n)\xrightarrow[N\rightarrow\infty]{}\sum_{j\in S}f(j)\pi_j.\]
 \end{theorem}
 The quantity $\frac{1}{N}\sum_{n=1}^Nf(X_n)$ is the \textbf{ergodic average} and it is taken along the sample path of the chain. The right-hand side shows an object whose form recalls an expectation. \\
 So, this is a way of relaxing the assumption of an i.i.d. sample. We are substituting it with the correlation associated to the Markovian structure, so that the convergence holds. 
-\[\sum_{j\in S}f(j)\Pi_j=\ev{f(X_n)} \qquad \text{at equilibrium.}\]
+\[\sum_{j\in S}f(j)\pi_j=\ev{f(X_n)} \qquad \text{at equilibrium.}\]
 So we have an equivalent form of the Strong Law of Large numbers for Markov Chains.
 \begin{remark}
     In the one-dimensional case, we have convergence of order $\frac{1}{\sqrt{10}}$ to $0$, which is not enough to make $m_j < \infty$. Hence $m_j = \infty \implies \frac{1}{m_i} \rightarrow 0$, which is consistent with what we know.
@@ -1510,8 +1511,9 @@ We can prove that
     Let $P$ be a $k\times k$ irreducible and aperiodic transition matrix. Denote the distinct eigenvalues as
         \[1=\gamma_1>|\gamma_2|>|\gamma_3|>\ldots>|\gamma_k|.\]Then
         \[P^n=\pi+
-    \mathcal{O}(n^{m-1}|\gamma_2|^n)\] where $m$ is the algebraic multiplicity of $\gamma_2$.
+    \mathscr{O}(n^{m-1}|\gamma_2|^n)\] where $m$ is the algebraic multiplicity of $\gamma_2$.
 \end{theorem}
+This is tied to how ``fast'' the chain forgets about the initial position (that is: settling on the stationary distribution). If the second eigenvalue is small then the stationary distribution is reached quickly. The neat thing is: it will never be 1! I have to admit this is pretty cool.
 \begin{definition}
     A statement like\[
         d_{TV}(\lambda P^n,\pi)\leqslant C(\lambda)\rho^n
@@ -1523,14 +1525,15 @@ Let $a\in S$ be an absorbing state with $\prob(T_a<\infty)=1$ visited almost sur
 \textbf{Example}: the Galton-Watson branching process with mean offspring $m=\ev{g}<1$.
 It could be of interest to study the behaviour before absorption.\\
 Let $\lambda$ be supported by $S_a=S/\{a\}$ and denote\[\prob_\lambda(\cdot):=\prob(\cdot|X_0\sim\lambda).\] Then, given $A\subset S_a$, we are interested in 
-\[\prob_\lambda(X_n\in A|T_a>n)=\frac{\prob_\lambda(X_n\in A,T_a>n)}{\prob_\lambda(T_a>n)}=\frac{\lambda P^n|_a}{\lambda P^n|_{S_a}}.\]
+\[\prob_\lambda(X_n\in A|T_a>n)=\frac{\prob_\lambda(X_n\in A,T_a>n)}{\prob_\lambda(T_a>n)}=\frac{\lambda P^n|_A}{\lambda P^n|_{S_a}}.\]
 \begin{definition}
      We say that $\pi$ is a \textbf{quasi-stationary distribution} if
         \[
-        P_\pi (X_n=i|T_a>n)=\Pi_i\qquad \forall n \geqslant 0.
+        P_\pi (X_n=i|T_a>n)=\pi_i\qquad \forall n \geqslant 0.
         \]
         This process preserves the marginal, conditional on not getting observed.
 \end{definition}
+This means, roughly, that if the chain starts from $\pi$ (given that it is not absorbed), then it behaves as if it were started from $\pi$.
 \begin{example}
     With $S=\{0,\dots,N\}$, let $Y$ be a symmetric random walk on $S_0=\{1,\ldots,N\}$:
 \begin{figure}[H]
@@ -1561,17 +1564,17 @@ So, in $\tau$, $X$ jumps to 0 and there remains. The transition probabilities ar
 i \in S_0:\;p_{ij}^{(n)}=\underbrace{\begin{cases}
     \prob(\tau=n)&j=0\\
     \frac{1}{2}(1-\prob(\tau-n)) &j=i\pm 1
-\end{cases}}_{\text{there are called \textit{modulo boundaries}}}
+\end{cases}}_{\text{these are called \textit{modulo boundaries}}}
 \]
 Since $\tau$ is independent, we have 
 \begin{align*}
     \prob_{\pi}(X_n=i|\tau>n)&=\prob_{\pi}(X_n=i|X_n\neq0)\\
-    &=\prob_{\pi}(Y_n=i)=\Pi_i
+    &=\prob_{\pi}(Y_n=i)=\pi_i.
 \end{align*}
+The fact that the probability is the same ($\pi_j$) whether or not we condition to ``the absorption not happening yet'' ($\tau>n$) tells us that the distribution is quasi-stationary.
 \end{example}
 \subsection{Hidden Markov Chains}
 Hidden Markov Chains are a widely applied statistical framework, useful whenever it is necessary to estimate the current status of a system based on noisy or incomplete observations.
-
 \textbf{Examples}:\begin{itemize}
     \item $X_n$: position of a moving object;\\
     $Y_n$: noisy observations of the position (by means, for instance, of a radar or a sonar);
@@ -1638,7 +1641,7 @@ by virtue of the fact that $X_n|X_{n+1:T}\perp X_{n+2:T},Y_{n+1:T}$. By Bayes' t
 Since $X_{n+1}|X_n$ is independent from everything. $\prob(X_n|Y_{0:n})$ is the \textbf{filtering distribution}, the conditional law of $X$ given the information of past and present data, while $\prob(X_{n+1}|X_n)$ is the transition probability of $X$. \\Define
 \[F_n(j)=\prob(X_n=j,Y_{0:n})\] so that
 \[
-\prob(X_n|Y_{0:n})=\frac{F_n(j)}{\sum_i F_n(i)}.
+\prob(X_n=j|Y_{0:n})=\frac{F_n(j)}{\sum_i F_n(i)}.
 \]
 Then
 \begin{align*}
@@ -1646,7 +1649,7 @@ Then
     &=\sum_i\prob(\underbrace{Y_{0:n-1},X_{n-1}=i}_{F_{n-1}(i)},X_n=j,Y_n=y_n)\\
     &=\sum_i F_{n-1}(i)\underbrace{\prob(X_n=j,Y_n=y_n|X_{n-1}=i,Y_{0:n-1})}_{\prob(X_n|X_{n-1})\prob(Y_n|X_n)}\\
     &=\sum_i F_{n-1}(i)p_{ij}p_j(y_n)\\
-    &\implies F_n(j)+\Bigl(\sum_iF_{n-1}(i)p_{ij}\Bigr)p_j(y_n)
+    \implies &F_n(j)=\Bigl(\sum_iF_{n-1}(i)p_{ij}\Bigr)p_j(y_n)
 \end{align*}
 So that these can be computed recursively.
 \begin{align*}
@@ -1665,7 +1668,7 @@ Moreover, if we consider the \textbf{marginal smoothing distribution}
     &=\underbrace{\prob(X_n|Y_{0:n})}_{\mathclap{\text{filtering distribution}}}\overbrace{\prob(Y_{n+1:T}|X_n)}^{\mathclap{B_n(\cdot)}}.
 \end{align*}
 $B_n(\cdot)$ is the \textbf{cost-to-go} function: it measures the likelihood of the future observations given a state of $X$:
-\[B_n(j)+\prob(Y_{n+1:T}|X_n=j)\]
+\[B_n(j)=\prob(Y_{n+1:T}|X_n=j)\]
 with
 \[
 \prob(X_n|Y_{0:T})\propto F_n(j)B_n(j).
@@ -1684,9 +1687,9 @@ If this has a density with respect to some dominant measure $\nu$, we call
 \[p=\frac{dP}{d\nu}\]
 the \textbf{transition density}.\\
 For example, if $\nu$ is the Lebesgue measure,
-\[\prob(x,A)=\int_A \prob(x.y)dy\].
-\begin{definition}
-    A Markov Chain o $S$ uncountable is said to be $\mathbf{\varphi}$\textbf{-irreducible} if there exists a $\sigma$-finite measure $\varphi$ on $S$ such that $\forall A\in\mathscr{B}(S)$ with $\varphi(A)>0$ and for all $x\in S\;\exists\geqslant1,\;n=n(x,A)$ such that $p^{(n)}(x,A)>0$.
+\[\prob(x,A)=\int_A \prob(x,y)dy.\]
+\begin{definition} 
+    A Markov Chain o $S$ uncountable is said to be $\mathbf{\varphi}$\textbf{-irreducible} if there exists a $\sigma$-finite measure $\varphi$ on $S$ such that $\forall A\in\mathscr{B}(S)$ with $\varphi(A)>0$ and for all $x\in S\;\exists n\geqslant1$ such that $p^{(n)}(x,A)>0$.
 \end{definition}
 \begin{definition}
     A $\varphi$-irreducible Markov Chain is said to be \textbf{Harris Recurrent} if $\forall A \in \mathscr{B}(S)$ such that $\varphi(A)>0$ then $\prob(X_n\in A \text{ i.o.})=1$. It is called \textit{positive} if it admits an invariant distribution $\pi$.
@@ -1751,7 +1754,7 @@ The problems can arise from the fact that$\pi$ can be multidimensional, and poss
 \end{itemize}
 We can also be interested in finding 
 \begin{equation*}
-    argmax_{x \in S} \pi (x) 
+    \arg\max_{x \in S} \pi (x) 
 \end{equation*}
 and this is an optimization problem, like for instance the mode of a distribution of interest. \\
 Often an analytical computation is unfeasible and thus we need to use an approximation. Deterministic approximation include:

@@ -16,6 +16,65 @@
 	\maketitle
 	
 	\begin{multicols*}{2}
+	\section{General networks}
+	Maximum number of links:
+	\begin{equation*}
+		L_{\max}={N\choose2}=\frac{N(N-1)}{2}.
+	\end{equation*}
+	Density:
+	\begin{equation*}
+		d=\frac{L}{L_{\max}}=\frac{2L}{N(N-1)}.
+	\end{equation*}
+	If $d\ll 1$ then the network is sparse.
+	Degree:
+	\begin{equation*}
+		k_{i}=|N_{i}|.
+	\end{equation*}
+	Strength: weighted degree
+	\begin{equation*}
+		s_{i}=\sum_{j\in N_{i}}w_{ij}.
+	\end{equation*}
+	\begin{riquadro}[Average degree]
+		\begin{align*}
+		\ang{k}&=\frac{\sum_{i\in N}^{k_{i}}}{N}\\
+		&=\frac{2L}{N}\\
+		&=\frac{dN(N-1)}{N}\\
+		&=d(N-1).
+	\end{align*}
+	\end{riquadro}
+	The average degree is also connected to density:
+	\begin{equation*}
+		d=\frac{\ang{k}}{N-1}=\frac{\ang{k}}{k_{\max}}.
+	\end{equation*}
+	\begin{riquadro}[Average path length]
+		\begin{equation*}
+		\ang{l}=\frac{\sum_{ij}l_{ij}}{N(N-1)}.
+	\end{equation*}
+	\end{riquadro}
+	Diameter of the graph:
+	\begin{equation*}
+		l_{\max}=\max_{i,j}l_{ij}.
+	\end{equation*}
+	Trick to avoid this bitch to go towards infinity:
+	\begin{equation*}
+		\ang{l}=\left(\frac{\sum_{ij}\frac{1}{l_{ij}}}{N(N-1)}\right)^{-1}.
+	\end{equation*}
+	\begin{riquadro}[Breadth-first search]
+		Hold the frontier in a FIFO queue, which initially holds the frontier. All nodes have distance $\ell=-1$ except for $\ell(\text{source})=1$. Initialize the shortest path tree with all nodes and no links. Until the frontier is empty:
+		\begin{enumerate}
+			\item remove next node $i$ in frontier;
+			\item for each neighbour $j$ of $i$ with $\ell(j)=-1$:
+			\begin{enumerate}
+				\item queue $j$ into frontier;
+				\item $\ell(j)=\ell(i)+1$;
+				\item add link $(i\to j)$ to shortest path tree.
+			\end{enumerate}
+		\end{enumerate}
+	\end{riquadro}
+	We say that the average path length is short (``small world'') when it is about
+	\begin{equation*}
+		\ang{l}\approx \log N.
+	\end{equation*}
 	\section{Strong and weak ties}
 	\subsection{Triadic closure}
 	\begin{riquadro}[Clustering coefficient]
@@ -47,7 +106,7 @@
 	\end{itemize}
 	\section{Homophily}
 	\begin{riquadro}[Homophily test]
-		Check if 
+		Signal of Homophiliy: check if 
 		\begin{equation*}
 			\#\text{ of cross group edges}<2pq
 		\end{equation*}
@@ -55,7 +114,7 @@
 	\end{riquadro}
 	The average of $i$'s neighbours' degrees is
 	\begin{equation*}
-		k_{nn}(i)=\frac{1}{k_{j}}\sum_{j}a_{ij}k_{j};
+		k_{nn}(i)=\frac{1}{k_{i}}\sum_{j}a_{ij}k_{j};
 	\end{equation*}
 	with a little abuse of notation define the \textbf{degree correlation function} as the average of all the $k_{nn}\left(k_{i}\right)$ for all nodes whose degree is $k$.
 	\begin{riquadro}[Degree correlation function]
@@ -84,7 +143,7 @@
 	A node is the more central the closer it is to the other nodes, on average.
 		\begin{riquadro}[Betweenness]
 		\begin{equation*}
-			b_{i}=\sum_{h\neq j\neq i}\frac{\sigma_{hj}(u)}{\sigma_{hj}}.
+			b_{i}=\sum_{h\neq j\neq i}\frac{\sigma_{hj}(i)}{\sigma_{hj}}.
 		\end{equation*}
 		If $n_{k}$ is the number of nodes with degree $k$ then $f_{k}=\frac{n_{k}}{N}$ is the frequency of degree $k$.
 	\end{riquadro}
