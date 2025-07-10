@@ -1890,7 +1890,7 @@ Verify $(-\infty\leqslant a < b \leqslant\infty)$=\[
 \[
 \includegraphics{standalones/pdfs/normsampl}
 \]
-Choose $q(x)=e^{-(x-5)}\mathbbm{1}(x>5)$ with $M=\phi(5)$. We know that
+Choose $q(x)=e^{-(x-5)}\mathbbm{1}(x>5)$ with $M=\varphi(5)$. We know that
 \[\mu_N=\% \text{ of accepted points}\times\underbrace{\text{area of graph where we generate values}}_{\int_5^\infty Mq(x)dx=M\int_5^\infty e^{-(x-5)}d=M}\]
 This algorithm is generally more efficient than naive Monte-Carlo where we would have to generate $x_i\sim N(0,1)$ variables and keep $x_i>5$. It can be, anyway, costly: the acceptance probability over an interval $(c,d)$ is
 \begin{align*}
@@ -1906,7 +1906,7 @@ This idea starts with a little analytical trick, in general terms the idea is to
 \begin{equation*}
 \begin{split}
     \mu&= \mathbb{E}_{\pi}[f(x)] = \int f(x) \pi(x) dx = \int f(x) \frac{\pi(x)}{q(x)} q(x) dx \\
-    &= \mathbb{E}_{q}[f(x)\frac{\pi(x)}{q(x)}]
+    &= \mathbb{E}_{q}\left[f(x)\frac{\pi(x)}{q(x)}\right]
 \end{split}
 \end{equation*}
 where $q$ is a density whose support include that of $\pi$.\\ (i.e. $q(x)=0$ $\implies$ $\pi(x)=0$)\\
@@ -1945,11 +1945,11 @@ Use
 \end{equation*}
 and so 
 \begin{equation*}
-    \mu = \int_5^{\infty} \phi(x) dx= \int_{\mathbb{R}} \mathbbm{1}_{\{x>5\}} \phi(x) dx = \int_{\mathbb{R}} \underbrace{\mathbbm{1}_{\{x>5\}}}_{= f(x)} \underbrace{\frac{\phi(x)}{q(x)}}_{=w(x)} q(x) dx
+    \mu = \int_5^{\infty} \varphi(x) dx= \int_{\mathbb{R}} \mathbbm{1}_{\{x>5\}} \varphi(x) dx = \int_{\mathbb{R}} \underbrace{\mathbbm{1}_{\{x>5\}}}_{= f(x)} \underbrace{\frac{\varphi(x)}{q(x)}}_{=w(x)} q(x) dx
 \end{equation*}
 so $X_i \stackrel{\text{i.i.d.}}{\sim} q $.
 \begin{equation*}
-    \mu_N= \frac{1}{N} \sum_{i=1}^N f(X_i)w(X_i) = \frac{1}{N} \sum_{i=1}^N \underbrace{\mathbbm{1}_{X_i>5} }_{\text{since } X_i \sim q }\frac{\phi(x_i)}{q(x_i)}  = \frac{1}{N} \sum_{i=1}^N\frac{\phi(x_i)}{q(x_i)} 
+    \mu_N= \frac{1}{N} \sum_{i=1}^N f(X_i)w(X_i) = \frac{1}{N} \sum_{i=1}^N \underbrace{\mathbbm{1}_{X_i>5} }_{\text{since } X_i \sim q }\frac{\varphi(x_i)}{q(x_i)}  = \frac{1}{N} \sum_{i=1}^N\frac{\varphi(x_i)}{q(x_i)} 
 \end{equation*}
 Additional upside:\\
 if $\pi= \frac{\tilde{\pi}}{z}$ with $z$ unknown. Then
