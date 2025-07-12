@@ -1954,12 +1954,12 @@ so $X_i \stackrel{\text{i.i.d.}}{\sim} q $.
 Additional upside:\\
 if $\pi= \frac{\tilde{\pi}}{z}$ with $z$ unknown. Then
 \begin{equation*}
-    \mu = \int f(x) \pi (x) dx = \int f(x)\frac{\tilde{\pi(x)}}{z q(x)} q(x) dx 
+    \mu = \int f(x) \pi (x) dx = \int f(x)\frac{\tilde{\pi}(x)}{z q(x)} q(x) dx 
 \end{equation*}
 \begin{equation*}
-    \rightarrow \ \ z= \int \tilde{\pi(x)} dx = \int \frac{\tilde{\pi(x)}}{q(x)}q(x) dx 
+    \rightarrow \ \ z= \int \tilde{\pi}(x) dx = \int \frac{\tilde{\pi}(x)}{q(x)}q(x) dx 
 \end{equation*}
-so setting $\tilde{w}(x)=\frac{\tilde{\pi(x)}}{q(x)}$ we have 
+so setting $\tilde{w}(x)=\frac{\tilde{\pi}(x)}{q(x)}$ we have 
 \begin{equation*}
      \mu = \underbrace{\frac{\int f(x) \Tilde{w}(x) q(x) dx }{\int \Tilde{w}(x) q(x) dx}}_{\text{self-normalizing estimate}}
 \end{equation*}
@@ -2100,7 +2100,7 @@ Idea: occasionally suppress transitions to state that are less likely "with resp
             &=min\bigg\{\pi_iq_{ij},\pi_jq_{ji}\bigg\}.
         \end{align*}
         But since minimum is symmetric and \[
-        min\big\{\pi_jq_{ji},\pi_iq_{ij}\big\}=min\big\{\pi_iq_{ij},\pi_jq_{j1}\big\}.
+        min\big\{\pi_jq_{ji},\pi_iq_{ij}\big\}=min\big\{\pi_iq_{ij},\pi_jq_{ji}\big\}.
         \]
         starting from $\pi_jq_{ji}$ yields the same term, so $\pi_i p_{ij}=\pi_jp_{ji}$.
 \end{proof2}
@@ -2326,7 +2326,7 @@ Let $\pi_X$ be a density on $S$.
     \end{align*}
    \end{proof2}
    AR methods are based on this result. 
-     How does this connect with Markov-Chain Monte-Carlo? The main idea is that we can use  a Markov Chain whose equilibrium distribution is a uniform on $A$, then discarded $Y$ and keep $X$. The target is \[\pi_{X|Y}(x,y) \alpha 1_{0 \leqslant y \leqslant \pi(x)} \] and we need to construct a Markov Chain that is ergodic with respect to this target.  We can think a Gibbs sampler that alternate the draws from the two condition:
+     How does this connect with Markov-Chain Monte-Carlo? The main idea is that we can use  a Markov Chain whose equilibrium distribution is a uniform on $A$, then discarded $Y$ and keep $X$. The target is \[\pi_{X|Y}(x,y) \propto 1_{0 \leqslant y \leqslant \pi(x)} \] and we need to construct a Markov Chain that is ergodic with respect to this target.  We can think a Gibbs sampler that alternate the draws from the two condition:
     \begin{itemize}
         \item $Y'|X\sim \pi_{Y|X}(y|x)\propto\mathbbm{1}_{0\leqslant y\leqslant\pi(x)}$ ($x$ is fixed: this step sets the height of the \textit{vertical slice});
         \item $X'|Y\sim \pi_{X|Y}(x|y)\propto\mathbbm{1}_{0\leqslant y\leqslant\pi(x)}$ ($y$ is fixed: this step sets the length of the \textit{horizontal slice}).
@@ -2435,7 +2435,7 @@ There is a principle (Goldilocks's principle of MCMC): the variance of the steps
 		\begin{equation*}
 			p_{ij}(s,s+t):= \mathbb{P}(X(s+t)=j|X(s)=i)
 		\end{equation*}
-		for $t>0$, which we assume are time homogeneoCus, i.e. depend on $t$ not on $s$. Hence we can define 
+		for $t>0$, which we assume are time homogeneous, i.e. depend on $t$ not on $s$. Hence we can define 
 		\begin{equation*}
 			p_{ij}(t):= p_{ij}(0,t)
 		\end{equation*}
@@ -2463,7 +2463,7 @@ There is a principle (Goldilocks's principle of MCMC): the variance of the steps
 		\end{equation*}
 		for all choice of $i_0, \dots, i_n$ and $t_o <\dots < t_n$. \\
 	\end{exercise}
-	Denote $P_t$ the square matrix with entries $\{p_{ij}(t)\_{i, j \in S}$. \\
+	Denote $P_t$ the square matrix with entries $\{p_{ij}(t)\}_{i, j \in S}$. \\
 	the family of $\{P_t\}_{t\geqslant 0}$ is called \enf{transition semigroup}, since:
 	\begin{itemize}
 		\item $\sum_{j \in S} p_{ij} = 1$: row sum
@@ -2496,7 +2496,7 @@ There is a principle (Goldilocks's principle of MCMC): the variance of the steps
 		\]
 		For $j \neq i$
 		\begin{equation*}
-			q_[ij] = \lim_{h \rightarrow 0} \frac{p_{ij}(h) - \overbrace{p_{ij}(0)}^{0}}{h}
+			q_{ij} = \lim_{h \rightarrow 0} \frac{p_{ij}(h) - \overbrace{p_{ij}(0)}^{0}}{h}
 		\end{equation*}
 		%In a small time interval there is a  negligibile probability that the chain goes to (?infinity)
 	\end{proposition}
@@ -2835,7 +2835,7 @@ We know
 \begin{equation*}
 	\begin{split}
 		Z_k &\stackrel{ind}{\sim} Exp (\lambda_k)\\
-		&\implies  \min_k Z_k \sim Exp (\sum_k \lambda_k) \hspace{0.5 cm} \text{ shortest interval}\\
+		&\implies  \min_k Z_k \sim Exp (\sum_k \lambda_k) \hspace*{0.5 cm} \text{ shortest interval}\\
 		&\mathbb{P}(\min_{k\neq i} Z_k=Z_j)= \frac{\lambda_j}{\sum_h \lambda_h} hspace{0.5 cm} \text{ prop of j-th is the fist to ring}
 	\end{split}
 \end{equation*}
@@ -3116,9 +3116,7 @@ If $P_t$ is unknown, the above condition is impossible to be checked. Hence, we 
 	\end{equation*}
 	if and only if the R.H.S. is null \\
 	if and only if 
-	\begin{equation*}
-		(\pi P_t)_j 
-	\end{equation*}
+	$(\pi P_t)_j$
 	is constant with respect to $t$, in which case 
 	\begin{equation*}
 		(\pi P_t)_j = (\pi P_0)_j = \sum_i \pi_i \delta_{ij} = \pi_j
@@ -3848,7 +3846,7 @@ where $X(t)$ is a diffusion process.\\
 	\begin{example}
 		Consider $Y\sim\Gamma(\alpha,\beta)$. We have
 		\[
-		\ev(e^{iuY})=\frac{1}{\left(1-\frac{iu}{\beta}\right)^\alpha}=\left(\frac{1}{\left(1-\frac{iu}{\beta}\right)^\frac{\alpha}{n}}\right)^n
+		\ev{(e^{iuY})}=\frac{1}{\left(1-\frac{iu}{\beta}\right)^\alpha}=\left(\frac{1}{\left(1-\frac{iu}{\beta}\right)^\frac{\alpha}{n}}\right)^n
 		\]
 		which implies that 
 		\[
