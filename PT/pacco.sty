@@ -84,6 +84,10 @@
 	theorem hanging indent/.try=0pt,
 }{}
 
+\newenvironment{carray}[1][]{\begin{array}{>{\displaystyle}c}
+		#1
+	}{\end{array}}
+
 \newenvironment{remark}[1][]{
 	\ifstrempty{#1}{%   
 		\begin{rema*}{}{}%                     

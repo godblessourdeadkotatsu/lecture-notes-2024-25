@@ -1,6 +1,6 @@
 % !TeX spellcheck = en_US
 \documentclass{article}
-\usepackage{pacco}
+\usepackage{paccoan}
 
 \title{This Should Help Your Lazy Ass In Analisys B}
 \author{Charles A. Mongus, world famous jazz composer and bassist}
@@ -229,7 +229,7 @@ Cool!
 	and this clearly implies the continuity of $L$ at any $x\in X$ (actually, the uniform continuity).
 \end{fancyproof}
 \begin{definition}
-	If $(X,\dnorm_X)$ and $(Y,\dnorm_Y)$ are two normed spaces, we denote by $\mathcal{L}(X,Y)$ the space of continuous linear applications from $X$ to $Y$. If $X=Y$ we simply denote $\mathcal{L}(X)=\mathcal{L}(X,X)$.
+	If $(X,\dnorm_X)$ and $(Y,\dnorm_Y)$ are two normed spaces, we denote by $\mathscr{L}(X,Y)$ the space of continuous linear applications from $X$ to $Y$. If $X=Y$ we simply denote $\mathscr{L}(X)=\mathscr{L}(X,X)$.
 \end{definition}
 \begin{proposition}
 	If $(X,\dnorm_X)$ and $(Y,\dnorm_Y)$ are two vector spaces and $X$ is of finite dimension, any linear application $L:X\mapsto Y$ is continuous.
@@ -409,4 +409,699 @@ For, say, $\varepsilon=1$ and $m=N$ we see that for $\every n\geq N$
 \begin{equation*}
 	\norm{x_{n}}=\norm{x_{n}-x_{N}+x_{N}}\leq\norm{x_{n}-x_{N}}+\norm{x_{N}}\leq 1+\norm{x_{N}}.
 \end{equation*}
+Thus with $C_{1}=1+\norm{x_{N}}$
+\begin{equation*}
+	\sup_{n\geq N}\norm{x_{n}}\leq C_{1}.
+\end{equation*}
+Setting now $C_{2}:\max\left\{\norm{x_{1}},\ldots,\norm{x_{N-1}}\right\}$ one sees that $C_{2}$ is finite since it is the maximum of only a finite number of real numbers. By definition
+\begin{equation*}
+	\norm{x_{n}}\leq C_{2}\qquad\every n<N.
+\end{equation*}
+Therefore
+\begin{equation*}
+	\sup_{n}\norm{x_{n}}\leq C=\max\left\{C_1,C_2\right\}<\infty
+\end{equation*}
+which means $\{(x_{n})\}_{n}$ is bounded.
+\begin{lemma}
+	Let $(X,\dnorm)$ be a normed space. Any convergent sequence is a Cauchy sequence.
+\end{lemma}
+\begin{fancyproof}
+	Let ${(x_{n})}_{n}\subset X$ be a convergent sequence in $X$ and let $x$ be its limit. By definition, given $\varepsilon>0$, there is $N\in\N$ such that $\norm{x_{n}-x}<\varepsilon$ for any $n\geq N$. Pick then $n,m\geq N$. From the triangle inequality
+	\begin{equation*}
+		\norm{x_{n}-x_{m}}\leq\norm{x_{n}-x}+\norm{x_{m}-x}<2\varepsilon.
+	\end{equation*}
+	Since $\varepsilon>0$ is arbitrary, we proved that the sequence is a Cauchy sequence (since we can rename $2\varepsilon$ as $\varepsilon$).
+\end{fancyproof}
+The opposite is not true... We introduce the set $c_{00}(\N)$ of all sequences of real number that have only finitely many nonzero components, which means
+\begin{equation*}
+	c_{00}=\left\{x={(x_{n})}_{n}\subset X,\exists N\in\N,x_{k}=0\quad\every k\geq N\right\}.
+\end{equation*}
+This is a subset of the space $\ell^{1}(\N)$ of finitely summable  sequences and in particular it is a norm space with respect to the norm induced by the one in $\ell^{1}(\N)$ (which is $\sum_{n=0}^{\infty}|x_{n}|$). Now for any $n\in\N$ let $\bm{x}^{(n)}$ be the sequence given by
+\begin{equation*}
+	\bm{x}^{(n)}=(2^{-1},2^{-2},\ldots,2^{-n},0,0,\ldots)
+\end{equation*}
+so that $x^{(n)}={\left(x_{k}^{(n)}\right)}_{k}$ with \begin{equation*}
+	x_{k}^{(n)}=\begin{cases}
+		2^{-k}&\text{if }k\leq n\\
+		0&\text{if }k>n.
+	\end{cases}
+\end{equation*}
+Clearly, $\bm{x}^{(n)}\in c_{00}(\N)$ for any $n\in\N$. Therefore the family ${\left(\bm{x}^{(n)}\right)}_{n}$ is a sequence of elements of $c_{00}(\N)$ (it is a sequence of sequences...) and if $m<n$
+\begin{equation*}
+	\norm{\bm{x}^{(n)}-\bm{x}^{(m)}}_{1}=\sum_{k=1}^{\infty}\left|x_{k}^{(n)}-x_{k}^{(m)}\right|=\sum_{k=m+1}^{n}2^{-k}.
+\end{equation*}
+${\left(\bm{x}^{(n)}\right)}_{n}$ is a Cauchy sequence in $\left(c_{00}(\N),\dnorm_{1}\right)$. However, it does not converge in $\left(c_{00}(\N),\dnorm_{1}\right)$.
+\begin{fancyproof}
+	Assume the contrary: there exists 
+	\begin{equation*}
+		\bm{x}={\left(x_{k}\right)}_{k}\in c_{00}(\N)\text{ such that }\lim\bm{x}^{n}=\bm{x}.
+	\end{equation*}
+	But then for any $k\in\N$ it must hold
+	\begin{equation*}
+		\lim_{n\to\infty}x_{k}^{(n)}=\bm{x}_{k}
+	\end{equation*}
+	and therefore it must hold that
+	\begin{equation*}
+		\bm{x}_{k}=2^{-k}\qquad\every k\in\N.
+	\end{equation*}
+	But the sequence $\bm{x}={\left(2^{-k}\right)}_{k}$ does not belong to $c_{00}(\N)$!
+\end{fancyproof}
+\begin{lemma}
+	Let $(X,\dnorm)$ be a given normed space and let ${(x_{n})}_{n}$ be a Cauchy sequence in $X$. If $\seqn{x}$ admits a limit point then it is convergent.
+\end{lemma}
+\begin{definition}
+	A normed space $\normsp{X}$ is said to be \emph{complete} if any Cauchy sequence is convergent in $X$. A complete normed space $\normsp{X}$ is called a \emph{Banach space}.
+\end{definition}
+The most fundamental example of complete normed space is the set of real numbers.
+\begin{theorem}
+	If $X=\R$ is endowed with the usual norm $|\cdot|$ for any $x,y\in\R$ then $(\R,|\cdot|)$ is a complete normed space. In other words, any Cauchy sequence in $\R$ is convergent.
+\end{theorem}
+\begin{definition}
+	Let $\normsp{X}$ be a normed space and let $\seqn{x}\in X$ be a given sequence. We define the sequence ${(s_{N})}_{N}\in X$ of partial sums:
+	\begin{equation*}
+		s_{N}:=\sum_{n=1}^{N}x_{n},\qquad N\in\N.
+	\end{equation*} 
+	The series $\sum_{n}x_{n}$ is said to be convergent if there exists $x\in X$ such that
+	\begin{equation*}
+		\lim_{N\to\infty}\norm{s_{N}-x}=0.
+	\end{equation*}
+	We write then 
+	\begin{equation*}
+		x=\sum_{n=1}^{\infty}x_{n}.
+	\end{equation*}
+	The series $\sum_{n}x_{n}$ is said to be absolutely convergent if 
+	\begin{equation*}
+		\sum_{n}\norm{x_{n}}<\infty.
+	\end{equation*}
+\end{definition}
+\begin{theorem}
+	Let $\normsp{X}$ be a normed space. The following are equivalent:
+	\begin{enumerate}
+		\item $\normsp{X}$ is a Banach space;
+		\item Every absolutely convergent series is convergent in $\normsp{X}$, i.e. for any $\seqn{x}\subset X$,
+		\begin{equation*}
+			\sum_{n=1}^{\infty}\norm{x_{n}}<\infty\implies{\left(\sum_{n=1}^{N}x_{n}\right)}_N\text{ converges in }\normsp{X}.
+		\end{equation*}
+	\end{enumerate}
+\end{theorem}\label{theo213}
+\begin{fancyproof}
+	\begin{enumerate}
+		\item[$(1\Rightarrow 2)$] Let $\seqn{x}$ be a sequence such that $\sum_{n}\norm{x_{n}}<\infty$ and let 
+		\begin{equation*}
+			S_{n}=\sum_{k=1}^{n}x_{k},\qquad k\in\N.
+		\end{equation*}
+		We need to prove that ${(S_{N})}_{N}$ converges in $\normsp{X}$. Since, by assumption, $(X,\dnorm)$ is a Banach space, it is enough to show that $\seqn{S}$ is a Cauchy sequence. Thus, for $m>n\geq 1$, we compute
+		\begin{equation*}
+			\norm{S_{m}-S_{n}}=\norm{\sum_{k=1}^{m}x_{k}-\sum_{k=1}^{n}x_{k}}=\norm{\sum_{k=n+1}^{m}x_{k}}.
+		\end{equation*}
+		Thanks to the triangle inequality, we deduce that
+		\begin{equation*}
+			\norm{S_{m}-S_{n}}\leq\sum_{k=n+1}^{m}\norm{x_{k}}\leq\sum_{k=n+1}^{\infty}\norm{x_{k}}\to0\qquad\text{as }n\to\infty.
+		\end{equation*}
+		since the numerical series $\sum_k\norm{x_{k}}<\infty$. This proves that
+		\begin{equation*}
+			\lim_{m\to\infty,n\to\infty}\norm{S_{m}-S_{n}}=0
+		\end{equation*}
+		which means that $\seqn{S}$ is a Cauchy sequence. It is therefore convergent and the absolutely convergent series $\sum_k x_k$ is convergent.
+		\item[$(2\Rightarrow1)$] Let us assume now that for any sequence $\seqn{y}\subset X$ one has
+		\begin{equation*}
+			\sum_k\norm{y_k}<\infty\implies\lim_n\sum_{k=1}^{n}y_k\qquad\text{exists in }(X,\dnorm)\tag*{\faPiedPiper}\label{piedpaper}
+		\end{equation*}
+		and let $\seqn{x}$ be a Cauchy sequence in $\normsp{X}$. Thus, for any $\varepsilon>0$ there is $N_\varepsilon\in\N$ such that
+		\begin{equation*}
+			\norm{x_n-x_m}\leq\varepsilon\qquad\every n,m\geq N_\varepsilon.
+		\end{equation*}
+		Applying this with $\varepsilon=\frac{1}{2^{k}}$, $k\in\N$, it is easy to check that one can construct a strictly increasing sequence $\seqk{n}\subset\N$ of indices such that
+		\begin{equation*}
+			\norm{x_{n_{k+1}}-x_{n_{k}}}\leq\frac{1}{2^{k}}\qquad k\in\N.
+		\end{equation*}
+		Therefore, setting $y_k=x_{n_{k+1}-x_{n_{k}}}$ one has $\sum_k\norm{y_k}\leq\sum_k\frac{1}{2^{k}}<\infty$. Applying \ref{piedpaper} we deduce that there exists $y\in X$ such that
+		\begin{equation*}
+			\lim_{n\to\infty}\norm{\sum_{j=1}^{k}y_{j}-y}=0.
+		\end{equation*}
+		Observing that, for any $k\in\N$
+		\begin{equation*}
+			\sum_{j=1}^{k}y_{j}=\sum_{j=1}^{k}\left(x_{n_{j+1}}-x_{n_{j}}\right)=x_{n_{k+1}}-x_{n_{1}},
+		\end{equation*}
+		one sees that $\seqkk{x_{n_{k+1}}}$ converges to $x=x_{n_{1}}+Y$ in $X$. Thus, $\seqn{x}$ has a subsequence which converges, Since it is a Cauchy sequence, the whole sequence $\seqnn{x}$ actually converges and this proves the completeness of $\normsp{X}$.
+	\end{enumerate}
+\end{fancyproof}\subsection{Examples revisited}
+\begin{proposition}
+	The space $\left(\ell^{1}(\N),\dnorm_{1}\right)$ is a Banach space.
+\end{proposition}
+\begin{fancyproof}
+	Let $\seqnn{\bm{x}^{(n)}}$ be a Cauchy sequence in $\ell^{1}(\N)$. Recall that, for any $n\in\N$, $\bm{x}^{(n)}$ is a sequence given by
+	\begin{equation*}
+		\bm{x}^{(n)}=\seqkk{\bm{x}^{(n)}_{k}}.
+	\end{equation*}
+	Since it is a Cauchy sequence, for any $\varepsilon>0$ there is $N>0$ such that
+	\begin{equation*}
+		\norm{\bm{x}^{(n)}-\bm{x}^{(m)}}_{1}=\sum_{k=1}^{\infty}\left|\bm{x}_{k}^{(n)}-\bm{x}^{(m)}\right|<\varepsilon\qquad\every n,m>N.
+	\end{equation*}
+	It is easy to see that for any $k\in\N$ one has
+	\begin{equation*}
+		\left|\bm{x}_{k}^{(n)}-\bm{x}_{k}^{(n)}\right|\leq\norm{\bm{x}^{(n)}-\bm{x}^{(m)}}_{1}<\varepsilon
+	\end{equation*}
+	i.e. for any $k\in\N$ fixed the sequence $\seqnn{\bm{x}^{(n)}_{k}}\subset\R$ is a Cauchy sequence in $\R$ endowed with its natural distance. Since $\R$ is complete by the previous theorem, it must converge which means that for any $k\in\N$
+	\begin{equation*}
+		x_{k}=\lim_{n\to\infty}\bm{x}^{(n)}_{k}
+	\end{equation*}
+	exists in $\R$. We introduce the sequence $\bm{x}=\seqk{x}$ and let us show that $\bm{x}\in\ell^{1}(\N)$ and that $\bm{x}=\lim_{n}\bm{x}^{(n)}$ for the $\ell^{1}(\N)$-distance. To do so, we fix $\varepsilon>0$. Because $\seqnn{\bm{x}^{(n)}}$ is a Cauchy sequence in $\ell^{1}(\N)$, there exists $N>0$ such that
+	\begin{equation*}
+		\norm{\bm{x}^{(n)}-\bm{x}^{(m)}}_{1}<\varepsilon\qquad n,m>N.
+	\end{equation*}
+	Let us fix $n>N$ and let us fix an integer $k_{0}>0$. Since $\lim_{m\to\infty}\bm{x}^(m)_{k}=\bm{x}_{k}$ for any $k\geq 1$ and since the $k_{0}$ is finite one has
+	\begin{equation*}
+		\sum_{k=1}^{k_{0}}\left|\bm{x}^{(n)}-\bm{x}_{k}\right|=\sum_{k=1}^{k_{0}}\lim_{m\to\infty}\left|\bm{x}^{(n)}_{k}-\bm{x}_{k}^{(m)}\right|\leq\lim_{m\to\infty}\norm{\bm{x}^{(n)}-\bm{x}^{(m)}}_{1}<\varepsilon.
+	\end{equation*}
+	Since this is true for any $k_{0}>0$ and 
+	\begin{equation*}
+		\norm{\bm{x}^{(n)}-\bm{x}}_{1}=\lim_{k_{0}\to\infty}\sum_{k=1}^{k_{0}}\left|\bm{x}^{(n)}_{k}-\bm{x}_{k}\right|
+	\end{equation*}
+	one deduces that $\norm{\bm{x}^{(n)}-\bm{x}}_{1}<\varepsilon$ for any $n\geq N$ which proves that the sequence is converging to $\bm{x}$ and in particular that $\bm{x}\in\ell^{1}(\N)$.
+\end{fancyproof}
+\begin{proposition}
+	For any $p\in[1,\infty]$ the normed space $\left(\ell^{p}(\N),\dnorm_{p}\right)$ is a Banach space. Moreover, $\left(\ell^{\infty}(\N),\dnorm_{\infty}\right)$ is also a Banach space.
+\end{proposition}
+\begin{proposition}
+	For any compact interval $I\subset\R$, the normed space $\left(\mathcal{C}(I),\dnorm_{\infty}\right)$ is a Banach space.
+\end{proposition}
+The norm $\dnorm_{\infty}$ in this case measures the max distance between two functions in $\mathcal{C}(I)$.
+\begin{proposition}
+	For any compact interval $I\subset\R$, the normed space $\left(\mathcal{C}(I),\dnorm_{1}\right)$ is not a Banach space.
+\end{proposition}
+This is because $\dnorm_{\infty}$ is stronger than $\dnorm_{1}$. There are some functions that are continuous but converge (according to $\ell^{1}$ norm $\norm{f_{n}-f}_{1}\xrightarrow{n\to\infty}0$) to a discontinuous function (not in $\mathcal{C}(I)$). But if our criterion of convergence is $\norm{f_{n}-f}_{\infty}\xrightarrow{n\to\infty}0$ then we cannot find such functions.
+\begin{theorem}
+	\emph{Fischer-Riesz Theorem.} Let $(S,\Sigma,\mu)$ be a given measure space. For any $1\leq p\leq\infty$, $\Lp(S,\Sigma,\mu)$ is a Banach space.
+\end{theorem}
+\begin{fancyproof}
+	To prove this we need this lemma:
+	\begin{lemma}
+		Let $(S,\Sigma,\mu)$ be a given measure space and let $1\leq p<\infty$. Assume that $\seqn{f}\subset\Lp(S,\Sigma,\mu)$ is a sequence such that
+		\begin{equation*}
+			\sum_{n=1}^{\infty}\norm{f_{n}}_{p}<\infty.
+		\end{equation*}
+		Then the series 
+		\begin{equation*}
+			\sum_{n=1}^{\infty}f_{n}
+		\end{equation*}
+		converges almost everywhere and in $\Lp(S,\Sigma,\mu)$ which means that there exists $f\in\Lp(S,\Sigma,\mu)$ such that
+		\begin{equation*}
+			\lim_{N\to\infty}\norm{f-\sum_{n=1}^{\infty}f_{n}}_{p}=0.
+		\end{equation*}
+	\end{lemma}
+	From now on we simply write $\Lp(S,\mu)$ instead of $\Lp(S,\Sigma,\mu)$. For the proof we distinguish between the cases $1\leq p<\infty$ and $p=\infty$.
+	\begin{itemize}
+		\item By virtue of the previous Lemma, in such a case any absolutely convergent series $\sum_{n}f_{n}$ in $\Lp(S,\Sigma,\mu)$ is actually convergent. From \hyperref[theo213]{this} theorem we know that this proves that $\left(\Lp(S,\Sigma,\mu)\dnorm_{p}\right)$ is a Banach Space.
+		\item Assume that $\seqn{f}$ is a Cauchy sequence in $L^{\infty}(S,\mu)$. Given an integer $k\geq 1$ there is an integer $N_{k}$ such that
+		\begin{equation*}
+			\norm{f_{m}-f_{n}}_{\infty}\leq\frac{1}{k}\qquad\every n,m\geq N_{k}.\tag*{\faMoneyCheck}\label{novabs}
+		\end{equation*}
+		Indeed, given $m,n\geq N_{k}$ by definition there is a null set $E_{k}(m,n)$ for which $\left|f_{m}(k)-f_{n}(x)\right|\geq\frac{1}{k}$ for $x\in S\setminus E_{k}(m,n)$. Taking then $E_{k}=\bigcup_{n,m\geq N_{k}}E_{k}(m,n)$ one has $E_{k}$ null set and the above property holds on $S\setminus E_{k}$ for all $n,m\geq N_{k}$. Then we let 
+		\begin{equation*}
+			E=\bigcup_{k=1}^{\infty}E_{k}
+		\end{equation*}
+		so that $\mu(E)=0$ and get that, for any $x\in S\setminus E$ the sequence $\seqnn{f_{n}(x)}$ is a Cauchy sequence in $\R$. Thus for any $x\in S\setminus E$, 
+		\begin{equation*}
+			\lim_{n}f_{n}(x)
+		\end{equation*}
+		exists and we denote it by $f(x)$. Passing to the limit in \ref{novabs} as $m\to\infty$ we obtain then that 
+		\begin{equation*}
+			\left|f(x)-f_{n}(x)\right|\leq\frac{1}{k}\qquad\every x\in S\setminus E,\;\every n\geq N_{k}
+		\end{equation*}
+		from which we see that $f\in L^{\infty}(S,\mu)$ with
+		\begin{equation*}
+			\norm{f-f_{n}}_{\infty}\leq\frac{1}{k}\qquad\every n\geq N_{k}.
+		\end{equation*}
+		Letting then $n\to\infty$ and then $k\to\infty$ we get that 
+		\begin{equation*}
+			\lim_{n}\norm{f-f_{n}}_{\infty}=0.
+		\end{equation*}
+		This proves that $\left(L^{\infty}(S,\mu),\dnorm_{\infty}\right)$ is complete.
+	\end{itemize}
+\end{fancyproof}
+\begin{proposition}
+	Let $1\leq p\leq\infty$ and let $\seqn{f}$ be a Cauchy sequence in $\Lp(S,\mu)$ which converges to $f$. Then there is a subsequence $\left(f_{n_{k}}\right)$ which converges $\mu$-almost everywhere to $f$.
+\end{proposition}
+\begin{proposition}
+	Let $\left(X,\dnorm_{X}\right)$ and $\left(Y,\dnorm_{Y}\right)$ be two normed spaces and assume that $(Y,\dnorm_{Y})$ is a Banach space. Then the space $\left(\mathscr{L}(X,Y),\dnorm_{\mathscr{L}(X,Y)}\right)$.
+\end{proposition}
+Remember that 
+\begin{equation*}
+	\norm{L}_{\mathscr{L}(X,Y)}=\norm{L}_{\mathsf{op}}=\sup_{\norm{x}_{X}\leq 1}\norm{L(x)}_{Y}\qquad\every L\in\mathscr{L}(X,Y).
+\end{equation*}
+This measures how much the linear mapping ``stretches'' a small $x\in X$ when it maps it to $Y$.
+\begin{fancyproof}
+	Let $\seqn{L}$ be a sequence of linear and continuous applications from $X$ to $Y$. Assume that $\seqn{L}$ is a Cauchy sequence for $\dnorm_{\mathscr{L}(X,Y)}$, i.e. for any $\varepsilon>0$ there exists $N\in\N$ such that
+	\begin{equation*}
+		\norm{L_{n}-L_{m}}_{\mathscr{L}(X,Y)}<\varepsilon\qquad \every n,m\geq N.
+	\end{equation*}
+	By definition of the norm, it holds 
+	\begin{equation*}
+		\norm{L_{n}(x)-L_{m}(x)}_{Y}<\varepsilon\norm{x}_{X}\qquad\every n,m\geq  N\quad\every x\in X.
+	\end{equation*}
+	In particular, for any $x\in X$ the sequence $\seqnn{L_{n}(x)}$ is a Cauchy sequence in $Y$ and since $Y$ is complete, the sequence converges to $L(x)$. This defines a mapping $L:X\to Y$ and it is not difficult to prove that $L$ is linear. Let us check then that $L$ is continuous and that $\norm{L_{n}-L}_{\mathscr{L}(X,Y)}\to0$ as $n\to\infty$. Taking the limit as $m\to\infty$ in the previous inequality one gets that 
+	\begin{equation*}
+		\norm{L_{n}(x)-L(X)}_{Y}\leq\varepsilon\norm{x}_{X}\qquad\every n\geq N\quad\every x\in X.\tag*{\faGasPump}\label{gas}
+	\end{equation*}
+	In particular for any fixed $n\geq N$ and any given $x\in X$
+	\begin{equation*}
+		\norm{L(x)}_{Y}\leq\norm{L_{n}(x)}_{Y}+\varepsilon\norm{x}_{X}
+	\end{equation*}
+	and since $L_{n}$ is continuous there exists $C_{n}>0$ such that
+	\begin{equation*}
+		\norm{L(x)}_{Y}\leq C_{n}\norm{x}_{X}+\varepsilon\norm{x}_{X}.
+	\end{equation*}
+	This shows that $L\in\mathscr{L}(X,Y)$. Now, \ref{gas} exactly means that $\norm{L_{n}-L}_{\mathscr{L}(X,Y)}<\varepsilon$ for any $n\geq N$ which proves that $\seqn{L}$ converges to $L$ in $\left(\mathscr{L}(X,Y),\dnorm_{\mathscr{L}(X,Y)}\right)$
+\end{fancyproof}
+\begin{corollary}
+	Let $\normspp{X}$ be a Banach space and let $L\in\mathscr{L}(X)$ be such that
+	\begin{equation*}
+		\norm{L}_{\mathscr{L}(X)}<1.
+	\end{equation*}
+	Then, the linear mapping $I-L$ is invertible (i.e. $I-L$ is bijective and its inverse $(I-L)^{-1}\in\mathscr{L}(X)$) and
+	\begin{equation*}
+		(I-L)^{-1}=\sum_{n=0}^{\infty}L^{n}
+	\end{equation*}
+	where $I$ is the identity mapping of $X$ and $L^{n}$ is defined inductively by $L^{0}=I$ and $L^{n+1}=L\circ L^{n}=L^{n}\circ L$ for any $n\geq 0$.
+\end{corollary}
+\begin{fancyproof}
+	For any $n\in\N$ set
+	\begin{equation*}
+		A_{n}:=\sum_{k=0}^{n}L^{k}.
+	\end{equation*}
+	Clearly $A_{n}$ is a linear mapping as a composition and sum of linear mappings. For the same reason it is continuous, i.e. $A_{n}\in\mathscr{L}(X)$. For any $m>n$ it holds
+	\begin{align*}
+		\norm{A_{m}-A_{n}}_{\mathscr{L}(X)}&=\norm{\sum_{k=n+1}^{m}L^{k}}_{\mathscr{L}(X)}\\
+		&\leq\sum_{k=n+1}^{m}\norm{L^{k}}_{\mathscr{L}(X)}.
+	\end{align*}
+	One easily checks by induction that $\norm{L^{k}}_{\mathscr{L}(X)}\leq\norm{L}_{\mathscr{L}(X)}\norm{L^{k}}_{\mathscr{L}(X)}$ for any $k\geq 0$. Thus
+	\begin{equation*}
+		\norm{L^{k}}_{\mathscr{L}(X)}\leq\norm{L}^{k}_{\mathscr{L}(X)}\qquad\every m>n.
+	\end{equation*}
+	Then $\seqn{A}$ is a Cauchy sequence in $\mathscr{L}(X)$. According to the previous theorem, $\seqn{A}$ converges to some linear mapping, say, $A\in\mathscr{L}(X)$. Let us now prove that $I-L$ is necessarily invertible and that $A=(I-L)^{-1}$. For any $n\geq 0$, it holds that
+	\begin{equation*}
+		(I-L)\circ A_{n}=A_{n}\circ(I-L)=I-L^{n+1}.
+	\end{equation*}
+	In particular
+	\begin{equation*}
+		\norm{(I-L)\circ A_{n}-I}_{\mathscr{L}(X)}\leq\norm{L}^{n+1}_{\mathscr{L}(X)}.
+	\end{equation*}
+	Letting $n\to\infty$ one sees that $(I-L)\circ A_{n}$ converges to $I$ in $\mathscr{L}(X)$. By continuity, this means that 
+	\begin{equation*}
+		(I-L)\circ A=I.
+	\end{equation*}
+	In the same way we have $A\circ(I-L)=I$. This shows that $(I-L)$ is invertible and that $A$ is its inverse.
+\end{fancyproof}
+\begin{definition}
+	If $\normsp{X}$ is a normed space, we define the dual space of $X$ denoted by $X^{\star}$ the space of all continuous and linear mappings $\Phi:X\to\R$, i.e.
+	\begin{equation*}
+		X^{\star}=\mathscr{L}(X,\R).
+	\end{equation*}
+	We also denote
+	\begin{equation*}
+		\norm{\Phi}_{\star}=\norm{\Phi}_{\mathscr{L}(X,\R)}=\sup_{\norm{x}_{X}\leq 1}|\Phi(x)|\qquad\every\Phi\in X^{\star}.
+	\end{equation*}
+\end{definition}
+\begin{corollary}
+	If $\normsp{X}$ is a normed vector space then $\left(X^{\star},\dnorm_{\star}\right)$ is a Banach space.
+\end{corollary}
+\begin{theorem}
+	\emph{Riesz representation theorem}. Given $1<p<\infty$ and $\Phi\in\left(\Lp(S,\mu)\right)^{\star}$ there exists a unique $g\in\Lq(S,\mu)$ (with $\frac{1}{p}+\frac{1}{q}=1$) such that
+	\begin{equation*}
+		\Phi(f)=\int_{S}fg\dmu\qquad\every f\in\Lp(S,\mu)
+.	\end{equation*}
+Moreover,
+\begin{equation*}
+	\norm{\Phi}_{\star}=\norm{g}_{q}.
+\end{equation*}
+If $(S,\Sigma,\mu)$ is $\sigma$-finite, then the result is still true for $p=1$.
+\end{theorem}
+\subsection{Simple consequences of completeness}
+\begin{proposition}
+	Let $\normsp{X}$ be a Banach space and let $\seqn{x}\subset X$ be such that
+	\begin{equation*}
+		\sum_{n=1}^{\infty}\norm{x_{n}}<\infty.
+	\end{equation*}
+	Then the series $\sum_{n=1}^{\infty}x_{n}$ converges in $X$, i.e. there exists $x\in X$ such that
+	\begin{equation*}
+		\lim_{N\to\infty}\norm{\sum_{n=1}^{N}x_{n}-x}=0.
+	\end{equation*}
+\end{proposition}
+\begin{definition}
+	Let $\normspp{X}$ and $\normspp{Y}$ be two normed spaces and $k\in(0,1)$. A function $f:X\to Y$ is said to be a $k$-contraction mapping if
+	\begin{equation*}
+		\norm{f(x)-f(y)}_{y}\leq k\norm{x-y}_{X}\qquad\every x,y\in X\times X.
+	\end{equation*}
+\end{definition}
+It is obvious that any $k$ contraction mapping is continuous. This is clear that a $k$-contraction mapping is an application which ``contracts'' distances: the images of $x$ and $y$ through $f$ are closer to each other than $x,y$.
+\begin{theorem}
+	\emph{Banach fixed point theorem}. Let $\normsp{X}$ be a complete normed space and let $f:X\to X$ be a $k$-contraction mapping with $k\in(0,1)$. Then there exists a unique fixed point $\bm{a}\in X$ for $f$, i.e. there is a unique $\bm{a}\in X$ such that
+	\begin{equation*}
+		f(\bm{a})=\bm{a}.
+	\end{equation*}
+\end{theorem}
+\begin{fancyproof}
+	We first prove that $f$ can admit only one fixed point. Assume $\bm{a},\bm{b}$ are both fixed points of $f$. Since $f$ is a $k$ contraction mapping we have
+	\begin{equation*}
+		\begin{carray}
+			\norm{f(\bm{a})-f(\bm{b})}\leq k\norm{\bm{a}-\bm{b}}\\
+			\Downarrow\\
+		\norm{\bm{a}-\bm{b}}\leq k\norm{\bm{a}-\bm{b}}.
+		\end{carray}
+	\end{equation*}
+	Since $k>0$ and $\norm{\bm{a},\bm{b}}\geq0$ one sees necessarily that $\norm{\bm{a}-\bm{b}}=0$  i.e. $\bm{a}=\bm{b}$. \par
+	To prove now the existence of some fixed point, one proves actually that the sequence defined in the above statement converges to some fixed-point of $f$. Let then $x_{0}\in X$ be given and define inductively 
+	\begin{equation*}
+		x_{n+1}=f(x_{n}).
+	\end{equation*}
+	Since $f$ is a $k$ contraction mapping we have
+	\begin{equation*}
+		\norm{x_{n+1}-x_{n}}\leq k\norm{x_{n}-x_{n-1}}
+	\end{equation*}
+	for any $n\geq 1$ and we easily deduce that 
+	\begin{equation*}
+		\norm{x_{n+1}-x_{n}}\leq k^{n}\norm{x_{1}-x_{0}}\qquad\every n\in\N.
+	\end{equation*}
+	If $m>n\geq 1$ are given, one deduces from the above inequality together with the triangle inequality that
+	\begin{equation*}
+		\norm{x_{n}-x_{m}}\leq\sum_{j=n}^{m-1}\norm{x_{j}-x_{j+1}}\leq\norm{x_{1}-x_{0}}\sum_{j=n}^{m-1}k^{j}.\tag*{\faLaptopCode}\label{laptopcode}
+	\end{equation*}
+	Since the geometric series $\sum_{j=1}^{\infty}k^{j}$ is convergent, one has
+	\begin{equation*}
+		\lim_{n,m\to\infty}\sum_{j=n}^{m-1}k^{j}=0
+	\end{equation*}
+	and therefore the sequence $\seqn{x}$ is a Cauchy sequence in $X$. Since $X$ is complete, $\seqn{x}$ converges to some limit $\bm{a}\in X$. Moreover, being $k$-contracting, $f$ is continuous so that the sequence $\seqn{f(x)}$ converges to $f(\bm{a})$. Since $x_{n+1}=f\left(x_{n}\right)$ one has $\bm{a}=f(\bm{a})$ and the result is proven.
+\end{fancyproof}
+Notice tat the above inequality \ref{laptopcode} provides the convergence rate of $\seqn{x}$ to $\bm{a}$. Indeed, taking the limit $m\to\infty$ in \ref{laptopcode} we get
+\begin{equation*}
+	\norm{x_{n}-\bm{a}}\leq\norm{x_{1}-x_{0}}\sum_{j=n}^{\infty}k^{j}=\frac{k^{n}}{1-k}\norm{x_{1}-x_{0}}s\qquad\every n\in\N.
+\end{equation*}
+\subsection{Fundamental Properties of Banach spaces}
+\begin{definition}
+	A normed space $\normsp{X}$ is said to have the Baire property if the intersection of any sequence of dense open sets of $X$ is dense in $X$, i.e. for any $\seqn{U}$ open subsets of $X$ with $\overline{U_{n}}=X$ for any $n\in\N$ it holds
+	\begin{equation*}
+		\overline{\bigcap_{n}U_{n}}=X.
+	\end{equation*}
+\end{definition}
+The Baire property is clearly equivalent to the following property: the union of any sequence of closed substes with empty interior has an empty interior. In particular, the theorem is often used in the following form: if $\seqn{C}$ is a sequence of closed subsets such that 
+\begin{equation*}
+	\mathsf{Int}\left(\bigcup_{n\in\N}C_{n}\right)=X
+\end{equation*}
+Then there exists some $n_{0}\in\N$ such that $\mathsf{Int}(C_{n_{0}})\neq\emptyset$.
+\begin{theorem}
+	Any complete normed space $\normsp{X}$ has the Baire property.
+\end{theorem}
+\begin{fancyproof}
+	Let $\seqn{U}$ be a sequence of open subsets of $\normsp{X}$ with $\overline{U_{n}}=X$ for any $n\in\N$ and let $A=\bigcup_{n\in\N}U_{n}$. To prove that $A$ is dense in $X$ we shall use the previous lemma and prove that 
+	\begin{equation*}
+		A\cap\mathcal{O}\neq\emptyset
+	\end{equation*}
+	for any non empty open subset $\mathcal{O}$ of $X$. Pick any $x_{0}\in\mathcal{O}$ and let $r_{0}>0$ be such that
+	\begin{equation*}
+		B_{c}(x_{0},r_{0})\subset\mathcal{O}.
+	\end{equation*}
+	Since $U_{1}$ is dense, one has that $B(x_{0},r_{0})$ is open and non-empty. So we can pick $x_{1}\in B(x_{0},r_{0})\cap U_{1}$ and $r_{1}>0$ such that
+	\begin{equation*}
+		B_{c}(x_{1},r_{1})\subset B(x_{0},r_{0})\cap U_{1}\qquad0<r_{1}<\frac{r_{0}}{2}.
+	\end{equation*}
+	We iterate this reasoning and construct a sequence $\seqn{x}\subset{X}$ and $\seqn{r}\subset(0,\infty)$ such that
+	\begin{equation*}
+		B_{c}(x_{n+1},r_{n+1})\subset B(x_{n},r_{n})\cap U_{n+1}\qquad\text{with }0<r_{n+1}<\frac{r_{n}}{2}\quad\every n\in\N.
+	\end{equation*}
+	In particular, one sees that $r_{n}<\frac{r_{0}}{2^{n}}$ so that the sequence $\seqn{x}$ is a Cauchy sequence. Since $X$ is complete, there is $x\in X$ such that $\lim_{n}x_{n}=x$. Since $x_{n+k}\in B(x_{n},r_{n})$ for any $n\in\N$ and any $k\in\N$ taking the limit as $k\to\infty$ we get that
+	\begin{equation*}
+		x\in\overline{B(x_{n},r_{n})}\subset B_{c}(x_{n},r_{n})\qquad\every n\in\N.
+	\end{equation*}
+	In particular, $x\in\mathcal{O}\cap A$ which is non empty and this proves the result.
+\end{fancyproof}
+\begin{theorem}
+	\emph{Banach-Steinhaus Theorem}. Let $\normspp{X}$ be a Banach space and let $\normspp{Y}$ be a normed space. Let $\left(T_{t}\right)_{i\in I}\subset\mathscr{L}(X,Y)$ be a given collection of continuous linear applications. Assume that, for any $x\in X$, there exists $M_{x}>0$ such that
+	\begin{equation*}
+		\sup_{i\in I}\norm{T_{i}(x)}_{Y}\leq M_{x}.\tag*{\faWindowClose}\label{winmax}
+	\end{equation*}
+	Then, there exists $M>0$ such that for any $x\in X$ and any $i\in I$ it holds
+	\begin{equation*}
+		\norm{T_{i}(x)}_{Y}\leq M\norm{x}_{X}
+	\end{equation*}
+	i.e. $\sup_{i\in I}\norm{T_{i}}_{\mathscr{L}(X,Y)}\leq M\leq\infty$.
+\end{theorem}
+The Uniform Boundedness Principle can be reformulated as follows: let $\normspp{X}$ be a Banach space and let $\normspp{Y}$ be a normed space. Let $\F\subset\mathscr{L}(X,Y)$ be a given collection of continuous linear applications (here above $\F={\left(T_{i}\right)}_{i\in I}$). Then the following are equivalent:
+\begin{itemize}
+	\item Pointwise boundedness: for every $x\in X$, the set $\left\{T(x);T\in\F\right\}$ is bounded in $Y$, i.e.
+	\begin{equation*}
+		\sup_{T\in\F}\norm{T(x)}_{Y}=M_{x}<\infty\qquad\every x\in X.
+	\end{equation*}
+	\item Uniform boundedness: the operator norms $\left\{\norm{T}_{\mathscr{L}(X,Y)};T\in\F\right\}$ are bounded, i.e.
+	\begin{equation*}
+		\sup_{T\in\F}\norm{T}_{\mathscr{L}(X,Y)}=M<\infty.
+	\end{equation*}
+\end{itemize}
+\begin{fancyproof}
+	For every $n\in\N$ set
+	\begin{equation*}
+		X_{n}=\left\{x\in X;\norm{T_{i}(x)}_{Y}\leq n\every i\in I\right\}.
+	\end{equation*}
+	Since for any $i\in I,T$, $T_{i}$ is continuous, one sees that $X_{n}$ is closed as the intersection of the closed subsets of $X$. Moreover, according to \ref{winmax},
+	\begin{equation*}
+		X=\bigcup_{n}X_{n}.
+	\end{equation*}
+	It follows from Baire theorem that there exists $n_{0}\in\N$ such that $\mathsf{Int}\left(X_{n_{0}}\right)\neq\emptyset$. Pick then $x_{0}\in X$ and $r>0$ so that $B(x_{0},r)\subset X_{n_{0}}$. By definition it holds
+	\begin{equation*}
+		\norm{T_{1}(x_{0}+rz)}_{Y}\leq n_{0}\qquad\every i\in I;\every z\in B(0,1).
+	\end{equation*}
+	By linearity we get
+	\begin{equation*}
+		\norm{T_{i}(z)}_{Y}\leq\frac{1}{r}(\norm{T_{i}(x_{0}+r_{z})}_{Y}+\norm{T_{i}(x_{0})}_{Y})\leq 2\frac{n_{0}}{r}\qquad\every i\in I;\every z\in B(0,1).
+	\end{equation*}
+	This clearly gives the result with $M=2\frac{n_{0}}{r}$.
+\end{fancyproof}
+\begin{theorem}
+	\emph{Open mapping theorem}. Let $\normspp{X}$ and $\normspp{Y}$ be two Banach spaces and let 
+	\begin{equation*}
+		T:X\to Y
+	\end{equation*}
+	be a continuous linear application which is surjective (i.e. $T\in\mathscr{L}(X,Y)$ is onto). Then $T$ maps open sets of $X$ into open sets of $Y$, i.e. if $U\subset X$ is an open set then $T(U)$ is an open set of $Y$.
+\end{theorem}
+\begin{corollary}
+	Let $\left(X_{i},\dnorm_{i}\right)$ with $i=1,2$ be two Banach spaces and let $T:X_{1}\to X_{2}$ be a continuous linear application which is bijective. Then its inverse $T_{-1}$ is also continuous, i.e. $T^{-1}\in\mathscr{L}(X_{2},X_{1})$.
+\end{corollary}
+\begin{proposition}
+	Let $\normsp{X}$ be a Banach space and let $\dnorm_{0}$ be a norm on $X$ such that
+	\begin{itemize}
+		\item $\left(X,\dnorm_{0}\right)$ is a Banach space;
+		\item there exists $C_{0}>0$ such that
+		\begin{equation*}
+			\norm{x}_{0}\leq C_{0}\norm{x}\qquad\every x\in X_{0}.
+		\end{equation*}
+	\end{itemize}
+	Then, the two norms $\dnorm$ and $\dnorm_{0}$ are equivalent.
+	\end{proposition}
+So if a Banach norm dominates another Banach norm, then they are equivalent.
+\begin{theorem}
+	\emph{Closed graph theorem}. Let $\left(X_{i},\dnorm_{i}\right)$ with $i=1,2$ be two Banach spaces and let $T:X_{1}\to X_{2}$ be a linear application. Assume that the graph of $T$
+	\begin{equation*}
+		\mathcal{G}(T)=\left\{(x_{1},T(x_{1}))\in X_{1}\times X_{1}\; x_{1}\in X_{1}\right\}
+	\end{equation*}
+	is closed in $X_{1}\times X_{2}$ (endowed with the norm $\norm{(x_{1},x_{s})}_{\max}=\max\left\{\norm{x_{1}}_{1},\norm{x_{2}}_{2}\right\}$). Then, 
+	\begin{equation*}
+		T\in\mathscr{L}(X_{1},X_{2}).
+	\end{equation*}
+\end{theorem}
+\begin{fancyproof}
+	Consider on $X_{1}$ the norm
+	\begin{equation*}
+		\norm{x}_{T}=\norm{x}_{1}+\norm{T(x)}_{2}\qquad x\in X_{1}.
+	\end{equation*}
+	One checks that $\dnorm_{T}$ is indeed a norm. Moreover, since $\mathcal{G}(T)$ is closed in $X_{1}\times X_{2}$, one can check that $(X_{1},\dnorm_{T})$ is a Banach space. Moreover, one clearly has 
+	\begin{equation*}
+		\norm{x}_{1}\leq\norm{x}_{T}\qquad\every x\in X_{1}.
+	\end{equation*}
+	Then, the previous proposition asserts that the norms $\dnorm_{1}$ and $\dnorm_{T}$ are equivalent norms on $X_{1}$, so there exists
+	\begin{equation*}
+		c>0\quad\text{such that }\norm{x}_{T}\leq x\norm{x}_{1}\qquad\every x\in X_{1}.
+	\end{equation*}
+	This is enough to prove the continuity of $T$.
+\end{fancyproof}
+\subsection{Complements}
+\begin{definition}
+	Let $A\in\mathscr{L}(X)$. We say that $A$ is a compact operator if the image of $B_{c}(0,1)$ through $A$ is contained in a compact set of $X$, i.e. for any sequence $\seqn{\bm{x}}\subset X$ with $\norm{x_{n}}\leq1$, the sequence $\seqnn{A(\bm{x}_{n})}$ admits a subsequence which converges. We shall denote by $\mathscr{K}(X)$ the collection of all compact operators in $X$.
+\end{definition}
+\begin{definition}
+	Let $A\in\mathscr{L}(X)$. We say that $A$ is of finite rank if the image of $A$, $R(A)=\left\{A\bm{x},\bm{x}\in X\right\}$ is a linear subspace of finite dimension $X$.
+\end{definition}
+\begin{lemma}
+	If $A\in\mathscr{K}(X)$ and $B\in\mathscr{L}(X)$ then $B\circ A$ and $A\circ B$ belong to $\mathscr{K}(X)$.
+\end{lemma}
+\begin{proposition}
+	Let $\seqn{A}\subset\mathscr{K}(X)$ and let $A\in\mathscr{L}(X)$ be given with
+	\begin{equation*}
+		\lim_{n\to\infty}\norm{A_{n}-A}_{\mathscr{L}(X)}=0.
+	\end{equation*}
+	Then, $A\in\mathscr{K}(X)$.
+\end{proposition}
+\subsection{More properties of the dual space}
+\begin{theorem}
+	\emph{Zorn's lemma}. Every non empty ordered set that is inductive has a maximal element.
+\end{theorem}
+\begin{theorem}
+	\emph{Helly, Hahn-Banach analytic form}. Let $X$ be a vector space over $\R$. Let $p:X\to\R$ be a function satisfying
+	\begin{enumerate}
+		\item $p(\lambda x)=\lambda p(x)$ for any $x\in X$ and any $\lambda>0$\\
+		\item $p(x+y)\leq p(x)+p(y)$ for any $x,y\in X$.
+	\end{enumerate} 
+	Let $Y\subset X$ be a linear subspace and $g:Y\to\R$ a linear function such that
+	\begin{enumerate}
+		\item[3] $g(x)\leq p(x)$ for any $x\in Y$.  
+	\end{enumerate}
+	Then, there exists a linear function $f:X\to\R$ such that
+	\begin{equation*}
+		f(x)=g(x)\qquad\every x\in Y
+	\end{equation*}
+	(we say then that $f$ extends $g$ to $X$) and
+	\begin{equation*}
+		f(x)\leq p(x)\qquad\every x\in X.
+	\end{equation*}
+\end{theorem}
+\begin{corollary}
+	Let $\normsp{X}$ be a normed space and let $Y\subset X$ be a linear subspace. If $g:Y\to\R$ is a continuous linear mapping, then there exsts $f\in X^{\star}$ that extends $g$ and such that
+	\begin{equation*}
+		\norm{f}_{\star}=\norm{g}_{Y}
+	\end{equation*}
+\end{corollary}
+\begin{corollary}
+	Let $\normsp{X}$ be a normed space. For every $x_{0}\in X$ there exists $\Phi_{0}\in X^{\star}$ such that 
+	\begin{equation*}
+		\norm{\Phi_{0}}_{\star}=\norm{x_{0}}
+	\end{equation*}
+	and
+	\begin{equation*}
+		\Phi_{0}(x_{0})=\norm{x_{0}}^{2}.
+	\end{equation*}
+\end{corollary}
+\section{Inner product spaces and Hilbert spaces}
+\subsection{General properties}
+\begin{definition}
+	Let $H$ be a given vector space. An inner product $\indot$ is a mapping from $H\times H$ with values in $\R$ with the following properties:
+	\begin{enumerate}
+		\item \emph{symmetry}: $\inprod{x,y}=\inprod{y,x}$ for $\every x,y\in H$;
+		\item \emph{bilinearity}: $\inprod{x,\alpha y+\beta z}=\alpha\inprod{x,y}+\beta\inprod{x,z}$ for $\every x,y,z\in H$ and $\every\alpha,\beta\in\R$;
+		\item $\inprod{x,x}\geq0$ for $\every x\in H$;
+		\item $\inprod{x,y}=0$ if and only if $x=0$. 
+	\end{enumerate}
+	If $H$ is endowed with an inner product, we say that $\insp{H}$ is an inner product space.
+\end{definition}
+\begin{proposition}
+	If $\insp{H}$ is an inner product space then it is a norm space with respect to the norm given by
+	\begin{equation*}
+		\norm{x}=\sqrt{\inprod{x,x}}.
+	\end{equation*}
+	The norm $\dnorm$ is called the norm induced by the inner product $\indot$ and it satisfies
+	\begin{equation*}
+		\norm{x\pm y}^{2}=\norm{x}^{2}+\norm{y}^{2}\pm 2\inprod{x,y}
+	\end{equation*}
+	and the parallelogram law
+	\begin{equation*}
+		\norm{x+y}^{2}+\norm{x-y}^{2}=2\norm{x}^{2}+2\norm{y}^{2}.
+	\end{equation*}
+\end{proposition}
+\begin{proposition}
+	\emph{Cauchy-schwartz inequality}. If $\insp{H}$ is an inner product space and $\dnorm$ defines the inner norm then it holds
+	\begin{equation*}
+		\left|\inprod{x,y}\right|\leq\norm{x}\norm{y}.
+	\end{equation*}
+\end{proposition}
+\begin{proposition}
+	Let $\insp{H}$ be an inner product space and let $\seqn{x}$ and $\seqn{y}$ be two converging sequencer (in the inner norm) to $x$ and $y$. Then
+	\begin{equation*}
+		\lim_{n\to\infty}\inprod{x_{n},y_{n}}=\inprod{x,y}.
+	\end{equation*}
+\end{proposition}
+\subsection{Orthogonality}
+\begin{definition}
+	Let $\insp{H}$ be a given inner product space. Two vector $x,y\in H$ are said to be \emph{orthogonal} if $\inprod{x,y}=0$. Given two linear subspaces $M,N\subset H$ we say that $M\perp N$ if $\inprod{x,y}=0$ for $\every x\in M,\every y\in N$.
+\end{definition}
+\begin{definition}
+	Let $\insp{H}$ be a inner product space. A finite family $\left\{\bm{e}_{1},\ldots,\bm{e}_{N}\right\}\subset H$ is said to be \emph{orthonormal} if
+	\begin{equation*}
+		\norm{\bm{e}_{k}}=1\qquad\every k=1,\ldots,N
+	\end{equation*}
+	and
+	\begin{equation*}
+		\inprod{\bm{e}_{m},\bm{e}_{n}}=0\qquad\every n\neq m.
+	\end{equation*}
+\end{definition}
+\begin{proposition}
+	\emph{Gram-Schmidt Procedure}. Let $\insp{H}$ be a inner product space. Then
+	\begin{enumerate}
+		\item any orthonormal set $\left\{\bm{e}_{1},\ldots,\bm{e}_{N}\right\}\subset H$ is linearly independent;
+		\item given a linearly independent subset $\left\{v_{1},\ldots,v_{N}\right\}$ of $H$ and given $S=\mathrm{span}(v_{1},\ldots,v_{N})$ then there exists an orthonormal basis of $S$ $\left\{\bm{e}_{1},\ldots,\bm{e}_{N}\right\}$.
+	\end{enumerate}
+\end{proposition}
+\begin{fancyproof}
+	\begin{enumerate}
+		\item We need to show that given $\alpha_{1},\ldots,\alpha_{N}$ such that
+		\begin{equation*}
+			\sum_{k=1}^{N}\alpha_{k}\bm{e}_{k}=0
+		\end{equation*}
+		then $\alpha_{j}=0$ for every $j$. Consider any $\bm{e}_{j}$ for $j=1,\ldots,N$. Then we have
+		\begin{align*}
+			0&=\inprod{\bm{e}_{j},	\sum_{k=1}^{N}\alpha_{k}\bm{e}_{k}}\\
+			&=\sum_{k=1}^{N}\alpha_{k}\ubracketthin{\inprod{\bm{e}_{j},\bm{e}_{k}}}_{\mathclap{\text{$=0$ for anything but $\inprod{\bm{e}_{j},\bm{e}_{j}}=\norm{\bm{e}_{j}}=1$}}}\\
+			&=\alpha_{j}.
+		\end{align*}
+		\item We argue by induction over $N$. For $N=1$ it is easy: we have $\left\{v_{1}\right\}$ for which we can set $\bm{e}_{1}=\frac{v_{1}}{\norm{v_{1}}}$. We now know this is true for some integer $N\geq1$. We need to find $\{\bm{e}_{1},\ldots,\bm{e}_{N+1}\}$ which is an orthonormal basis for $\mathrm{span}\left\{v_{1},\ldots,v_{N+1}\right\}$. We know for sure that $v_{N+1}\notin\mathrm{span}(v_{1},\ldots,v_{N})$ because they are linearly independent. Construct
+		\begin{equation*}
+			h_{N+1}=v_{N+1}-\sum_{k=1}^{N}\inprod{v_{N+1},\bm{e}_{k}}\bm{e}_{k}.
+		\end{equation*}
+		By construction we have $h_{N+1}\neq0$ and $h_{N+1}\in\mathrm{span}\left\{v_{1},\ldots,v_{N+1}\right\}$. Moreover $\inprod{h_{N+1},\bm{e}_{j}}=0$ for $\every j=1,\ldots, N$. Now we just set 
+		\begin{equation*}
+			\bm{e}_{N+1}=\frac{h_{N+1}}{\norm{h_{N+1}}}.
+		\end{equation*}
+		Now we have that $\mathrm{span}(\bm{e}_{1},\ldots,\bm{e}_{N+1})\subset\mathrm{span}(v_{1},\ldots,v_{N+1})$ but since we proved that $\left\{\bm{e}_{1},\ldots,\bm{e}_{N}\right\}$ are linearly independent and since these two spans have the same dimensions, we can say
+		\begin{equation*}
+			\mathrm{span}(\bm{e}_{1},\ldots,\bm{e}_{N+1})=\mathrm{span}(v_{1},\ldots,v_{N+1}
+		\end{equation*}
+	\end{enumerate}
+\end{fancyproof}
+\begin{definition}
+	Let $\insp{H}$ be an inner product space and let $M$ be a subset of $H$. Then the \emph{orthogonal complement} of $M$ is defined as
+	\begin{equation*}
+		M^{\perp}=\left\{x\in H; \inprod{x,u}=0\quad\every u\in M\right\}.
+	\end{equation*}
+	In particular, one sees that $M^{\perp}\perp M$.
+\end{definition}
+\begin{proposition}
+	Let $\insp{H}$ be an inner product space and let $M\subset H$. Then
+	\begin{enumerate}
+		\item $0\in M^{\perp}$;
+		\item if $0\in M$ then $M\cap M^{\perp}=\left\{0\right\}$, otherwise $M\cap M^{\perp}=\emptyset$;
+		\item $\left\{0\right\}^{\perp}=H$ and $H^{\perp}=\{0\}$;
+		\item if $M$ is a non-empty subset of $H$ then $M^{\perp}=0$;
+		\item if $N\subset M$ then $N^{\perp}\subset M^{\perp}$;
+		\item $M^{\perp}$ is a closed linear subspace of $H$;
+		\item $M\subset\left(M^{\perp}\right)^{\perp}$.
+	\end{enumerate}
+\end{proposition}
+\begin{proposition}
+	Let $M$ be a linear subspace of an inner product space $\insp{H}$. Then
+	\begin{equation*}
+		x\in M^{\perp}\iff\norm{x-y}\geq\norm{y}\qquad\every y\in M.
+	\end{equation*}
+\end{proposition}
+\subsection{Hilbert Spaces and Projection Theorem}
+\begin{definition}
+	Let $\insp{H}$ be an inner product space and let $\dnorm$ be the associated inner norm. If $(H,\dnorm)$ is complete then $\insp{H}$ is called a \emph{Hilbert space}.
+\end{definition}
+\begin{definition}
+	Let $X$ be a given vector space. A subset $C\subset X$ is convex if for any $x,y\in C$ one has
+	\begin{equation*}
+		tx+(1-t)y\in C\qquad\every t\in[0,1].
+	\end{equation*}
+\end{definition}
+Linear subspaces of vector spaces are always convex.
+\begin{theorem}
+	\emph{Projection over closed subspaces}. Let $(H,\indot)$ be a given Hilbert space and let $K\subset H$ be \underline{closed and convex}.
+\end{theorem}
+%\input{exercises}
 \end{document}

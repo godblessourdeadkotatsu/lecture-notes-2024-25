@@ -1,6 +1,6 @@
 \documentclass{article}
 %Ciao!! questi sono gli appunti di Statistical Modelling For Stochastic Processes. Ho creato il pacchetto "pacco" che contiene istruzioni e pacchetti necessari per lo stile e i colori.
-\usepackage{paccosmsp}
+\input{paccosmsp.sty}
 \begin{document}
 \title{Statistical modelling for stochastic processes\\ spring 2024}
 \author{SDS}
@@ -4336,4 +4336,19 @@ where $X(t)$ is a diffusion process.\\
 	 	\centering
 	 	\includegraphics[page=14,scale=0.7,trim={4.3cm 12cm 4cm 5cm},clip]{drawings/Lec 18.pdf}
 	 \end{figure}
+	 \section{Exam questions}
+	 \begin{exercise}
+	 	Let $X_{t}$ be a birth-and death continuous time Markov Chain on $\Z_+$ with birth rate $\lambda_{i}=\lambda$ and death rate $\mu_{i}=\mu i$ for $\lambda,\mu>0$.
+	 	\begin{enumerate}
+	 		\item Define stationarity.
+	 		\item Show $X_{t}$ has a Poisson stationary distribution.
+	 		\item Discuss why we are not able to construct a discrete time Markov chain with Poisson stationary distribution.
+	 	\end{enumerate}
+	 \end{exercise}
+	 \begin{exercise}
+	 	Define a Gibbs sampler for the target distribution $\pi_{X,Y}(x,y)$. Show that the projection onto the first coordinate of the above Gibbs sampler for $(X,Y)$ is stationary with respect to the marginal law $\pi_{X}(x)=\int\pi_{X,Y}(x,y)\dy$.
+	 \end{exercise}
+	 \begin{exercise}
+	 	State the Levy-Ito decomposition and discuss its interpretation in relation to the characteristic exponential of a generic Levy process.
+	 \end{exercise}
 \end{document}

@@ -170,5 +170,379 @@ So the procedure is
 		\item $w_{ij}=\frac{\left(\frac{1}{\mathrm{dist}(\mathbf{x_{i},\mathbf{c}_{j}})^{2}}\right)^{\frac{1}{p-1}}}{\sum_{q=1}^{k}\left(\frac{1}{\mathrm{dist}(\mathbf{x_{i},\mathbf{c}_{q}})^{2}}\right)^{\frac{1}{p-1}}}$ (updates weights).
 	\end{enumerate}
 \end{enumerate}
+\section{Probabilistic clustering}
+Model the set of data points as arising from a mixture of distributions. Each cluster corresponds to one distribution from the mixture. Clusters are found by estimating the parameters of the statistical distributions using Expectation-maximization algorithm.\par
+The probability that the $j$-th distribution with parameter $\vartheta_{j}$ is chosen to generate an object $x_{i}$ belonging to one of $K$ clusters is given by the weight $w_{j}$. So
+\begin{equation*}
+	\pr(x|\Theta)=\sum_{j=1}^{K}w_{j}p_{j}(x|\vartheta_{j}).
+\end{equation*}
+If the $m$ objects are generated independently then
+\begin{equation*}
+	\pr(x|\Theta)=\prod_{i=1}^{m}\sum_{j=1}^{K}w_{j}p_{j}(x|\vartheta_{j}).
+\end{equation*}
+\begin{riquadro}[Probabilistic clustering]
+	\begin{enumerate}
+		\item Estimation: for each point compute its probability under each distribution 
+		\begin{equation*}
+			\pr(x_{i}|\vartheta_{j}).
+		\end{equation*}
+		\item Maximization: update the parameters.
+	\end{enumerate}
+\end{riquadro}
+Estimation is similar to $k$-means. Weights are probabilities, they are not raised to a power and are calculated using Bayes:
+\begin{equation*}
+	p(C_{j}|x_{i})=\frac{p(x_{i}|C_{j})p(C_{j})}{\sum_{l=1}^{k}p(x_{i}|C_{l})p(C_{l})}.
+\end{equation*}
+We can estimate
+\begin{equation*}
+	p(C_{j})=\frac{1}{m}\sum_{m}^{1}p(C_{j}|x_{i}).
+\end{equation*}
+Maximization step:
+\begin{equation*}
+	c_{j}=\frac{\sum_{i=1}^{m}x_{i}p(C_{j}|x_{i})}{\sum_{i=1}^{m}p(C_{j}|x_{i})}.
+\end{equation*}
+Complexity: $\mathcal{O}(d^{2})$.
+\subsection{Density based algorithms}
+\begin{riquadro}[Grid based clustering]
+	\begin{enumerate}
+		\item Define a set of grid cells.
+		\item Assign objects to the appropriate cells and compute the density of each cell.
+		\item Eliminate cells having a density below a specified threshold.
+		\item Form clusters from continuous groups of dense cells.
+	\end{enumerate}
+\end{riquadro}
+Complexity: $\mathcal{O}(n \log n)$.\par
+The CLIQUE algorithm is based on the apriori principle: 
+\begin{equation*}
+	\begin{array}{c}
+		\text{cluster in $k$}\implies\text{cluster in subsets of $k$}\\
+		\text{no cluster in $k$}\implies\text{no cluster in supersets of $k$}
+	\end{array}
+\end{equation*}
+\begin{riquadro}[CLIQUE]
+	\begin{enumerate}
+		\item Find all dense areas in the one-dimensional spaces corresponding to each attribute. This is the set of dense one-dimensional cells.
+		\item $k\leftarrow2$.
+		\item Until there are no candidate dense $k$-dimensional cells iterate:
+		\begin{enumerate}
+			\item Generate all candidate dense $k$-dimensional cells from dense $(k-1)$ dimensional cells.
+			\item Eliminate cells that have fewer than $\tau$ points.
+			\item $k\rightarrow k+1$.
+		\end{enumerate}
+		\item Find clusters by taking the union of all adjacent high density cells.
+		\item Summarise each cluster using a small set of inequalities that describe the attribute ranges of the cells in the cluster.
+	\end{enumerate}
+\end{riquadro}
+Time complexity: exponential.
+\subsection{Graph-based clustering: chameleon}
+Three steps:
+\begin{enumerate}
+	\item Sparsification of the proximity graph modifying the proximity matrix (can be recursive).
+	\item Partitioning into a large number of roughly equally sized groups (ise METIS).
+	\item Merging the large number of roughly equally sized groups (agglomerative hierarchical clustering based on dynamic modelling).
+\end{enumerate}
+Example of merging schemes: MIN (minimum distance between clusters) or GROUP-AVERAGE (avg connectivity). Dynamic modeling: adapt to the characteristics of the data set.
+\begin{riquadro}[Dynamic modeling measures]
+	Relative interconnectivity:
+	\begin{equation*}
+		\mathrm{RI}(C_{i},C_{j})=\frac{\mathrm{EC}(C_{i},C_{j})}{\unmezz\left(\mathrm{EC}(C_{i})+\mathrm{EC}(C_{j})\right)}.
+	\end{equation*}
+	Relative closeness:
+	\begin{equation*}
+		\mathrm{RC}(C_{i},C_{j})=\frac{\overline{S}_{\mathrm{EC}}(C_{i},C_{j})}{\frac{m_{i}}{m_{i}+m_{j}}\overline{S}_{\mathrm{EC}}(C_{i})+\frac{m_{j}}{m_{i}+m_{j}}\overline{S}_{\mathrm{EC}}(C_{j})}
+	\end{equation*}
+\end{riquadro} 
+For example: \begin{itemize}
+	\item combine pair of clusters which maximises $\mathrm{RI}\times \mathrm{RC}^{\alpha}$ and stop when there are $K$ clusters left;
+	\item combine clusters which have $\mathrm{RC}>t_{c}$ and $\mathrm{RC}>t_{i}$.
+\end{itemize}
+\subsection{Spectral clustering}
+Given a proximity matrix $\mathbf{W}$ (weighted adjacency matrix) define a diagonal matrix $\mathbf{D}$ such that
+\begin{equation*}
+	D_{ij}=\begin{cases}
+		\sum_{l}W_{il}&\text{if }i=j\\
+		0&\text{otherwise.}
+	\end{cases}
+\end{equation*}
+Compute the laplacian
+\begin{equation*}
+	\mathbf{L}=\mathbf{D}-\mathbf{W}.
+\end{equation*}
+We have that $\mathbf{L}$ is symmetric, positive semidefinite and all eigenvalues are positive for any vector $\mathbf{v}$:
+\begin{equation*}
+	\trans{\mathbf{v}}\mathbf{L}\mathbf{v}\geq 0.
+\end{equation*}
+Write $\mbf{L}$ as eigenvalue decomposition:
+\begin{equation*}
+	\mbf{L}=\mbf{\Lambda}\mbf{V}.
+\end{equation*}
+\begin{riquadro}[Spectral clustering]
+	\begin{enumerate}
+		\item Create a sparsified similarity graph.
+		\item Compute the laplacian.
+		\item Create a matrix $\mbf{V}$ from the first $k$ eigenvalues of $\mbf{L}$.
+		\item Apply $k$-means on $\mbf{V}$.
+	\end{enumerate}
+\end{riquadro}
+\subsection{SNN Clustering}
+\begin{riquadro}[SNN Algorithm]
+	\begin{enumerate}
+		\item Compute similarity matrix.
+		\item Sparsify the similarity matrix (keep only $k$ most similar neighbours).
+		\item Construct the SNN graph from the sparsified similarity matrix.
+		\item Find the SNN density of each point.
+		\item Find the core points using parameter \textit{MinPts}.
+		\item For clusters from the core points.
+		\item Discard all noise points.
+		\item Assign all non noise, non core points to clusters.
+	\end{enumerate}
+	Steps 4-8 are DBSCAN.
+\end{riquadro}
+\section{Anomaly detection}
+We can have:
+\begin{itemize}
+	\item statistical approaches;
+	\item distance-based approaches (from the object to its $k$-th nearest neighbor);
+	\item density-based approaches: different density measures possible:
+	\begin{equation*}
+		\mathrm{density}(x,k)=\frac{1}{K_{\mathrm{dist}}}.
+	\end{equation*} Relative density:
+	\begin{align*}
+		\mathrm{rel\_dens}(x,k)&=\frac{\sum_{i=1}^{k}\frac{\mathrm{density}(y_{i},k)}{k}}{\mathrm{density}(x,k)}\\
+		&=\frac{K_{\mathrm{dist}}(x,k)}{\frac{\sum_{i=1}^{k}K_{\mathrm{dist}}(y_{i},k)}{k}}.
+	\end{align*}
+	You can use reachability distance
+	\begin{equation*}
+		R^{K}_{\mathrm{dist}}(x,y_{1})=\max\left\{K_{\mathrm{dist}(y_{1})},\mathrm{dist}(x,y_{i})\right\}.
+	\end{equation*}
+	\begin{riquadro}[LOF algorithm]
+		\begin{enumerate}
+			\item Compute the local reachability density of $x$ as inverse of avg reachability distance:
+			\begin{equation*}
+				L^{K}_{\mathrm{density}}(x)=\frac{1}{\left(\frac{\sum_{y\in N_{K}(x)}R^{K}_{\mathrm{dist}}(X,y)}{|N_{K}(x)|}\right)}.
+			\end{equation*}
+			\item Relate it to the one of the neighbours:
+			\begin{equation*}
+				\mathrm{LOF}_{K}(x)=\frac{\sum_{y\in N_{K}(x)}L^{K}_{\mathrm{density}}(y)}{|N_{K}(x)|}\frac{1}{L^{K}_{\mathrm{density}}(x)}
+			\end{equation*}
+		\end{enumerate}
+	\end{riquadro}
+	Complexity is $\mathcal{O}(n^{2})$;
+	\item clustering-based approaches:
+	\begin{itemize}
+		\item prototype based clusters;
+		\item density based clusters;
+		\item graph based clusters;
+	\end{itemize}
+	\item reconstruction based approaches: use dimensionality reduction like PCA/autoencoders to project $x$ to $\hat{x}$ and define reconstruction error as
+	\begin{equation*}
+		\lVert x-\hat{x}\rVert.
+	\end{equation*}
+	Autoencoders minimize this. If this is high it is an anomaly;
+	\item information theory approach: anomalies bring a decrease in information when they are deleted.
+\end{itemize}
+\section{Classification}
+\subsection{Decision trees}
+Many possible decision trees that can be built from the
+same dataset. The goal of the learning algorithm is to find the best tree among all possible
+trees.
+\begin{riquadro}[Hunt's algorithm]
+	\begin{enumerate}
+		\item Check if the tree is pure: if yes create a leaf.
+		\item Otherwise, split it according to the best condition.
+		\item Add a new node in the decision tree and associate it with that condition.
+		\item For each branch of the new node apply recursively the algorithm.
+	\end{enumerate}
+\end{riquadro}
+Continuous attributes need binning. We prefer nodes with purer class distributions. Measures of impurity of a node $t$ ($p_{c}(t)$: frequency of class $c$ at node $t$ over total number of classes $C$):
+\begin{itemize}
+	\item Gini index:
+	\begin{equation*}
+		1-\sum_{c=1}^{C}p_{c}(t)^{2};
+	\end{equation*}
+	when a node is split the Gini index for the split is the weighted average of the Gini index evaluated on the resulting nodes:
+	\begin{equation*}
+		\sum_{k=1}^{K}\frac{n_{k}}{n}\mathrm{Gini}(t_{k})
+	\end{equation*}
+	where $n_{k}$ is the number of examples in the $k$-th split node;
+	\item Entropy:
+	\begin{equation*}
+		-\sum_{c=1}^{C}p_{c}(t)\log_{2}p_{c}(t);
+	\end{equation*}
+	after splitting we have
+	\begin{equation*}
+		\mathrm{Entropy}(t_{parent})-\sum_{k=1}^{K}\frac{n_{k}}{n}\mathrm{Entropy}(t_{k});
+	\end{equation*}
+	\item Classification error:
+	\begin{equation*}
+		1-\max_{c}\left\{p_{c}(t)\right\}.
+	\end{equation*}
+\end{itemize}
+Choose the attribute test condition that yields the lowest impurity score. To avoid too many partition define the gain ratio
+\begin{equation*}
+	\text{GainRation}=\frac{\text{InformationGain}}{-\sum_{k=1}^{K}\frac{n_{k}}{n}\log_{2}\frac{n_{k}}{n}}.
+\end{equation*}
+\subsection{Rule-based classification}
+Uses a collection of if-then:
+\begin{equation*}
+	\text{Condition}_{i}=(A_{1}\odot v_{1})\wedge\ldots\wedge(A_{k}\odot v_{k}).
+\end{equation*}
+Coverage: fraction of instances that satisfy the rule's antecedent
+\begin{equation*}
+	\frac{|A|}{|D|}.
+\end{equation*}
+Accuracy: fraction of instances that satisfy the rule's antecedent and consequent
+\begin{equation*}
+	\frac{|A\cap y|}{|D|}.
+\end{equation*}
+Example: RIPPER.
+\subsection{Naive Bayes}
+We seek for the most probable hypothesis given the data and any initial knowledge about the prior probabilities. MAP hypothesis:
+\begin{align*}
+	h_{\mathrm{MAP}}&=\arg\max_{h\in\mathcal{H}}\pr(h|D)\\
+	&=\arg\max_{h\in\mathcal{H}}\frac{\pr(D|h)\pr(h)}{\pr(D)}\\
+	&=\arg\max_{h\in\mathcal{H}}\pr(D|h)\pr(h).
+\end{align*}
+If we assume that all hypotheses are equally likely a priori we can only consider the likelihood of the data (Maximum Likelihood hypothesis):
+\begin{equation*}
+	h_{\mathrm{ML}}=\arg\max_{h\in\mathcal{H}}\pr(D|h).
+\end{equation*}
+MDL principle:
+\begin{align*}
+		h_{\mathrm{MAP}}&=\arg\max_{h\in\mathcal{H}}\pr(D|h)\pr(h)\\
+		&=\arg\max_{h\in\mathcal{H}}\log_{2}\pr(D|h)+\log_{2}\pr(h)\\
+		&=\arg\min_{h\in\mathcal{H}}-\log_{2}\pr(D|h)-\log_{2}\pr(h).
+\end{align*}
+This is like minimizing the number of bits transmitted to encode the data and the hypothesis. Given a class $y_{i}\in\mathcal{Y}$ we get
+\begin{equation*}
+	\pr(y_{j}|D)=\sum_{h\in\mathcal{H}}\pr(y_{j}|h)\pr(h|D)
+\end{equation*}
+so the Bayes Optimal Classifier is
+\begin{equation*}
+	y_{\mathrm{Bayes}}=\arg\max_{y_{j}\in\mathcal{Y}}\sum_{h\in\mathcal{H}}\pr(y_{j}|h)\pr(h|D)
+\end{equation*}
+but we need to know the posterior of all hypotheses (often impossible).
+\begin{riquadro}[Gibbs' algorithm]
+	\begin{enumerate}
+		\item Choose an hypothesis $h\in\mathcal{H}$ at random according to the posterior probability over $\mathcal{H}$, which is $\pr(h|D)$.
+		\item Use $h$ to classify the new instance.
+	\end{enumerate}
+\end{riquadro}
+The error is at most twice the one of the OBC.
+The naive Bayes classifier makes the assumption that the attributes are conditionally independent given the class:
+\begin{equation*}
+	\pr(a_{1},\ldots,a_{d}|y_{j})=\prod_{i=1}^{d}\pr(a_{i}|y_{j})
+\end{equation*}
+so the NBC is
+\begin{equation*}
+	y_{\mathrm{NB}}=\arg\max_{y_{j}\in\mathcal{Y}}\pr(y_{j})\prod_{i=1}^{d}\pr(a_{i}|y_{i}).
+\end{equation*}
+Probability are empyrical. Use laplace smoothing or m-estimate
+\begin{equation*}
+	\hat{\pr}(a_{i}|y_{i})=\frac{n_{a_{i},y_{i}}+1}{n_{y_{j}}+|A_{i}|}.
+\end{equation*}
+\subsection{KNN}
+It is a lazy learner. Classifies based on the closest datapoint.
+\section{SRM}
+A given training set 
+\begin{equation*}
+	D=\left\{(x_{1},y_{1}),\ldots,(x_{n},y_{n})\right\}
+\end{equation*}
+is assumed to be drawn iid from a fixed and unknown distribution $p(x,y)$. We want to learn a function $h^{\star}$ such that $\forall(x_{i},y_{i})\in D,\;h^{\star}(x_{i})=y_{i}$ (small population risk). We use some learning algorithm $A$ which optimizes some performance measure $l$ of the model (like a loss function). Expected risk minimization:
+\begin{align*}
+	h^{\star}&=\arg\min_{h\in\mathcal{H}}R[h]\\
+	&=\arg\min_{h\in\mathcal{H}}\mathbb{E}_{(x,y)\sim p(x,y)}\left[l(h(x),y)\right]
+\end{align*}
+We use the empirical mean
+\begin{equation*}
+	h^{\star}=\arg\min_{h\in\mathcal{H}}\frac{1}{n}\sum_{i=1}^{n}l(h(x_{i}),y_{i}).
+\end{equation*}
+So the generalization error is the sum of the error of the training set and the model complexity term
+\begin{equation*}
+	R[h]=\hat{R}_{D}[h]+\alpha\cdot\text{Complexity}(h).
+\end{equation*}
+\begin{riquadro}[VC dimension]
+	The VC dimension of a hypothesis space $\mathcal{H}$ defined over an instance space $X$ is the size of the largest finite subset of $X$ shattered by $\mathcal{H}$.
+	\begin{equation*}
+		\mathrm{VC}(\mathcal{H})=\max_{S\subset X}|S|:S\text{ is shattered by }\mathcal{H}.
+	\end{equation*}
+\end{riquadro}
+The upper bound of the true risk is
+\begin{equation*}
+	R[h^{\star}]\leq\hat{R}_{D}[h^{\star}]+\mathcal{O}\left(\sqrt{\frac{\mathrm{VC}(\mathcal{H})}{n}\log\left(\frac{n}{VC(\mathcal{H})}\right)-\frac{\log(\delta)}{n}}\right)
+\end{equation*}
+\section{SVM}
+Functional margin:
+\begin{equation*}
+	\mu(x_{i})=y_{i}(w\cdot x_{i}-t)=y_{i}f(x)
+\end{equation*}
+\section{Neural networks}
+Rosenblatt's perceptron:
+\begin{equation*}
+	\text{output}=\begin{cases}
+		0&\text{if }w\times x+b\leq 0\\
+		1&\text{otherwise}.
+	\end{cases}
+\end{equation*}
+The perceptron learning algorithm makes at most $\frac{R^{2}}{\gamma^{2}}$ updates. Proof: for $w_{1}=0$ given a misclassified point $x_{j}$ we have
+\begin{align*}
+	w_{k+1}\cdot w^{\star}&=(w_{k}+y_{j}x_{j})\cdot w^{\star}\\
+	&=w_{k}\cdot w^{\star}+y_{j}(x_{j}\cdot w^{\star})\\
+	&>w_{k}\cdot w^{\star}+\gamma\\
+	&>k\gamma.
+\end{align*}
+Since 
+\begin{equation*}
+	w_{k+1}\cdot w^{\star}\leq\lVert w_{k+1}\rVert\lVert w^{\star}\rVert=\lVert w_{k+1}\rVert
+\end{equation*}
+then
+\begin{equation*}
+	\lVert w_{k+1}\rVert<k\gamma.
+\end{equation*}
+Since coordinates are bounded
+\begin{align*}
+	\lVert w_{k+1}\rVert^{2}&=\lVert w_{k}+y_{j}x_{j}\rVert^{2}\\
+	&=\lVert w_{k}\rVert^{2}+\lVert y_{j}x_{j}\rVert^{2}+2(w_{k}\cdot x_{j})y_{j}\\
+	&=\lVert w_{k}\rVert^{2}+\lVert x_{j}\rVert^{2}+2(w_{k}\cdot x_{j})y_{j}\\
+	&\leq\lVert w_{k}\rVert^{2}+\lVert x_{j}\rVert^{2}\\
+	&\leq\lVert w_{k}\rVert^{2}+R^{2}\\
+	&\leq k{R}^{2}
+\end{align*}
+Cross-entropy: 
+\begin{equation*}
+	C=-\frac{1}{n}\sum_{x}\left[y\ln a+(1-y)\ln(1-a)\right]
+\end{equation*}
+We can show
+\begin{equation*}
+	\sigma'(z)=\sigma(z)(1-\sigma(z))
+\end{equation*}
+and therefore
+\begin{align*}
+	\frac{\partial C}{\partial w_{j}}&=\frac{1}{n}\sum_{x}x_{j}(\sigma(z)-y)\\
+	\frac{\partial C}{\partial b}&=\frac{1}{n}\sum_{x}(\sigma(z)-y).
+\end{align*}
+Soft max activation:
+\begin{equation*}
+	a^{L}_{j}=\frac{e^{z_{j}^{L}}}{\sum_{k}e^{z_{k}^{L}}}.
+\end{equation*}
+Cost function with regularization term:
+\begin{equation*}
+	\mathcal{L}_{\text{reg}}(X,y;\vartheta)=\frac{1}{n}\sum_{i=1}^{n}\ell(y_{i},f_{\vartheta}(x_{i}))+\frac{\lambda}{n}\sum_{W\in\vartheta}\lVert W\rVert^{2}_{F}
+\end{equation*}
+\section{Privacy}
+\subsection{$\varepsilon$-differential privacy}
+We have
+\begin{itemize}
+	\item $\mathcal{Q}=q:\Omega\to\mathcal{R}$ the set of all queries
+	\item $\mathcal{D},\mathcal{D}'\in\Omega$ any pair of adjacent datasets (differ only by one record).
+\end{itemize}
+A mechanism $\mathcal{M}:\mathcal{Q}\times\Omega\to\mathcal{R}$ preserves $\varepsilon$-differential privacy if for any query and any response
+\begin{equation*}
+	e^{-\varepsilon}\leq\frac{\pr(M(q,\mathcal{D})=r)}{\pr(\mathcal{M}(q,\mathcal{D})=r)}\leq e^{\varepsilon}.
+\end{equation*}
+Global sensitivity: maximum variation of $q$ on any two adjacent datasets
+\begin{equation*}
+	GS_{n}(q)=\max_{\mathcal{D}\sim\mathcal{D}'}\lVert q(\mathcal{D})-q(\mathcal{D}')\rVert
+\end{equation*}
 \end{multicols*}
 \end{document}

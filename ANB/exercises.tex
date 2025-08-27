@@ -1,0 +1,47 @@
+\newpage
+\section{Problem sets}
+\subsection{Problem set 1}
+\begin{equation*}
+	N_{1}(\alpha x,\beta y)=\alpha\beta N_{1}(x,y)
+\end{equation*}
+\begin{align*}
+	N_{1}(x_{1}+x_{2},y_{1}+y_{2})&=\max\left\{\sqrt{(x_{1}+x_{2})^{2}+(y_{1}+y_{2})^{2}},\left|x_{1}+x_{2}-y_{1}-y_{2}\right|\right\}\\
+	&\leq\max\left\{\sqrt{x_{1}^{2}+y_{1}^{2}},|x_{1}-y_{1}|\right\}+\max\left\{\sqrt{x_{2}^{2}+y_{2}^{2}},|x_{2}-y_{2}|\right\}
+\end{align*}
+\begin{align*}
+	\int_{-1}^{1}\left|f_{n}(t)-f_{p}(t)\right|\dt&\leq\int_{-1}^{1}\left|f_{n}(t)\right|+\left|f_{p}(t)\right|\dt\\
+	&=\int_{-1}^{1}\left|f_{n}(t)\right|\dt+\int_{-1}^{1}\left|f_{p}(t)\right|\dt\\
+	&=\norm{f_{n}}_{1}+\norm{f_{p}}_{1}
+\end{align*}
+\begin{align*}
+	L(f+g)&=(f+g)(1)\\
+	&=f(1)+g(1)
+\end{align*}
+\begin{align*}
+	L(\lambda f)&=(\lambda f)(1)\\
+	&=\lambda f(1)
+\end{align*}
+\subsubsection{Exercise 5} Let $E=\R^{d}$ be endowed with a norm $\dnorm$. We define the \textit{distance} from an element $x_{0}\in E$ to a subset $A\subset E$ and denote by $d(x_{0},A)$ the quantity
+\begin{equation*}
+	d(x_{0},A)=\inf_{x\in A}\norm{x-x_{0}}.
+\end{equation*}\begin{enumerate}
+\item Assume that $A$ is compact. Prove that, for any $x_{0}\in E$ there exists $y\in A$ such that $d(x_{0},A)=\norm{y-x_{0}}$.
+\item Prove the result is still true if we only assume $A$ to be closed. One can check that for any $B\subset A$, it holds 
+\begin{equation*}
+	d(x_{0},B)\geq d(x_{0},A).
+\end{equation*}
+\item Prove that given $A\subset E$ the mapping $\Phi:x_{0}\in E\mapsto\Phi(x_{0})=d(x_{0},A)$ is continuous on $E$.
+\item Deduce that if $A$ is a closed subset of $E$ and $B$ is a compact subset of $E$ with $A\cap B=\emptyset$ then there exists $\delta>0$ such that
+\begin{equation*}
+	\norm{a-b}\geq\delta\qquad\every(a,b)\in A\times B.
+\end{equation*}
+\item Provide a counter example showing the result is not true if one only assumes that both $A$ and $B$ are closed and disjoint by considering for instance in dimension $d=2$ the sets
+\begin{equation*}
+	A=\left\{(x,y);x\leq0\right\},\qquad B:=\left\{\left(\frac{1}{n},n\right);n\in\N\right\}.
+\end{equation*}
+\end{enumerate}
+Solution:
+\begin{enumerate}
+	\item If we manage to show that $f(x\in A)=\norm{x_{0}-x}$ is a continuous function then we can simply apply the theorem for which if $A$ is compact, the any continuous function assumes its maximum and minimum on $A$. So the minimum of $\norm{x_{0}-x}$, that is $\inf_{x\in A}\norm{x-x_{0}}$, is surely in $A$.
+	We know that every norm in $\R^{d}$ is continuous (idk I found it online) we know that this is the case.
+\end{enumerate}
