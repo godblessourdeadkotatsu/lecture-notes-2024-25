@@ -313,7 +313,7 @@ We can have:
 	\end{align*}
 	You can use reachability distance
 	\begin{equation*}
-		R^{K}_{\mathrm{dist}}(x,y_{1})=\max\left\{K_{\mathrm{dist}(y_{1})},\mathrm{dist}(x,y_{i})\right\}.
+		R^{K}_{\mathrm{dist}}(x,y_{1})=\max\left\{K_{\mathrm{dist}}(y_{1}),\mathrm{dist}(x,y_{1})\right\}.
 	\end{equation*}
 	\begin{riquadro}[LOF algorithm]
 		\begin{enumerate}
@@ -443,6 +443,30 @@ Probability are empyrical. Use laplace smoothing or m-estimate
 \end{equation*}
 \subsection{KNN}
 It is a lazy learner. Classifies based on the closest datapoint.
+\section{Model selection}
+Generalization error in the case of trees:
+\begin{equation*}
+	\mathrm{err}_{\text{gen}}(T)=\mathrm{err}(T)+\alpha\frac{k}{N_{\text{train}}}
+\end{equation*}
+\begin{riquadro}[MDL principle]
+	Length of the shortest message that allows to reconstruct the labels.
+	\begin{equation*}
+		\mathrm{MDL}(D,M)=\text{Cost}(D|M)+\alpha\times\text{Cost}(M).
+	\end{equation*}
+\end{riquadro}
+We can either do pre-pruning or post-pruning until generalization error cannot be improved.
+\begin{riquadro}[Population Risk]
+	Risk of a hypothesis $h\in\mathcal{H}$ as
+	\begin{equation*}
+		R[h]=\mathbb{E}_{(\bm{x},y)\sim\mathcal{D}}\left[l(y,h(\bm{x}))\right]
+	\end{equation*}
+\end{riquadro}
+\begin{riquadro}[Empirical risk]
+	Given a dataset $T$ whe have
+	\begin{equation*}
+		\hat{R}_{T}[h]=\frac{1}{n}\sum_{(\bm{x},y)\in T}l(y,h(\bm{x})).
+	\end{equation*}
+\end{riquadro}
 \section{SRM}
 A given training set 
 \begin{equation*}
@@ -476,6 +500,85 @@ Functional margin:
 \begin{equation*}
 	\mu(x_{i})=y_{i}(w\cdot x_{i}-t)=y_{i}f(x)
 \end{equation*}
+Geometric margin:
+\begin{equation*}
+	\mu=\frac{1+t}{\lvert\lvert\bm{w}\rvert\rvert}-\frac{t-1}{\lvert\lvert\bm{w}\rvert\rvert}=\frac{2}{\lvert\lvert\bm{w}\rvert\rvert}
+\end{equation*}
+\begin{riquadro}[SVM optimization]
+	\begin{align*}
+		&\min_{\bm{w},t}\unmezz\lvert\lvert\bm{w}\rvert\rvert^{2}\\
+		\text{s.t. }&y_{9}(\bm{w}\cdot\bm{x}_{i}-t)\geq 1;\quad\forall i:1\leq i\leq n.
+	\end{align*}
+	Dual problem:
+	\begin{align*}
+		&\min_{\alpha}-\unmezz\sum_{i=1}^{n}\sum_{j=1}^{n}\alpha_{i}\alpha_{j}y_{i}y_{j}\bm{x}_{i}\bm{x}_{j}+\sum_{i=1}^{n}\alpha_{i}\\
+		\text{s.t. }&\alpha_{i}>0\\
+		&\sum_{i=1}^{n}y_{i}\alpha_{i}=0
+	\end{align*}
+\begin{align*}
+	&\min_{\bm{\alpha}}\mathbf{1}^{T}\bm{\alpha}-\unmezz\bm{\alpha}^{T}\bm{YXX}^{T}\bm{Y\alpha}\\
+	\text{s.t. }&\bm{\alpha}\succeq0\\
+	&\bm{y}^{T}\bm{\alpha}=0.
+\end{align*}
+\end{riquadro}
+	Written in matrix form we get
+\begin{align*}
+	&\min_{\bm{\alpha}}\mathbf{1}^{T}\bm{\alpha}-\unmezz\bm{\alpha}^{T}\bm{YXX}^{T}\bm{Y\alpha}\\
+	\text{s.t. }&\bm{\alpha}\succeq0\\
+	&\bm{y}^{T}\bm{\alpha}=0.
+\end{align*}
+Introduce one slack variable for each training sample:
+\begin{align*}
+	&\min_{\bm{w},t,\xi}\unmezz\lvert\lvert\bm{w}\rvert\rvert^{2}+C\sum_{i=1}^{n}\xi_{i}\\
+	\text{s.t.}&y_{i}(\bm{w}\cdot \bm{x}_{i}-t)\geq 1-\xi_{i}\qquad\forall1\leq i\leq n\\
+	&\xi_{i}\geq0\qquad\forall1\leq i\leq n.
+\end{align*}
+Given a feature map $\phi$ we have 
+\begin{equation*}
+	\bm{w}=\sum_{i=1}^{n}\alpha_{i}y_{i}\phi(\bm{x}_{i})
+\end{equation*}
+and the decision function is
+\begin{align*}
+	f(\bm{x})&=\bm{w}\cdot\phi(\bm{x})-t\\
+	&=\sum_{i=1}^{n}\alpha_{i}y_{i}\phi(\bm{x}_{i})\cdot\phi(\bm{x})-t\\
+	&=\sum_{i=1}^{n}\alpha_{i}y_{i}\kappa(\bm{x}_{i},\bm{x})-t.
+\end{align*}
+\begin{riquadro}[SVM with kernels]
+	The problem becomes
+	\begin{align*}
+		&\min_{\alpha}\unmezz\sum_{i=1}^{n}\sum_{j=1}^{n}\alpha_{i}\alpha_{j}y_{i}y_{j}\kappa(\bm{x_{i},\bm{x_{j}}})-\sum_{i=1}^{n}\alpha_{i}\\
+		\text{s.t. }&0\leq\alpha_{i}\leq C\\
+	&\sum_{i=1}^{n}\alpha_{i}y_{i}\geq0.
+	\end{align*}
+\end{riquadro}
+Polynomial kernel:
+\begin{equation*}
+	\kappa(\bm{x},\bm{x'})=(\bm{x}\cdot\bm{x'}+1)^{d}
+\end{equation*}
+\begin{riquadro}[RBF (Gaussian) Kernel]
+	\begin{equation*}
+		\kappa(\bm{x},\bm{x'})=\exp\left\{-\frac{1}{2\sigma^{2}}\lvert\lvert\bm{x}-\bm{x'}\rvert\rvert^{2}\right\}
+	\end{equation*}
+\end{riquadro}
+\begin{riquadro}[Mercer's conditions]
+	Let us consider a function $k$ and the gram matrix $\mathbf{M}=M_{ij}=\kappa(\bm{x}_{i},\bm{x}_{j})$. If there exists $\phi$ such that $\kappa(\bm{x},\bm{x'})=\langle\phi(\bm{x}),\phi(\bm{x'})\rangle$ then $\mathbf{M}$ must be symmetric and positive semidefinite.
+\end{riquadro}
+So designing a new kernel implies:
+\begin{enumerate}
+	\item prove symmetry and positive definiteness of $\mathbf{M}$;
+	\item find an explicit mapping $\phi$ such that $\kappa(\bm{x},\bm{x'})=\langle\phi(\bm{x}),\phi(\bm{x'})\rangle$;
+	\item derive the kernel from other valid ones using closure properties.
+\end{enumerate}
+\begin{riquadro}[Representer Theorem]
+	Let $\Omega:\R\to\R$ be any non-decreasing function of its arguments and consider the regularized risk
+	\begin{equation*}
+		\hat{R}_{\Omega}[\bm{w}]=\frac{1}{n}\sum_{i=1}^{n}\ell\left(y_{i},\langle\bm{w},\bm{x}_{i}\rangle\right)+\lambda\Omega\left(||\bm{w}||_{2}\right).
+	\end{equation*}
+	Then there exists some $\bm{\alpha}\in\R^{n}$ such that the optimal solution $\bm{w}^{\star}$ can be written as a linear combination of the input vector:
+	\begin{equation*}
+		\bm{w}^{\star}=\sum_{i=1}^{n}\alpha_{i}\bm{x}_{i}
+	\end{equation*}
+\end{riquadro}
 \section{Neural networks}
 Rosenblatt's perceptron:
 \begin{equation*}
@@ -508,6 +611,12 @@ Since coordinates are bounded
 	&\leq\lVert w_{k}\rVert^{2}+R^{2}\\
 	&\leq k{R}^{2}
 \end{align*}
+\begin{riquadro}[Perceptron representer theorem]
+	During a run of the perceptron algorithm the weight vector $\bm{w}$ is always in the span of training data:
+	\begin{equation*}
+		\bm{w}=\sum_{i=1}^{n}\alpha_{i}\phi(\bm{x_{i}})
+	\end{equation*}
+\end{riquadro}
 Cross-entropy: 
 \begin{equation*}
 	C=-\frac{1}{n}\sum_{x}\left[y\ln a+(1-y)\ln(1-a)\right]
@@ -529,6 +638,13 @@ Cost function with regularization term:
 \begin{equation*}
 	\mathcal{L}_{\text{reg}}(X,y;\vartheta)=\frac{1}{n}\sum_{i=1}^{n}\ell(y_{i},f_{\vartheta}(x_{i}))+\frac{\lambda}{n}\sum_{W\in\vartheta}\lVert W\rVert^{2}_{F}
 \end{equation*}
+\subsection{4 fundamental BP equations}
+\begin{enumerate}
+	\item $\delta^{L}=\nabla_{a}C\odot\sigma'(z^{L})$
+	\item $\delta^{l}=((\mathbf{W}^{l+1})^{T}\delta^{l+1})\circ\sigma'(z^{l})$
+	\item $\frac{\partial C}{\partial b_{j}^{l}}=\delta^{l}_{j}$
+	\item $\frac{\partial C}{\partial w^{l}_{jk}}=a^{l-1}_{k}\delta^{l}_{j}$
+\end{enumerate}
 \section{Privacy}
 \subsection{$\varepsilon$-differential privacy}
 We have
