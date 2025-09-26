@@ -1101,7 +1101,207 @@ So if a Banach norm dominates another Banach norm, then they are equivalent.
 \end{definition}
 Linear subspaces of vector spaces are always convex.
 \begin{theorem}
-	\emph{Projection over closed subspaces}. Let $(H,\indot)$ be a given Hilbert space and let $K\subset H$ be \underline{closed and convex}.
+	\emph{Projection over closed subspaces}. Let $(H,\indot)$ be a given Hilbert space and let $K\subset H$ be \underline{closed and convex}. Then for every $f\in H$ there exists a unique element $u\in K$ such that
+	\begin{equation*}
+		\norm{f-u}=\min_{v\in K}\norm{f-v}=\mathsf{dist}({f,K}).
+	\end{equation*}
+	Moreover, $u$ is characterized by the property
+	\begin{equation*}
+		u\in K
+	\end{equation*}
+	and 
+	\begin{equation*}
+		\langle f-u,w-u\rangle\leq0\qquad\every w\in K.
+	\end{equation*}
 \end{theorem}
+\begin{fancyproof}
+	Let $\seqn{v}$ be a minimizing sequence for $\norm{f-u}$, i.e. $v_{n}\in K$f or any $n$ and
+	\begin{equation*}
+		\lim_{n\to\infty}\norm{f-v_{n}}=\inf_{v\in K}\norm{f-v}.
+	\end{equation*}
+	So call $D=\inf_{v\in K}\norm{f-v}$ and $D_{n}=\norm{f-v_{n}}$. We claim that $\seqn{v}$ is Cauchy. Call $x=f-v_{n}$ and $y=f-v_{m}$ and use the parallelogram rule to get
+	\begin{align*}
+		\norm{v_{n}-v_{m}}^{2}&=2\left(\norm{f-v_{n}}^{2}+\norm{f-v_{m}}^{2}\right)-\norm{2f-(v_{n}+v_{m})}\\
+		&=2(D_{n}^{2}+D_{m}^{2})-4\norm{f-\frac{v_{m}+v_{n}}{2}}^{2}.
+	\end{align*}
+	Since $K$ is convex then we know that $\frac{v_{n}+v_{m}}{2}\in K$ and therefore $\norm{f-\frac{v_{n}-v_{m}}{2}}^{2}\geq D^{2}$. Therefore
+	\begin{equation*}
+		\norm{v_{n}-v_{m}}^{2}\leq 2\left(D_{n}^{2}+D_{m}^{2}\right)-4D^{2}.
+	\end{equation*}
+	Letting $m,n\to\infty$ we get $\lim_{m,n\to\infty}\norm{v_{n}-v_{m}}=0$ and so the sequence is Cauchy.\\
+	Since $H$ is complete then it converges to some limit $u\in H$ and since $K$ is closed $u\in K$ and in particular \\
+	\begin{equation*}
+		\norm{f-u}=D
+	\end{equation*}
+	which gives the existence of a $u$ such that $\norm{f-u}=\mathsf{dist}(f,K)$. \\
+	Before proving uniqueness we show the equivalence between the two claims. Assume to have an $u\in K$ that satisfies the first claim and let $w\in K$. We have
+	\begin{equation*}
+		v=(1-t)u+tw\in K\qquad\every t\in[0,1].
+	\end{equation*}
+	Therefore,
+	\begin{equation*}
+		\norm{f-u}\leq\norm{f-v}=\norm{(f-u)-t(w-u)}
+	\end{equation*}
+	and taking the square and expanding the second norm we get
+	\begin{equation*}
+		\norm{f-u}^{2}\leq\norm{f-u}^{2}+t^{2}\norm{w-u}^{2}+2t\inprod{f-u,w-u}
+	\end{equation*}
+	which means
+	\begin{equation*}
+		\inprod{f-u,w-u}\leq\frac{t}{2}\norm{w-u}^{2}.
+	\end{equation*}
+	Letting $t\to0$ we see that $u$ satisfies the second claim. Conversely, if $u$ satisfies the second claim then for any $w\in K$ we have
+	\begin{equation*}
+		\norm{u-f}^{2}-\norm{w-f}^{2}=2\inprod{f-u,w-u}-\norm{u-w}^{2}\leq0
+	\end{equation*}
+	which implies the first claim.\\
+	Let us now prove the uniqueness of $u$. Assume $u_{1}$ and $u_{2}$ satisfy the second claim. We have
+	\begin{align*}
+		\inprod{f-u_{1},v-u_{1}}\leq 0&\qquad\every v\in K\\
+		\inprod{f-u_{2},w-u_{2}}\leq 0&\qquad\every w\in K.
+	\end{align*}
+	Choosing $v=u_{2}$ and $w=u_{1}$ in the above inequalities yields
+	\begin{align*}
+		&\inprod{f-u_{1},u_{2}-u_{1}}\leq0\\
+		&\inprod{f-u_{2},u_{1}-u_{2}}\leq0
+	\end{align*}
+	and after adding both inequalities we get
+	\begin{equation*}
+		\norm{u_{1}-u_{2}}^{2}\leq 0\implies u_{1}=u_{2}.
+	\end{equation*}
+\end{fancyproof}
+\begin{definition}
+	Given a closed convex subset $K\subset H$ of a Hilbert space $\insp{H}$ and $f\in H$, the unique $u\in K$ satisfying the first claim is called the \textit{projection} of $f$ over $K$ and is denoted by 
+	\begin{equation*}
+		u=\mathbf{P}_{K}f
+	\end{equation*}
+\end{definition}
+\begin{proposition}
+	Let $\insp{H}$ be a Hilbert space and let $K\subset H$ be a closed convex subset. Then
+	\begin{equation*}
+		\norm{\mathbf{P}_{K}f-\mathbf{P}_{K}g}\leq\norm{f-g}
+	\end{equation*}
+	(the projection is a contraption).
+\end{proposition}
+\begin{fancyproof}
+	Let $f,g\in H$ be given. Set $u_{1}=\mathbf{P}_{K}f$ and $u_{2}=\prj{K}g$. According to the characterization of the second claim we have
+	\begin{align*}
+		\inprod{f-u_{1},v-u_{1}}\leq0&\qquad\every v\in K\\
+		\inprod{g-u_{2},w-u_{2}}\leq0&\qquad\every w\in K.
+	\end{align*}
+	choosing $v=u_{2}$ and $w=u_{1}$ and adding the corresponding inequalities we obtain
+	\begin{equation*}
+		\norm{u_{1}-u_{2}}^{2}\leq\inprod{f-g,u_{1}-u_{2}}. 
+	\end{equation*}
+	which together with the Cauchy-Schwartz inequality gives 
+	\begin{equation*}
+		\norm{u_{1}-u_{2}}\leq\norm{f-g}.
+	\end{equation*}
+\end{fancyproof}
+\begin{corollary}
+	Let $\insp{H}$ be a Hilbert space. Assume that $M\subset H$ is a closed linear subspace and let $f\in H$. Then $u=\prj{M}f$ is characterized by
+	\begin{equation*}
+		u\in M\quad\text{and }\inprod{f-u,z}=0\quad\every z\in M.
+	\end{equation*}
+	Moreover, $\prj{M}$ is a linear mapping, $\prj{M}\in\mathscr{L}(H)$, called the orthogonal projection over $M$.
+\end{corollary}
+\begin{fancyproof}
+	By the second claim of the projection theorem we know that 
+	\begin{equation*}
+		\inprod{f-u,w-u}\leq 0\qquad\every w\in M.
+	\end{equation*}
+	In particular, given $z\in M$, since $w=z+u\in M$ one has
+	\begin{equation*}
+		\inprod{f-u,z}\leq0.
+	\end{equation*}
+	Since $-z\in M$ one has $\inprod{f-u,z}\geq0$ and the claim in the corollary follows. The fact that the claim of the corollary implies the second claim of the theorem is obvious. Fuck you!\\
+	Let us now prove that $\prj{M}$ is linear. To do so, let $f_{1},f_{2}\in H$ with $u_{1}=\prj{M}f_{1}$ and $u_{2}=\prj{M}f_{2}$. For $\alpha_{1},\alpha_{2}\in\R$, let $f=\alpha_{1}f_{1}+\alpha_{2}f_{2}$ and $u=\prj{M}(f)$. To show that $\prj{M}$ is linear, we need to prove that $u=\alpha_{1}u_{1}+\alpha_{2}u_{2}$. Recall that $u$ is characterized by the claim in the corollary. Therefore, to prove the result, it is enough to show that $\alpha_{1}u_{1}+\alpha_{2}u_{2}$ also satisfies the claim of the corollary and then by uniqueness we will deduce $\alpha_{1}u_{1}+\alpha_{2}u_{2}=u$. First, since $M$ is a linear subspace and $u_{1},u_{2}\in M$, $\alpha_{1}u_{1}+\alpha_{2}u_{2}\in M$. Moreover, for $z\in M$,
+	\begin{align*}
+		\inprod{f-(\alpha_{1}u_{1}+\alpha_{2}u_{2},z)}&=\inprod{\alpha_{1}f_{1}+\alpha_{2}f_{2}-(\alpha_{1}u_{1}+\alpha_{2}u_{2}),z}\\
+		&=\alpha_{1}\inprod{f_{1}-u_{1},z}+\alpha_{2}\inprod{f_{2}-u_{2},z}\\
+		&=0
+	\end{align*}
+	since, by the claim of the corollary, it is satisfied by $(f_{1},u_{1})$ and $(f_{2},u_{2})$ i.e. $\inprod{f_{1}-u_{1},z}=\inprod{f_{2}-u_{2},z}=0$. Thus, $\alpha_{1}u_{1}+\alpha_{2}u_{2}$ satisfies the second claim and by uniqueness $\alpha_{1}u_{1}+\alpha_{2}u_{2}=\prj{M}f$. This shows the linearity of $\prj{M}$. The fact that then $\prj{M}$ is continuous is an obvious consequence of the above proposition.
+\end{fancyproof}
+\begin{corollary}
+	Let $\insp{H}$ be a Hilbert space. Assume that $M\subset H$ is a closed linear subspace. For any $f\in H$ there exists a unique $u\in M$ and a unique $v\in M^{\perp}$ such that $f=u+v$. Moreover
+	\begin{equation*}
+		\norm{f}^{2}=\norm{u}^{2}+\norm{v}^{2}
+	\end{equation*}
+\end{corollary}
+\subsubsection*{Fundamental example: $L^{2}(S,\mu)$ and the construction of the conditional expectation}
+\begin{theorem}
+	The space $L^{2}(S,\mu)$ endowed with the scalar product
+	\begin{equation*}
+		\inprod{f,g}=\int_{S}f g\dmu\qquad\every f,g\in L^{2}(S,\mu)
+	\end{equation*}
+	is an Hilbert space.
+\end{theorem}
+\begin{theorem}
+	Let $(\Omega,\F,\pr)$ be a probability triple and let $X$ be a real random variable with $X\in\Lone(\Omega,\F,\pr)$. Let $\G$ be a sub-\sa{} of $\F$. Then there exists a random variable $Y$ such that
+	\begin{enumerate}
+		\item $Y$ is $\G$-measurable;
+		\item $\ev(|Y|)<\infty$;
+		\item for any set $A\in\G$ we have $\ev(Y\indi_{A})=\ev(X\indi_{A})$ i.e.
+		\begin{equation*}
+			\int_{A}Y\dpr=\int_{A}X\dpr\qquad\every A\in\G.
+		\end{equation*}
+	\end{enumerate}
+	Moreover, if $\widetilde{Y}$ is another random variable with the above properties then $\pr[Y=\widetilde{Y}]=1$. In such a case, $Y$ is called a version of the conditional expectation of $X$ given $\G$ and we write
+	\begin{equation*}
+		Y=\ev(X|\G).
+	\end{equation*} 
+\end{theorem}
+\subsection{The dual of a Hilbert space}
+\begin{theorem}
+	\emph{Riesz-Frechet representation theorem}. Let $\insp{H}$ be a Hilbert space. Given any $\Phi\in H^{\star}$ (the dual space of $H$) there exists an unique $f\in H$ such that
+	\begin{equation*}
+		\Phi(u)=\inprod{f,u}\qquad\every u\in H\text{ and }\norm{f}=\norm{\Phi}_{\star}.
+	\end{equation*}
+\end{theorem}
+\begin{fancyproof}
+	Let $M=\Phi^{-1}(\{0\})=\{u\in H;\Phi(u)=0\}\}$. Since $\Phi$ is linear and continuous we know that $M$ is a closed subspace of $H$ and we assume $M\neq H$ otherwise $\Phi\equiv0$ and the conclusion is obvious because $f=0$.\\
+	Imagine there exists an element $g\in H$ such that
+	\begin{equation*}
+		\norm{g}=1\qquad\inprod{g,v}=0\qquad\every v\in M.\tag*{\faEthernet}\label{ethernet}
+	\end{equation*}
+	Now pick $g_{0}\in H$ with $g_{0}\notin M$ and choose $g_{1}=\prj{M}g_{0}$. Since $g_{1}\in M$ and $g_{0}\notin M$ we have that $\norm{g_{0}-g_{1}}\neq0$. Then choose
+	\begin{equation*}
+		g=\frac{1}{\norm{g_{0}-g_{1}}}(g_{0}-g_{1})\in H
+	\end{equation*}
+which implies $g\in M^{\perp}$ which satisfies \ref{ethernet} according to the projection theorem. Then pick $u\in H$ and set
+	\begin{equation*}
+		v=u-\lambda g\qquad\lambda=\frac{\Phi(u)}{\Phi(g)}
+	\end{equation*}
+	which is fine because $g\notin M\implies \Phi(g)\neq 0$. Now we have
+	\begin{equation*}
+		\Phi(v)=\Phi(u)-\lambda\Phi(g)=\Phi(u)-\Phi(u)=0
+	\end{equation*}
+	which means that $v\in M$ and $\inprod{g,v}=0$ because of \ref{ethernet}. Moreover,
+	\begin{align*}
+		\inprod{g,u}&=\inprod{g,v+\lambda g}\\
+		&=\inprod{g,v}+\lambda\inprod{g,g}\\
+		&=\lambda\inprod{g,g}=\lambda
+	\end{align*}
+	and since $\Phi(u)=\lambda\Phi(g)$ we have $\Phi(u)=\Phi(g)\inprod{g,u}$. Setting $f=\Phi(g)g$ we finally have
+	\begin{equation*}
+		\Phi(u)=\inprod{f,g}.
+	\end{equation*}
+	By CS we have $|\Phi(u)|\leq\norm{f}\norm{u}$ for any $u\in H$ so $\norm{\Phi}_{\star}\leq\norm{f}$. Moreover, 
+	\begin{equation*}
+		\norm{\Phi(f)}=\norm{\inprod{f,f}}=\norm{f}^{2}\implies\norm{\Phi}_{\star}=\norm{f}.
+	\end{equation*}
+	$f$ is unique because $\norm{f}^{2}=|\Phi(f)|$: if we had $f_{1}$ and $f_{2}$ we would have $\Phi(f_{1}-f_{2})=0\implies f_{1}=f_{2}$.
+\end{fancyproof}
+\subsection{Hilbert bases}
+\begin{proposition}
+	Any infinite dimensional inner product space $\insp{H}$ contains an orthonormal sequence, i.e. there is $\seqn{\bm{e}}$ such that
+	\begin{equation*}
+		\inprod{\bm{e}_{n},\bm{e}_{m}}=\delta_{n,m}\qquad\every n,m\in\N.
+	\end{equation*}
+\end{proposition}
+\begin{lemma}
+	\emph{Bessel's inequality}. Let $\insp{H}$ be a inner product space and let $\seqn{\bm{e}}$ be an orthonormal sequence of $H$. Then for any $x\in H$ the sequence $\left|\sum_{n=1}^{\infty}\inprod{x,\bm{e}_{n}}\right|^{2}$ converges in $\R$ and 
+\end{lemma}
 %\input{exercises}
 \end{document}
