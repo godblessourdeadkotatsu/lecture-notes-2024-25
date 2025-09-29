@@ -25,6 +25,246 @@
 	\pagenumbering{arabic}
 \chapter{Statistical Inference}
 \section{Introduction}
-
+When we talk about statistics we typically talk about data. Take $n\geq1$ numbers
+\begin{equation*}
+	(X_{1},\ldots,X_{n}).
+\end{equation*}
+We want to extract information from those objects. We can summarize them with plots, means, standard variation and so on: this is an application of \emph{descriptive statistics}. If we want to learn something about the whole population and not only these numbers, we must apply \emph{statistical inference}. We always assume that the sample is a subset of a population. \\
+We know that:
+\begin{enumerate}
+	\item $(X_{1},\ldots,X_{n})$ is a realization of a random sample $(X_{1},\ldots,X_{n})$ which is a \rv;
+	\item we assume some kind of symmetry: most common symmetries are i.i.d. properties, Markov Chains, autoregressive processes, exchangeability (whose i.i.d. is a specific case);
+	\item we assume that the \rv s follow a certain distribution:
+	\begin{equation*}
+		X_{1},\ldots,X_{n}\sim F_{\theta}\qquad\theta\in\Theta
+	\end{equation*}
+	where $\theta$ is a parameter living in the parameter space $\Theta$.
+\end{enumerate}
+In this setting $\Theta$ is finite-dimensional. This assumption has the implicit consequence that the information about the population can be represented by a finite-dimensional vector of $\Theta$ and this is actually a pretty strong assumption that puts us in the realm of \emph{parametric statistics}. To learn about $\Theta$ we will use:
+\begin{itemize}
+	\item point estimation;
+	\item testing;
+	\item confidence intervals.
+\end{itemize}
+\section{Random samples}
+\subsection{Random vectors}
+We will use columns to denote vectors:
+\begin{equation*}
+	X=\begin{bmatrix}
+		X_{1}\\
+		\vdots\\
+		X_{k}
+	\end{bmatrix}.
+\end{equation*}
+This is a \rv{} on a $k$=dimensional space with
+\begin{equation*}
+	\ev{X}=\begin{bmatrix}\ev{X_{1}}\\\vdots\\\ev{X_{k}}\end{bmatrix}.
+\end{equation*}
+We also have a variance structure that use the covariance matrix:
+\begin{equation*}
+	\var(X)=\begin{bmatrix}
+		\var(X_{1})&\cov(X_{1},X_{2})&\cdots&\cov(X_{1},X_{k})\\
+		\cov(X_{2},X_{1})&\var(X_{2})&\cdots&\cov(X_{2},X_{k})\\
+		\vdots&\vdots&\ddots&\vdots\\
+		\cov(X_{k},X_{1})&\cdots&\cdots&\var(X_{k})
+	\end{bmatrix}
+\end{equation*}.
+We can compute expectation and variance on a linear map of the \rv: take a non random matrix $n\times k$ and a $n\times 1$ vector $b$:
+\begin{align*}
+	\mathbf{A}&=(a_{ij})\\
+	b&=(b_{1},\ldots,b_{n})^{\trsp}.
+\end{align*}
+Take a \rv{} $X=(X_{1},\ldots,X_{n})^{\trsp}$ with $\mu=\ev{X}$ and $\mathbf{V}=\var(X)$. Define 
+\begin{equation*}
+	Y=\mathbf{A}X+b
+\end{equation*}
+as a linear transformation of $X$ which has
+\begin{align*}
+	\ev{Y}&=\mathbf{A}\mu+b\\
+	\var(Y)&=\mathbf{AVA}^{\trsp}.
+\end{align*}
+\begin{proposition}
+	The variance matrix $\mathbf{V}$ of a \rv{} $X$ is positive semidefinite; it is positive definite if there exists no vector $b$ other than $b=0$ such that $b^{\trsp}X$ is a degenerate \rv.
+	\end{proposition}
+	\begin{proposition}
+		If $\mathbf{V}=\var(X)$ is positive definite, there exists a square matrix $\mathbf{C}$ such that $Y=\mathbf{C}X$ has uncorrelated components with $\var(Y)=\mathbf{I}_{k}$ (no covariance).
+	\end{proposition}
+	\begin{proposition}
+		If $\mathbf{A}=(a_{ij})$ is a $k\times k$ matrix then
+		\begin{equation*}
+			\ev{X^{\trsp}\mathbf{A}X}=\mu^{\trsp}\mathbf{A}\mu+\trace{\mathbf{AV}}.
+		\end{equation*}
+	\end{proposition}
+We recognize $X^{\trsp}\mathbf{A}X$ as a \emph{quadratic form}.
+\subsection{Multivariate Gaussian (dimension $k$)}
+A \emph{standard multivariate Gaussian \rv{}} is just a collection of i.i.d $\mathsf{N}(0,1)$. Consider a vector 
+\begin{equation*}
+	Z=(Z_{1},\ldots,Z_{k})^{\trsp}\qquad \begin{array}{l}
+		Z_{i}\distnorm{0,1}\quad i=1,\ldots,k\\
+		Z_{i}\indep Z_{j}\quad\every i\neq j.
+	\end{array}
+\end{equation*} Remember that this has variance structure $\mathbf{I}_{k}$.
+Define $Y=\mathbf{A}Z+\mu$ for some non singular $k\times k$ matrix $\mathbf{A}$ and a $k\times 1$ vector $\mu$. This is just a mapping $\R^{k}\to\R^{k}$ but we want to know the distribution of $Y$. We know the distribution of $Z$
+\begin{equation*}
+	f_{Z}(t)=\frac{1}{(2\pi)^{\frac{k}{2}}}\expg{-\unmezz t^{\trsp}t}\indi_{\R^{k}}(t).
+\end{equation*}
+The general rule to change the variable is
+\begin{equation*}
+	f_{Y}(y)=F_{Z}(t)\left|\frac{\partial Z}{\partial Y}\right|
+\end{equation*}
+The inverse transformation of $Y$ is
+\begin{equation*}
+	Z=\mathbf{A}^{-1}(Y-\mu).
+\end{equation*}
+Since $Z$ is linearly dependent from $Y$, the Jacobian matrix of partial derivatives is 
+\begin{equation*}
+	\left|\frac{\partial Z_{i}}{\partial Y_{j}}\right|=\left|\left(\mathbf{A}^{-1}\right)\right|=|\mathbf{A}|^{-1}.
+\end{equation*}
+We know that
+\begin{align*}
+	\var(Y)=\mathbf{V}&=\mathbf{A}\mathbf{V}_{Z}\mathbf{A}^{\trsp}\\
+	&=\mathbf{A}\mathbf{I}_{k}\mathbf{A}^{\trsp}\\
+	&=\mathbf{A}\mathbf{A}^{\trsp}\\
+	\implies&|\mathbf{A}|^{-1}=|\mathbf{V}|^{-\unmezz}
+\end{align*}
+Now we have everything we need to compute the distribution of $Y$. We can write
+\begin{equation*}
+	t^{\trsp}t=\left\{\mathbf{A}^{-1}(Y-\mu)\right\}^{\trsp}\left\{\mathbf{A}^{-1}(Y-\mu)\right\}
+\end{equation*}
+But since the transposition of the inverse is the inverse of the transposition we get
+\begin{align*}
+	t^{\trsp}t&=\left\{\mathbf{A}^{-1}(Y-\mu)\right\}^{\trsp}\left\{\mathbf{A}^{-1}(Y-\mu)\right\}\\
+	&=(Y-\mu)^{\trsp}\ubracketthin{\left(\mathbf{A}^{-1}\right)^{\trsp}\mathbf{A}^{-1}}_{\mathclap{\left(\mathbf{A}^{-1}\mathbf{A}\right)=\mathbf{V}^{-1}}}(Y-\mu)\\
+	&=(Y-\mu)^{\trsp}\mathbf{V}^{-1}(Y-\mu).
+\end{align*}
+So substituting into the density of $Z$ we get
+\begin{equation*}
+	f_{Y}(y)=\frac{1}{(2\pi)^{\frac{k}{2}}|\mathbf{V}|^{\unmezz}}\expg{-\unmezz(y-\mu)^{\trsp}\mathbf{V}^{-1}(y-\mu)}\indi_{\R^{k}}(y).
+\end{equation*}
+Many of those things were not explained by Favaro, great job! Now we can write
+\begin{align*}
+	\mu&=\ev{Y}\\
+	&=\ev{\mathbf{A}Z+\mu}\\
+	&=\mathbf{A}\ubracketthin{\ev{Z}}_{0}+\mu\\
+	&=\mu
+\end{align*}
+and
+\begin{align*}
+	\mathbf{V}&=\var(Y)\\
+	&=\var(\mathbf{A}Z+\mu)\\
+	&=\mathbf{A}^{\trsp}\mathbf{I}_{k}\mathbf{A}\\
+	&=\mathbf{A}^{\trsp}\mathbf{A}=\mathbf{V}.
+\end{align*}
+\begin{exercise}
+	Compute the distribution of $X=\mathbf{B}Y+b$ where $\mathbf{B}$ is a non singular $k\times k$ matrix and $b$ is a $k\times 1$ vector.
+\end{exercise}
+\subsection{Chi-squared distribution}
+If $Z=(Z_{1},\ldots,Z_{k})^{\trsp}\distnormk{0,\mathbf{I}_{k}}$ set then 
+\begin{equation*}
+	U_{k}=Z^{\trsp}Z=\sum_{i=1}^{n}Z_{i}^{2}.
+\end{equation*}
+This is the centered chi-squared \rv:
+\begin{equation*}
+	U_{k}\sim\chi^{2}_{k}
+\end{equation*}
+which is often notated
+\begin{equation*}
+	W\sim c\chi^{2}_{k}\iff \frac{W}{c}\sim\chi^{2}_{k}.
+\end{equation*}
+For $k=1$ we have 
+\begin{align*}
+	\pr(U_{1}\leq t)&=\pr\left(Z^{2}_{i}\right)\\
+	&=\pr\left(\sqrt{t}\leq Z_{1}\leq\sqrt{t}\right)\\
+	&=2\Phi\left(\sqrt{t}\right)-1
+\end{align*}
+so
+\begin{align*}
+	f_{U}(t)&=\frac{\dif}{\dt}\left(2\Phi\left(\sqrt{t}\right)\right)\\
+	&=\frac{1}{\sqrt{2\pi}}\ubracketthin{t^{-\unmezz}e^{-\frac{t}{2}}}_{\mathrlap{\text{$\Gamma$ distr. function}}}\indi_{\R^{+}}(t)\\
+	&=\frac{\left(\unmezz\right)^{\unmezz}}{\Gamma\left(\unmezz\right)}t^{\unmezz-1}e^{-\frac{t}{2}}\indi_{\R^{+}}(t)\distgamma{\frac{1}{2},\unmezz}.
+\end{align*}
+\begin{revise}
+	This is clear if we think about the Gamma distribution function:
+\begin{equation*}
+	f(t)=\frac{\beta^{\alpha}}{\Gamma(\alpha)}t^{\alpha-1}e^{-\beta t}\distgamma{\alpha,\beta}.
+\end{equation*}
+\end{revise}
+Since the Gamma distribution is closed under convolution if the scale parameter (the second one) is the same, it is closed also under addition. If we take 
+\begin{equation*}
+	T_{i}\distgamma{\unmezz,\unmezz}\qquad\begin{array}{l}
+		i=1,\ldots,k\\
+		T_{i}\indep T_{j}
+	\end{array}
+\end{equation*}
+then the sum is
+\begin{equation*}
+	U_{k}=\sum_{i=1}^{n}Z_{i}^{2}=\sum_{i=1}^{n}T_{i}\distgamma{\frac{k}{2},\unmezz}.
+\end{equation*}
+So the density of $U_{k}$ is
+\begin{equation*}
+	f_{U}(t)=\frac{\left(\unmezz\right)^{\frac{k}{2}}}{\Gamma\left(\frac{k}{2}\right)}t^{\frac{k}{2}}+e^{-\frac{t}{2}}\indi_{\R^{+}}(t).
+\end{equation*}
+We have
+\begin{equation*}
+	\ev{U_{k}}=k\qquad\var(U_{k})=2k.
+\end{equation*}
+Also, $\chi^{2}_{k}$ is closed under certain conditions:
+\begin{equation*}
+	\begin{array}{l}
+		W_{r}\sim\chi^{2}_{r}\\
+		U_{k}\sim\chi^{2}_k\\
+		U_{k}\indep W_{r}
+	\end{array}\implies W_{r}+U_{k}\sim\chi^{2}_{r+k}.
+\end{equation*}
+Fix a $n\geq1$ and take a collection of Gaussian i.i.d \rv s:
+\begin{equation*}
+	Y\distnorm{\mu,\sigma^{2}}\qquad\begin{array}{l}
+		\mu\in\R\\
+		\sigma^{2}\in\R^{+}.
+	\end{array}
+\end{equation*}
+We define the \emph{sample mean} as
+\begin{equation*}
+	\Ybar_{n}=n^{-1}Y^{\trsp}\mathbf{1}_{n}=\frac{1}{n}\sum_{i=1}^{n}Y_{i}
+\end{equation*}
+And we define the \emph{corrected sample variance} as
+\begin{align*}
+	S^{2}_{n}&=(n-1)^{-1}\left(Y-\mathbf{1}_{n}\Ybar_{n}\right)^{\trsp}\left(Y-\mathbf{1}_{n}\Ybar_{n}\right)\\
+	&=\frac{1}{n-1}\sum_{i=1}^{n}(Y_{i}-\Ybar_{n})^{2}.
+\end{align*}
+We also provided the matrix notation because it is useful in some situations. Consider the $n\times n$ matrix
+\begin{equation*}
+	\mathbf{A}=\begin{bmatrix}
+		\frac{1}{\sqrt{n}}&\frac{1}{\sqrt{n}}&\frac{1}{\sqrt{n}}&\frac{1}{\sqrt{n}}&\ldots&\frac{1}{\sqrt{n}}\\
+		\frac{1}{\sqrt{1\cdot2}}&-\frac{1}{\sqrt{1\cdot2}}&0&0&\ldots&0\\
+		\frac{1}{\sqrt{2\cdot 3}}&\frac{1}{\sqrt{2\cdot 3}}&-\frac{2}{\sqrt{2\cdot 3}}&0&\ldots&0\\
+		\vdots\\
+		\frac{1}{\sqrt{n\cdot (n-1)}}&	\frac{1}{\sqrt{n\cdot (n-1)}}&	\frac{1}{\sqrt{n\cdot (n-1)}}&	\frac{1}{\sqrt{n\cdot (n-1)}}&\ldots&	-\frac{n-1}{\sqrt{n\cdot (n-1)}}
+	\end{bmatrix}
+\end{equation*}
+This matrix is constructed in such a way that every rows sums to 0 except for the first column, that sums to $\sqrt{n}$. It's a orthonormal matrix where the first row is proportional to vector $\mathbf{1}$. Now we have
+\begin{equation*}
+	Z=\mathbf{A}Y\sim\mathsf{N}_{n}\left(\mu_{Z},\sigma^{2}\mathbf{I}_{k}\right)
+\end{equation*}
+where
+\begin{equation*}
+	\mu_{Z}=\left(\mu\sqrt{n},0,0\ldots,0\right)^{\trsp}
+\end{equation*}
+We know that
+\begin{align*}
+	\ubracketthin{Z_{2}^{2}+\ldots+Z_{n}^{2}}_{n-1}&=Z^{\trsp}Z-Z_{1}^{2}\\
+	&=\sum_{j=1}^{1}Y^{2}_{j}-n\Ybar_{n}^{2}\\
+	&=(n-1)S^{2}_{n}
+\end{align*}
+so we proved that the sample \rv{} $Z_{2}^{2}+\ldots+Z^{2}_{n}$ is equal to the scaled sample variance. This means that
+\begin{equation*}
+	\frac{n-1}{\sigma}S^{2}_{n}\sim\chi^{2}_{n-1}
+\end{equation*}
+since it is a sum of $n-1$ Gaussian variables.
+Why are the sample mean and the variance independent? We have that the sample mean is
+\begin{equation*}
+	\Ybar_{n}\distnorm{\mu,\frac{\sigma^{2}}{n}}
+\end{equation*}
+and therefore is independent from sample variance.
 \end{document}
 %THIS IS THE DARK AGE OF LOVE   $\cdot$

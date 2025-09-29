@@ -27,7 +27,7 @@
 %\usepackage{amsmath,amssymb,bbm}
 \usepackage{graphicx}
 \usepackage[x11names,table]{xcolor}
-\usepackage[colorlinks=true, allcolors=Aquamarine4]{hyperref}
+\usepackage[colorlinks=true, allcolors=Orchid4]{hyperref}
 \usepackage{lilyglyphs}%absolutely necessary
 \usepackage{lipsum} 
 \usepackage[shortlabels]{enumitem}   
@@ -219,9 +219,9 @@
 					enhanced, 
 					breakable,
 					sharp corners,
-					colframe=LemonChiffon4!70, coltitle=white,
-					colback=LemonChiffon2,
-					colbacktitle=LightGoldenrod4,
+					colframe=Pink4, coltitle=white,
+					colback=Pink1!40,
+					colbacktitle=Pink3,
 					fonttitle=\bfseries,
 					titlerule=0.3mm,
 					separator sign={:},
@@ -348,23 +348,23 @@
 		draw=white,
 		sharp corners,
 		pattern=crosshatch dots,
-		pattern color=OliveDrab1!60,
+		pattern color=Thistle1,
 		hatchspread=10pt,
 		hatchthickness=50pt,
-		hatchcolor=OliveDrab2!10,
+		hatchcolor=Thistle2!10,
 		]
 		(interior.south east) rectangle (interior.north west);
 	},
 	title={Exercise~\thetcbcounter},
-	coltitle=OliveDrab4!50!black,
-	colframe=OliveDrab4,
-	coltext=OliveDrab4,
+	coltitle=Thistle4!50!black,
+	colframe=Thistle4,
+	coltext=Thistle4,
 	fonttitle=\bfseries\itshape,
-	colbacktitle=OliveDrab3!20}
+	colbacktitle=Thistle3!20}
 	
 \newtcolorbox{revise}{
 	enhanced jigsaw,
-	colback=SpringGreen4!5!white,sharp corners, colframe=DarkSeaGreen3!75!black,
+	colback=MediumOrchid4!5!white,sharp corners, colframe=MediumOrchid4!75!black,
 	breakable,
 	fonttitle=\bfseries,
 	title={Revise with Kotatsu!}}
@@ -417,18 +417,18 @@
 									\let\emptyset\varnothing
 									
 									
-									\renewcommand{\labelitemi}{$\textcolor{OliveDrab3}{\bullet}$}
+									\renewcommand{\labelitemi}{$\textcolor{HotPink2}{\bullet}$}
 									\renewcommand{\labelitemii}{$\textcolor{SeaGreen2}{\diamond}$}
 									\renewcommand{\labelitemiii}{$\textcolor{SkyBlue4}{\diamond}$}
 									\renewcommand{\labelitemiv}{$\textcolor{SkyBlue4}{\ast}$}
 									
-									\newcommand{\enf}[1]{\textcolor{Orange3}{\textbf{#1}}} %enf sta per enfasi
+									\newcommand{\enf}[1]{\textcolor{Maroon4}{\textbf{#1}}} %enf sta per enfasi
 					\let\emph\enf
 									\newcommand{\sott}[1]{\setulcolor{SkyBlue3}\ul{#1}}
 									\let\underline\sott
 
 									\newcommand{\prob}{\mathbb{P}}
-									\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+									\newcommand\indep{\protect\mathpalette{\protect\independenT}{\perp}}
 									\newcommand{\evs}{\mathbb{E}}
 									\newcommand{\ev}[1]{\mathbb{E}\left[#1\right]}
 									\newcommand{\evBig}[1]{\mathbb{E}\Bigl[#1\Bigr]}
@@ -479,11 +479,12 @@
 \newcommand{\HS}{\mathscr{H}}
 \newcommand{\Zn}{\mathscr{Z}}
 \newcommand{\D}{\mathscr{D}}
-\newcommand{\xbar}{\overline{X}}
-\newcommand{\rbar}{\overline{\R}}
-\newcommand{\ybar}{\overline{Y}}
+\newcommand{\Xbar}{\overline{X}}
+\newcommand{\Rbar}{\overline{\R}}
+\newcommand{\Ybar}{\overline{Y}}
 \newcommand{\xxbar}{\overline{\xbar}}
 \newcommand{\xtilde}{\widetilde{X}}
+\newcommand{\trace}[1]{\mathrm{tr}\left(#1\right)}
 \newcommand{\seqnn}[1]{{\left(#1\right)}_{n}}
 \newcommand{\seqn}[1]{{\left({#1}_{n}\right)}_{n}}
 \newcommand{\seqtt}[1]{{\left(#1\right)}_{t}}
@@ -573,25 +574,25 @@
 		\newcommand{\sumiok}{\sum_{i=0}^{k}}
 		\newcommand{\bwm}{Brownian motion}
 		\newcommand{\distexp}[1]{\sim\mathsf{Exp}\left(#1\right)}
-		\newcommand{\distnorm}[1]{\sim\mathsf{N}\left(#1\right)}
+		\newcommand{\distnorm}[1]{\sim\mathsf{N}\left(#1\right)}\newcommand{\distnormk}[1]{\sim\mathsf{N}_{\mathsf{k}}\left(#1\right)}
 		\newcommand{\distbernoulli}[1]{\sim\mathsf{Be}\left(#1\right)}
 		\newcommand{\distunif}[1]{\sim\mathsf{U}\left(#1\right)}
 		\newcommand{\distgeom}[1]{\sim\mathsf{Geom}\left(#1\right)}
-		\newcommand{\trns}[1]{{#1}^{\scriptscriptstyle\mathsf{T}}}
+		\newcommand{\distgamma}[1]{\sim\mathsf{Gamma}\left(#1\right)}
 		\newcommand{\iid}{\stackrel{\mathrm{iid}}{\sim}}
 		\newcommand{\ift}{\text{if }}
 		\newcommand{\unmezz}{\frac{1}{2}}
 		\newcommand{\sa}{$\sigma$-algebra}	\newcommand{\rv}{random variable}
-		\chapterfont{\color{Red1}\bfseries\itshape}
-		\subsectionfont{\color{DarkGoldenrod4}\bfseries\ulcshape}
-									\pretitle{\begin{center}\LARGE\color{SkyBlue2}}
-		\sectionfont{\color{Sienna3}\bfseries}
-										\pretitle{\begin{center}\LARGE\color{SkyBlue2}}
+		\chapterfont{\color{Magenta4}\bfseries\itshape}
+		\subsectionfont{\color{Thistle4}\bfseries\ulcshape}
+									\pretitle{\begin{center}\LARGE\color{VioletRed3}}
+		\sectionfont{\color{LightPink3}\bfseries}
+										\pretitle{\begin{center}\LARGE\color{VioletRed3}}
 											\newcommand{\prefacename}{Preface}
 	\newcommand{\cinlar}{Çinlar }
 											\newenvironment{preface}{
 												\vspace*{\stretch{2}}
-												{\noindent \bfseries \huge\color{SkyBlue4} \prefacename}
+												{\noindent \bfseries \huge\color{VioletRed3} \prefacename}
 												\begin{center}
 													% \phantomsection \addcontentsline{toc}{chapter}{\prefacename} % enable this if you want to put the preface in the table of contents
 													\thispagestyle{plain}

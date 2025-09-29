@@ -27,7 +27,7 @@
 %\usepackage{amsmath,amssymb,bbm}
 \usepackage{graphicx}
 \usepackage[x11names,table]{xcolor}
-\usepackage[colorlinks=true, allcolors=Aquamarine4]{hyperref}
+\usepackage[colorlinks=true, allcolors=PeachPuff3]{hyperref}
 \usepackage{lilyglyphs}%absolutely necessary
 \usepackage{lipsum} 
 \usepackage[shortlabels]{enumitem}   
@@ -173,7 +173,7 @@
 			breakable,
 			sharp corners,
 			coltext=white,
-			colframe=Gold3!80!black, coltitle=white, colback=black!80!Gold3,
+			colframe=Gold3!80!black, coltitle=white, colback=black!40!Gold3,
 			colbacktitle=gray!80!Gold3,
 			titlerule=0mm,
 			separator sign={:},
@@ -182,7 +182,7 @@
 			title={Corollary}
 			}{}
 			
-			%lemma lemma lemmaaa
+			% lemma lemmaaa
 			\newcounter{lem}
 			
 			\newtcbtheorem[number within=section]{lemm}{Lemma}{
@@ -190,8 +190,8 @@
 				breakable,
 				sharp corners,
 				fonttitle=\bfseries,
-				colframe=SkyBlue4!70!Green4!50, coltitle=SkyBlue4!70!Green4, colbacktitle=SkyBlue4!70!Green4!50,
-				colback=SkyBlue4!70!Green4,
+				colframe=Burlywood4, coltitle=Burlywood4, colbacktitle=Burlywood3,
+				colback=Burlywood4,
 				coltext=white,
 				titlerule=0mm,
 				separator sign={:},
@@ -219,9 +219,9 @@
 					enhanced, 
 					breakable,
 					sharp corners,
-					colframe=LemonChiffon4!70, coltitle=white,
-					colback=LemonChiffon2,
-					colbacktitle=LightGoldenrod4,
+					colframe=Coral4, coltitle=white,
+					colback=Coral1!50,
+					colbacktitle=Coral4,
 					fonttitle=\bfseries,
 					titlerule=0.3mm,
 					separator sign={:},
@@ -364,7 +364,7 @@
 	
 \newtcolorbox{revise}{
 	enhanced jigsaw,
-	colback=SpringGreen4!5!white,sharp corners, colframe=DarkSeaGreen3!75!black,
+	colback=MistyRose4!5!white,sharp corners, colframe=MistyRose3!75!black,
 	breakable,
 	fonttitle=\bfseries,
 	title={Revise with Kotatsu!}}
@@ -397,11 +397,10 @@
 	
 	\newtcolorbox{proofbox}{
 		enhanced,
-		colback=red!5!white,sharp corners, colframe=gray!10!Cornsilk2!20,
+		colback=RosyBrown2!40,sharp corners, colframe=RosyBrown1!20,
 		breakable,
 		coltitle=black,
 		fonttitle=\bfseries\itshape,
-		interior style={gray!20},
 		title={Proof}}	
 		
 		\newenvironment{fancyproof}[1][]{
@@ -479,11 +478,11 @@
 \newcommand{\HS}{\mathscr{H}}
 \newcommand{\Zn}{\mathscr{Z}}
 \newcommand{\D}{\mathscr{D}}
-\newcommand{\xbar}{\overline{X}}
-\newcommand{\rbar}{\overline{\R}}
-\newcommand{\ybar}{\overline{Y}}
-\newcommand{\xxbar}{\overline{\xbar}}
-\newcommand{\xtilde}{\widetilde{X}}
+\newcommand{\Xbar}{\overline{X}}
+\newcommand{\Rbar}{\overline{\R}}
+\newcommand{\Ybar}{\overline{Y}}
+\newcommand{\XXbar}{\overline{\xbar}}
+\newcommand{\Xtilde}{\widetilde{X}}
 \newcommand{\seqnn}[1]{{\left(#1\right)}_{n}}
 \newcommand{\seqn}[1]{{\left({#1}_{n}\right)}_{n}}
 \newcommand{\seqtt}[1]{{\left(#1\right)}_{t}}
@@ -499,7 +498,7 @@
 \newcommand{\ifonly}{\underline{if and only if}}
 \newcommand{\inprod}[1]{\langle #1 \rangle}
 \renewcommand{\laplace}[1]{\mathcal{L}_{\lambda}\left\{#1\right\}}
-
+\newcommand{\vari}{\mathrm{VAR}}
 \newcommand{\ubracketthin}[1]{\underbracket[0.3pt]{#1}}
 \newcommand{\claptext}[1]{\mathclap{\text{#1}}}
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
