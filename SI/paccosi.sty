@@ -34,6 +34,7 @@
 \usepackage{array}
 \usepackage{pdfpages}
 \usepackage{xfrac}
+\usepackage{parskip}
 \usepackage{siunitx}
 \usepackage{booktabs}
 \usepackage{arydshln}
@@ -73,18 +74,18 @@
 \pgfplotsset{compat=1.18}
 \usepgfplotslibrary{fillbetween}
 
-\renewcommand{\CancelColor}{\color{Green4}}
-
+\renewcommand{\CancelColor}{\color{Magenta2}}
 \newcounter{dummy}
 \theoremstyle{remark}
 \newtcbtheorem{rema}{Remark}{
-	enhanced, breakable, rounded corners,
-	colframe=white, coltitle=black, colbacktitle=OliveDrab1!24,
+	enhanced, breakable, sharpish corners,
+	colframe=white, coltitle=SlateBlue2, colbacktitle=SlateBlue2!30,
 	colback=white,
-	interior style={top color=PaleGreen3!31!MistyRose3, bottom color=white}, rounded corners,
-		frame style={top color=PaleGreen3!31!MistyRose3,bottom color=white!35},
+	interior style={bottom color=SlateBlue1!15!Magenta4!50, top color=white!40!SlateBlue2}, rounded corners,
+		frame style={bottom color=SlateBlue1!30!Magenta4!50,top color=white!40!SlateBlue2},
 	separator sign={:},
-	fonttitle=\itshape,
+	fonttitle=\itshape\bfseries,
+	coltext=black,
 	description formatter=\newline,
 	theorem hanging indent/.try=0pt,
 }{}
@@ -118,10 +119,9 @@
 	\newtcbtheorem[number within=section]{nition}{Definition}{
 		enhanced, 
 	 breakable, sharp corners,
-		colframe=Tan4, coltitle=white, 
+		colframe=SlateBlue4!80!Pink2, coltitle=white, 
 		fonttitle=\bfseries,
-		colbacktitle=Tan3,
-		colback=Tan1!60,
+		colback=SlateBlue1!40!Pink2!50,
 		titlerule=1pt,
 		separator sign={:},
 		description formatter=\newline,
@@ -145,9 +145,8 @@
 			enhanced, 
 			breakable,
 			sharp corners,
-			colframe=IndianRed3, 
-			coltitle=white, colbacktitle=IndianRed1,
-			colback=IndianRed4,
+			colframe=DeepPink3, 
+			colback=DeepPink4,
 			coltext=white,
 			titlerule=1pt,
 			fonttitle=\bfseries,
@@ -173,8 +172,8 @@
 			breakable,
 			sharp corners,
 			coltext=white,
-			colframe=Gold3!80!black, coltitle=white, colback=black!80!Gold3,
-			colbacktitle=gray!80!Gold3,
+			colframe=Magenta4!80!black, coltitle=white, colback=black!80!Magenta4,
+			colbacktitle=gray!80!Magenta4,
 			titlerule=0mm,
 			separator sign={:},
 			fonttitle=\bfseries,
@@ -291,19 +290,25 @@
 								}
 								
 								\newcounter{exer}
-\NewDocumentEnvironment{carray}{o}{%
-	\begin{equation*}
-		\begin{array}{*{\IfNoValueTF{#1}{1}{#1}}{>{\displaystyle}c}}
-		}{%
-		\end{array}
-	\end{equation*}
-}
-\NewDocumentEnvironment{larray}{o}{%
-	\begin{equation*}
-		\begin{array}{*{\IfNoValueTF{#1}{1}{#1}}{>{\displaystyle}l}}
-		}{%
-		\end{array}
-	\end{equation*}
+	\newenvironment{carray}[1][]{
+	\begin{array}{>{\displaystyle}c}
+		#1
+	}{
+	\end{array}
+}	
+
+\newenvironment{larray}[1][]{
+	\begin{array}{>{\displaystyle}l}
+		#1
+	}{
+	\end{array}
+}	
+
+\newenvironment{rarray}[1][]{
+	\begin{array}{>{\displaystyle}r}
+		#1
+	}{
+	\end{array}
 }
 %pretty proud for these two mfs :)
 	\newlength{\hatchspread}
@@ -348,20 +353,44 @@
 		draw=white,
 		sharp corners,
 		pattern=crosshatch dots,
-		pattern color=Thistle1,
+		pattern color=Thistle1!80!Purple2,
 		hatchspread=10pt,
 		hatchthickness=50pt,
-		hatchcolor=Thistle2!10,
+		hatchcolor=Thistle2!10!Purple2!30,
 		]
 		(interior.south east) rectangle (interior.north west);
 	},
 	title={Exercise~\thetcbcounter},
-	coltitle=Thistle4!50!black,
-	colframe=Thistle4,
-	coltext=Thistle4,
+	coltitle=Thistle4!50!Purple4,
+	colframe=Thistle4!50!Purple4,
+	coltext=Thistle4!50!Purple4,
 	fonttitle=\bfseries\itshape,
-	colbacktitle=Thistle3!20}
+	colbacktitle=Thistle3!20!Purple4!20}
 	
+\newcounter{homework}[subsection]
+\newtcolorbox[use counter=homework]{homework}{
+	enhanced standard jigsaw,
+	sharp corners,
+	breakable=false,
+	interior titled code={
+		\path[
+		draw=white,
+		sharp corners,
+		pattern=crosshatch dots,
+		pattern color=Magenta1!30,
+		hatchspread=10pt,
+		hatchthickness=50pt,
+		hatchcolor=Magenta2!10,
+		]
+		(interior.south east) rectangle (interior.north west);
+	},
+	title={Homework~\thetcbcounter},
+	coltitle=Magenta4!50!black,
+	colframe=Magenta4,
+	coltext=Magenta4,
+	fonttitle=\bfseries\itshape,
+	colbacktitle=Magenta3!20}
+
 \newtcolorbox{revise}{
 	enhanced jigsaw,
 	colback=MediumOrchid4!5!white,sharp corners, colframe=MediumOrchid4!75!black,
@@ -397,11 +426,10 @@
 	
 	\newtcolorbox{proofbox}{
 		enhanced,
-		colback=red!5!white,sharp corners, colframe=gray!10!Cornsilk2!20,
+		colback=PaleVioletRed4!5!white,sharp corners, colframe=gray!10!PaleVioletRed2!20,
 		breakable,
 		coltitle=black,
 		fonttitle=\bfseries\itshape,
-		interior style={gray!20},
 		title={Proof}}	
 		
 		\newenvironment{fancyproof}[1][]{
@@ -415,17 +443,18 @@
 			}					
 									\let\oldemptyset\emptyset
 									\let\emptyset\varnothing
+									\newcommand{\sfdet}{\mathsf{det}}
+									\let\det\sfdet
 									
 									
-									\renewcommand{\labelitemi}{$\textcolor{HotPink2}{\bullet}$}
-									\renewcommand{\labelitemii}{$\textcolor{SeaGreen2}{\diamond}$}
+									\renewcommand{\labelitemi}{\textcolor{VioletRed4!20!black}{\footnotesize\faArrowAltCircleRight[regular]}}
+									\renewcommand{\labelitemii}{\textcolor{HotPink2!80!Plum4}{\footnotesize\faBullseye}}
 									\renewcommand{\labelitemiii}{$\textcolor{SkyBlue4}{\diamond}$}
 									\renewcommand{\labelitemiv}{$\textcolor{SkyBlue4}{\ast}$}
 									
-									\newcommand{\enf}[1]{\textcolor{Maroon4}{\textbf{#1}}} %enf sta per enfasi
+									\newcommand{\enf}[1]{\textcolor{MediumOrchid1}{\textbf{#1}}} %enf sta per enfasi
 					\let\emph\enf
-									\newcommand{\sott}[1]{\setulcolor{SkyBlue3}\ul{#1}}
-									\let\underline\sott
+									
 
 									\newcommand{\prob}{\mathbb{P}}
 									\newcommand\indep{\protect\mathpalette{\protect\independenT}{\perp}}
@@ -456,7 +485,7 @@
 									\newcommand{\convlp}{\xrightarrow[]{\lp}}
 									\newcommand{\lone}{L^{1}}
 									\newcommand{\convw}{\xrightarrow[]{\mathrm{weak}}}
-									\newcommand{\as}{\text{ a.s.}}
+									\newcommand{\as}{\text{ a.s. }}
 									\newcommand{\asstnr}{\sim N(0,1)}
 									%\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
 \newcommand{\dx}{\dif x}
@@ -482,6 +511,8 @@
 \newcommand{\Xbar}{\overline{X}}
 \newcommand{\Rbar}{\overline{\R}}
 \newcommand{\Ybar}{\overline{Y}}
+\newcommand{\xbar}{\overline{x}}
+\newcommand{\ybar}{\overline{y}}
 \newcommand{\xxbar}{\overline{\xbar}}
 \newcommand{\xtilde}{\widetilde{X}}
 \newcommand{\trace}[1]{\mathrm{tr}\left(#1\right)}
@@ -500,14 +531,18 @@
 \newcommand{\ifonly}{\underline{if and only if}}
 \newcommand{\inprod}[1]{\langle #1 \rangle}
 \renewcommand{\laplace}[1]{\mathcal{L}_{\lambda}\left\{#1\right\}}
-
+\DeclareMathOperator*{\argmax}{argmax}
+\newcommand{\ulx}{\underline{x}}
+\newcommand{\ulX}{\underline{X}}
+\newcommand{\uly}{\underline{y}}
+\newcommand{\ulY}{\underline{Y}}
 \newcommand{\ubracketthin}[1]{\underbracket[0.3pt]{#1}}
 \newcommand{\claptext}[1]{\mathclap{\text{#1}}}
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
 		\node[shape=circle,draw,
-		shading=ball, ball color=SpringGreen3!70,
+		shading=ball, ball color=Magenta2,
 		,inner sep=1.5pt] (char) {\scriptsize\bfseries #1};}}
-\newcommand{\circnum}{\protect\circled{\arabic*}}
+\newcommand{\circnum}{\protect\circled{\textcolor{white}{\arabic*}}}
 \newcommand{\circlet}{\protect\circled{\alph*}}	
 \newcommand{\bbg}[1]{%
 	\ooalign{$#1$\cr\raisebox{-.2pt}{$#1$}\cr\raisebox{.2pt}{$#1$}\cr\textcolor{white}{$\mkern0.2mu#1$}}%
@@ -544,6 +579,7 @@
 									\newcommand{\PX}{(X_t)_{t\geq 0}}
 									\newcommand{\var}{\mathbb{V}\!\mathrm{ar}\,}
 									\newcommand{\cov}{\mathbb{C}\mathrm{ov}\,}
+									\newcommand{\corr}{\mathbb{C}\mathrm{orr}\,}
 									\newcommand{\lp}{L^{p}}
 									\newcommand{\BMF}{{(B_t)}_{t\geq 0}}
 									\newcommand{\BMD}{$\mathrm{BM}^{d}$}
@@ -573,18 +609,24 @@
 		\newcommand{\sumjon}{\sum_{j=0}^{n}}
 		\newcommand{\sumiok}{\sum_{i=0}^{k}}
 		\newcommand{\bwm}{Brownian motion}
+		\newcommand{\MSE}[1]{\mathsf{MSE}\left(#1\right)}
+		\newcommand{\deriv}[1]{\frac{\dif}{\dif #1}}
+		\newcommand{\dderiv}[1]{\frac{\dif^{2}}{\dif {#1}^{2}}}
+		\newcommand{\like}{\mathcal{L}}
 		\newcommand{\distexp}[1]{\sim\mathsf{Exp}\left(#1\right)}
 		\newcommand{\distnorm}[1]{\sim\mathsf{N}\left(#1\right)}\newcommand{\distnormk}[1]{\sim\mathsf{N}_{\mathsf{k}}\left(#1\right)}
 		\newcommand{\distbernoulli}[1]{\sim\mathsf{Be}\left(#1\right)}
 		\newcommand{\distunif}[1]{\sim\mathsf{U}\left(#1\right)}
 		\newcommand{\distgeom}[1]{\sim\mathsf{Geom}\left(#1\right)}
 		\newcommand{\distgamma}[1]{\sim\mathsf{Gamma}\left(#1\right)}
+		\newcommand{\distexpf}[1]{\sim\mathsf{ExF}\left(#1\right)}
+		\newcommand{\distnatexpf}[1]{\sim\mathsf{NatExF}\left(#1\right)}
 		\newcommand{\iid}{\stackrel{\mathrm{iid}}{\sim}}
 		\newcommand{\ift}{\text{if }}
 		\newcommand{\unmezz}{\frac{1}{2}}
 		\newcommand{\sa}{$\sigma$-algebra}	\newcommand{\rv}{random variable}
 		\chapterfont{\color{Magenta4}\bfseries\itshape}
-		\subsectionfont{\color{Thistle4}\bfseries\ulcshape}
+		\subsectionfont{\color{Magenta4}\bfseries\ulcshape}
 									\pretitle{\begin{center}\LARGE\color{VioletRed3}}
 		\sectionfont{\color{LightPink3}\bfseries}
 										\pretitle{\begin{center}\LARGE\color{VioletRed3}}

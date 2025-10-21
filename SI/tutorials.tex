@@ -1,0 +1,274 @@
+\chapter{Tutorial classes}
+\section{Tutorial class 2}
+\begin{revise}
+	\emph{Multidimensional Gaussian}. Consider a random vector $Z=(Z_{1},\ldots,Z_{k})$ where 
+	\begin{equation*}
+		Z_{1},\ldots,Z_{k}\iid\mathsf{N}(0,1)
+	\end{equation*}
+	and define 
+	\begin{equation*}
+		Y=\mathbf{A}Z+\mu
+	\end{equation*}
+	for some non singular $k\times k$ matrix $\mathbf{A}$ and a $k\times 1$ vector $\mu$. The components of $Y$ are linear combinantion of independent univariate normal \rv s and we know that
+	\begin{equation*}
+		Y_{i}=\sum_{j=1}^{n}a_{ij}Z_{j}+\mu_{i}\distnorm{\mu_{i},\sum_{j=1}^{n}a_{ij}^{2}}.
+	\end{equation*}
+	To obtain the density function of $Y$ start from the density of $Z$:
+	\begin{equation*}
+		f_{Z}(z)=(2\pi)^{-\frac{k}{2}}\expg{-\frac{1}{2}Z^{\trsp}Z}.
+	\end{equation*}
+	Since $Z=\mathbf{A}^{-1}(Y-\mu)$ and setting $\mathbf{V}=\mathbf{AA^{\trsp}}$ known as \textit{variance/covariance matrix} then the jacobian of the transformation is
+	\begin{align*}
+		\det\left(\frac{\partial Z_{i}}{\partial Y_{j}}\right)&=\det\left(\mathbf{A}^{-1}\right)\\
+		&=\det\left(\mathbf{A}\right)^{-1}\\
+		&=\det\left(\mathbf{V}\right)^{\unmezz}.
+	\end{align*}
+	Then,
+	\begin{align*}
+		Z^{\trsp}Z&=\left(\mathbf{A}^{-1}(y-\mu)\right)^{\trsp}\left(\mathbf{A}^{-1}(y-\mu)\right)\\
+		&=\left(y-\mu\right)^{\trsp}\mathbf{V}^{-1}\left(y-\mu\right)
+	\end{align*}
+	and therefore
+	\begin{equation*}
+		f_{Y}(y)=(2\pi)^{-\frac{k}{2}}\det\left(\mathbf{V}\right)^{-\unmezz}\expg{-\unmezz\left(y-\mu\right)^{\trsp}\mathbf{V}^{-1}\left(y-\mu\right)}.
+	\end{equation*}
+	We will say that a random vector with this density is a multivariate normal with parameters $\mu$ and $\mathbf{V}$ and write
+	\begin{equation*}
+		Y\distnormk{\mu,\mathbf{V}}.
+	\end{equation*}
+	\begin{remark}
+		note that if $\mathbf{V}$ is diagonal then $Y_{1},\ldots,Y_{k}$ are independent. In other words, if the components of a multivariate normal are uncorrelated then they are independent. This should not be taken for granted in general.
+	\end{remark}
+	This conclusion is sometimes rephrased as ``if the \rv s $Y_{1},\ldots,Y_{k}$ are normally distributed and uncorrelated then they are independent'' but this is \textcolor{red}{FALSE} and \textcolor{red}{PREPOSTEROUS}. Indeed, the fact that $Y_{1},\ldots,Y_{k}$ are normally distributed does not imply that the \rv{} $(Y_{1},\ldots,Y_{k})^{\trsp}$ is a multivariate random vector! 
+\end{revise}
+\begin{exercise}
+	\emph{Marginally Gaussian does not imply jointly Gaussian}. Suppose $Z\distnorm{0,1}$ and define for a constant $c>0$ the following transformation:\begin{equation*}
+	Y=\begin{cases}
+		-Z&\text{ if }|Z|<c\\
+		Z&\text{ if }|Z|\geq c.
+	\end{cases}
+	\end{equation*}
+	\begin{enumerate}
+		\item Show that $Y\distnorm{0,1}$ for $\every c$.
+		\item What is the support of $(Y,Z)?$ is $(Y,Z)$ a 2-dimensional Gaussian?
+		\item Compute the correlation between $Z$ and $Y$.
+		\item Show that for a suitably chosen $c$, this correlation is 0 and comment on this result.
+	\end{enumerate}
+\end{exercise}
+\begin{enumerate}
+	\item Assume $y\leq -c$. Then the cumulative c.d.f's coincide:
+	\begin{equation*}
+		\pr(Y\leq y)=\pr(Z\leq y).
+	\end{equation*}
+	Assume $y\geq c$. Then similarly nothing change:
+	\begin{equation*}
+		\pr(Y\leq y)=\pr(Z\leq y).
+	\end{equation*}
+	Assume $-c<y\leq c$. Then
+	\begin{align*}
+		\pr(Y\leq y)&=\pr(Y\leq-c)+\pr(-c<Y\leq y)\\
+		&=\pr(z\leq-c)+\pr(-y\leq z<c)\\
+		&=\pr(z\geq c)+\pr(-y\leq z\leq c)\\
+		&=\pr(-y\leq z)\\
+		&=\pr(z\leq y).
+	\end{align*}
+	A similar argument applies for the case $0\leq y<c$. In conclusion, 
+	\begin{equation*}
+		Y\overset{\text{d}}{=}0.
+	\end{equation*}
+	\item The support of $Y$ is $\R$ as well as $Z$ but this doesn't mean that the support of $Y,Z$ is $\R^{2}$! Indeed $Y$ is a deterministic function of $Z$ so the support of $Y,Z$ is given by
+	\begin{equation*}
+		\left\{(y,z)\in\R^{2}:y=\begin{cases}
+			-Z&\text{ if }|z|<c\\
+			Z&\text{ if }|z|\geq c
+		\end{cases}\right\}
+	\end{equation*}
+	because the support is the smallest set to which the density function assigns probability 1. It follows that $Y$ and $Z$ are not jointly Gaussian even if they are marginally gaussian.
+	\item Note that since $\mu=0$ and $\sigma=1$ then 
+	\begin{equation*}
+		\corr(Y,Z)=\ev{YZ}
+	\end{equation*}
+	and then, by tower property,
+	\begin{align*}
+		\evs_{(Y,Z)}[Y,Z]&=\evs_{Z}[Z\evs_{Y|Z}[Y|Z]]\\
+		&=\evs_{Z}\left[Z\left(Z\indi_{[c,+\infty)}(|Z|)-Z\indi_{[0,c)}(|Z|)\right)\right]\\
+		&=\evs_{Z}\left[Z^{2}\indi_{[c,\infty)}(|Z|)\right]-\evs_{Z}\left(Z^{2}\indi_{[0,c)}(|Z|)\right)\tag*{\faPaperPlane}\label{pplane}\\
+		&=\ubracketthin{\evs_{Z}[Z^{2}]}_{=1}-2\evs_{Z}\left[Z^{2}\indi_{[0,c)}(|Z|)\right]\\
+		&=1-2\evs_{Z}\left[Z^{2}\indi_{[0,c)}(|Z|)\right]\\
+	\end{align*}
+	where
+	\begin{align*}
+		2\evs_{Z}\left[Z^{2}\indi_{[0,c)}(|Z|)\right]&=\int_{-c}^{+c}z^{2}f_{Z}(z)\dz\\
+		&=2\int_{0}^{c}z^{2}f_{Z}(z)\dz.
+	\end{align*}
+	Therefore 
+	\begin{equation*}
+		\corr[Y,Z]=1-4\int_{0}^{4}z^{2}f_{Z}(z)\dz.
+	\end{equation*}
+	\item So here from \ref{pplane} we have that 
+	\begin{align*}
+		\corr[Y,Z]=0&\iff\ev{Z^{2}\indi_{[c,+\infty)}(|Z|)}=\ev{Z^{2}\indi_{[0,c)}(|Z|)}\\
+		&\iff 2\int_{c}^{\infty}z^{2}f_{Z}\dz=2\int_{0}^{c}z^{2}f_{Z}(z)\dz\\
+		&\iff\int_{c}^{\infty}z^{2}\frac{1}{\sqrt{2\pi}}e^{-\frac{z^{2}}{2}}=\int_{0}^{c}z^{2}\frac{1}{\sqrt{2\pi}}e^{-\frac{z^{2}}{2}}\dz\\
+		\text{(change of var. $z^{2}=u$)}&\iff\int_{c^{2}}^{\infty}ue^{-\frac{u}{2}}\unmezz u^{-\unmezz}\du=\int_{0}^{c^{2}}ue^{-\frac{u}{2}}\unmezz u^{-\unmezz}\du\\
+		&\iff\int_{c^{2}}^{\infty}u^{\unmezz}e^{-\frac{u}{2}}\du=\int_{0}^{c^{2}}u^{\unmezz}e^{-\frac{u}{2}}\du.
+	\end{align*}
+	Recall that the density of the Gamma is
+	\begin{equation*}
+		\mathsf{Gamma}(\alpha,\beta)=\frac{\beta^{\alpha}}{\Gamma(\alpha)}u^{\alpha-1}e^{-\beta u}
+	\end{equation*}
+	and here we have
+	\begin{equation*}
+		\mathsf{Gamma}\left(\frac{3}{2},\unmezz\right)=\frac{\left(\unmezz\right)^{\frac{3}{2}}}{\Gamma\left(\frac{3}{2}\right)}u^{\unmezz}e^{-\frac{u}{2}}
+	\end{equation*}
+	and this is a $\chi^{2}_{3}$ distribution. In conclusion,
+	\begin{equation*}
+		\corr[Y,Z]=0\iff\ubracketthin{\int_{c^{2}}^{\infty}\frac{\left(\unmezz\right)^{\frac{3}{2}}}{\Gamma\left(\frac{3}{2}\right)}u^{\unmezz}e^{-\frac{u}{2}}\du}_{\pr\left(\chi^{2}_{3}>c^{2}\right)}=\ubracketthin{\int_{0}^{c^{2}}\frac{\left(\unmezz\right)^{\frac{3}{2}}}{\Gamma\left(\frac{3}{2}\right)}u^{\unmezz}e^{-\frac{u}{2}}\du}_{\pr\left(\chi^{2}_{3}<c^{2}\right)}=\unmezz
+	\end{equation*}
+	since they must be equal and they are probabilities. But what is $c^{2}$? It is a special quantile that cuts the distribution in two parts and it is called the \emph{median}.
+\end{enumerate}
+So the moral is: one can construct normal uncorrelated but \textit{not independent} \rv s. This Phenomenon is related to the fact that the pair $(Y,Z)$ is not jointly normal.
+\section{Tutorial class 3}
+\begin{revise}
+	\emph{Sufficiency}. A sufficient statistic for a parameter $\theta$ is a statistic that captures all the information about $\theta$ contained in the sample.
+	\begin{definition}
+		A statistic $T(X)$ is sufficient for $\theta$ if the conditional distribution of the sample $X=(X_{1},\ldots,X_{n})$ given the value of $T(X)$ does not depend on $\theta$. That is, if $p(X|\theta)$ is the joint p.d.f. or p.m.f. of $X$ and $q(t|\theta)$ is the p.d.f. or p.m.f. of $T(X)$ then $T(X)$ is sufficient for $\theta$ if the function
+		\begin{equation*}
+			\theta\mapsto\frac{p(x|\theta)}{q(T(x)|\theta)}
+		\end{equation*}
+		is constant for all $X$ in the sample space $\mathcal{X}$.
+	\end{definition}
+	\begin{remark}
+		\begin{itemize}
+			\item Sometimes the information cannot be summarized in a single number! In such cases a sufficient statistic is a vector, say $T(X)=(T_{1}(X),\ldots,T_{n}(X))$.
+			\item There are many possible sufficient statistics:
+			\begin{itemize}
+				\item there always exist at least 1 sufficient statistic: the sample $X$ itself;
+				\item order statistics are sufficient (sometimes, this is the best we can do);
+				\item any one-to-one function of a sufficient statistic is sufficient as well.
+			\end{itemize}
+		\end{itemize}
+	\end{remark}
+	Are there sufficient statistic better than others? Yes and the factorization theorem helps us because it may be cumbersome to use the definition to find a sufficient statistic:
+	\begin{enumerate}
+		\item I must guess a statistic $T(X)$ to be sufficient (which requires a good deal of intuition);
+		\item I must find the p.d.f. of $T(X)$ and check that the ratio $\frac{p(x|\theta)}{q(T(x)|\theta)}$ is constant, which is boring \& useless \& not sexy.
+	\end{enumerate}
+	\begin{theorem}
+		\emph{Factorization theorem}. Let $f(x|\theta)$ denote the joint p.d.f. of a sample $X$. A statistic $T(X)$ is sufficient for $\theta$ if and only if there exists functions $g(t|\theta)$ and $h(x)$ such that $\every x\in\mathcal{X}$ and $\every\theta\in\Theta$,
+		\begin{equation*}
+			f(x|\theta)=g(T(x)|\theta)h(x).
+		\end{equation*}
+	\end{theorem}
+	\begin{homework}
+		Show that a one-to-one function of a sufficient statistic is a sufficient statistic as well.
+	\end{homework}
+\end{revise}
+\begin{exercise}
+	Let $X_{1},\ldots,X_{n}\iid\mathsf{Gamma}(\alpha,\beta)$. Find a sufficient statistic for $(\alpha,\beta)$.
+\end{exercise}
+Start by writing the density:
+\begin{align*}
+	f(x_{1},\ldots,x_{n})&=\prod_{i=1}^{n}\frac{\beta^{\alpha}}{\Gamma(\alpha)}x_{i}^{\alpha-1}e^{-\beta x_{i}}\\
+	&=\ubracketthin{\frac{\beta^{n\alpha}}{\Gamma(\alpha)^{n}}\left(\mathcolor{Purple3}{\prod_{i=1}^{n}x_{i}}\right)^{\alpha-1}e^{-\beta\mathcolor{Purple3}{\sum_{i=1}^{n}x_{i}}}}_{g(T(x)|\alpha,\beta)}\cdot \ubracketthin{1}_{\mathclap{h(x)}}
+\end{align*}
+So in conclusion 
+\begin{equation*}
+	\left(\prod_{i=1}^{n}x_{i};\sum_{i=1}^{n}x_{i}\right)
+\end{equation*}
+is a sufficient statistic for $\alpha,\beta$ and in this case the dimension of the sufficient statistic matches the one of the parameters.
+\begin{exercise}
+	Let $X_{1},\ldots,X_{n}$ be independent \rv s with density
+	\begin{equation*}
+		f_{X_{i}}(x|\theta)=\begin{cases}
+			e^{i\theta-x}&x\geq i\theta\\
+			0&x<i\theta.
+		\end{cases}
+	\end{equation*}
+	Prove that $T=\min_{i}\left\{\frac{x_{i}}{i}\right\}$ is a sufficient statistic for $\theta$.
+\end{exercise}
+When the support  depends on the parameters we need to be careful: probably there is some order statistic somewhere. Start by writing the distribution:
+\begin{align*}
+	f(x_{1},\ldots,x_{n}|\theta)&=\prod_{i=1}^{n}e^{i\theta-x_{i}}\indi_{\left(i\theta,+\infty\right)}(x_{i})\\
+\text{\footnotesize since $\sum_{i=1}^{n}i={n+1\choose 2}$}\qquad	&=\expg{{n+1\choose 2}\theta}\prod_{i=1}^{n}\indi_{(\theta,+\infty)}\left(\frac{x_{i}}{i}\right)\expg{-\sum_{i=1}^{n}x_{i}}\\
+	&=\ubracketthin{\expg{{n+1\choose 2}\theta}\indi_{(0,+\infty}\left(\mathcolor{Purple3}{\min_{i}\left\{\frac{x_{i}}{i}\right\}}\right)}_{g(T(x)|\theta)}\ubracketthin{\expg{-\sum_{i=1}^{n}x_{i}}}_{h(x)}.
+\end{align*}
+So by the fact that $X$ ``enters'' through the statistic $T(x)=\min_{i}\left\{\frac{x_{i}}{i}\right\}$ then $\min_{i}\left\{\frac{x_{i}}{i}\right\}$ is a sufficient statistic. Probably at the exam we will find some ``strange'' distribution.
+\begin{exercise}
+	Let $X_{1},\ldots,X_{n}$ be a random sample from 
+	\begin{equation*}
+		f(x|\mu,\sigma)=\frac{1}{\sigma}e^{-\frac{(x-\mu)}{\sigma}}\qquad\begin{carray}
+			\mu<x<\infty\\
+			0<\sigma<\infty.
+		\end{carray}
+	\end{equation*}
+	Find a sufficient statistic for $(\mu,\sigma)$.
+\end{exercise}
+Here's another case where the support depends on the parameters. As always let's write the joint distribution
+\begin{align*}
+	f(x_{1},\ldots,x_{n}|\mu,\sigma)&=\prod_{i=1}^{n}\frac{1}{\sigma}e^{-\frac{(x_{i}-\mu)}{\sigma}}\indi_{(\mu,\infty)}(x_{i})\\
+	&=\ubracketthin{\left(\frac{e^{\frac{\mu}{\sigma}}}{\sigma}\right)^{n}e^{-\mathcolor{Purple3}{\sum_{i=1}^{n}\frac{x_{i}}{\sigma}}}\indi_{(\mu,\infty)}\left(\mathcolor{Purple3}{\min_{i}\left\{x_{i}\right\}}\right)}_{g(T(x)|\mu,\sigma)}\cdot\ubracketthin{ 1}_{\mathclap{h(x)}}
+\end{align*}
+By factorization theorem then
+\begin{equation*}
+	\left(X_{(1)},\sum_{i=1}^{n}x_{i}\right)
+\end{equation*}
+is a sufficient statistic for $\mu,\sigma$.
+\begin{exercise}
+	Let $X_{1},\ldots,X_{n}\iid\mathsf{Inverse~Gaussian}(\mu,\lambda)$ whose p.d.f. is given by
+	\begin{equation*}
+		f(x|\mu,\lambda)=\left(\frac{\lambda}{2\pi x^{3}}\right)^{\unmezz}\expg{-\frac{\lambda (x-\mu)^{2}}{2\mu^{2}x}},\qquad0<x<\infty.
+	\end{equation*}
+	Show that the statistics
+	\begin{equation*}
+		\Xbar=\frac{1}{n}\sum_{i=1}^{n}X_{i};\qquad T=\frac{n}{\sum_{i=1}^{n}\frac{1}{x_{i}}-\frac{1}{\xbar}}
+	\end{equation*}
+	are sufficient for $(\mu,\lambda)$.
+\end{exercise}
+We start by expanding the square:
+\begin{align*}
+	\expg{-\frac{\lambda(x-\mu)^{2}}{2\mu^{2}x}}=\expg{-\frac{\lambda}{2\mu^{2}}x-\frac{\lambda}{2x}}e^{-\frac{\lambda}{\mu}}.
+\end{align*}
+We continue by writing the joint distribution function:
+\begin{align*}
+	f(x_{1},\ldots,x_{n}|\mu,\lambda)&=\prod_{i=1}^{n}\left(\frac{\lambda}{2\pi x_{i}^{3}}\right)^{\unmezz}\expg{-\frac{\lambda (x_{i}-\mu)^{2}}{2\mu^{2}x_{i}}}\\
+	&=\prod_{i=1}^{n}\left(\frac{\lambda}{2\pi x_{i}^{3}}\right)^{\unmezz}\expg{-\frac{\lambda}{2\mu^{2}}x-\frac{\lambda}{2x}}e^{-\frac{\lambda}{\mu}}\\
+	&=\ubracketthin{\prod_{i=1}^{n}\left(\frac{\lambda}{2\pi x_{i}^{3}}\right)^{\unmezz}}_{h(x)}\ubracketthin{\lambda^{\frac{n}{2}}e^{n\frac{\lambda}{\mu}}\expg{-\frac{\lambda}{2\mu^{2}}\sum_{i=1}^{n}x_{i}-\frac{\lambda}{2}\sum_{i=1}^{n}\frac{1}{x_{i}}}}_{g(T(x))|\mu,\lambda}\\
+\end{align*}
+so by the factorization theorem 
+\begin{equation*}
+	\left(\sum_{i=1}^{n}X_{i},\sum_{i=1}^{n}\frac{1}{x_{i}}\right)
+\end{equation*}
+is \underbar{a} sufficient statistic for $(\mu,\lambda)$. Note that $(\Xbar, T)$ is a one-to-one transformation of the statistics we wound so it is sufficient as well.
+\begin{homework}
+	Let $X_{1},\ldots,x_{n}\iid f(x|\theta)\in\text{exponential family}$ with
+\begin{equation*}
+	f(x|\theta)=h(x)c(\theta)\expg{\sum_{j=1}^{k}w_{j}(\theta)t_{j}(x)}
+\end{equation*} 
+where $\theta=(\theta_{1},\ldots,\theta_{d})$, $d\leq k$. Show that 
+\begin{equation*}
+	T(X)=\left(\sum_{i=1}^{n}t_{1}(X_{i}),\ldots,\sum_{i=1}^{n}t_{k}(x_{i})\right)
+\end{equation*}
+is a sufficient statistic for $\theta$.
+\end{homework}
+\begin{exercise}
+	Let $X_{1},\ldots,X_{n}\iid\mathsf{N}(\mu,\sigma^{2})$. Find a sufficient statistic for $\mu,\sigma^{2}$.
+\end{exercise}
+Write the joint density:
+\begin{align*}
+	f(x_{1},\ldots,x_{n})&=\left(2\pi\sigma^{2}\right)^{-\frac{n}{2}}\expg{-\frac{\sum_{i=1}^{n}(x_{i}-\mu^{2})}{2\sigma^{2}}}\\
+	&=...\\
+	&=\left(2\pi\sigma^{2}\right)^{-\frac{n}{2}}\expg{-\frac{\sum_{i=1}^{n}(x_{i}-\xbar)^{2}}{2\sigma^{2}}}\expg{-\frac{n(\xbar-\mu)^{2}}{2\sigma^{2}}}\\
+	&=\left(2\pi\sigma^{2}\right)^{-\frac{n}{2}}\expg{-\frac{ns^{2}}{2\sigma^{2}}}\expg{-\frac{n\left(\xbar-\mu\right)^{2}}{2\sigma^{2}}}
+\end{align*}
+where
+\begin{equation*}
+	s^{2}=\frac{1}{n}\sum_{i=1}^{n}\left(x_{i}-\xbar\right)^{2}.
+\end{equation*}
+In conclusion, $(\xbar,s^{2})$ is a sufficient statistic for $\mu,\sigma^{2}$.
+\begin{homework}
+	 Find a sufficient statistic using the result about exponential family. Is this in contradiction with $(\xbar,s^{2})$? Why not?
+\end{homework}
+\begin{remark}
+	This exercise shows that for the normal model the common practice of summarizing a dataset by reporting only the sample mean and the variance is justified. The sufficient statistic $(\xbar,s^{2})$ contains all the information about $(\mu,\sigma^{2})$ that is available in the sample. This is, in a certain sense, a lossless compression. The experimenter should remember however that the definition of sufficient statistic is model dependent. For another model the sample mean and variance may not be a sufficient statistic. The experimenter who computes only $\xbar$ and $s^{2}$ and totally ignores the rest of the data is an asshole and should be killed unless 100\% sure about the normality of the model.
+\end{remark}

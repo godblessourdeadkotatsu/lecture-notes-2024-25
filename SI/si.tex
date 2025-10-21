@@ -242,7 +242,7 @@ We also provided the matrix notation because it is useful in some situations. Co
 		\frac{1}{\sqrt{n\cdot (n-1)}}&	\frac{1}{\sqrt{n\cdot (n-1)}}&	\frac{1}{\sqrt{n\cdot (n-1)}}&	\frac{1}{\sqrt{n\cdot (n-1)}}&\ldots&	-\frac{n-1}{\sqrt{n\cdot (n-1)}}
 	\end{bmatrix}
 \end{equation*}
-This matrix is constructed in such a way that every rows sums to 0 except for the first column, that sums to $\sqrt{n}$. It's a orthonormal matrix where the first row is proportional to vector $\mathbf{1}$. Now we have
+This matrix is called the Hermelet matrix and it is constructed in such a way that every rows sums to 0 except for the first column, that sums to $\sqrt{n}$. It's a orthonormal matrix where the first row is proportional to vector $\mathbf{1}$. Now we have
 \begin{equation*}
 	Z=\mathbf{A}Y\sim\mathsf{N}_{n}\left(\mu_{Z},\sigma^{2}\mathbf{I}_{k}\right)
 \end{equation*}
@@ -258,7 +258,7 @@ We know that
 \end{align*}
 so we proved that the sample \rv{} $Z_{2}^{2}+\ldots+Z^{2}_{n}$ is equal to the scaled sample variance. This means that
 \begin{equation*}
-	\frac{n-1}{\sigma}S^{2}_{n}\sim\chi^{2}_{n-1}
+	\frac{n-1}{\sigma^{2}}S^{2}_{n}\sim\chi^{2}_{n-1}
 \end{equation*}
 since it is a sum of $n-1$ Gaussian variables.
 Why are the sample mean and the variance independent? We have that the sample mean is
@@ -266,5 +266,1448 @@ Why are the sample mean and the variance independent? We have that the sample me
 	\Ybar_{n}\distnorm{\mu,\frac{\sigma^{2}}{n}}
 \end{equation*}
 and therefore is independent from sample variance.
+\begin{equation*}
+	\Ybar_{n}\indep S^{2}_{n}.
+\end{equation*}
+If we have a random vector of i.i.d. \rv{} with independent sample mean and sample variance then they are multivariate Gaussian. 
+\subsection{Quadratic form of a Gaussian}
+These results are linked to the more general result of quadratic forms of a Gaussian distributions. We need a more general definition of the chi-squared distribution (\emph{non centered chi-square}). \begin{definition}
+	Take $Z=(Z_{1},\ldots,Z_{n})\distnorm{\mu,\mathbf{I}_{k}}$ so not centered around 0. Take $$U_{k}=Z^{\trsp}Z=\sum_{i=1}^{n}Z_{i}^{2}.$$
+This is the \emph{non-centered chi-squared \rv{}} with $k$ degrees of freedom and non-centrality $\delta=\mu^{\trsp}\mu$. We will write
+\begin{equation*}
+	U_{k}\sim\chi^{2}_{k}(\delta).
+\end{equation*}
+\end{definition}
+\begin{proposition}
+	If $Y\distnorm{N_{k}}(\mu,\mathbf{V})$ with $\mathbf{V}>0$ then
+	\begin{equation*}
+		\mathbf{Q}=Y^{\trsp}\mathbf{V}^{-1}Y\chi^{2}_{k}(\mu^{\trsp}\mathbf{V}^{-1}\mu).
+	\end{equation*}
+\end{proposition}
+\begin{fancyproof}
+	The proof of this proposition comes from the concept of spectral decomposition. We have
+	\begin{equation*}
+		\mathbf{V}=\mathbf{BB^{\trsp}}
+	\end{equation*}
+	so
+	\begin{align*}
+		\mathbf{Q}&=Y^{\trsp}\left(\mathbf{BB}\right)^{-1}Y\\
+		&=\left(\mathbf{B}^{-1}Y\right)^{\trsp}\mathbf{B}^{-1}Y\\
+		&=Z^{\trsp}Z
+	\end{align*}
+	where $\mathbf{Z}=\mathbf{B}^{-1}\mathbf{Y}\distnormk{\mathbf{B}^{-1}\mu,\mathbf{I}_{k}}$. But this means that by definition
+	\begin{equation*}
+		Z^{\trsp}Z\sim\chi^{2}_{k}(\delta)\qquad\text{with }\delta=\left(\mathbf{B}^{-1}\mu\right)^{\trsp}\mathbf{B}^{-1}\mu=\mu^{\trsp}\mathbf{V}^{-1}\mu.
+	\end{equation*}
+\end{fancyproof}
+\begin{theorem}
+	\emph{Fisher-Cochram theorem}.  Take $Y\distnormk{\mu,\mathbf{I}_k}$ and let $\mathbf{A}_{1},\ldots,\mathbf{A}_{m}$ be positive semi-definite matrices with ranks $r_{1},\ldots,r_{m}$. If I sum all the matrix I must get the identity matrix so $\mathbf{A_{1}}+\ldots+\mathbf{A}_{m}=\mathbf{I}_{k}$. The following are equivalent:
+	\begin{enumerate}
+		\item $\mathbf{Q}_{j}=Y^{\trsp}A_{j}Y$ for $j=1,\ldots,m$ and 
+		\begin{equation*}
+			\mathbf{Q}_{j}\sim\chi^{2}_{r_{j}}(\mu^{\trsp}\mathbf{A}_{j}\mu)\text{ and }\mathbf{Q}_{j}\indep\mathbf{Q}_{i}\;\every j\neq i;
+		\end{equation*}
+		\item $\sum_{i=1}^{m}r_{i}=k$.
+	\end{enumerate} 
+\end{theorem}
+\begin{fancyproof}
+	\begin{enumerate}
+		\item[$1\to2$] This is easy because
+		\begin{align*}
+			Y^{T}Y&=Y^{\trsp}\left(\mathbf{A}_{1}+\ldots+\mathbf{A}_{n}\right)Y\\
+			&=\mathbf{Q}_{1}+\ldots+\mathbf{Q}_{m}
+		\end{align*} 
+		but since chi-squared is actually just a gamma distribution, adding up gammas makes up another gamma so
+		\begin{equation*}
+			\mathbf{Q}_{1}+\ldots+\mathbf{Q}_{m}\sim\chi^{2}_{r}(\delta)
+		\end{equation*}
+		with 
+		\begin{equation*}
+			r=\sum_{i=1}^{m}r_{i}\qquad\text{and}\qquad\delta=\mu^{\trsp}\mu.
+		\end{equation*}
+		Since we know that $Y^{\trsp}Y\sim\chi^{2}_{k}(\delta)$ then it must be that $r=k$.
+		\item[$2\to1$] We write
+		\begin{equation*}
+			\mathbf{A}_{j}=\mathbf{B}_{j}\mathbf{B}_{j}^{\trsp}
+		\end{equation*}
+		where $B_{j}$ is a $k\times r_{j}$ matrix constructed from the spectral decomposition of $\mathbf{A}$ and attaching $m$ $k\times r_{i}$ for $i=1,\ldots,m$ matrices since I know that the sum of the ranks is $k$. So we get
+		\begin{equation*}
+		\underset{k\times k}{\mathbf{B}}=\begin{bmatrix}
+				\mathbf{B}_{1},\mathbf{B}_{2},\ldots,\mathbf{B}_{m}.
+			\end{bmatrix}
+		\end{equation*}
+		Now we have
+		\begin{align*}
+			\mathbf{B^{\trsp}B}&=\mathbf{B}_{1}\mathbf{B}_{1}^{\trsp}+\ldots+\mathbf{B}_{m}\mathbf{B}_{m}^{\trsp}\\
+			&=\mathbf{A}_{1}+\ldots+\mathbf{A}_{m}\\
+			&=\mathbf{I}_{k}.
+		\end{align*}
+		Now take
+		\begin{equation*}
+			Z=\mathbf{B}^{\trsp}Y\distnormk{\mathbf{B}^{\trsp}\mu,\mathbf{I}_{k}}.
+		\end{equation*}
+		Now we have
+		\begin{align*}
+			\mathbf{Q}_{j}&=Y^{\trsp}\mathbf{A}_{j}Y\\
+			&=Y^{\trsp}\mathbf{B}_{j}\mathbf{B}_{j}^{\trsp}Y=Z_{j}^{\trsp}Z_{j}
+		\end{align*}
+	\end{enumerate}
+	where $Z^{\trsp}=(Z^{\trsp}_{1},\ldots,Z^{\trsp}_{m})$. So
+	\begin{equation*}
+		Z_{j}\indep Z_{i}\qquad\every i\neq j
+	\end{equation*}
+	and $Z\sim\mathsf{N}_{\pi_{j}}(\mathbf{B}^{\trsp}_{j}\mu,\mathbf{I}_{k})$.
+\end{fancyproof}
+This result implies a simple proof of the distribution of mean and variance under Gaussian distribution.
+\begin{remark}
+	This result is often used with 
+	\begin{equation*}
+		\var(Y)=\sigma^{2}\mathbf{I}_{k}.
+	\end{equation*}
+	Just apply the theorem to $X=\sigma^{=1}Y$.
+\end{remark}
+\begin{remark}
+	Suppose that $Y\distnormk{\mu\mathbf{1}_{k},\sigma^{2}\mathbf{I}_{k}}$ and we want to show the distribution of the sample mean and sample variance. Take
+	\begin{align*}
+		\mathbf{A}_{1}&=\left(\mathbf{I}_{n}-\frac{1}{n}\mathbf{1}_{n}\mathbf{1}_{n}^{\trsp}\right)\\
+		\mathbf{A}_{2}&=\mathbf{I}_{n}-\mathbf{A}_{1}\\
+		&=\frac{1}{n}\mathbf{1}_{n}\mathbf{1}_{n}^{\trsp}.
+	\end{align*}
+	We have
+	\begin{align*}
+		Y^{\trsp}\mathbf{A}_{1}Y&=\sum_{j=1}^{n}\left(Y_{j}-\Ybar_{2}\right)^{2}\\
+		Y^{\trsp}\mathbf{A}_{2}Y&=n\left(\Ybar_{n}\right)^{2}	
+	\end{align*}
+	so not exactly the distributions we know, but we are getting close. $\mathbf{A}_{1}$ and $\mathbf{A}_{2}$ are idempotent with ranks $n-1$ for $\mathbf{A}_{1}$ and rank 1 for $\mathbf{A}_{2}$. I then apply the Fisher-Cochram theorem to get
+	\begin{equation*}
+		Y^{\trsp}\mathbf{A}_{1}Y\sim\sigma^{2}\chi^{2}_{n-1}
+	\end{equation*}
+	and
+	\begin{equation*}
+			Y^{\trsp}\mathbf{A}_{2}Y\sim\sigma^{2}\chi^{2}_{1}\left(n\frac{\mu^{2}}{\sigma^{2}}\right).
+	\end{equation*}
+	So
+	\begin{equation*}
+			Y^{\trsp}\mathbf{A}_{1}Y\indep	Y^{\trsp}\mathbf{A}_{1}Y.
+	\end{equation*}
+	We are happy because we found the distribution of $	Y^{\trsp}\mathbf{A}_{1}Y$ and it is very similar to the distribution of the sample variance. We are also happy because we found the distribution of $	Y^{\trsp}\mathbf{A}_{1}Y$ (which is not the mean). Writing sample mean and sample variance in this way provides something that is not exactly sample mean and sample variance (but it is, up to transformation).
+\end{remark}
+\subsection{$t$-Student distribution and $F$ distribution}
+\begin{definition}
+	\emph{$t$-Student distribution}. Take $Z\distnorm{0,1}$ and $U\sim\chi^{2}_{k}$ with $Z\indep U$. We have that
+	\begin{equation*}
+		T=\frac{Z}{\sqrt{\frac{U}{k}}}\sim t_{k}.
+	\end{equation*}
+\end{definition}
+I am taking something that lives on $\R$, dividing it for something that lives on $\R^{2}$ and $\R^{+}$ and getting something that lives on $\R$. Moments exists up to the $k-1$ order.\begin{itemize}
+	\item  When we have $k=1$ we get the Cauchy distribution with no moments (very heavy tail behaviour).
+	\item When we have $k=\infty$ we get $\mathsf{N}(0,1)$.
+\end{itemize}
+We can also create a non-centered version of the $t$-Student distribution. 
+\begin{remark}
+	If we take $T^{\star}=\frac{\Ybar_{n}\sqrt{n}}{S_{n}}\sim t_{n-1}$
+\end{remark}
+because $S_{n}$ has actually $n-1$ degrees of freedom.
+\begin{definition}
+	\emph{$F$ distribution}. Take $V\sim\chi^{2}_{m}$ and $U\sim\chi^{2}_{k}$ with $V\indep U$. Then
+	\begin{equation*}
+		F=\frac{\frac{V}{m}}{\frac{U}{k}}\sim F(m,k).
+	\end{equation*}
+\end{definition}
+\subsection{Distribution of statistics}
+When we do a test on 
+\begin{equation*}
+	T_{n}\quad\begin{cases}
+		H_{0}&\mu=\mu_{0}\\
+		H_{1}&\mu\neq\mu_{0}
+	\end{cases}
+\end{equation*}
+we are actually doing something much harder than estimation, because we need to find a quantile. That's why all those distribution are tabulated because if to take quantiles we need an inversion to the cumulative distribution function and this is sometimes not possible in closed form. I need even more than just a distribution: I need a distribution for which I can find the quantile. But what if I do not even know the distribution? Normally we are testing
+\begin{equation*}
+	\pr(T_{n}>t)\leq1=\alpha
+\end{equation*}
+but we may be in a different situation and test
+\begin{equation*}
+	T(X_{1},\ldots,X_{2})\text{ with }T:\R^{2}\to\R
+\end{equation*}
+but we don't have the distribution of $(X_{1},\ldots,X_{2})$. We could use the central limit theorem but it is very slow because it works for $n\to\infty$ and you can prove that you actually need a huge $n$ for it to even start working. 
+Remember the initial objective of statistical inference. We pick $n\geq1$ $(x_{1},\ldots,x_{n})$ and we are interested in learning about the population from where these numbers came from so we treat these numbers as the realization of a \rv{} $(X_{1},\ldots,X_{n})$ under assumptions of symmetry:
+\begin{equation*}
+	X\sim F_{\theta}\qquad\theta\in\Theta.
+\end{equation*}
+The classical example is flipping a coin many times to understand whether it is fair. In this framework we are actually able to write down the distribution of the sample (it is simply the product of the distribution of all sample elements). We usually write $f_{X}(\cdot;\theta)$ for continuous distributions and $p_{X}(\cdot;\theta)$ for discrete distributions. Let's denote the random sample as
+\begin{equation*}
+	\underline{x}:=(x_{1},\ldots,x_{n})
+\end{equation*}
+and its distribution as
+\begin{equation*}
+	f_{\underline{x}}(\underline{x};\theta)=\prod_{i=1}^{n}f_{x_{i}}(x_{i};\theta)\qquad\theta\in\Theta.
+\end{equation*}
+Typically 
+\begin{equation*}
+	(x_{1},\ldots,X_{n})\in\R^{n}
+\end{equation*}
+where $\R^{n}$ is typically large. The fact is that the information lives in a huge dimension so it is practically useless: if I see 100,000 coins result I understand nothing about it, but if someone tells me ``there were 50,000 heads'' (information in 1 dimension) then I can understand what we are talking about. This is why we typically employ a map
+\begin{equation*}
+	T_{n}=T(X_{1},\ldots,X_{n})\qquad t:\R^{n}\to\R^{m}\quad m<<n.
+\end{equation*}
+In this context we call $T_{n}$ a \emph{statistic} (like estimators and tests). But what is the distribution of $T_{n}$? Let's take into account:
+\begin{enumerate}[\circnum]
+	\item $\Xbar_{n}=\frac{1}{n}\sum_{i=1}^{n}X_{i}$ (\emph{sample mean});
+	\item $\widetilde{S}^{2}_{n}=\frac{1}{n}\sum_{i=1}^{n}(X_{i}-\Xbar_{n})^{2}$ (\emph{sample variance});
+	\item $S^{2}_{n}=\frac{n}{n-1}\widetilde{S}^{2}_{n}$ (\emph{corrected sample variance});
+	\item $M_{r,n}=\frac{1}{n}\sum_{i=1}^{n}X_{i}^{2}$ (\emph{sample moment of order $r$});
+	\item $X_{(n)}=\max\left\{X_{1},\ldots,X_{n}\right\}$ (\emph{sample max});
+	\item $X_{(1)}=\min\left\{X_{1},\ldots,X_{n}\right\}$ (\emph{sample min}).
+\end{enumerate}
+How far can we go in finding distributions of these objects without specifying the distribution of the sample variable?
+Let's take, for example, the sample max.
+\begin{align*}
+	\pr(X_{(n)}\leq t)&=\pr(\left\{X_{1}\leq t\right\}\cap\left\{X_{2}\leq t\right\}\cap\ldots\cap\left\{X_{n}\leq t\right\})\\
+	&=\prod_{i=1}^{n}\pr\left(\left\{X_{i}\leq t\right\}\right)\\
+	&=\left(F_{X}(t)\right)^{n}.
+\end{align*}
+To get the density just differentiate:
+\begin{align*}
+	f_{X_{(n)}}(t)&=\frac{\dif}{\dt}\left(F_{X}(t)\right)^{n}\\&=n\left(F_{X}(t)\right)^{n-1}f_{X}(t).
+\end{align*}
+For the minimum is the same:
+\begin{align*}
+	\pr(X_{(n)}\geq t)&=\pr(\left\{X_{1}\geq t\right\}\cap\left\{X_{2}\geq t\right\}\cap\ldots\cap\left\{X_{n}\geq t\right\})\\
+	&=\prod_{i=1}^{n}\pr\left(\left\{X_{i}\geq t\right\}\right)\\
+	&=\left(1-F_{X}(t)\right)^{n}.
+\end{align*}
+Sane goes for the density. What we found is that for minimum and maximum we can easily find the distribution without knowing anything about the distribution of the sample (we leave it as $f$ or $F$ if it's cumulative). For the sample mean is different:
+\begin{itemize}
+	\item Gaussian models: we already found it;
+	\item Bernoulli models: we can find it, we just disintegrate;
+	\item Gamma models: we can find it, since it is closed under distribution;
+	\item Exponential models: sum of exponential it's just a Gamma distribution, it's okay;
+	\item Poisson: we can get it;
+	\item Uniform: not so easy. If we sum more uniforms $\mathsf{U}[0,1]$ we get more than 1 and we get out of domain;
+	\item Beta: same as before.
+\end{itemize}
+Every time the support is bounded we may incur in some problems. But what about the sample variance? This is even more complex because it is non linear and there is the dependence from the mean:
+\begin{itemize}
+	\item Gaussian models: we already found it;
+	\item \textit{that's it}.
+\end{itemize}
+Order statistics (like minimum and maximum) are always the least problematic among the statistics. But what else can we do? We can do asymptotic analysis, that is to study what happens to $T_{n}$ as $n\to\infty$ and our main tool is the Central Limit Theorem to get a Gaussian asymptotic statistic. The formulation we will use is the Lindberg-Levy CLT which only assumes that the variance is bounded. This is a very qualitative result because we are claiming that, up to rescaling and centering, \begin{equation*}
+	T_{n}\approx\mathsf{N}(\cdot,\cdot)
+\end{equation*} when $n$ is large but the problem is that this is slow. How large must $n$ so that I am ``close enough'' to the \textit{actual} Gaussian? 100? 1000? What if $10^{10}$ is not large enough? And what does ``enough'' even mean? And why haven't I felt truly happy in 10 years?\par
+Thing is, we need to somehow find a distance between $F_{n}$, the CDF of $T_{n}$, and $\Phi$, the CDF of a Gaussian standard variable. We pick the Kolmogorov distance (other distances still work) to which we want to find an upper bound:
+\begin{equation*}
+	\sup_{X}\left|F_{n}(x)-\Phi(x)\right|\leq cg(n).
+\end{equation*}
+This is the ``quantitative'' version of the CLT theorem and it's called the Berry-Esseen formulation. We will see that with specific distances we will be able to easily see the impact of the sample size on the distance (the supremum distance is very punishing). 
+\subsection{Concentration inequalities}
+If we don't want an asymptotic perspective then we need to use the \emph{concentration inequalities} that are not an asymptotic result. These inequality basically provide information about the tail behaviour of sum of independent \rv s (not necessarily independent!): if I have a result like
+\begin{equation*}
+	\pr(T(X_{1},\ldots,X_{n})>\varepsilon)\leq e^{-\text{something}}
+\end{equation*}
+then the situation is different because all the information is in the tail of the distribution. We can see that Chebyshev's inequality is actually a concentration inequality simply as an application of the Markov inequality.
+\begin{proposition}
+	\emph{Markov's inequality}. For a non-negative \rv{} $X$ and $t>0$
+	\begin{equation*}
+		\pr(X\geq t)\leq\frac{\ev{X}}{t}.
+	\end{equation*}
+\end{proposition}
+Markov's inequality sets an upper bound for the anti-CDF of $X$. If we take a (strctly) non-increasing function $\phi$ with $\phi>0$ then 
+\begin{equation*}
+	\pr[X\geq t]=\pr(\phi(x)\geq\phi(t))\leq\frac{\ev{\phi(x)}}{\phi(t)}.
+\end{equation*}
+This implies Chebyshev's inequality with $\phi(x)=x^{2}$.
+\begin{proposition}
+	We have
+	\begin{align*}
+		\pr(|X-\ev{X}|\geq t)&=\pr\left((X-\ev{X})^{2}\geq t^{2}\right)\\
+		&\leq\frac{\ev{(X-\ev{X})^{2}}}{t^{2}}=\frac{\var(X)}{t^{2}}.
+	\end{align*}
+\end{proposition}
+This is a concentration inequality because it tells us how much $X$ is concentrated around the mean. If $\phi(x)=x^{q}$ with $q>0$ then
+\begin{equation*}
+	\pr(|X-\ev{X}|\geq t)\leq\frac{\ev{|X-\ev{X}|^{q}}}{t^{q}}
+\end{equation*}
+we have a generalization of Chebyshev's inequality. We could even improve further the situation by making this inequality a function of $q$ and finding which $q$ optimizes the upper bound (we are ``squeezing'' the bound). The problem is that generally working with moments is complicated. For example, if we try to compute the moment of order $r$ of a sum of random variables we have a summation all raised to $r$, which is ugly and absolutely not sexy. The trick is that instead of taking $\phi(x)=x^{q}$ we take
+\begin{equation*}
+	\phi(x)=\expg{sx}\qquad s>0.
+\end{equation*}
+Now we have
+\begin{align*}
+	\pr(X\geq t)&=\pr(\expg{sx}\geq\expg{st})\\
+	&\leq\frac{\ev{\expg{sx}}}{e^{st}}
+\end{align*}
+so our upper bound is
+\begin{equation*}
+	\pr(X\geq t)\leq\frac{\ev{\expg{sx}}}{e^{st}}.
+\end{equation*}
+Is this easier to compute? Maybe for one \rv{} it doesn't look like it, but take a sum of \rv s:
+\begin{equation*}
+	\sum_{i=1}^{n}X_{i}\qquad X_{i}\indep X_{j}\;\every i\neq j
+\end{equation*}
+gives us
+\begin{align*}
+	\pr\left(\sum_{i=1}^{n}X_{i}\geq t\right)&\leq\frac{\ev{\expg{s\sum_{i=1}^{n}X_{i}}}}{e^{st}}\\
+	&=\frac{\prod_{i=1}^{n}\ev{\expg{sX_{i}}}}{e^{st}}
+\end{align*}
+and this is called \emph{Chernoff bounding} and it lets me get the upper bound to deviation without needing to compute the moment of a sum of \rv s but just with the moments of the single \rv s, which is much sexier \& better. Given how often we will work with sum of \rv s this is pretty important.\par
+Assume that 
+\begin{equation*}
+	X_{1},\ldots,X_{n}
+\end{equation*}
+are independent (not identically distributed) \rv s and denote
+\begin{equation*}
+	S_{n}=\sum_{i=1}^{n}X_{i}.
+\end{equation*}
+We want to control the quantity
+\begin{equation*}
+	\pr\left(S_{n}-\ev{S_{n}}\geq t\right)\leq ?
+\end{equation*}
+\begin{enumerate}
+	\item Apply Chebyshev to get
+	\begin{align*}
+		\pr\left(|S_{n}-\ev{S_{n}}|\geq t\right)&\leq\frac{\var(S_{n})}{t^{2}}\\
+		&=\frac{\sum_{i=1}^{n}\var(X_{i})}{t^{2}}
+	\end{align*}
+	if $\sigma^{2}=\frac{1}{n}\sum_{i=1}^{n}\var(X_{i})$ (we will need to use this $\frac{1}{n}$ later) then we get
+	\begin{equation*}
+		\pr\left(\left|\frac{1}{n}\sum_{i=1}^{n}X_{i}-\ev{X_{i}}\right|>\varepsilon\right)\leq\frac{\sigma^{2}}{n\varepsilon^{2}}.
+	\end{equation*}
+	So this is the rate of the deviation from the mean according to Chebyshev.	This is also the proof of (weak) law of large numbers.
+	\item Now apply the CLT to $S_{n}$:
+	\begin{align*}
+		\pr\left(\sqrt{\frac{n}{\sigma^{2}}}\left(\frac{1}{n}\sum_{i=1}^{n}X_{i}-\ev{X_{i}}\right)\geq y\right)\to 1-\Phi(Y).
+	\end{align*}
+	Let's now compute the anti-CDF $1-\Phi(y)$ which will be the right tail of a Gaussian distribution.
+	\begin{equation*}
+		1-\Phi(y)=\int_{y}^{+\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{x^{2}}{2}}\dx.
+	\end{equation*}
+	We cannot compute directly this quantity but we can find an upper bound.
+	\begin{align*}
+		1-\Phi(y)&=\int_{y}^{+\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{x^{2}}{2}}\dx\qquad t=x-y\\
+		&=\frac{1}{\sqrt{2\pi}}e^{-\frac{y^{2}}{2}}\int_{0}^{+\infty}\ubracketthin{e^{-\frac{t^{2}}{2}}}_{\leq1}e^{-ty}\dt\\
+			&\leq\frac{1}{\sqrt{2\pi}}e^{-\frac{y^{2}}{2}}\int_{0}^{\infty}e^{-ty}\dt\\
+			&=\frac{e^{-\frac{y^{2}}{2}}}{\sqrt{2\pi}y}.
+	\end{align*}
+	So our result is
+	\begin{equation*}
+			\pr\left(\left|\frac{1}{n}\sum_{i=1}^{n}X_{i}-\ev{X_{i}}\right|>\varepsilon\right)\leq\frac{e^{-\frac{y^{2}}{2}}}{\sqrt{2\pi}y}.
+	\end{equation*}
+	So we now have to write this problem as
+	\begin{equation*}
+		\pr\left(\frac{1}{n}\sum_{i=1}^{n}X_{i}-\ev{X_{i}}\geq\varepsilon\right)\lessapprox\expg{-\frac{n\varepsilon^{2}}{2\sigma^{2}}}.
+	\end{equation*}
+\end{enumerate}
+So the CLT is better because it has an exponential rate (exponential decay)! Chebyshev can't do this. We need to find more concentration inequalities that ``agree'' with this behaviour shown by the CLT, only not asymptotically. We will be able to get an upper bound with this exact form (without $\lessapprox$!). So to recap we do
+\begin{equation*}
+	\begin{array}{>{\displaystyle}c}
+		\pr(\left|S_{n}-\ev{S_{n}}\right|\geq t)\leq\frac{n\sigma^{2}}{t^{2}}\\
+		\Downarrow\\
+		\pr\left(\left|\frac{1}{n}\sum_{i=1}^{n}X_{i}-\ev{X_{i}}\right|\geq \varepsilon\right)\leq\frac{\sigma^{2}}{n\varepsilon^{2}}\\
+		\Downarrow\\
+		\pr\left(\sqrt{\frac{n}{\sigma^{2}}}\left(\frac{1}{n}\sum_{i=1}^{n}-\ev{X}\right)\geq y\right)\leq\frac{1}{\sqrt{2\sigma}}\frac{1}{y}\expg{-\frac{y^{2}}{2}}\\
+		\Downarrow\\
+			\pr\left(\frac{1}{n}\sum_{i=1}^{n}-\ev{X}\geq\ubracketthin{ y\left(\frac{n}{\sigma^{2}}\right)^{\frac{1}{2}}}_{\text{call this }\varepsilon}\right)\leq\frac{1}{\sqrt{2\sigma}}\frac{1}{y}\expg{-\frac{y^{2}}{2}}\\
+		\Downarrow\\
+			\pr\left(\frac{1}{n}\sum_{i=1}^{n}-\ev{X}\geq\varepsilon\right)\lessapprox\expg{-\frac{n\varepsilon^{2}}{2\sigma^{2}}}.
+	\end{array}
+\end{equation*}
+How do we preserve this bound with its very vast decay but in a non-asymptotic way? We have to use the Chernoff bounding: we choose $\phi(x)=e^{sx}$ and plug it in our Chebyshev inequality. We get
+\begin{align*}
+	\pr\left(S_{n}-\ev{S_{n}}\geq t\right)&\leq e^{-st}\ev{\expg{s\sum_{i=1}^{n}\left(X_{i}-\ev{X_{i}}\right)}}\\
+	&=e^{-st}\prod_{i=1}^{n}\ev{\expg{S\left(X_{i}-\ev{X_{i}}\right)}}\quad\text{\footnotesize by indep.}
+\end{align*}
+Si we now have just an an analytical problem. We will need two famous inequalities (we will only use the result for bounded and independent \rv s):
+\begin{itemize}
+	\item \emph{Hoeffding inequality}.
+	\begin{proposition}
+		Let $X$ be a random variable and for simplicity let's assume that $\ev{X}=0$ and assume $a\leq X\leq b$. Then, for $s>0$ 
+		\begin{equation*}
+			\ev{\expg{sX}}\leq\expg{\frac{s^{2}(b-a)^{2}}{8}}.
+		\end{equation*}
+	\end{proposition} \begin{fancyproof}
+	By convexity of the exponential function we have that
+	\begin{equation*}
+		e^{sx}\leq\frac{x-a}{b-a}e^{sb}+\frac{b-x}{b-a}e^{sa}\qquad a\leq x\leq b
+	\end{equation*}
+	so taking the expectation we have 
+	\begin{align*}
+		\ev{e^{sx}}&\leq\frac{b}{b-a}e^{sa}-\frac{a}{b-a}e^{sb}.
+	\end{align*}
+	Denote $p=-\frac{a}{b-a}$:
+	\begin{align*}
+		\ev{e^{sx}}&\leq(1-p+pe^{s(b-a)})e^{-ps(b-a)}.
+	\end{align*}
+	Denote $u=s(b-a)$ so that 
+	\begin{equation*}
+		\phi(u)=-pu+\log(1-p+pe^{u})=\expg{\phi(u)}
+	\end{equation*}
+	so that we get
+	\begin{equation*}
+		\ev{e^{sx}}\leq\expg{\phi(u)}.
+	\end{equation*}
+	Now we have
+	\begin{equation*}
+		\phi'(u)=\frac{\dif}{\du}\phi(u)=-p+\frac{p}{p+(1-p)e^{-u}}.
+	\end{equation*}
+	When $u\to0$ we get
+	\begin{equation*}
+		\phi(u)=\phi'(u)=0.
+	\end{equation*}
+	Now we need the second derivative and use Taylor:
+	\begin{equation*}
+		\phi''(u)=\frac{\dif}{\du}\phi'(u)=\frac{p(1-p)e^{-u}}{\left(p+(1-p)e^{-u}\right)^{2}}.
+	\end{equation*}
+	Since I don't want to do derivatives for eternity, I look for an upper bound of the second derivative.
+	When $u\to0$ we have $\phi''(u)\to p(1-p)$ which is bounded by $\frac{1}{4}$ and when $u\to\infty$... it's the same. so our bounds are
+	\begin{equation*}
+		\begin{array}{c}
+			\phi'(0)=\phi(0)\\
+			\phi''(u)\leq\frac{1}{4}.
+		\end{array}
+	\end{equation*}
+	Take $\theta\in[0,u]$. We get
+	\begin{align*}
+		\phi(u)&=\ubracketthin{\phi(0)}_{=0}+u\ubracketthin{\phi'(0)}_{=0}+\ubracketthin{\frac{u^{2}}{2}\phi''(\theta)}_{\leq\frac{s^{2}(b-a)^{2}}{8}}.
+	\end{align*}
+	So we have 
+	\begin{align*}
+		\pr\left(S_{n}-\ev{S_{n}}\geq t\right)&\leq e^{-st} \prod_{i=1}^{n}\expg{s^{2}(b_{i}-a_{i})^{2}\frac{1}{8}}\\
+		&= e^{-st}\expg{\frac{s^{2}}{8}\sum_{i=1}^{n}(b_{i}-a_{i})^{2}}.
+	\end{align*}
+	$s$ is a free parameter here, corresponding to the index of the m.g.f. We can optimize for $s$ to find the $s$ that gives us the tighter bound and we get
+	\begin{equation*}
+		s=\frac{4t}{\sum_{i=1}^{n}(b_{i}-a_{i})^{2}}.
+	\end{equation*}
+	\end{fancyproof}
+	Plugging the optimal $s$ into the equation gives us the complete inequality.
+	\begin{theorem}
+		\emph{Hoeffding inequality}. Let $(X_{i},\ldots,X_{n})$ be independent \rv s such that $X_{i}\in[a_{i},b_{i}]$ a.s. Then for any $t\geq0$ we get
+		\begin{equation*}
+			\pr\left(S_{n}-\ev{S_{n}}\geq t\right)\leq\expg{-\frac{2t^{2}}{\sum_{i=1}^{n}(b_{i}-a_{i})^{2}}}
+		\end{equation*}
+		and the other tail is
+		\begin{equation*}
+			\pr\left(S_{n}-\ev{S_{n}}\leq -t\right)\leq\expg{-\frac{2t^{2}}{\sum_{i=1}^{n}(b_{i}-a_{i})^{2}}}.
+		\end{equation*}
+	\end{theorem}
+	This is good because $t$ is here, so when we divide by $n$ our $\varepsilon$ becomes $tn$ but we are missing the variance! We need a result that improves on this and includes the information about the variance.
+	\item \emph{Bernstein inequality}. We still want to bound $\ev{\expg{sX_{i}}}$ with something.
+		Let $X_{1},\ldots, X_{n}$ be independent \rv s such that $\ev{X_{i}}=0$ (and therefore $\ev{X_{i}^{2}}=\sigma^{2}$) for $i=1,\ldots,n$. Define
+		\begin{equation*}
+			F_{i}=\sum_{r=2}^{\infty}\frac{s^{r-2}\ev{X_{i}^{r}}}{r!\sigma^{2}_{i}}.
+		\end{equation*}
+		Since 
+		\begin{equation*}
+			\expg{sx}=1+sx+\sum_{r=2}^{\infty}\frac{s^{r}x^{r}}{r!}
+		\end{equation*}
+		take the expected value of this last equality:
+		\begin{align*}
+			\ev{e^{sX_{i}}}&=1+s\ubracketthin{\ev{X_{i}}}_{=0}+\sum_{r=2}^{\infty}\frac{s^{r}\ev{X_{i}^{r}}}{r!}\\
+			&=1+s^{2}\sigma^{2}_{i}F_{i}\\
+			&\leq\expg{s^{2}\sigma^{2}_{i}F_{i}}.
+		\end{align*}
+		We use the assumption that $|X_{i}|<c$ so that for $r\geq 2$
+		\begin{align*}
+			\ev{X_{i}^{r}}&=\ev{X_{i}^{r-2}X_{i}^{2}}\\
+			&\leq c^{r-2}\sigma^{2}_{i}.
+		\end{align*}
+		So we have a bound for the m.g.f. of order $r$ so I can substitute that in $F$:
+		\begin{align*}
+			F_{i}&\leq\sum_{r=2}^{\infty}\frac{s^{r-2}c^{r-2}\sigma^{2}_{i}}{r!\sigma^{2}_{i}}\\
+			&=\frac{1}{(sc)^{2}}\sum_{r=2}^{\infty}\frac{(sc)^{r}}{r!}\\
+			&=\frac{e^{sc}-1-sc}{(sc)^{2}}.
+		\end{align*}
+		So now we have 
+		\begin{equation*}
+			\ev{\expg{sX_{i}}}\leq e^{s^{2}\sigma^{2}_{i}\frac{e^{sc}-1-sc}{(sc)^{2}}}.
+		\end{equation*}
+		Since we know that 
+		\begin{equation*}
+			\sigma^{2}=\frac{1}{n}\sum_{i=1}^{n}\sigma_{i}^{2}
+		\end{equation*}
+		then
+		\begin{equation*}
+			\pr\left(\sum_{i=1}^{n}X_{i}>t\right)\leq\expg{n\sigma^{2}\frac{e^{sc}-1-sc}{\sigma^{2}}-st}.
+		\end{equation*}
+		Again, we can choose the $s$ which minimizes the bound
+		\begin{equation*}
+			s=\frac{1}{c}\log\left(1+\frac{tc}{n\sigma^{2}}\right).
+		\end{equation*}
+		Now we can get the complete inequality.
+		\begin{theorem}
+			\emph{Bernstein inequality}. Let $X_{i},\ldots,X_{n}$ be independent \rv s with $\ev{X_{i}}=0$ and $|X_{i}|\leq c$. Let
+			\begin{equation*}
+				\sigma^{2}=\frac{1}{n}\sum_{i=1}^{n}\var(X_{i}).
+			\end{equation*}
+			Then for any $t>0$
+			\begin{equation*}
+				\pr\left(\sum_{i=1}^{n}X_{i}>t\right)\leq\expg{-\frac{n\sigma^{2}}{c^{2}}h\left(\frac{ct}{n\sigma^{2}}\right)}
+			\end{equation*}
+			where
+			\begin{equation*}
+				h(u)=(1+u)\log(1+u)\qquad u\geq0.
+			\end{equation*}
+		\end{theorem}
+\end{itemize}
+\begin{remark}
+	These bounds are the tightest possible but they don't look very similar to what we found with CLT. What we can do is bounding the function $h(u)$: this will punish us by enlarging the bound but we will get closer to the CLT result.
+We know that
+\begin{equation*}
+	h(u)\geq\frac{u^{2}}{2+\frac{2u}{3}}
+\end{equation*}
+so, plugging this in the Bernstein inequality, we get
+\begin{equation*}
+	\pr\left(\frac{1}{n}\sum_{i=1}^{n}X_{i}>\varepsilon\right)\leq\expg{-\frac{n\varepsilon^{2}}{2\sigma^{2}+\frac{2ct}{3}}}.
+\end{equation*}
+\end{remark}
+This is the same result of the CLT but with the difference of $\frac{2ct}{3}$. We could show that looking for the lower bound we get that the lower bound matches the upper one up to a constant and this means that this upper bound is the optimal rate of convergence (it can't be improved). We will use a lot of these things in hypothesis testing and conformal prediction.
+\section{Maximum Likelihood Estimation}
+\subsection{Definition of likelihood function}
+Let $(X_{1},\ldots,X_{n})$ be a random sample $(\underline{X})$ form
+\begin{equation*}
+	X\sim F_{\theta}\qquad \theta\in\Theta.
+\end{equation*}
+Think about an example with $F_{\theta}$ discrete, like flipping a coin (Bernoulli model). Fix $\theta^{\star}\in\Theta$ as a ``starting point'' and compute
+\begin{equation*}
+	\pr\left(\bigcap_{i=1}^{n}\left\{X_{i}=x_{i}\right\}\right)=\prod_{i=1}^{n}p_{x_{i}}(x_{i};\theta^{\star}).
+\end{equation*}
+What information do we get from this? This is a function of the unknown parameter $\theta\in\Theta$, so I can actually write it as a function of $\theta$. We can do this because in this situation we \textit{don't} have $\theta$ but we \textit{do} have $x_{i}$'s (when we compute probabilities we are in the opposite situation). So here this function
+\begin{equation*}
+	\prod_{i=1}^{n}p_{x_{i}}(x_{i};\theta)
+\end{equation*}
+tells us \textit{how likely it is for $\theta$ to generate $x_{i}$}. Take $\theta_{1},\theta_{2}\in\Theta$ and take the observed sample $\underline{x}$. If we have
+\begin{equation*}
+	\prod_{i=1}^{n}p_{x_{i}}(x_{i};\theta_{1})\geq\prod_{i=1}^{n}p_{x_{i}}(x_{i};\theta_{2})
+\end{equation*}
+then this means that $\theta_{1}$ is more likely to have generated $\underline{x}$.
+So the joint distribution function, when looked at from this point of view, is called \emph{likelihood function}. We are allowed to think this way because we are operating in a frequentist setting that allows us to assume that there exists a ``true'' $\theta$ that generates the data.
+\begin{definition}
+	Given $(X_{1},\ldots,X_{n})$ from $X\sim F_{\theta}$ with $\theta\in\Theta$. The \emph{likelihood function} for the model $F_{\theta}$ is
+	\begin{equation*}
+		\mathcal{L}(\theta;\underline{x})=\prod_{i=1}^{n}f_{x_{i}}(x_{i};\theta).
+	\end{equation*}
+\end{definition}
+So now finding the optimal $\theta^{\star}$ is just a problem of maximization. We need to find
+\begin{equation*}
+	\theta^{\star}=\argmax_{\Theta}\mathcal{L}(\theta;\underline{x}).
+\end{equation*}
+For example, take $(X_{1},\ldots,X_{n})$ from $X\distbernoulli{\theta}$ with $\theta\in(0,1)$. Observe $(x_{1},\ldots,x_{n})\in\{0,1\}^{n}$. Our likelihood function is:
+\begin{align*}
+	\pr\left(\bigcap_{i=1}^{n}\left\{X_{i}=x_{i}\right\}\right)&=\prod_{i=1}^{n}\theta^{x_{i}}(1-\theta)^{1-x_{i}}\\
+	&=\theta^{\sum_{i=1}^{n}x_{i}}(1-\theta)^{n-\sum_{i=1}^{n}x_{i}}\\
+	&=\mathcal{L}(\theta;\underline{x}).
+\end{align*}
+This is a bit hard to compute sometimes, so we typically take the logarithm:
+\begin{equation*}
+		\theta^{\star}=\argmax_{\Theta}\mathcal{L}(\theta;\underline{x})\iff	\theta^{\star}=\argmax_{\Theta}\log\mathcal{L}(\theta;\underline{x}).
+\end{equation*}
+This is good because
+\begin{equation*}
+	\mathcal{L}(\theta;\underline{x})=\prod_{i=1}^{n}f_{x_{i}}(x_{i};\theta)\iff\log\mathcal{L}(\theta;\underline{x})=\sum_{i=1}^{n}\log f_{x_{i}}(x_{i};\theta).
+\end{equation*}
+This is much better because we go from a product to a sum and the logarithm often helps us simplifying exponential terms. In our Bernoulli case we have
+\begin{equation*}
+	\log\mathcal{L}(\theta;\underline{x})=\left(\sum_{i=1}^{x}x_{i}\right)\log\theta+\left(n-\sum_{i=1}^{n}x_{i}\right)\log(1-\theta).
+\end{equation*}
+To find the maximum we need the first derivative
+\begin{equation*}
+	\frac{\dif}{\dif\theta}\log\mathcal{L}(\theta,\underline{x})=\frac{1}{\theta}\sum_{i=1}^{n}x_{i}-\left(n-\sum_{i=1}^{n}x_{i}\right)\frac{1}{1-\theta}.
+\end{equation*}
+We put it equal to 0 and then solve for $\theta$:
+\begin{equation*}
+	\frac{1}{\theta}\sum_{i=1}^{n}x_{i}-\left(n-\sum_{i=1}^{n}x_{i}\right)\frac{1}{1-\theta}=0\iff\theta^{\star}=\frac{1}{n}\sum_{i=1}^{n}x_{i}.
+\end{equation*}
+In this case the problem was easy enough to solve. Maybe though there are situations where we cannot solve the equation in closed form, in which case we must solve it with numerical methods. A clear example of this is the Gamma model. In general this method holds if the model is \emph{regular}.
+\subsection{Regular models}
+If our model satisfies these assumptions then we can use maximum likelihood estimation.
+\begin{definition}
+	A model is \emph{regular} if:
+	\begin{enumerate}[\circnum]
+		\item $\theta\in\Theta$ where $\Theta$ is an open real set;
+		\item for any $\theta\in\Theta$ there exist derivatives of the likelihood functions with respect to $\theta$ up to order $3$;   
+		\item for any $\theta_{0}\in\Theta$ there exist the functions $g(\cdot),h(\cdot),H(\cdot)$ integrable around $\theta_{0}$ such that they bound the derivative:
+		\begin{equation*}
+			\begin{array}{>{\displaystyle}l}
+				\left|\frac{\dif}{\dif\theta}f_{X}(x;\theta)\right|\leq g(x)\qquad x\in\R\\
+				\left|\frac{\dif^{2}}{\dif\theta^{2}}f_{X}(x;\theta)\right|\leq h(x)\qquad x\in\R\\		
+				\left|\frac{\dif^{3}}{\dif\theta^{3}}\log f_{X}(x;\theta)\right|\leq H(x)\qquad x\in\R;\\		
+			\end{array}
+		\end{equation*}
+		\item since we can write $\frac{\dif}{\dif\theta}\log\mathcal{L}(\theta;\underline{X})$ (with the capital $\underline{X}$, which means that this object becomes a random variable) we must have
+		\begin{equation*}
+			0<\ev{\left(\frac{\dif}{\dif\theta}\log\mathcal{L}(\theta;\underline{X})\right)^{2}}<\infty.
+		\end{equation*}
+	\end{enumerate}
+\end{definition}
+This is not the only approach to statistics, but it surely is one of the most intuitive and when applicable it boils down to a simple optimization problem. The only problem are derivatives... What about when $\Theta=\N$, for example when we want to estimate the number of trials $n$ that gives us a certain probability of success? This is clearly not a smooth function. Anyway, from now on we will assume regularity. \begin{definition}
+	Consider a random sample $(X_{1},\ldots,X_{n})$ from $X\sim F_{\theta}$ with $\theta\in\Theta$. Consider the random variable
+\begin{equation*}
+	V_{n}(\theta)=\log\mathcal{L}(\theta;\underline{X}).
+\end{equation*}
+The \emph{score function} is the first derivative (with respect to $\vartheta$) of $V_{n}(\theta)$
+\begin{equation*}
+	V'_{n}(\theta):=\frac{\dif}{\dif\theta}V_{n}(\theta)=\frac{\mathcal{L}'(\theta;\underline{X})}{\mathcal{L}(\theta;\underline{X})}.
+\end{equation*}
+
+\end{definition}
+We work in a continuous setting (for discrete, just swap integrals with summations). Consider
+\begin{align*}
+	\ev{V'_{n}(\theta)}&=\int_{\R^{n}}V'_{n}(\theta)f_{\underline{X}}(\underline{X};\theta)\dif\underline{x}\\
+	&=\int_{\R}\frac{f'_{\underline{x}}(\underline{x};\theta)}{\cancel{f_{\underline{x}}(\underline{x},\theta)}}\cancel{f_{\underline{x}}(\underline{x},\theta)}\dif\underline{x}\\
+	&=\int_{\R^{n}}\frac{\dif}{\dif \theta}\int_{\R^{n}}f_{\underline{x}}(\underline{x};\theta)\dif\underline{x}\\
+	&=\frac{\dif}{\dif\theta}\int_{\R^{n}}f_{\underline{x}}(\underline{x};\theta)\dif\underline{x}\\
+	&=\frac{\dif}{\dif\theta}1=0.
+\end{align*}
+We now check the second moment:
+\begin{align*}
+	V''_{n}(\theta)&=\frac{\dif^{2}}{\dif\theta^{2}}\log\mathcal{L}(\theta;\underline{x})\\
+	&=\frac{\dif}{\dif\theta}\frac{f'_{\underline{x}}(\underline{x};\theta)}{f_{\underline{x}}(\underline{x},\theta)}\\
+	&=\frac{f''_{\ulx}(\ulx;\theta)f_{\ulx}(\ulx;\theta)-\left(f_{\ulx}(\ulx;\theta)\right)^{2}}{\left(f_{\ulx}(\ulx;\theta)\right)^{2}}\\
+	&=\frac{f''_{\ulx}(\ulx;\theta)}{f_{\ulx}(\ulx;\theta)}-\left(\frac{f'_{\ulx}(\ulx;\theta)}{f_{\ulx}(\ulx;\theta)}\right)^{2}.
+	\end{align*}
+Now we get
+\begin{equation*}
+	V''_{n}(\theta)=\frac{f''_{\ulx}(\ulx;\theta)}{f_{\ulx}(\ulx;\theta)}-\left(V'_{n}(\theta)\right)^{2}
+\end{equation*}
+So 
+\begin{align*}
+	\ev{V''_{n}(\theta)}&=\int_{\R^{n}}\frac{f''_{\ulx}(\ulx;\theta)}{\cancel{f_{\ulx}(\ulx;\theta)}}\cancel{f_{\ulx}(\ulx;\theta)}\dif\ulx-\ev{(V'_{n}(\theta))^{2}}\\
+	&=\ubracketthin{\int_{\R^{n}}\frac{\dif^{2}}{\dif\theta^{2}}f_{\ulx}(\ulx;\theta)\dif\ulx}_{0}-\ev{\left(V'_{n}(\theta)\right)^{2}}
+\end{align*}
+which means
+\begin{equation*}
+	\var(V_{n}(\theta))=\ev{\left(V'_{n}(\theta)\right)^{2}}=-\ev{V''_{n}(\theta)}.
+\end{equation*}
+This is called \emph{Fisher information}.
+\begin{definition}
+	The \emph{Fisher information} of a random sample from a regular model is
+	\begin{equation*}
+		I_{n}(\theta)=\var(V'_{n}(\theta))=-\ev{V''(\theta)}.
+	\end{equation*}
+\end{definition}
+\begin{remark}
+	Try to prove the identity
+	\begin{equation*}
+		I_{n}(\theta)=nI_{1}(\theta)
+	\end{equation*}
+	where $I_{1}$ is the fisher information of the single \rv.
+\end{remark}
+What is the interpretation of the Fisher information? The Fisher information is the expectation of a second derivative and second derivatives are usually linked to the curvature of a space. There is a huge literature dedicated to how the Fisher information defines a Riemannian geometry on the space of the model (which is non-euclidean!).\par
+\subsection{Exponential family}
+There is a huge class of regular models with which we can deal all in the same way, writing them in the same way. 
+\begin{definition}
+	We say that a model $X$ (continuous or discrete) belongs to the \emph{exponential family} if the density function or the mass function of the distribution of $X$ has the following form:
+	\begin{equation*}
+		\expg{Q(\theta)\cdot A(x)+c(x)-k(\theta)}
+	\end{equation*}
+	where $Q(\cdot),A(\cdot),c(\cdot),k(\cdot)$ are functions.
+\end{definition}
+So we try to pick a model we already know and try to write it in this way. Pick, for example, the Bernoulli model: does it belong to the exponential family? Let's write down the mass
+\begin{equation*}
+	p_{x}(x;\theta)=\theta^{x}(1-\theta)^{1-x}\indig{0,1}(x).
+\end{equation*}
+Let's take the exponential of the log of this mass so that we can work in an exponential:
+\begin{align*}
+	\theta^{x}(1-\theta)^{1-x}\indig{0,1}(x)&=\expg{\log\theta^{x}(1-\theta)^{1-x}}\\
+	&=\expg{x\log \theta+(1-x)\log(1-\theta)}\\
+	&=\expg{x\log\theta+\log(1-\theta)-x\log(1-\theta)}\\
+	&=\expg{x\log\frac{\theta}{1-\theta}+\log(1-\theta)}.
+\end{align*}
+So here we have
+\begin{equation*}
+	\begin{array}{>{\displaystyle}l}
+		A(x)=x\\
+		Q(\theta)=\log\frac{\theta}{1-\theta}\\
+		c(x)=0\\
+		k(\theta)=-\log(1-\theta).
+	\end{array}
+\end{equation*}
+So we can say that the Bernoulli model is in the exponential family.
+\begin{remark}
+	Everything extends to parametric spaces of dimension $d>1$.
+\end{remark}
+These models will appear very often in our course because generalized linear models are based on the exponential family. Now, we want to compute the expected value $\ev{X}$ and the variance $\var(X)$. To do this we need to assume regularity but that's not a problem because most models in the exponential family are, in fact, regular. Compute
+\begin{equation*}
+	\frac{\dif}{\dif\theta}f_{X}(x;\theta)=[A(x)Q'(\theta)-k'(\theta)]f_{X}(x;\theta).
+\end{equation*}
+We now take the integral
+\begin{align*}
+	\int	\frac{\dif}{\dif\theta}f_{X}(x;\theta)\dx&=\int[A(x)Q'(\theta)-k'(\theta)]f_{X}(x;\theta)\dx\\
+	0&=\int A(x)Q'(\theta)f_{X}(x;\theta)\dx-\int k'(\theta)f_{X}(x,\theta)\dx\\
+	0&=Q'(\theta)\ev{A(X)}-k'(\theta)
+\end{align*} 
+so
+\begin{equation*}
+	\ev{A(x)}=\frac{k'(\theta)}{Q'(\theta)}
+\end{equation*}
+For the variance we need the second derivative
+\begin{align*}
+	\frac{\dif^{2}}{\dif\theta^{2}}f_{X}(x;\theta)&=\left[A(x)Q''(\theta)-k''(\theta)\right]f_{X}(x,\theta)+\left[A(x)Q'(\theta)-k'(\theta)\right]^{2}f_{X}(x;\theta)
+\end{align*}
+and integrate both sides (here the second derivative goes to 0 thanks to Leibniz):
+\begin{align*}
+	0&=\int\left[A(x)Q''(\theta)-k''(\theta)\right]f_{X}(x;\theta)\dx+\int\left[A(x)Q'(\theta)-k'(\theta)\right]^{2}f_{X}(x;\theta)\\
+	0&=Q''(\theta)\ev{A(x)}-k''(\theta)+\left(Q'(\theta)\right)^{2}\int\left[A(x)-\frac{k'(\theta)}{Q'(\theta)}\right]^{2}f_{X}(x;\theta)\\
+	0&=Q''(\theta)\ev{A(x)}-k''(\theta)+\left(Q'(\theta)\right)^{2}\var(A(x))
+\end{align*}
+so we get
+\begin{equation*}
+	\var(A(x))=-\frac{Q''(\theta)k'(\theta)}{\left(Q'(\theta)\right)^{3}}+\frac{k''(\theta)}{\left(Q'(\theta)\right)^{2}}.
+\end{equation*}
+So if we have $X\sim \mathsf{ExF}_{\theta}$ with $T=A(x)$ then we get
+\begin{equation*}
+	\ev{T}=\frac{k'(\theta)}{Q'(\theta)}\qquad\var(T)=\frac{k'(\theta)}{\left(Q'(\theta)\right)^{2}}-\ev{T}\frac{Q''(\theta)}{\left(Q'(\theta)\right)^{2}}.
+\end{equation*} 
+\begin{remark}
+	\begin{enumerate}
+		\item There exists model for which $A(x)=X$;
+		\item if $Q(\theta)=\theta$ then
+		\begin{equation*}
+			\ev{T}=k'(\theta)\qquad\var(T)=k''(\theta).
+		\end{equation*}
+	\end{enumerate}
+\end{remark}
+This brings us to the concept of \emph{exponential family in the natural parametrization} to get a distribution where $Q(\theta)=\theta$.
+Introduce
+\begin{equation*}
+	\eta:=Q(\theta).
+\end{equation*}
+this gives us
+\begin{equation*}
+	f_{X}(x,\eta)=\expg{A(x)\eta+c(x)-\widetilde{k}(\eta)}.
+\end{equation*}
+This is useful because we can express expected value and variance as simple derivatives. Take a random sample $(X_{1},\ldots,X_{n})$ from $X\sim\mathsf{NatExF}(\eta)$. We want to find
+\begin{equation*}
+	\eta^{\star}=\argmax_{H}\log\mathcal{L}(\eta;\ulx).
+\end{equation*}
+We get
+\begin{align*}
+	\mathcal{L}&=\prod_{i=1}^{n}\expg{A(x_{i})\eta+c(x_{i})-\widetilde{k}(\eta)}\\
+	&=\expg{\eta\sum_{i=1}^{n}A(x_{i})+\sum_{i=1}^{n}c(x_{i})-n\widetilde{k}(\eta)}.
+\end{align*}
+Now take the logarithm:
+\begin{align*}
+	\log\mathcal{L}(\eta;\ulx)&=\eta\sum_{i=1}^{n}A(x_{i})+\sum_{i=1}^{n}c(x_{i})-n\widetilde{k}(\eta)\\
+	&\propto\eta\sum_{i=1}^{n}A(x_{i})-n\widetilde{k}(\eta).
+\end{align*}
+We are only interested in the proportional part, of which we take the log:
+\begin{align*}
+	\frac{\dif}{\dif\eta}\log\mathcal{L}(\eta;\ulx)&=\sum_{i=1}^{n}A(x_{i})-n\frac{\dif}{\dif\eta}\widetilde{k}(\eta)\\
+	&\implies\sum_{i=1}^{n}A(x_{i})-n\frac{\dif}{\dif\eta}\widetilde{k}(\eta)=0\\
+	&\implies\frac{\dif}{\dif\eta}\widetilde{k}(\eta)=\frac{1}{n}\sum_{i=1}^{n}A(x_{i}).
+\end{align*}
+So the information about our parameter ``enters'' just as the empirical mean of $A(x)$, which is one dimension just like $\widetilde{k}(\theta)$. This is absolutely cool, since this is true for \underbar{any} model in this family. We like sums of independent random variables, so this is huge. The negative side is that we are restricting ourselves in the parametric setting and to the MLE approach.
+\subsection{Sufficiency}
+Again, take $(X_{1},\ldots,X_{n})\in\R^{n}$ from $X\sim f_{X}(x,\theta)$ with $\theta\in\Theta$. We found that just imposing that $X\sim\mathsf{ExF}(\theta)$ means that we are learning $\theta$ by some function $T_{n}=T(X_{1},\ldots,T_{n})\in\R$ (lives in one dimension). The idea of \emph{sufficiency} is measuring how much information I truly lose when using out statistics instead of the function. Defining sufficiency in a rigorous way is very hard because it has to do with continuous probability (which is a nightmare for continuous distribution since we must avoid dividing by 0) so we will just start from an intuition. So take our random sample $(X_{1},\ldots,X_{n})\in\R^{n}$ from $X\sim f_{X}(x,\theta)$. $T_{n}$ is just a function that maps $T:\R^{n}\to\R^{m}$ with $m<n$. 
+\begin{definition}
+	We say that a statistic $T_{n}$ is \emph{sufficient for the parameter $\theta$} if the conditional distribution of the sample $(X_{1},\ldots,X_{n})$ given $T_{n}$ does not depend on $\theta$.
+\end{definition}
+So in this definition we have the object $(X_{1},\ldots,X_{n})$ whose distribution \textit{does} depend on $\theta$ and $T_{n}$ whose distribution \textit{does as well} depend on $\theta$. So if both depend on $\theta$ and we want the conditional distribution to be independent of $\theta$ it means that all information of $\theta$ is contained in $T_{n}$ and $\theta$ disappears from the distribution!\par
+Let's consider discrete models because they are simpler. Take $(X_{1},\ldots,X_{n})\in\left\{0,1\right\}^{n}$ from $X\distbernoulli{\theta}$ with $\theta\in(0,1)$. Now take $T_{n}\sum_{i=1}^{n}X_{i}\in\left\{0,1,\ldots,n\right\}$; we know the distribution of the sample:
+\begin{equation*}
+	\pr\left(\bigcap_{i=1}^{n}\left\{X_{i}=x_{i}\right\}\right)=\theta^{\sum_{i=1}^{n}x_{i}}(1-\theta)^{n-\sum_{i=1}^{n}x_{i}}\indi_{\left\{0,1\right\}^{n}}(x_{1},\ldots,x_{n})
+\end{equation*}
+and the distribution of the statistic:
+\begin{equation*}
+	\pr\left(T_{n}=t\right)= {n\choose t}\theta^{t}(1-\theta)^{n-t}\indi_{0,1,\ldots}(t).
+\end{equation*}
+So we are now looking for the conditional probability
+\begin{align*}
+	\pr\left(\left\{(X_{1},\ldots,X_{n})=(x_{1},\ldots,x_{n})\right\}|T_{n}=t\right)&=\frac{\pr\left(\left\{(X_{1},\ldots,X_{n})=(x_{1},\ldots,x_{n})\right\}\cap\left\{T_{n}=t\right\}\right)}{\pr\left(T_{n}=t\right)}\\
+	&=\frac{\cancel{\theta^{t}}\cancel{(1-\theta)^{n-t}}}{{n\choose t}\cancel{\theta^{t}}\cancel{(1-\theta)^{n-t}}}\\
+	&=\frac{1}{{n\choose t}}.
+\end{align*}
+So in the Bernoulli case the sum $\sum_{i=1}^{n}x_{i}$ is sufficient for $\theta$. But this not may be the case for other statistics! Conditional probability is relatively easy to check sufficiency. The statistic $T_{n}=\sum_{i=1}^{n}X_{i}$ is basically a map that maps all points from $\left\{0,1\right\}^{n}$ to the same point in $\N$: we are basically creating a partition of the space in slices that we call $I_{t}$. $I_{t}$ is the collection of strings in the cartesian product wuch that their sum is $t$:
+\begin{equation*}
+	I_{t}=\left\{(x_{1},\ldots,x_{i})\in\left\{0,1\right\}^{2}:\sum_{i=1}^{n}x_{i}=t\right\}.
+\end{equation*}
+The original space has $2^{n}$ points so the cardinality of $I_{t}$ is
+\begin{equation*}
+	\left|I_{t}\right|={n\choose t}
+\end{equation*}
+and it makes sense because if $t=0$ then the string is all 0 and there is just 1 possible string with all zeroes and same if $t=n$ (only 1 possible string with all ones). This helps us understand why we need to use the conditional probability, which is linked to partition the original event space. If we manage to use $T_{n}$ to create a ``perfect'' partition that contains all the needed strings of 0 and 1 in their ``right'' point then this means that $T_{n}$ is sufficient because it contains the information necessary to do so. This is easy to see with Bernoulli model, but if I had to use other more complex models the complexity would explode... still, the idea of sufficiency is the same.\par Sufficiency is very hard to control because it requires knowing the distribution of the statistic which in general is a pretty hard thing to do.
+\begin{theorem}
+	\emph{Fisher theorem}. Let $p_{\ulX}(\ulx;\theta)$ be the joint density function or the joint mass function of the distribution of the sample $\ulX=\left(X_{1},\ldots,X_{n}\right)$. Let $q_{T}(t;\theta)$ be the density function of the mass function of the statistic $T(\ulX)$. The statistic $T(\ulX)$ is \emph{sufficient for $\theta\in\Theta$} if for every point in the sample space the ratio 
+	\begin{equation*}
+		\frac{p_{\ulX}(\ulx;\theta)}{q_{T}(T(\ulx);\theta)}
+	\end{equation*}
+	is independent of $\theta$.
+\end{theorem}
+This theorem tells us that what we use to control sufficiency is well defined both for continuous and discrete \rv s alike. The only condition is that the density function doesn't touch zero. However this is still not of practical use because it requires the distribution of the statistic (which, as said before, is hard). What we actually need is a corollary of this result which provides a very simple condition to check for sufficiency.
+\begin{corollary}
+	\emph{Savage's corollary}. [...] A statistic $T(\ulx)$ is sufficient for the parameter $\theta\in\Theta$ if and only if there exists two non-negative functions $g(T(\ulx);\theta)$ and $h(\ulx)$ such that for all the sample points $\ulx$ and all the parameter points $\theta$ we have
+	\begin{equation*}
+		p_{\ulX}(\ulx;\theta)=g(T(\ulx),\theta)h(\ulx).
+	\end{equation*}
+\end{corollary}
+So $g(T(\ulx);\theta)$ is a function of the sample but the sample enters inside the function through the statistic; on the other hand, $h(\ulx)$ does \textit{not} depend on $\theta$ in any way. This result si better because all I have to do is to decompose my likelihood function in two parts, one dependent on $\theta$ and the other one not and then ``read'' the statistic $T(\ulx)$ in the part that depends on on $\theta$.
+\begin{fancyproof}
+	We are going to use Fisher's theorem and we are going to prove the discrete case.
+	\begin{enumerate}
+		\item[$\implies$] Assume $T(\ulx)$ is sufficient for $\theta$. Then I know a certain ratio will be independent for $\theta$ so select
+		\begin{align*}
+			g(t;\theta) & =\pr\left(\{T(\ulx)=t\}\right) \\
+			h(\ulx) & =\pr\left(\{\ulX=\ulx\}|\{T(\ulX)=T(\ulx)\}\right)
+		\end{align*}
+		I choose $h(\ulx)$ as the conditional probability because I already know that $T(\ulx)$ will be sufficient and therefore independent. So we have
+		\begin{align*}
+			p_{\ulX}(\ulx;\theta)&=\pr\left(\{\ulX=\ulx\}\right)\\
+			&=\pr\left(\{\ulX=\ulx\}\cap\{T(\ulX)=T(\ulx)\}\right)\\
+			&=\pr\left(\{T(\ulX)=T(\ulx)\}\right)\pr\left(\{\ulX=\ulx\}|\{T(\ulX)=T(\ulx)\}\right)\\
+			&=g(T(\ulx);\theta)h(\ulx).
+		\end{align*}
+		\item[$\impliedby$] Assume that the factorization exists. Let $q(t,\theta)$ be the probability mass function of the distribution of $T(\ulx)$. We want to show that the ratio of this factorization is independent from $\theta$. So
+		\begin{equation*}
+			\frac{p_{\ulx}(\ulx;\theta)}{q(T(\ulx);\theta)}
+		\end{equation*}
+		must be independent from $\theta$. Define
+		\begin{equation*}
+			A_{T(\ulx)}=\left\{\uly:T(\uly)=T(\ulx)\right\}.
+		\end{equation*}
+	Now I use the ration and impose the factorization:
+	\begin{align*}
+		\frac{p_{\ulX}(\ulx;\theta)}{q(T(\ulx);\theta)}&=\frac{g(T(\ulx);\theta)h(\ulx)}{q(T(\ulx);\theta)}\\
+		\text{\footnotesize using marginal probability }\quad&=\frac{g(T(\ulx);\theta)h(\ulx)}{\sum_{\uly\in A_{T(\ulx)}}g(T(\uly);\theta)h(\uly)}\\
+		&=\frac{\cancel{g(T(\ulx);\theta)}h(\ulx)}{\cancel{g(T(\ulx);\theta)}\sum_{\uly\in A_{T(\ulx)}}h(\uly)}
+	\end{align*}
+	and this is independent of $\theta$. By Fisher theorem, then $T(\ulx)$ is sufficient for $\theta$.
+	\end{enumerate}
+\end{fancyproof}
+Take $(X_{1},\ldots,X_{n})$ from $X\distnorm{\mu,\sigma^{2}}$ with $\mu$ unknown and $\sigma^{2}$ known. If we want to use Savage's theorem or Fisher's theorem we first need the density function:
+\begin{equation*}
+	f_{\ulX}(\ulx;\theta)=\left(2\pi\sigma^{2}\right)^{\frac{n}{2}}\expg{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}(x_{i}-\mu)^{2}}.
+\end{equation*}
+Then choose
+\begin{equation*}
+	T_{n}=\frac{1}{n}\sum_{i=1}^{n}x_{i}\distnorm{\mu,\frac{\sigma^{2}}{n}}
+\end{equation*}
+so that 
+\begin{align*}
+	p_{T_{n}}(t;\theta)&=\left(2\pi\frac{\sigma^{2}}{n}\right)^{-\unmezz}\expg{\frac{-n}{2\sigma^{2}(t-\mu)^{2}}}\\
+	&=\frac{\left(2\pi\sigma^{2}\right)^{-\frac{n}{2}}\expg{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}\left(x_{i}-t+t-\mu\right)^{2}}}{\left(2\pi\frac{\sigma^{2}}{n}\right)^{-\unmezz}\expg{-\frac{n}{2\sigma^{2}}(t-\mu)^{2}}}.
+\end{align*}
+Take 
+\begin{equation*}
+	t=\frac{1}{n}\sum_{i=1}^{n}x_{i}
+\end{equation*}
+so that our density becomes
+\begin{equation*}
+	\frac{\left(2\pi\sigma^{2}\right)^{-\frac{n}{2}}\expg{-\frac{1}{2\sigma^{2}}\left(\sum_{i=1}^{n}(x_{i}-t)^{2}+(t-\mu)^{2}n\right)}}{\left(2\pi\frac{\sigma^{2}}{n}\right)^{-\unmezz}\expg{-\frac{n}{2\sigma^{2}}(t-\mu)^{2}}}
+\end{equation*}
+And we impose
+\begin{equation*}
+	2\sum_{i=1}^{n}(x_{i}-t)(t-\mu)=0.
+\end{equation*}
+So we have 
+\begin{align*}
+	\frac{\left(2\pi\sigma^{2}\right)^{-\frac{n}{2}}\expg{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}(x_{i}-t)^{2}}\cancel{\expg{-\frac{n}{2\sigma^{2}}(t-\mu)^{2}}}}{\left(2\pi\frac{\sigma^{2}}{n}\right)^{-\unmezz}\cancel{\expg{-\frac{n}{2\sigma^{2}}(t-\mu)^{2}}}}
+\end{align*}
+so it is independent of $\mu\implies\frac{1}{n}\sum_{i=1}^{n}x_{i}$ is sufficient for $\mu$. We can get the same result with Savage: write
+\begin{align*}
+	f_{\ulX}(\ulx;\theta)&=\left(2\pi\sigma^{2}\right)^{-\frac{n}{2}}\expg{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}(x_{i}-\mu)^{2}}\\
+	&=\left(2\pi\sigma^{2}\right)^{-\frac{n}{2}}\expg{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}x_{i}^{2}+\frac{1}{\sigma^{2}}\mu\sum_{i=1}^{n}x_{i}-\frac{n\mu^{2}}{2\sigma^{2}}}\\
+	&=\ubracketthin{\left(2\pi\sigma^{2}\right)^{-\frac{n}{2}}\expg{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}x_{i}^{2}}}_{\text{no }\mu}\cdot\ubracketthin{\expg{\frac{1}{\sigma^{2}}\mu\mathcolor{Purple2}{\frac{1}{n}\sum_{i=1}^{n}x_{i}}-\frac{n\mu^{2}}{2\sigma^{2}}}}_{\text{with }\mu}.
+\end{align*}
+So $\frac{1}{n}\sum_{i=1}^{n}x_{i}$ is sufficient for $\mu$. We added $\frac{1}{n}$ for convention, but also just $\sum_{i=1}^{n}x_{i}$ would be a sufficient statistic. \par
+Another example is with the exponential family: take $(X_{1},\ldots,X_{n})$ from $X\distexpf{\eta}$. We have the following likelihood function:
+\begin{align*}
+	\mathcal{L}(\eta;\ulx)&=\prod_{i=1}^{n}\expg{\eta A(x_{i})+x(x_{i})-\widetilde{k}(\eta)}\\
+	&=\expg{\eta\sum_{i=1}^{n}A(x_{i})+\sum_{i=1}^{n}c(x_{i})-n\widetilde{k}(\eta)}\\
+	&=\expg{\eta\mathcolor{Purple2}{\sum_{i=1}^{n}A(x_{i})}-n\widetilde{k}(\eta)}\cdot\expg{\sum_{i=1}^{n}c(x_{i})}.
+\end{align*}
+So the sum $\sum_{i=1}^{n}A(x_{i})$ is sufficient for $\eta$.\par
+Take $(X_{1},\ldots,X_{n})$ from $X\sim\mathsf{Beta}(a,1)$. We have
+\begin{equation*}
+	f_{X}(x,a)\propto x^{a-1}\indig{0,1}(x).
+\end{equation*}
+This is \textit{not} in the exponential family and it is a generalization of the uniform distribution (if $a=1$ we get the uniform distribution).
+\begin{remark}
+	\begin{itemize}
+		\item  A non sufficient statistic cannot be used. A non sufficient statistic gives me no control of how much information I am losing when reducing dimensionality. 
+		\item The random sample $(X_{1},\ldots,X_{n})$ is always a sufficient statistic for the parameter.
+		\item Any bijection of a sufficient statistic is sufficient (prove it as an exercise). This is why we could put $\frac{1}{n}$ in the Gaussian case: if $\sum_{i=1}^{n}x_{i}$ is sufficient, then also $\frac{1}{n}\sum_{i=1}^{n}$ is sufficient.
+	\end{itemize}
+\end{remark}
+In general, any maximum likelihood estimator will be a function of a sufficient statistic (not only the one belonging to the exponential family: think about the Beta model).
+\subsection{Properties of estimators (and statistics)}
+We will start with finite properties. Take a random sample $(X_{1},\ldots,X_{n})$ from $X\sim F_{\theta}$ with $\theta\in\Theta$. Let $T_{n}=T(X_{1},\ldots,X_{n})$ be an estimator for $\theta$. How can we know whether this $T_{n}$ does a good job or not? Remember that $T_{n}$ is a \rv{} so it seems natural to ask whether the mean is centered in $\theta$.
+\begin{definition}
+	$T_{n}$ is \emph{unbiased} (or \emph{correct}) for $\theta$ if 
+	\begin{equation*}
+		\ev{T_{n}}=\theta.
+	\end{equation*}
+	We can define the \emph{bias} of $T_{n}$ as
+	\begin{equation*}
+		b_{n}=\ev{T_{n}}-\theta.
+	\end{equation*}
+\end{definition}
+Of course the expectation is considered the ``barycenter'' of the distribution and it can be interpreted as an index of position of the distribution. The median, on the other hand, it is a order statistic and as such it splits the distribution in two parts. The problem is that the median is a pain in the ass to compute (we know that order statistic are not easy to get). Another index we may compute is the variance of the estimator
+\begin{equation*}
+	\var(T_{n}) 
+\end{equation*}
+as a measure of the dispersion of the distribution, or \emph{efficiency}, of $T_{n}$ around $\theta$. This could be a good measure of the performance of $\theta$ but only if the estimator is correct in the first place:
+\begin{equation*}
+	\var(T_{n})=\ev{(T_{n}-\ev{T_{n}})^{2}}\qquad\text{ it's okay if $\ev{T_{n}}=\theta$}.
+\end{equation*}
+If the estimator is not correct we need another measure of dispersion. We want to control the distance between $T_{n}$ and $\theta$ but since $T_{n}$ is a \rv{} then we need to control this distance in a ``probabilistic'' way, using a concentration inequality. Using Chebyshev's inequality we get
+\begin{equation*}
+	\pr\left(|T_{n}-\theta|<k\right)>1-\frac{\ev{(T_{n}-\theta)^{2}}}{k^{2}}\qquad\text{$k$ fixed}.
+\end{equation*}
+Since we want the probability of the left hand side to be as large as possible we want $\ev{(T_{n}-\theta)^{2}}$ to be as small as possible (since $k$ is fixed). 
+\begin{definition}
+	The quantity
+	\begin{equation*}
+		\mathsf{MSE}(T_{n})=\ev{(T_{n}-\theta)^{2}}
+	\end{equation*}
+	is called the \emph{mean square error}. 
+\end{definition}
+If $\ev{T_{n}}\neq\theta$ then we can use the MSE as a meausre of dispersion of the distribution of $T_{n}$. This is why the mean square error comes from Chebyshev inequality!! This is pretty cool, I'll have to admit. We can reduce the MSE:
+\begin{align*}
+	\mathsf{MSE}(T_{n})&=\ev{(T_{n}-\ev{T_{n}}+\ev{T_{n}}-\theta)^{2}}\\
+	&=\ev{(T_{n}-\ev{T_{n}})^{2}}+\ev{(\ev{T_{n}}-\theta)^{2}}+2\ev{(T_{n}-\ev{T_{n}})(\ev{T_{n}}-\theta)}.
+\end{align*}
+If we expand the double product we get
+\begin{align*}
+	\ev{(T_{n}-\ev{T_{n}})(\ev{T_{n}}-\theta)}&=\ev{T_{n}\ev{T_{n}}-T_{n}\theta-\ev{T_{n}}\ev{T_{n}}+\ev{T_{n}}\theta}\\
+	&=\cancel{(\ev{T_{n}})^{2}}\cancel{-\theta\ev{T_{n}}}\cancel{-(\ev{T_{n}})^{2}}\cancel{+\theta\ev{T_{n}}}\\
+	&=0
+\end{align*}
+So we get that 
+\begin{equation*}
+	\mathsf{MSE}(T_{n})=\var(T_{n})+\left(b_{n}(\theta)\right)^{2}.
+\end{equation*}
+We can now derive an idea of relative efficiency. Let $T_{1n}$ and $T_{2n}$ be two estimators for $\theta$. If
+\begin{equation*}
+	\MSE{T_{1n}}<\MSE{T_{2n}}
+\end{equation*}
+then I prefer $T_{1n}$.\par
+Now we could ask ourselves whether there exists a threshold for estimator efficiency in relation to which we can compute how far we have strayed from it.
+\begin{theorem}
+	\emph{Cramer-Rao (lower) bound}. We assume regularity. Let $\ulX=(X_{1},\ldots,X_{n})$ be a random sample from $X\sim F_{\theta}$ with $\theta\in\Theta$. If $T_{n}$ is an unbiased estimator for $\theta$ then
+	\begin{equation*}
+		\var(T_{n})\geq\frac{1}{I_{n}(\theta)}
+	\end{equation*}
+	where $I_{n}(\theta)$ is the Fisher information of the sample.
+\end{theorem}
+So we know that the variance \textit{cannot} be lower than $(I_{n}(\theta))^{-1}$ so it all becomes a matter of checking whether our estimator attains this lower bound.
+\begin{fancyproof}
+	Assume
+	\begin{equation*}
+		\ev{T_n}=\theta+b_{n}(\theta).
+	\end{equation*}
+	The derivative is
+	\begin{equation*}
+		\frac{\dif}{\dif\theta}\ev{T_{n}}=1+b'_{n}(\theta).
+	\end{equation*}
+	Remember the score function
+	\begin{equation*}
+		V'_{n}(\theta)=\frac{\dif}{\dif\theta}\log\mathcal{L}(\theta;\ulx)\qquad\begin{larray}
+			\ev{V'_{n}}=0\\
+			\var(V'_{n})=\ev{(V'_{n})^{2}}=-\ev{V''_{n}}.
+		\end{larray}
+	\end{equation*}
+	This means that
+	\begin{align*}
+		\cov(T_{n},V'_{n})&=\ev{T_{n}V'_{n}}\\
+		&=\int_{\R^{n}}T_{n}\left(\frac{\dif}{\dif\theta}\log f_{\ulX}(\ulx;\theta)\right)f_{\ulX}(x;\theta)\dif\ulx\\
+		&=\int_{\R^{n}}T_{n}\frac{f'_{\ulX}(\ulx;\theta)}{\cancel{f_{\ulX}(\ulx;\theta)}}\cancel{f_{\ulX}(\ulx;\theta)}\dif\ulx\\
+		&=\int_{\R^{n}}T_{n}\frac{\dif}{\dif\theta}f_{\ulX}(\ulx;\theta)\dif\ulx\\
+		&=\frac{\dif}{\dif\theta}\int_{\R^{2}}T_{n}f_{\ulX}(\ulx;\theta)\dif\ulx\\
+		&=\deriv{\theta}\ev{T_{n}}=1+b'_{n}(\theta).
+	\end{align*}
+	So we just apply Cauchy-Schwartz inequality:
+	\begin{align*}
+		\var(T_{n})&\geq\frac{\left[\cov(T_{n},V'_{n})\right]^{2}}{\var(V'_{n})}\\
+		&=\frac{\left[1+b'_{n}(theta)\right]^{2}}{I_{n}(\theta)}.
+	\end{align*}
+	If there is no bias, then
+	\begin{equation*}
+		\var(T_{n})\geq\frac{1}{I_{n}(\theta)}.
+	\end{equation*}
+\end{fancyproof}
+\begin{remark}
+	If we don't have an unbiased estimator then
+		\begin{align*}
+		\var(T_{n})&\geq\frac{\left[1+b'_{n}(theta)\right]^{2}}{I_{n}(\theta)}
+	\end{align*}
+	and therefore we can apply
+	\begin{align*}
+		\var(T_{n})+b^{2}_{n}(\theta)\geq\frac{\left[1+b'_{n}(\theta)\right]^{2}}{I_{n}(\theta)}+b^{2}_{n}(\theta)
+	\end{align*}
+	so we can use the MSE to control variance:
+	\begin{equation*}
+		\MSE(T_{n})\geq\frac{\left[1+b'_{n}(\theta)\right]^{2}}{I_{n}(\theta)}+b^{2}_{n}(\theta).
+	\end{equation*}
+\end{remark}
+\begin{definition}
+	\emph{Regular problem}. We say that a correct estimator $T_{n}$ for $\theta$ is \emph{efficient} if
+	\begin{equation*}
+		\var(T_{n})\geq\frac{1}{I_{n}(\theta)}.
+	\end{equation*}
+\end{definition}
+There is an analogous result for non-regular models.
+\begin{proposition}
+	Let $(X_{1},\ldots,X_{n})$ be from a regular model $F_{\theta}$ with $\theta\in\Theta$. Consider a correct estimator $T_{n}$ for $\theta$ such that 
+	\begin{equation*}
+		\var(T_{n})=\frac{1}{I_{n}(\theta)}.
+	\end{equation*}
+	Then $T_{n}$ is unique.
+\end{proposition}
+Of course this seems too beautiful to be true and indeed we are assuming a lot (regularity \textit{and} correctness). If I remove correctness then the uniqueness is not granted anymore. \begin{fancyproof}
+	Take $T_{1n}$ and $T_{2n}$ such that
+\begin{equation*}
+	\ev{T_{1n}}=\ev{T_{2n}}=\theta
+\end{equation*}
+and
+\begin{equation*}
+	\var(T_{1n})=\var(T_{2n})=\frac{1}{I_{n}(\theta)}:=V.
+\end{equation*}
+Define 
+\begin{equation*}
+	T_{n}=\frac{T_{1n}+T_{2n}}{2}
+\end{equation*}
+and this is a new unbiased estimator because
+\begin{equation*}
+	\ev{T_{n}}=\theta
+\end{equation*}
+by virtue of linearity of expectation. Now compute
+\begin{align*}
+	\var(T_{n})&=\var\left(\frac{T_{1n}+T_{2n}}{2}\right)\\
+	&=\frac{1}{4}\left[\var(T_{1n})+\var(T_{2n})+2\cov(T_{1n},T_{2n})\right]
+\end{align*}
+but
+\begin{equation*}
+	\cov(T_{1n},T_{2n})=\corr(T_{1n},T_{2n})\left[\sqrt{\var(T_{1n})}\sqrt{\var(T_{2n})}\right]
+\end{equation*}
+so
+\begin{align*}
+		\var(T_{n})&=\frac{1}{4}\left(2V+2\corr(T_{1n},T_{2n})V\right)\\
+		&=\unmezz V\left[1+\corr(T_{1n},T_{2n})\right]
+\end{align*}
+but we know that if the correlation is smaller than 1 and this would give us
+\begin{equation*}
+	\var(T_{n})<V
+\end{equation*}
+but this is impossible; so the correlation must be 1 and $T_{1n}$ and $T_{2n}$ are perfectly correlated which means that they are the same up to a linear transformation and we can write
+\begin{equation*}
+	T_{2n}=a+b(T_{1n})
+\end{equation*}
+but we also know
+\begin{equation*}
+	\ev{T_{1n}}=\ev{T_{2n}}=\theta
+\end{equation*}
+so
+\begin{equation*}
+	\begin{larray}
+		\ev{T_{2n}}=a+b\ev{T_{1n}}\\
+		\Downarrow\\
+		\theta=a+b\theta\\
+		\Downarrow\\
+		\begin{carray}
+			a=0\\
+			b=1
+		\end{carray}\implies T_{1n}=T_{2n}.
+	\end{larray}
+\end{equation*}
+\end{fancyproof}
+\begin{proposition}
+	Let $(X_{1},\ldots,X_{n})$ be from a regular model $F_{\theta}$. $T_{n}$ is a correct and efficient estimator for $\theta$ if and only if
+	\begin{equation*}
+		V'_{n}(\theta)=\deriv{\theta}\log\like(\theta;\ulx)=I_{n}(T_{n}-\theta)\tag*{\faStarOfLife}\label{starlife}
+	\end{equation*}
+\end{proposition}
+So \ref{starlife} implies that $T_{n}$ is correct and efficient:
+\begin{equation*}
+	\begin{carray}
+		V'_{n}(\theta)=I_{n}(T_{n}-\theta)\\
+		(T_{n}-\theta)=\frac{V'_{n}(\theta)}{I_{n}(\theta)}\\
+		\Downarrow\\
+		T_{n}=\frac{V'_{n}(\theta)}{I_{n}(\theta)}+\theta.
+	\end{carray}
+\end{equation*}
+This is a very, \textit{very} important identity because it looks like we can start a recursion with it: I choose a $\theta_0$, compute the gradient $V'_{n}(\theta_0)$ and get a new $\theta_{1}$ which acts as our new starting point to compute the gradient and so on.
+\begin{equation*}
+	\theta^{(i)}=\frac{V'_{n}(\theta^{(i-1)})}{I_{n}(\theta^{(i-1)})}+\theta^{(i-1)}
+\end{equation*}
+This is called the \emph{score version of the Newton algorithm} and it's quite fast especially if we use stochastic gradient descent and similar things. So even if I am not able to compute $I_{n}$ analytically (which may very well be the case) I can always use this equation to compute an \ul{correct and efficient} estimator. That's not bad at all! We will use this in generalized linear models where $\like$ cannot be computed analytically. 
+\begin{fancyproof}
+	\begin{enumerate}
+		\item[$\implies$] We know that
+		\begin{equation*}
+			\ev{T_{n}}=\frac{\ev{V'_{n}(\theta)}}{I_{n}(\theta)}+\theta=\theta
+		\end{equation*} 
+		and we know that
+		\begin{align*}
+			\var(T_{n})
+			&=\var\left(\frac{V'_{n}(\theta)}{I_{n}(\theta)}+\theta\right)\\
+			&=\frac{1}{(I_{n}(\theta))^{2}}\var(V'_{n}(\theta))\\
+			&=\frac{I_{n}(\theta)}{(I_{n}(\theta))^{2}}=\frac{1}{I_{n}(\theta)}.
+		\end{align*}
+	\item[$\impliedby$] We know that $T_{n}$ is correct and efficient so 
+	\begin{equation*}
+		V'_{n}(\theta)=I_{n}(\theta)(T_{n}-\theta).
+	\end{equation*}
+	We know that 
+	\begin{equation*}
+		\cov(T_{n},V'_{n})\leq\sqrt{\var(T_{n})\var(V'_{n})}\tag*{\faMoneyBill[regular]}\label{money}
+	\end{equation*}
+	but this becomes an equality and this implies that $V'_{n}(\theta)$ is perfectly correlated with $T_{n}$:
+	\begin{equation*}
+		V'_{n}(\theta)=a+bT_{n}.
+	\end{equation*}
+	Now we must find $a$ and $b$. Take the expected value:
+	\begin{align*}
+		\ev{V'_{n}(\theta)}&=a+b\ev{T_{n}}\\
+		0&=a+b\theta\implies a=-b\theta.
+	\end{align*}
+	This means that 
+	\begin{align*}
+		V'_{n}(\theta)&=-b\theta+bT_{n}\\
+		&=b(T_{n}-\theta).
+	\end{align*}
+	Multiply both sides by $V'_{n}(\theta)$:
+	\begin{align*}
+		\left(V'_{n}(\theta)\right)^{2}&=bT_{n}V'_{n}(\theta)-b\theta V'_{n}(\theta)\\
+		\ev{\left(V'_{n}(\theta)\right)^{2}}&=b\ubracketthin{\ev{T_{n}V'n(\theta)}}_{1}-b\theta\ubracketthin{\ev{V'_{n}(\theta)}}_{0}\\
+		&=b\implies I_{n}(\theta)=b
+	\end{align*}
+	so
+	\begin{equation*}
+		V'_{n}(\theta)=I_{n}(\theta)\left[T_{n}-\theta\right].
+	\end{equation*}
+\end{enumerate}
+\end{fancyproof}
+We will now link this result with the exponential family and we will discover that as long as we work with this family we will always find an efficient estimator. We want to adapt the proof we did before by removing the assumption of correctness; we know that if there exists an efficient $T_{n}$ then it is perfectly correlated with the score function:
+\begin{equation*}
+	V'_{n}(\theta)=c_{0}+c_{1}T_{n}
+\end{equation*}
+and if $T_{n}$ is not correct we have
+\begin{equation*}
+	\ev{T_{n}}=\theta+b(\theta).
+\end{equation*}
+We take the expected value of both sides in the first equation:
+\begin{align*}
+	\ev{V'_{n}(\theta)}&=c_{0}+c_{1}\ev{T_{n}}\\
+	0&=c_{0}+c_{1}\left(\theta+b(\theta)\right)\\
+	\implies&c_{0}=-c_{1}(\theta+b(\theta))\\
+	\implies&V'_{n}(\theta)=-c_{1}\theta-c_{1}b(\theta)+c_{1}T_{n}\\
+	\implies&\left(V'_{n}(\theta)\right)^{2}=-\ubracketthin{c_{1}\theta V'_{n}(\theta)}_{\ev{\cdot}=0}-\ubracketthin{c_{1}b(\theta)V'_{n}(\theta)}_{\ev{\cdot}=0}+c_{1}T_{n}V'_{n}(\theta)\\
+	\implies&\ev{\left(V'_{n}(\theta)\right)^{2}}=c_{1}\ev{T_{n}V'_{n}(\theta)}\\
+	\implies&\ev{\left(V'_{n}(\theta)\right)^{2}}=c_{1}\left(1+b'(\theta)\right)=:a(\theta)\\
+	\implies&c_{1}=\frac{a(\theta)}{1+b'(\theta)}=:\left(c(\theta)\right)^{-1}.
+\end{align*}
+Now I replace $c_{1}$:
+\begin{align*}
+	V'_{n}(\theta)=-\theta(c(\theta))^{-1}-b(\theta)(c(\theta))^{-1}+T_{n}(c(\theta))^{-1}.
+\end{align*}
+$c(\theta)$ is at most a function of $\theta$:
+\begin{align*}
+	\deriv{\theta}\log\like(\theta;\ulx)&=-\theta(c(\theta))^{-1}-b(\theta)(c(\theta))^{-1}+T_{n}(c(\theta))^{-1}.
+\end{align*}
+Integrate both sides with respect to $\theta$:
+\begin{align*}
+	\log\like(\theta;\ulx)&=\int_{\Theta}\theta(c(\theta))^{-1}\dif\theta-\int_{\Theta}b(\theta)(c(\theta))^{-1}\dif\theta+T_{n}\int_{\Theta}(c(\theta))^{-1}+c.
+\end{align*}
+Take the exponential on both sides:
+\begin{align*}
+	\like(\theta;\ulx)&=\expg{-\int_{\Theta}(\theta+b(\theta))(c(\theta))^{-1}\dif\theta+T_{n}\int_{\Theta}(c(\theta))^{-1}+c}
+\end{align*}
+So we arrived to an expression for the likelihood that corresponds to the one of the exponential family just starting from the efficient estimator without knowing anything else! In this case
+\begin{equation*}
+	\begin{larray}
+		k(\theta)=\int_{\Theta}(\theta+b(\theta))(c(\theta))^{-1}\dif\theta\\
+		A(\ulx)=T_{n}\\
+		Q(\theta)=\int_{\Theta}(c(\theta))^{-1}\\
+		c(x)=c.
+	\end{larray}
+\end{equation*}
+So we can reverse this derivation and say that if $X\distexpf{\theta}$ then there exist an efficient estimator which is function of the sufficient statistic.
+\begin{theorem}
+	\emph{Rao-Blackwell theorem}. Let $(X_{1},\ldots,X_{n})$ be a random sample from $X\sim F_{\theta}$ with $\theta\in\Theta$ (regular or not). Take a sufficient estimator $T_{1n}$ for $\theta$ and any unbiased estimator $T_{2n}$ for $\theta$. Define
+	\begin{equation*}
+		T_{n}=\ev{T_{2n}|T_{1n}}.
+	\end{equation*}
+	Then:
+	\begin{itemize}
+		\item $T_{n}$ is a function of $T_{1n}$;
+		\item $\ev{T_{n}}=\theta$;
+		\item $\var(T_{n})\leq\var(T_{2n})$.
+	\end{itemize}
+\end{theorem}
+So we can use sufficient statistics to build more efficient (or equivalent) estimator of any other estimator!
+\begin{fancyproof}
+	We have
+	\begin{equation*}
+		T_{n}=\ev{T_{2n}|T_{1n}}.
+	\end{equation*}
+	We use tower property of expectation:
+	\begin{align*}
+		\ev{T_{n}}&=\ev{\ev{T_{2n}|T_{1n}}}\\
+		&=\ev{T_{2n}}\\
+		&=\theta.
+	\end{align*}
+	To show the increase in efficiency we need to compute the variance using the variance identity:
+	\begin{align*}
+		\var(T_{2n})&=\var(\ev{T_{2n}|T_{1n}})+\ev{\var(T_{2n}|T_{1n})}\\
+		&=\var(T_{n})+\ubracketthin{\ev{\var(T_{2n}|T_{1n})}}_{\claptext{always positive}}\\
+		&\geq\var(T_{n})
+	\end{align*}
+	so we get that
+	\begin{equation*}
+		\var(T_{n})\leq\var(T_{2n}).
+	\end{equation*}
+	We still need to prove that $T_{n}$ is an estimator which means showing that $T_{n}$ is a function of the data but \textit{not} of $\theta$ but this is trivially true because $T_{n}=\ev{T_{2n}|T_{1n}}$ and since $T_{1n}$ is sufficient it ``removes'' from $T_{n}$ all the dependence from $\theta$.
+\end{fancyproof}
+\subsection{Asymptotic properties}
+\begin{definition}
+	\begin{itemize}
+	\item 	We say that $T_{n}$ is \emph{asymptotically unbiased} for $\theta$ if
+	\begin{equation*}
+		\lim_{n\to\infty}\ev{T_{n}}=\theta.
+	\end{equation*}
+	\item We say that $T_{n}$ is \emph{consistent in mean square} if
+	\begin{equation*}
+		\lim_{n\to\infty} \MSE{T_{n}}=\lim_{n\to\infty}\ev{\left(T_{n}-\theta\right)^{2}}=0.
+	\end{equation*}
+	\begin{remark}
+		We can always decompose the MSE:
+		\begin{equation*}
+			\MSE{T_{n}}=\var(T_{n})+b'_{n}(\theta)
+		\end{equation*}
+		so consistency in mean-square implies asymptotic correctness.
+	\end{remark}
+	\item We say that $T_{n}$ is \emph{consistent in probability} if for $\every\varepsilon>0$
+	\begin{equation*}
+		\lim_{n\to\infty}\pr(|T_{n}-\theta|<\varepsilon)=1.
+	\end{equation*}
+	We then write 
+	\begin{equation*}
+		T_{n}\convpr\theta.
+	\end{equation*}
+	\begin{remark}
+		Consistency in mean square implies consistency in probability (check this using Chebyshev).
+	\end{remark}
+	\item If $T_{n}$ is unbiased for $\theta$ then we say that $T_{n}$ is \emph{asymptotically efficient} if 
+	\begin{equation*}
+		\lim_{n\to\infty}\var(T_{n})=\frac{1}{I_{n}(\theta)}.
+	\end{equation*}
+	\item We way that $T_{n}$ is \emph{asymptotically Gaussian} if\\
+	\begin{equation*}
+		\lim_{n\to\infty}\pr\left(\frac{T_{n}-\ev{T_{n}}}{\sqrt{\var(T_{n})}}\leq t\right)=\Phi(t)
+	\end{equation*}
+	and we write
+	\begin{equation*}
+		\frac{T_{n}-\ev{T_{n}}}{\sqrt{\var(T_{n})}}\convw Z\distnorm{0,1}.
+	\end{equation*}
+	\end{itemize}
+\end{definition}
+To work with this results we need the \emph{weak law of large numbers}.
+\begin{theorem}
+	\emph{Weak Law of Large Numbers (WLLN)}. Assume $f(\cdot|\theta)$ to be some function defined for $\theta\in\Theta$ and continuous in $\theta$. Then for any fixed $\theta$ let
+	\begin{equation*}
+		{\left(f(X_{i};\theta)\right)}_{i\geq1}
+	\end{equation*}
+	be a sequence of i.i.d. \rv s. Then for $n\to\infty$
+	\begin{equation*}
+		\frac{1}{n}\sum_{i=1}^{n}f(X_{i};\theta)\convpr\ev{f(X;\theta)}.
+	\end{equation*}
+\end{theorem}
+Note that this is a point-wise convergence, $\theta$-by-$\theta$. To prove convergence we need to ``uniform'' this result over $\theta$ by taking the supremum:
+\begin{equation*}
+	\sup_{\Theta}\left|\frac{1}{n}\sum_{i=1}^{n}f(X_{i};
+	\theta)-\ev{f(X;\theta)}\right|\convas0
+\end{equation*}
+and this is not anymore a point-wise result but it is a uniform result. This is called \emph{uniform weak law of large numbers} and it is a very different result than the WLLN. \par
+Take $(X_{1},\ldots,X_{n})$ from $X\sim F_{\mu,\sigma^{2}}$ such that
+\begin{equation*}
+	\begin{carray}
+		\ev{X}=\mu\\
+		\var(X)=\sigma^{2}
+	\end{carray}
+\end{equation*}
+(so a Gaussian case). We already proved that $\frac{1}{n}\sum_{i=1}^{n}$ is biased for $\mu$ for $\every n\geq 1$. Now take the sample variance $\frac{1}{n}\sum_{i=1}^{n}(X_{i}-\Xbar_{n})^{2}$ and we want to check whether it is biased or unbiased.
+\begin{align*}
+	\ev{\frac{1}{n}\sum_{i=1}^{n}(X_{i}-\Xbar_{n})^{2}}&=\ev{\frac{1}{n}\sum_{i=1}^{n}X_{i}^{2}-\frac{2}{n}\Xbar_{n}\sum_{i=1}^{n}x_{i}+\Xbar^{2}_{n}}\\
+ 	&=\ubracketthin{\frac{1}{n}\sum_{i=1}^{n}\ev{X^{2}_{i}}}_{\mathrm{I}}-\ubracketthin{\ev{\Xbar^{2}_{i}}}_{\mathrm{II}}.
+\end{align*}
+Now check the two quantities separately:
+\begin{align*}
+	\mathrm{I}&=\frac{1}{n}\sum_{i=1}^{n}(\sigma^{2}+\mu^{2})=\sigma^{2}+\mu^{2}\\
+	\mathrm{II}&=\begin{rcases}
+		\ev{\Xbar_{n}}=\mu\\
+		\var\left(\Xbar_{n}\right)=\frac{1}{n}\sigma^{2}
+	\end{rcases}\ev{\Xbar^{2}}=\frac{1}{n}\sigma^{2}+\mu^{2}.
+\end{align*}
+So we can write
+\begin{align*}
+	\ev{\frac{1}{n}\sum_{i=1}^{n}\left(X_{i}-\Xbar_{n}\right)^{2}}&=\mathrm{I}-\mathrm{II}\\
+	&=\sigma^{2}\left(1-\frac{1}{n}\right)\\
+	&=\sigma^{2}\frac{n}{n-1}
+\end{align*}
+and we know how to correct the variance (by $\frac{n}{n-1}$). \par
+Now take $(X_{1},\ldots,X_{n})$ from $X\distbernoulli{\theta}$. We set
+\begin{align*}
+	\theta^{\star}=&\argmax_{(0,1)}\like(\theta;\ulx)\\
+	&\vdots\\
+	=&\frac{1}{n}\sum_{i=1}^{n}x_{i}=:\widehat{\theta}_{n}.
+\end{align*}
+If we compute mean and variance we get
+\begin{equation*}
+	\begin{larray}
+		\ev{\widehat{\theta}_{n}}=\theta\\
+		\var(\widehat{\theta}_{n})=\frac{\theta(1-\theta)}{n}\qquad\text{(Cramer-Rao bound!)}
+	\end{larray}
+\end{equation*}
+So we have convergence in probability
+\begin{equation*}
+	\widehat{\theta}_{n}=\frac{1}{n}\sum_{i=1}^{n}x_{i}\convpr\ev{X}=\theta
+\end{equation*}
+so $\widehat{\theta}_{n}$ is (weakly) consistent for $\theta$.
+\section{Other methods of estimation}
+\subsection{Bayes estimation}
+We can further modify this problem. Suppose we have the random sample $(X_{1},\ldots,X_{n})$ from $X\distbernoulli{\theta}$. We now want to use for the first time a Bayesian approach rather than a frequentist approach. We know that $\theta\in(0,1)$ and we suppose (guessing) that $\theta\sim\mathsf{Beta}(a,b)$ for $a,b>0$ and therefore what we actually mean is that
+\begin{equation*}
+	X_{1},\ldots,X_{n}\mathcolor{Purple3}{|\theta}\distbernoulli{\theta}\qquad\text{with }\theta\sim\mathsf{Beta}(a,b).
+\end{equation*} We say that $\theta\sim\mathsf{Beta}$ because the Beta model is a reasonable ``a priori'' model. Now we compute the conditional distribution of $\theta|(X_{1},\ldots,X_{n})$ using Bayes' theorem:
+\begin{align*}
+	f_{\theta|X_{1},\ldots,X_{n}}(\cdot)&=\frac{\theta^{\sum_{i=1}^{n}x_{i}}(1-\theta)^{n-\sum_{i=1}^{1}x_{i}}\cancel{\frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}}\theta^{a-1}(1-\theta)^{b-1}}{\int_{0}^{1}\theta^{\sum_{i=1}^{n}x_{i}}(1-\theta)^{n-\sum_{i=1}^{n}x_{i}}\cancel{\frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}}\theta^{a-1}(1-\theta)^{b-1}\dif\theta}\\
+	&=\frac{\theta^{\sum_{i=1}^{n}x_{i}+a-1}(1-\theta)^{n-\sum_{i=1}^{n}x_{i}+b-1}}{\int_{0}^{1}\theta^{\sum_{i=1}^{n}x_{i+a=1}}(1-\theta)^{\sum_{i=1}^{n}x_{i}+b-1}\dif\theta}\\
+	&=\theta^{\sum_{i=1}^{n}x_{i}+a-1}(1-\theta)^{n-\sum_{i=1}^{n}x_{i}+b-1}\frac{\Gamma(n+a+b)}{\Gamma\left(\sum_{i=1}^{n}x_{i}+a\right)\Gamma\left(n-\sum_{i=1}^{n}x_{i}+b\right)}.
+\end{align*}
+So the conditional distribution of $\theta$ given $(X_{1},\ldots,X_{n})$ is a Beta distribution with parameters updated with data. But how can I use this object? In the frequentist approach we get a straight up value for $\theta$, while here we get a whole distribution. To choose an estimator for $\theta$ we can choose the expected value of the posterior distribution. We choose the expected value because in decision theory the expected value is what minimizes the square loss
+\begin{equation*}
+	L(\widehat{\theta})=\int_{\Theta}(\widehat{\theta}-\theta)^{2}p\ubracketthin{(\dif\theta|\ulx)}_{\claptext{posterior}}\dif\theta.
+\end{equation*}
+So we take the expected value of the posterior:
+\begin{align*}
+	\ev{\theta|X_{1},\ldots,X_{n}}&=\frac{a+\sum_{i=1}^{n}x_{n}}{a+b+n}.
+\end{align*}
+So we got our \emph{Bayes estimator}. Our MLE estimator is
+\begin{equation*}
+	\widehat{\theta}_{n}=\frac{1}{n}\sum_{i=1}^{n}x_{i}.
+\end{equation*}
+MLE is consistent because $\frac{1}{n}\sum_{i=1}^{n}\convpr\theta$ and this result is given from the Law of large which assumes that our \rv s are i.i.d., while for the Bayes estimator we know that they are i.i.d. in the \textit{conditional distribution} but not marginally: if we integrate out the conditioning \rv{} we find that they are actually dependent. So we cannot use the law of large numbers.\par
+Take $(X_{1},\ldots,X_{n})$ from $X\sim F_{\theta}$ with
+\begin{equation*}
+	f_{X}(x;\theta)=2\theta x\expg{-\theta x^{2}}\indi_{\R^{+}}(x)\qquad\theta>0.
+\end{equation*}
+This is a transformation of the gamma model. We use maximum likelihood to learn $\theta$:
+\begin{align*}
+	\like(\theta;\ulx)&=\prod_{i=1}^{n}2\theta x_{i}\expg{-\theta x^{2}_{i}}\\
+	&=\left(2\theta\right)^{n}\left(\prod_{i=1}^{n}x_{i}\right)\expg{-\theta\sum_{i=1}^{n}x_{i}}.
+\end{align*}
+We can use the result from Savage's theorem to deduce that the sufficient statistic for estimating $\theta$ is
+\begin{equation*}
+	\sum_{i=1}^{n}x^{2}.
+\end{equation*}
+We would expect that maximizing the likelihood gives us a function of this sufficient statistic. We take the logarithm
+\begin{align*}
+	\log\like(\theta;\ulx)&\propto n\log\theta-\theta\sum_{i=1}^{n}x_{i}^{2}
+\end{align*}
+and the the derivative
+\begin{align*}
+	\begin{carray}
+		\deriv{\theta}\log\like(\theta;\ulx)=\frac{n}{\theta}-\sum_{i=1}^{n}x^{2}_{i}=0\\
+		\Downarrow\\
+		\widehat{\theta}_{n}=\frac{n}{\sum_{i=1}^{n}x_{i}^{2}}.
+	\end{carray}
+\end{align*}
+\subsection{Method of moments}
+There is another approach to learn information about a parameter. Consider the expected value of the previous example:
+\begin{align*}
+	\ev{X}&=\int_{0}^{\infty}2\theta x^{2}\expg{-\theta x^{2}}\dx\\
+	&=\int_{0}^{\infty}2\theta y\expg{-\theta y}\unmezz y^{\unmezz-1}\dy\\
+	&=\frac{2\theta}{2}\int_{0}^{\infty}y^{\unmezz\mathcolor{Purple3}{+1-1}}\expg{-\theta y}\dy\\
+	&=\frac{\theta\Gamma\left(\unmezz+1\right)}{\theta^{\unmezz+1}}\\
+	&=\frac{\Gamma\left(\unmezz+1\right)}{\sqrt{\theta}}\\
+	&=\frac{\unmezz\Gamma\left(\unmezz\right)}{\sqrt{\theta}}\\
+	&=\frac{\unmezz\sqrt{\pi}}{\sqrt{\theta}}
+\end{align*}
+and this is my theoretical moment. To get the estimator just compare this with the empirical moment of order 1:
+\begin{equation*}
+	\begin{carray}
+		\frac{\sqrt{\pi}}{2}\theta^{-\unmezz}=\frac{1}{n}\sum_{i=1}^{n}x_{i}\\
+		\Downarrow\\
+		\widetilde{\theta}_{n}=\frac{n^{2}\pi}{4\left(\sum_{i=1}^{n}x_{i}\right)^{2}}
+	\end{carray}
+\end{equation*}
+So we see that the \emph{method of moment estimator (MME)} requires much less information if compared with MLE: we only need the moments. But then how can we choose between
+\begin{equation*}
+	\widetilde{\theta}_{n}=\frac{n^{2}\pi}{4\left(\sum_{i=1}^{n}x_{i}\right)^{2}}\qquad\text{ and }\qquad	\widehat{\theta}_{n}=\frac{n}{\sum_{i=1}^{n}x_{i}^{2}}?
+\end{equation*}
+In this case there is not much to choose: the MME is not a function of the sufficient statistic, so the MLE will always be better... But this is not always true. Let's find the Bayes estimator. As a prior distribution we choose the inverse normal and we suppose $\theta\sim\mathsf{NegExp}(\lambda)$. We apply Bayes and compute $\ev{\theta|X_{i},\ldots,X_{n}}$
+\begin{equation*}
+	\theta^{\ast}_{n}=\frac{n-1}{\lambda+\sum_{i=1}^{n}x_{i}^{n}}.
+\end{equation*}
+In this case the estimator \textit{is} a function of the sufficient statistic, so it is not so clear which one is the best.\par
+Now take a collection of \rv s $(X_{1},\ldots,X_{n})$ from $X\distunif{a-b,a+b}$ and we want to learn $a$ and $b$. The simplest thing to do is to use the method of moments because the uniform distribution has very simple moments:
+\begin{equation*}
+	\begin{larray}
+		\ev{X}=a\\
+		\ev{X^{2}}=\frac{b^{2}}{3}+a^{2}.
+	\end{larray}
+\end{equation*}
+Now compare these quantities with the empirical moments and solve for $a$ and $b$:
+\begin{equation*}
+	\begin{cases}
+		\frac{1}{n}\sum_{i=1}^{x}=a\\
+		\frac{1}{n}\sum_{i=1}^{n}x_{i}^{2}=\frac{b^{2}}{3}+a^{2}
+	\end{cases}\implies\begin{cases}
+	\widetilde{a}_{n}=\frac{1}{n}\sum_{i=1}^{n}x_{i}\\
+	\widetilde{b}_{n}=\left[\frac{3}{n}\sum_{i=1}^{n}x_{i}^{2}-3\left(\widetilde{a}_{n}\right)^{2}\right]^{\unmezz}.
+	\end{cases}
+\end{equation*}
+These are quite complicated. Also we could compute mean and variance but computing the distribution is not trivial since we are adding uniform variables (which always brings us out of support). We cannot even use Fisher information because the model is not regular and therefore the likelihood is not differentiable. The Cramer-Rao bound does not exist in this case, so I need to proceed in another way. Let's now compute the MLE by computing the likelihood function:
+\begin{align*}
+	\like(a,b;\ulx)&=\prod_{i=1}^{n}\frac{1}{2b}\indi_{[a-b,a+b]}(x_{i})\\
+	&=\left(\frac{1}{2b}\right)^{n}\prod_{i=1}^{n}\indi_{[a-b,a+b]}(x_{i}).
+\end{align*}
+Savage's theorem applies to non-regular models as well. To apply it we can rewrite the product of the indicators as
+\begin{align*}
+	\prod_{i=1}^{n}\indi_{[a-b,a+b]}(x_{i})=\begin{cases}
+		1&\text{if }a-b\leq\min_{i}x_{i}\wedge a+b\geq\max_{i}x_{i}\\
+		0&\text{otherwise}
+	\end{cases}
+\end{align*}
+so 
+\begin{equation*}
+	\left(\min_{i}X_{i},\max_{i}X_{i}\right)
+\end{equation*}
+is a sufficient statistic and in particular if I want to maximize the likelihood function I need $b$ as small as possible (constrained to $a-b\leq\min_{i}x_{i}\wedge a+b\geq\max_{i}x_{i}$). Since $b$ is a denominator we take the smallest value of b that satisfies
+\begin{equation*}
+	a-b\leq\min_{i}x_{i}\wedge a+b\geq\max_{i}x_{i}
+\end{equation*}
+for some $a$; this brings us to the inequality that we must satisfy
+\begin{equation*}
+	\unmezz\left(\max_{i}x_{i}-\min_{i}x_{i}\right)\leq b.
+\end{equation*}
+and since $b_{n}$ must be the smallest possible the inequality becomes an equation. This means that
+\begin{equation*}
+	\widehat{b}_{n}=\unmezz\left(\max_{i}X_{i}-\min X_{i}\right).
+\end{equation*}
+To find $\widehat{a}_{n}$ just plug it in the equality and get
+\begin{equation*}
+	\widehat{a}_{n}=\unmezz\left(\max_{i}X_{i}+\min X_{i}\right).
+\end{equation*}
+Note that those are functions of the sufficient statistic, while the MME is not... so we would prefer this MLE.
+\begin{remark}
+	In those cases, when the model is not regular, there is not a standard approach: we must study each individual function and find a way around. 
+\end{remark}
+\begin{exercise}
+	Consider $(X_{1},\ldots,X_{n})$ from $X\sim\sim\mathsf{NegExp}(1)$ with
+	\begin{equation*}
+		f_{X}(x)=e^{-x}\indi_{\R^{+}}(x).
+	\end{equation*}
+	I now introduce a parameter in the form of truncation parameter. Take $(Y_{1},\ldots,Y_{n})$ from $Y\sim F_{\theta}$ where $F_{\theta}$ has density function
+	\begin{equation*}
+		f_{Y}(y;\theta)=ce^{-x}\indi_{(\theta,\infty)}(x).
+	\end{equation*}
+	Try to estimate $\theta$ with MME and MLE.
+\end{exercise}
+\begin{exercise}
+	Take a random sample $(X_{1},\ldots,X_{n})$ form $X\distbernoulli{\theta}$ and take $X=\sum_{i=1}^{n}X_{i}\sim\mathsf{Binom}(n,\theta)$. Imagine we know $\theta$ but not $n$; compute MME and MLE for $n$.
+\end{exercise}
+\input{tutorials}
 \end{document}
-%THIS IS THE DARK AGE OF LOVE   $\cdot$
+%THIS IS THE DARK AGE OF LOVE  

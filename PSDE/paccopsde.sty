@@ -34,6 +34,7 @@
 \usepackage{array}
 \usepackage{pdfpages}
 \usepackage{xfrac}
+\usepackage{parskip}
 \usepackage{siunitx}
 \usepackage{booktabs}
 \usepackage{arydshln}
@@ -79,10 +80,10 @@
 \theoremstyle{remark}
 \newtcbtheorem{rema}{Remark}{
 	enhanced, breakable, rounded corners,
-	colframe=white, coltitle=black, colbacktitle=OliveDrab1!24,
+	colframe=white, coltitle=black, colbacktitle=IndianRed4!24,
 	colback=white,
-	interior style={top color=PaleGreen3!31!MistyRose3, bottom color=white}, rounded corners,
-		frame style={top color=PaleGreen3!31!MistyRose3,bottom color=white!35},
+	interior style={top color=OrangeRed2!31!MistyRose3, bottom color=white}, rounded corners,
+		frame style={top color=OrangeRed3!31!MistyRose3,bottom color=white!35},
 	separator sign={:},
 	fonttitle=\itshape,
 	description formatter=\newline,
@@ -112,7 +113,27 @@
 		\end{rema*}% 
 	}
 
-			
+	\newenvironment{carray}[1][]{
+	\begin{array}{>{\displaystyle}c}
+		#1
+	}{
+		\end{array}
+		}	
+		
+	\newenvironment{larray}[1][]{
+		\begin{array}{>{\displaystyle}l}
+			#1
+		}{
+		\end{array}
+	}	
+	
+	\newenvironment{rarray}[1][]{
+		\begin{array}{>{\displaystyle}r}
+			#1
+		}{
+		\end{array}
+	}	
+	
 	\newcounter{defi}
 	
 	\newtcbtheorem[number within=section]{nition}{Definition}{
@@ -190,8 +211,8 @@
 				breakable,
 				sharp corners,
 				fonttitle=\bfseries,
-				colframe=Burlywood4, coltitle=Burlywood4, colbacktitle=Burlywood3,
-				colback=Burlywood4,
+				colframe=Burlywood4!50!OrangeRed2, coltitle=Burlywood4!20!OrangeRed2!20, colbacktitle=Burlywood3!50!OrangeRed2,
+				colback=Burlywood4!50!OrangeRed2,
 				coltext=white,
 				titlerule=0mm,
 				separator sign={:},
@@ -291,21 +312,7 @@
 								}
 								
 								\newcounter{exer}
-\NewDocumentEnvironment{carray}{o}{%
-	\begin{equation*}
-		\begin{array}{*{\IfNoValueTF{#1}{1}{#1}}{>{\displaystyle}c}}
-		}{%
-		\end{array}
-	\end{equation*}
-}
-\NewDocumentEnvironment{larray}{o}{%
-	\begin{equation*}
-		\begin{array}{*{\IfNoValueTF{#1}{1}{#1}}{>{\displaystyle}l}}
-		}{%
-		\end{array}
-	\end{equation*}
-}
-%pretty proud for these two mfs :)
+
 	\newlength{\hatchspread}
 \newlength{\hatchthickness}
 \newlength{\hatchshift}
@@ -416,7 +423,7 @@
 									\let\emptyset\varnothing
 									
 									
-									\renewcommand{\labelitemi}{$\textcolor{OliveDrab3}{\bullet}$}
+									\renewcommand{\labelitemi}{$\textcolor{IndianRed4}{\bullet}$}
 									\renewcommand{\labelitemii}{$\textcolor{SeaGreen2}{\diamond}$}
 									\renewcommand{\labelitemiii}{$\textcolor{SkyBlue4}{\diamond}$}
 									\renewcommand{\labelitemiv}{$\textcolor{SkyBlue4}{\ast}$}
@@ -454,6 +461,8 @@
 									\newcommand{\convd}{\xrightarrow[]{\text{d}}}
 									\newcommand{\convlp}{\xrightarrow[]{\lp}}
 									\newcommand{\lone}{L^{1}}
+									\newcommand{\deriv}[1]{\frac{\dif}{\dif #1}}
+									\newcommand{\dderiv}[1]{\frac{\dif^{2}}{\dif {#1}^{2}}}
 									\newcommand{\convw}{\xrightarrow[]{\mathrm{weak}}}
 									\newcommand{\as}{\text{ a.s.}}
 									\newcommand{\asstnr}{\sim N(0,1)}
@@ -497,13 +506,15 @@
 \newcommand{\normspp}[1]{\left(#1,\dnorm_{#1}\right)}
 \newcommand{\ifonly}{\underline{if and only if}}
 \newcommand{\inprod}[1]{\langle #1 \rangle}
+\newcommand{\dnorm}{\norm{\cdot}}
+\newcommand{\mtus}{M^{2}_{\mathsf{step}}}
 \renewcommand{\laplace}[1]{\mathcal{L}_{\lambda}\left\{#1\right\}}
 \newcommand{\vari}{\mathrm{VAR}}
 \newcommand{\ubracketthin}[1]{\underbracket[0.3pt]{#1}}
 \newcommand{\claptext}[1]{\mathclap{\text{#1}}}
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
 		\node[shape=circle,draw,
-		shading=ball, ball color=SpringGreen3!70,
+		shading=ball, ball color=IndianRed2!70,
 		,inner sep=1.5pt] (char) {\scriptsize\bfseries #1};}}
 \newcommand{\circnum}{\protect\circled{\arabic*}}
 \newcommand{\circlet}{\protect\circled{\alph*}}	
@@ -548,7 +559,7 @@
 									\newcommand{\mFt}{\mathcal{F}_t}
 									\newcommand{\every}{\forall\,}
 									\newcommand{\dyadic}{\mathcal{d}}
-									\newcommand{\norm}[1]{\left|\negthinspace\left|#1\right|\negthinspace\right|}
+									\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
 									\newcommand{\trsp}{\mathsf{T}}
 		\newcommand{\pr}{\mathbb{P}}
 		\newcommand{\indi}{\mathbb{1}}
