@@ -1098,6 +1098,391 @@ Given $b$ and $\sigma$, is there a process $X_{t}$ that solves this problem? Rem
 		\pr\left(X^{x}_{t}=Y^{x}_{t}\;\every t\in[0,T]\right)=1.
 	\end{equation*}
 \end{theorem}
+If $\sigma$ and $b$ are $\R^{+}\times\R\to\R$ then this problem is Lipshitz and of linear growth, so the solution exists and we just need to prove uniqueness.
+\begin{fancyproof}
+	We need to prove that:
+	\begin{enumerate}
+		\item Given another solution $Y^{x}_{t}$ satisfying the properties, then
+		\begin{equation*}
+			\pr\left(Y^{x}_{t}=X^{x}_{t}\right)=1\qquad\every t\in[0,T];
+		\end{equation*}
+		\item As a consequence we also need to prove
+		\begin{equation*}
+			\pr\left(Y^{x}_{t}=X^{x}_{t}\;\every t\in[0,T]\right)=1.
+		\end{equation*}
+	\end{enumerate}
+	\begin{enumerate}
+		\item We take the expectation and prove it is 
+		\begin{equation*}
+			\ev{\left(X^{x}_{t}-Y^{x}_{t}\right)^{2}}=0.
+		\end{equation*}
+		So we have
+		\begin{align*}
+			&\evs\Biggl[\biggl(X^{x}_{0}+Y^{x}_{0}+\int_{0}^{t}(b(s,X^{x}_{s})-b(s,Y^{x}_{s}))\ds+\\&+\int_{0}^{t}\left(\sigma(s,X^{x}_{s})-\sigma(s,Y^{x}_{s})\right)\dbs\biggr)^{2}\Biggr]\tag*{\faSadCry}\label{sad}
+		\end{align*}
+		but since 
+		\begin{equation*}
+			(a+b+c)^{2}\leq3(a^{2}+b^{2}+c^{2})
+		\end{equation*} 
+		\begin{align*}
+			\text{\ref{sad}}\leq&3\ubracketthin{\ev{\left(X^{x}_{0}+Y^{x}_{0}\right)^{2}}}_{:=A}+3\ev{\left[\int_{0}^{t}\left(b(s,X_{0}^{x})-b(s,Y^{x}_{0})\right)\ds\right]^{2}}+\\
+			&+\ev{\left[\int_{0}^{t}\left(\sigma(s,X^{x}_{0})-\sigma(s,Y^{x}_{0})\right)\ds\right]}.
+		\end{align*}
+		Applying \ito{} isometry we get
+		\begin{align*}
+			A\leq& A+3\ev{\int_{0}^{t}\left(b(s,X_{0}^{x})^{2}-b(s,Y^{x}_{s})\right)^{2}\ds}+\\
+			&+3\ev{\int_{0}^{t}\left(\sigma(s,X_{0}^{x})^{2}-\sigma(s,Y^{x}_{s})\right)^{2}\ds}\\
+			\leq&A+3(T+1)\ev{\int_{0}^{t}\left(b(s,X^{x}_{s})-b(s,Y^{x}_{s})\right)^{2}\ds}+\\&+3(T+1)\ev{\int_{0}^{t}\left(\sigma(s,X^{x}_{s})-\sigma(s,Y^{x}_{s})\right)^{2}\ds}\\
+			=&A+3(T+1)\ev{\int_{0}^{t}\left(b(s,X^{x}_{s})-b(s,Y^{x}_{s})\right)^{2}+\left(\sigma(s,X^{x}_{0})-\sigma(s,Y^{x}_{0})\right)^{2}\ds}\\
+			=&A+3(T+1)\ubracketthin{D^{2}}_{\claptext{Lipshitz constant}}\ev{\int_{0}^{t}\left(X_{0}^{x}-Y^{}\right)^{2}\ds}.
+		\end{align*}
+		We then use the Gronwall lemma:
+		\begin{lemma}
+			Suppose $v(t):\R^{+}\to\R$ such that
+			\begin{equation*}
+				v(t)\leq a+b\int_{0}^{t}v(s)\ds.
+			\end{equation*}
+			Then 
+			\begin{equation*}
+				v(t)\leq ae^{bt}.
+			\end{equation*}
+		\end{lemma}
+		So we have 
+		\begin{equation*}
+			\begin{carray}
+				\ubracketthin{\ev{\left(X^{x}_{t}-Y_{t}^{x}\right)^{2}}}_{v(t)}\leq A+D^{2}3(T+1)\int_{0}^{1}\ubracketthin{\ev{\left(X^{x}_{s}-Y_{s}^{x}\right)^{2}}}_{v(s)}\ds\\
+				\Downarrow\\
+				\ev{\left(X^{x}_{t}-Y^{x}_{t}\right)^{2}}\leq Ae^{D^{2}3(T+1)t}=0\\
+				\Downarrow\\
+				A=\ev{\left(X_{0}^{x}-Y_{0}^{x}\right)}=0.
+			\end{carray}
+		\end{equation*}
+		But this means 
+		\begin{equation*}
+			\pr(X^{x}_{t}=Y_{t}^{x})=1\qquad\every t\in[0,T].
+		\end{equation*}
+		\item Take the set 
+		\begin{equation*}
+			Q=\left\{\omega\in\Omega:\exists t\in[0,T]\text{ s.t. }X_{t}\neq Y_{t}\right\}=\bigcup_{t\in[0,T]}\ubracketthin{\left\{X_{t}\neq Y_{t}\right\}}_{\mathrlap{\pr\left(X_{t}\neq Y_{t}\right)=0\;\every t\in[0,T]}}.
+		\end{equation*}
+		Now define 
+		\begin{equation*}
+			N:=\left\{\omega\in\Omega:\exists t\in[0,T]\cap Q\text{ s.t. }X_{t}\neq Y_{t}\right\}=\bigcup_{t\in[0,T]\cap Q}\left\{X_{t}\neq Y_{t}\right\}.
+		\end{equation*}
+		We have that
+		\begin{equation*}
+			\pr(N)=0.
+		\end{equation*}
+		Now take a path $\omega\in N\setminus\Omega$. We now have
+		\begin{equation*}
+			X_{t}(\omega)=Y_{t}(\omega)\qquad\every t\in[0,T]\cap Q.
+		\end{equation*}
+		Since the mappings $t\mapsto X^{x}_{t}(\omega)$ and $t\mapsto Y^{x}_{t}(\omega)$ are continuous, we can say that if $X^{x}_{t}=Y^{x}_{t}$ on $[0,T]\cap Q$ then this is true also on $[0,T]$.
+	\end{enumerate}
+\end{fancyproof}
+\section{Martingales and Markov property}
+Remember that a process has Markov property if
+\begin{equation*}
+	\ev{\mu(X_{t+s})|\F_{s}}=\ev{\mu(X_{t+s})|X_{s}}.
+\end{equation*}
+\begin{theorem}
+	The unique solution of the SDE is a Markov process with respect to $\F^{B}_{t}$.
+\end{theorem}
+\begin{fancyproof}
+	Take $t\geq s>0$. Then our SDE starting from $s$ is
+	\begin{equation*}
+		X_{t}^{s,x}=X+\int_{s}^{t}b(r,X^{s,x}_{r})\dif r+\int_{s}^{t}\sigma(r,X^{s,x}_{r})\dif B_{r}.
+	\end{equation*}
+	Knowing that uniqueness and existence of the solution apply, take $\xi\in\R$ such that
+	\begin{align*}
+		X_{t}^{0,\xi}&=X+\int_{0}^{t}b(r,X^{0,\xi}_{r})\dif r+\int_{0}^{t}\sigma(r,X^{s,\xi})\dif r\\
+		X_{s}^{0,\xi}&=X+\int_{0}^{s}b(r,X^{0,\xi}_{r})\dif r+\int_{0}^{s}\sigma(r,X^{s,\xi})\dif r.
+	\end{align*}
+	Take the difference:
+	\begin{equation*}
+		X_{t}^{0,\xi}-X_{s}^{0,\xi}=\int_{s}^{t}b(r,X_{r}^{0,\xi})\dif r+\int_{s}^{t}\sigma(r,X_{r}^{0,\xi})\dif B_{r}.
+	\end{equation*}
+	Apply uniqueness and get 
+	\begin{equation*}
+		X_{t}^{0,\xi}=X_{t}^{0,X_{s}^{0,\xi}}\qquad\every t\geq0.
+	\end{equation*}
+	This means that thanks to flow properties the process starting from 0 can be split at time $s$ and start again from the solution $X_{s}^{0,\xi}$. Then we can write a functional
+	\begin{equation*}
+		X_{t}^{0,\xi}(\omega)=\Phi\left(X_{s}^{0,\xi},s,t,\omega\right)
+	\end{equation*}
+	which is measurable with respect to $\sigma(B_{r}-B_{s}:r\geq s)$, but $\G_{s}\independent\F_{s}$ because of independent increments so if $s<t$ than for a function $u\in\B_{b}(\R)$ we have
+	\begin{align*}
+		\ev{u(X_{t}^{0,\xi})|\F_{s}}&=\ev{u\left(\Phi\left(X_{s}^{0,\xi},s,t,\cdot\right)\right)|\F_{s}}\\
+		\text{\footnotesize use freezing lemma}\qquad&=\ev{u\left(\Phi\left(Y,s,t,\cdot\right)\right)}\Big|_{Y=X_{s}^{0,\xi}}\\
+		&=\ev{u\left(X^{s,Y}_{t}\right)}\Big|_{Y=X_{s}^{0,\xi}}\\
+		&=\ev{u\left(X_{t}^{0,\xi}\right)|\F_{s}}.
+	\end{align*}
+	So we can write
+	\begin{equation*}
+		\ev{u(X_{t+s})|\F_{s}}=\evs^{X_{s}}\left[u(X_{t})\right]
+	\end{equation*}
+	as our Markov transition kernel so we can define the transition probability as
+	\begin{equation*}
+		\pr(X_{t}\in\cdot|X_{s}=x):=p(s,x,t,\cdot)
+	\end{equation*}
+	but it may happen that $p(s,x,t,\cdot)$ only depends on the difference between $s$ and $t$, in which case we may want to write
+	\begin{equation*}
+		p(0,x,t-s,\cdot).
+	\end{equation*}
+	In this case we say that the Markov process is called time-homogeneous. For $t>s$ we have
+	\begin{equation*}
+		\ev{u(X_{t})|\F_{s}}=\ev{u(X_{t})|X_{s}}
+	\end{equation*}
+	and taking $u=\indi_{C}$ we get
+	\begin{equation*}
+		\pr\left(X_{t}\in C|\F_{s}\right)=\pr(X_{t}\in C|X_{s}).
+	\end{equation*}
+\end{fancyproof}
+So under suitable conditions of $b$ and $\sigma$ we have shown that:
+\begin{itemize}
+	\item there exist a unique solution;
+	\item the solution is Markov;
+	\item the solution is time-homogeneous.
+\end{itemize}
+An example of SDE is the so called \emph{Langevin equation}:
+\begin{equation*}
+	\begin{cases}
+		\dif X_{t}=-\alpha X_{t}\dt+\sigma\dbt\\
+		X_{0}=x
+	\end{cases}\qquad\begin{larray}
+	\alpha>0,\\
+	\sigma\in\R.
+	\end{larray}
+\end{equation*}
+Its solution is
+\begin{equation*}
+	X_{t}=xe^{-\alpha t}+\int_{0}^{t}e^{-\alpha(t-s)}\dbs.
+\end{equation*}
+The solution is made of a deterministic part $xe^{-\alpha{t}}$ to which we must add a random noise part ``dampened'' by the term $e^{-\alpha(t-s)}$ as we get closer to the time horizon. We can derive the solution: let's rewrite it as
+\begin{equation*}
+	\ubracketthin{e^{\alpha t}X^{x}_{t}}_{Y_{t}}-x=\sigma\int_{0}^{t}e^{\alpha s}\dbs
+\end{equation*}
+where $Y_{t}$ is an \ito{} process with drift coefficient $\sigma e^{\alpha s}$. If we take the function 
+\begin{equation*}
+	h(t,Y_{t})=e^{-\alpha t}Y_{t}
+\end{equation*}
+then we have a function of an \ito{} process and therefore we can apply the \ito{} theorem. The generic form is
+\begin{equation*}
+	\dif h(t,Y_{t})=\left(\partial_{t}h+b_{t}\partial_{z}h+\unmezz\partial^{2}_{z}\sigma^{2}_{t}\right)\dt+\sigma_{t}\partial_{z}h\dbt
+\end{equation*}
+and here
+\begin{equation*}
+	\begin{larray}
+		\partial_{t}h=-\alpha e^{-\alpha t}Y_{t}\\
+		b_{t}\partial_{z}h=0\\
+		\unmezz\partial^{2}_{z}h\sigma^{2}_{t}=0\\
+		\sigma_{t}\partial_{z}h\dbt=\sigma e^{\alpha t}e^{-\alpha t}\dbt.
+	\end{larray}
+\end{equation*}
+So we call $h(t,Y_{t})=X_{t}$ and get
+\begin{equation*}
+	\dif X_{t}=-\alpha e^{-\alpha t}Y_{t}\dt+\sigma\dbt\implies\dif X_{t}=-\alpha X_{t}\dt+\sigma\dbt.
+\end{equation*}
+Another example: take $T>0$, $a,b\in\R$ and consider the problem of the \emph{Brownian bridge} between $a$ and $b$
+\begin{equation*}
+	\begin{cases}
+		\dif X_{t}=\frac{b-X_{t}}{T-t}\dt+\dbt&0\leq t\leq T\\
+		X_{0}=a.
+	\end{cases}
+\end{equation*}
+The solution is
+\begin{equation*}
+	X_{t}^{a}=\ubracketthin{a\left(1-\frac{t}{T}\right)+\frac{bt}{T}}_{\claptext{linear bridge between $a$ and $b$}}+(T-t)\ubracketthin{\int_{0}^{t}\frac{1}{T-s}\dbs}_{\claptext{dampened \bwm}}\qquad t\in[0,1].
+\end{equation*}
+When the process is at 0, there is no drift and it is pure \bwm; when it is at a position higher than 0, it gets pushed to 0 and the same happens when it is at a value below 0. Imagine the value of $X_{t}$ is very high and $t$ is approaching the time horizon so that $T-t\approx 0$. To derive the solution, denote
+\begin{equation*}
+	Z_{t}=\int_{0}^{t}\frac{1}{T-s}\dbs
+\end{equation*}
+so that
+\begin{equation*}
+	\dif Z_{t}=\frac{1}{T-t}\dbt\implies Y_{t}=(T-t)Z_{t}
+\end{equation*}
+so that our $h$ is
+\begin{equation*}
+	h(t,x)=(T-t)x.
+\end{equation*}
+Again, apply \ito's theorem and get
+\begin{equation*}
+	\begin{carray}
+		\dif h(t,Y_{t})=\left(\partial_{t}h+b_{t}\partial_{z}h+\unmezz\partial^{2}_{z}\sigma^{2}_{t}\right)\dt+\sigma_{t}\partial_{z}h\dbt\\
+		\Downarrow\\
+	\begin{larray}
+		\partial_{t}h=-Z_{t}\\
+		b_{t}\partial_{z}h=0\\
+		\unmezz\partial^{2}_{x}h\sigma^{2}_{t}=0\\
+		\sigma_{t}=\frac{1}{T-t}\\
+		\partial_{x}h\dbt=T-t.\\
+	\end{larray}
+	\end{carray}
+\end{equation*}
+So
+\begin{align*}
+	\dif Y_{t}
+	&=-Z_{t}\dt+\frac{(T-t)}{(T-t)}\dbt\\
+	&=-Z_{t}\dt+\dbt.
+\end{align*}
+We can rewrite the solution using the compact notation
+\begin{align*}
+	X_{t}^{a}-a&=\frac{bt}{T}-\frac{at}{T}Y_{t}
+\end{align*}
+which means
+\begin{align*}
+	\dif X_{t}&=\frac{b-a}{T}\dt+\dif Y_{t}\\
+	&=\frac{b-a}{T}\dt-Z_{t}\dt\dif B_{t}.
+\end{align*}
+Now we want to replace $Z_{t}$ to get closer to the solution:
+\begin{align*}
+	\dif X_{t}&=\left(\frac{b-a}{T}-\int_{0}^{t}\frac{1}{T-S}\dbs\right)\dt+\dbt\\
+	&=\frac{b-a}{T}+\frac{X^{a}_{t}-a\left(1-\frac{t}{T}-\frac{bt}{T}\right)}{T-t}\dt+\dbt\\
+	&=\frac{b-X_{t}^{a}}{T-t}\dt+\dbt.
+\end{align*}
+We now understand that if we have a ``suitable'' Markov process (which we can represent as governed by a SDE $\dif X_{t}=b(t,X_{t})\dt+\sigma(t,X_{t})\dbt$) and then we can define a function \begin{equation*}
+	q(x,t)=\evs^{x}\left[u(X_{t})\right] 
+\end{equation*}
+(the expected value of $u(X_{t})$ starting from $x$)and then we can rewrite the problem as
+\begin{equation*}
+	\begin{cases}
+		\deriv{t}q(x,t)=G(q,X_{t})\\
+		q(x,0)=u(X)&\text{for a suitable $u$}.
+	\end{cases}
+\end{equation*}
+In this case $q(x,t)$ is a deterministic function even if $X_{t}$ is random, since the variety of sample paths gets ``lost'' in the average. Moreover, $\deriv{t}q(x,t)$ is the \emph{infinitesimal markov generator} of the process. 
+Here $G$ is a linear operator. We now know how to associate the SDE to the trajectory and not just to the mean: imagine that at $t=0$ our process is in the condition dictated by $u(X)$ and we are running the random phenomenon infinite times and we take the average at time $t$:
+\begin{equation*}
+	t\mapsto\evs^{x}\left[u(X_{t})\right].
+\end{equation*}
+This corresponds to looking to the macroscopic evolution (while the SDE governs the microscopic evolution).
+\section{Semigroup theory}
+Did we need this? No! Will this be clear? Still no!
+\begin{definition}
+	A family of linear operators $\seqtm{P}$ on a Banach space $(\B,\dnorm)$ is said to be a \emph{semigroup} if
+	\begin{enumerate}[\circnum]
+		\item $P_{t}:\B\to\B$;
+		\item $P_{0}=1$ (identity element);
+		\item $P_{s}P_{t}=P_{t+s}$ for $\every s,t\geq0$ (associativity).
+	\end{enumerate}
+\end{definition}
+If we also require the existence of the inverse element we would have a group.
+\begin{proposition}
+	Take the bounded Banach space $B_{b}(\R^{d})$ and the Banach space
+\begin{equation*}
+	C_{\infty}(\R^{d})=\left\{u(x)\text{ continuous and vanishing at }\infty\right\}.
+\end{equation*}
+Define the family $\seqtm{P}$ so that 
+\begin{equation*}
+	P_{t}u(X)=\evs^{x}\left[u(X)\right];
+\end{equation*}
+this is a semigroup on $B_{b}(\R^{d})$.
+\end{proposition}
+\begin{fancyproof}
+	We have that
+	\begin{equation*}
+		P_{t}:B_{b}(\R^{d})\to B_{b}(\R^{d}).
+	\end{equation*}
+	and
+	\begin{align*}
+		\evs^{x}\left[u(B_{t})\right]&=\ev{u(x+B_{t})}\\
+		&=\int_{\R^{d}}u(x+y)P_{t}(\dy).
+	\end{align*}
+	This is measurable and therefore
+	\begin{align*}
+		\left|\evs^{x}\left[u(B_{t})\right]\right|&\leq\evs^{x}\left[\left|u(B_{t})\right|\right]\\
+		&\leq\norm{u}_{\infty}
+	\end{align*}
+	so it is bounded. Now check linearity: we have
+	\begin{align*}
+		\left[P_{t}(u_{1}+u_{2})\right](x)&=\evs^{x}\left[u_{1}(B_{t})+u_{2}(B_{t})\right]\\
+		&=\evs^{x}\left[u_{1}(B_{t})\right]+\evs^{x}\left[u_{s}(B_{t})\right]\\
+		&=P_{t}u_{1}(x)+P_{t}u_{2}(x).
+	\end{align*}
+	Now check the existence of the identity element:
+	\begin{equation*}
+		\begin{carray}
+			\evs^{x}\left[u(B_{s})\right]=u(X)\\
+			\Downarrow\\
+			B_{0}=x\as{} \text{ under }\pr^{x}.
+		\end{carray}
+	\end{equation*}
+	Now check semigroup property:
+	\begin{align*}
+		P_{t+s}u(X)&=\evs^{x}\left[B_{t+s}\right]\\
+		&=\evs^{x}\left[\evs^{x}\left[u(B_{t_s})|\F_{s}\right]\right]\\
+		&=\evs^{x}\left[\evs^{B_{s}}\left[u(B_{t})\right]\right]\\
+		&=\evs^{x}P_{t}u(B_{t})\\
+		&=P_{s}P_{t}u(x).
+	\end{align*}
+\end{fancyproof}
+Take
+\begin{equation*}
+	[0,\infty]\ni t\mapsto P_{t}u(X)\in\R.
+\end{equation*}
+This is called an \emph{orbit map} since it represents the temporal orbit of the function $u$ under the action of the Markov semigroup $P_{t}$.
+\begin{lemma}
+	Suppose that $P_{t}$ is a semigroup on $(\B,\dnorm)$. Then the two statements are equivalent:
+	\begin{enumerate}
+		\item $\norm{P_{t}u-u}\to0$ as $t\to0$;
+		\item $t\mapsto P_{t}u$ is continuous in the strong sense.
+	\end{enumerate}
+\end{lemma}
+\begin{fancyproof}
+	\begin{itemize}
+		\item[$1\to2$] We have that
+		\begin{align*}
+			\norm{P_{t+s}u-P_{t}u}&=\norm{P_{t}(P_{s}u-u)}\\
+			\text{\tiny since $P_{t}$ is contraption}\qquad&\leq\norm{P_{s}u-u}\to0		\end{align*}
+	\end{itemize}
+	so we have
+	\begin{align*}
+		\norm{P_{t}u-P_{t-s}u}&=\norm{P_{t-s}\left(P_{s}u-u\right)}\\
+		&\leq\norm{P_{s}u-u}\xrightarrow[s\searrow0]{}0.
+	\end{align*}
+\end{fancyproof}
+\chapter{PDEs}
+\section{Introduction to PDEs}
+Who the fuck decided to explain things in this order? A PDE is an equation involving the partial derivatives of un unknown function $u:\Omega\to\R$ where $\Omega$ is an open subset of $\R^{n}$ with $n\geq2$. This definition is correct but it is too abstract: we usually don't focus on arbitrary function but on functions that hold a particular interest to study. 
+We will use this notation for partial derivatives:
+\begin{equation*}
+	\frac{\partial u}{\partial x_{i}}=D_{i}u=\partial_{i}u=\partial_{x_{i}}u=u_{x_{i}}.
+\end{equation*}
+We will use this notation for the partial derivatives of order 2 for $x=(x_{1},\ldots,x_{n})\in\R^{n}$:
+\begin{equation*}
+	\frac{\partial^{2}u}{\partial x_{i}\partial x_{j}}=D_{ij}u=D^{2}_{ij}u=\partial^{2}_{ij}u=\partial_{x_{i}x_{j}}u=u_{x_{i}x_{j}}.
+\end{equation*}
+We call the \emph{laplacian} of $u$ the quantity
+\begin{equation*}
+	\Delta u=\sum_{i=1}^{n}\frac{\partial^{2}u}{\partial x_{i}^{2}}=\frac{\partial^{2}u}{\partial x_{1}^{2}}+\frac{\partial^{2}u}{\partial x_{2}^{2}}+\ldots+\frac{\partial^{2}u}{\partial x_{n}^{2}}
+\end{equation*}
+where
+\begin{equation*}
+	\frac{\partial^2u}{\partial x^{2}_{i}}=\frac{\partial^2u}{\partial x_i\partial x_i}=D^{2}_{i}u.
+\end{equation*}
+We use the laplacian to compactly state PDEs, for instance:
+\begin{itemize}
+	\item \emph{Laplace equation}:
+	\begin{equation*}
+		\Delta u=0.
+	\end{equation*}
+	Laplace equation models many equilibrium states in physics.
+	\item  \emph{Poisson equation}:
+	\begin{equation*}
+		\Delta u=f
+	\end{equation*}
+	where $f:\Omega\to\R$ is a given function. The Poisson equation arises for example in electrostatics.
+	\item \emph{Heat equation}: here one coordinate $t$ is distinguished as the ``time'' coordinate, while the remaning coordinates $x_{1},\ldots,x_{n}$ represent ``spatial'' variables. The unknown function $u=u(x,t)$ is a function of $n+1$ variables. Consider
+	\begin{equation*}
+		u:\Omega\times\R^{+}\to\R
+	\end{equation*}
+	where $\Omega$ is an open subset of $\R^{n}$ and $\R^{+}=(0,\infty)=\left\{t\in\R|t>0\right\}$. The heat equation is
+	\begin{equation*}
+		\partial_{t}u-\Delta u=0
+	\end{equation*}
+	where $\Delta u=\sum_{i=1}^{n}\frac{\partial^{2}u}{\partial x_{i}^{2}}$
+\end{itemize}
 \end{document} 
 
 

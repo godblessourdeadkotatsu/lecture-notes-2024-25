@@ -23,7 +23,7 @@
 	\clearpage
 	\tableofcontents
 	\pagenumbering{arabic}
-\chapter{Statistical Inference}
+\chapter{Point estimation}
 \section{Introduction}
 When we talk about statistics we typically talk about data. Take $n\geq1$ numbers
 \begin{equation*}
@@ -301,7 +301,7 @@ This is the \emph{non-centered chi-squared \rv{}} with $k$ degrees of freedom an
 	\end{equation*}
 \end{fancyproof}
 \begin{theorem}
-	\emph{Fisher-Cochram theorem}.  Take $Y\distnormk{\mu,\mathbf{I}_k}$ and let $\mathbf{A}_{1},\ldots,\mathbf{A}_{m}$ be positive semi-definite matrices with ranks $r_{1},\ldots,r_{m}$. If I sum all the matrix I must get the identity matrix so $\mathbf{A_{1}}+\ldots+\mathbf{A}_{m}=\mathbf{I}_{k}$. The following are equivalent:
+	\emph{Fisher-Cochrane theorem}.  Take $Y\distnormk{\mu,\mathbf{I}_k}$ and let $\mathbf{A}_{1},\ldots,\mathbf{A}_{m}$ be positive semi-definite matrices with ranks $r_{1},\ldots,r_{m}$. If I sum all the matrix I must get the identity matrix so $\mathbf{A_{1}}+\ldots+\mathbf{A}_{m}=\mathbf{I}_{k}$. The following are equivalent:
 	\begin{enumerate}
 		\item $\mathbf{Q}_{j}=Y^{\trsp}A_{j}Y$ for $j=1,\ldots,m$ and 
 		\begin{equation*}
@@ -378,7 +378,7 @@ This result implies a simple proof of the distribution of mean and variance unde
 		Y^{\trsp}\mathbf{A}_{1}Y&=\sum_{j=1}^{n}\left(Y_{j}-\Ybar_{2}\right)^{2}\\
 		Y^{\trsp}\mathbf{A}_{2}Y&=n\left(\Ybar_{n}\right)^{2}	
 	\end{align*}
-	so not exactly the distributions we know, but we are getting close. $\mathbf{A}_{1}$ and $\mathbf{A}_{2}$ are idempotent with ranks $n-1$ for $\mathbf{A}_{1}$ and rank 1 for $\mathbf{A}_{2}$. I then apply the Fisher-Cochram theorem to get
+	so not exactly the distributions we know, but we are getting close. $\mathbf{A}_{1}$ and $\mathbf{A}_{2}$ are idempotent with ranks $n-1$ for $\mathbf{A}_{1}$ and rank 1 for $\mathbf{A}_{2}$. I then apply the Fisher-Cochrane theorem to get
 	\begin{equation*}
 		Y^{\trsp}\mathbf{A}_{1}Y\sim\sigma^{2}\chi^{2}_{n-1}
 	\end{equation*}
@@ -1459,7 +1459,7 @@ So we can use sufficient statistics to build more efficient (or equivalent) esti
 	\end{equation*}
 	We still need to prove that $T_{n}$ is an estimator which means showing that $T_{n}$ is a function of the data but \textit{not} of $\theta$ but this is trivially true because $T_{n}=\ev{T_{2n}|T_{1n}}$ and since $T_{1n}$ is sufficient it ``removes'' from $T_{n}$ all the dependence from $\theta$.
 \end{fancyproof}
-\subsection{Asymptotic properties}
+\subsection{Asymptotic properties of estimators}
 \begin{definition}
 	\begin{itemize}
 	\item 	We say that $T_{n}$ is \emph{asymptotically unbiased} for $\theta$ if
@@ -1564,7 +1564,6 @@ So we have convergence in probability
 	\widehat{\theta}_{n}=\frac{1}{n}\sum_{i=1}^{n}x_{i}\convpr\ev{X}=\theta
 \end{equation*}
 so $\widehat{\theta}_{n}$ is (weakly) consistent for $\theta$.
-\section{Other methods of estimation}
 \subsection{Bayes estimation}
 We can further modify this problem. Suppose we have the random sample $(X_{1},\ldots,X_{n})$ from $X\distbernoulli{\theta}$. We now want to use for the first time a Bayesian approach rather than a frequentist approach. We know that $\theta\in(0,1)$ and we suppose (guessing) that $\theta\sim\mathsf{Beta}(a,b)$ for $a,b>0$ and therefore what we actually mean is that
 \begin{equation*}
@@ -1708,6 +1707,1615 @@ Note that those are functions of the sufficient statistic, while the MME is not.
 \begin{exercise}
 	Take a random sample $(X_{1},\ldots,X_{n})$ form $X\distbernoulli{\theta}$ and take $X=\sum_{i=1}^{n}X_{i}\sim\mathsf{Binom}(n,\theta)$. Imagine we know $\theta$ but not $n$; compute MME and MLE for $n$.
 \end{exercise}
+\subsection{Invariance property}
+Take $X_{1},\ldots,X_{n}$ from $F_{\theta}$ with $\theta\in\Theta$. The MLE estimator is
+\begin{equation*}
+	\theta^{\star}=\argmax_{\Theta}\log\like(\theta;\ulx).
+\end{equation*}
+Suppose that we are interested in a function $\tau(\theta)=\eta$. What is the MLE of $\tau$? This is very trivial when $\tau$ is injective because we can use the inverse function and remap it to a single point, but we can prove this for any function.
+\begin{theorem}
+	Let $(X_{1},\ldots,X_{n})$ be a random sample from a model $X\sim F_{\theta}$ with $\theta\in\Theta$. If $\widehat{\theta}_{n}$ is the maximum likelihood estimator for $\theta$ then $\tau\left(\widehat{\theta}_{n}\right)$ is the maximum likelihood estimator for $\tau(\theta)$ for any function $\tau(\cdot)$.
+\end{theorem}
+So if we take the MLE for $\theta$ we just have to plug it into $\tau$. Let's see some examples of this.
+\begin{itemize}
+	\item Take $\rsampx$ from $X\distnorm{\mu,1}$, with $\mu$ unknown. We observe only the number of observations that are smaller than 0. We need to find the MLE of $\mu$. If the $X_{i}$ are observed then 
+	\begin{equation*}
+		\widehat{\mu}_{n}=\frac{1}{n}\sum_{i=1}^{n}X_{i}.
+	\end{equation*}
+	In this case we are actually observing a variable
+	\begin{equation*}
+		Y_{i}=\begin{cases}
+			1&\text{if }X_{i}<0\\
+			0&\text{otherwise.}
+		\end{cases}
+	\end{equation*}
+	$Y_{i}$ is a ``success or not'' variable and as such it is a Bernoulli variable:
+	\begin{equation*}
+		Y_{i}\distbernoulli{\pr\left(X_{i}<0\right)}\qquad\text{with}\qquad\pr\left(X_{i}<0\right)=\Phi(-\mu).
+	\end{equation*}
+	This means that the likelihood for the statistic $T=\sum_{i=1}^{n}Y_{i}$ is a binomial density
+	\begin{equation*}
+		\pr\left(T<t\right)={n\choose t}\left(\Phi(-\mu)\right)^{2}\left(1-\Phi(-\mu)\right)^{n-t}
+	\end{equation*}
+	and the likelihood is
+	\begin{equation*}
+		\log\like(\Phi(-\mu),t)=t\log\left(\Phi(-\mu)\right)+(n-t)\log\left(1-\Phi(-\mu)\right).
+	\end{equation*}
+	Taking the derivative the MLE of the function $\Phi(-\mu)$ is
+	\begin{equation*}
+		\widehat{\Phi(-\mu)}=\frac{t}{n}.
+	\end{equation*}
+	By invariance property of MLEs the MLE of $\mu$ will be 
+	\begin{equation*}
+		\widehat{\mu}_{n}=\Phi\left(\frac{t}{n}\right).
+	\end{equation*}
+	\item Let $\rsampx$ be a sample of waiting times before an object breaks from $X\distexp{\theta}$. When we look for survival rates (i.e. the probability of an object to break at a certain time) we can estimate the average breaking time $\theta$ by simply counting how many object have survived after a certain time threshold $T$ instead of computing the breaking time for a lot of objects (boring \& not sexy). This means counting the number of successes, so the probability of success is again a Bernoulli with probability of success
+	\begin{equation*}
+		\pr[X_{i}\geq T]=e^{-\theta T}\qquad\text{for some }T>0.
+	\end{equation*}
+	So in this case $f(\theta)=e^{-\theta T}$. We have our new ``counting'' \rv:
+	\begin{equation*}
+		Y_{i}=\begin{cases}
+			1&\text{if }X_{i}\geq T\\
+			0&\text{otherwise}.
+		\end{cases}
+	\end{equation*}
+	Consider out statistic $T=\sum_{i=1}^{n}Y_{i}$. We have a binomial distribution
+	\begin{equation*}
+		\pr\left(T\geq t\right)={n\choose t}\left(e^{-\theta T}\right)^{t}\left(1-e^{-\theta T}\right)^{n-t}
+	\end{equation*}
+	with likelihood function
+	\begin{equation*}
+		\log\like\left(e^{-\theta T};t\right)\propto t\log e^{-\theta T}+(n-t)\log\left(1-e^{-\theta T}\right).
+	\end{equation*}
+	Doing the optimization we get that the MLE of $e^{-\theta T}$ is $\frac{t}{n}$. Since we actually used the inverse of the density function, we have 
+	\begin{equation*}
+		f^{-1}(\theta)=-\frac{1}{T}\log\theta.
+	\end{equation*}By the invariance property we get
+	\begin{equation*}
+		\widehat{\theta}_{n}=-\frac{1}{T}\log\frac{t}{n}\qquad t\neq0.
+	\end{equation*}
+	\item Consider a \emph{randomized experiment}. Suppose that we have a sample of individuals and we make a survey based on one question whose answer can be ``yes'' or ``no'' because we want to understand the fraction of the population which belongs to ``yes = 1'' and ``no = 1''. In many situations the question is personal and we need to protect the privacy of people who answer. The classic example of a randomized experiment is the following: imagine that we have a coin with known probability of success
+	\begin{equation*}
+		\pr\left(\left\{\text{H}\right\}\right)=\pr\left(\{1\}\right)=p.
+	\end{equation*}
+	Instead of asking people to answer ``yes'' or ``no'' to our question, we ask the other person to go in another room, flip the coin and then telling us whether the coin flip (1 or 0) result coincides with our answer (1 or 0). Then our model for the probability of a person telling us ``they coincide'' with the unknown fact that they belong to group $A$ (from the original question) becomes
+	\begin{equation*}
+		\pr(X_{i}=1)=\ubracketthin{\pr\left(X_{i}=1|A\right)\pr(A)}_{p\cdot\theta}+\ubracketthin{\pr\left(X_{i}=1|A^{c}\right)\pr(A^{c})}_{(1-p)(1-\theta)}.
+	\end{equation*}
+	We are ultimately interested in estimating $\theta$ but we need to only use $\rsampx$ from $X\distbernoulli{p\theta+(1-p)(1-\theta)}$. We know how to estimate the MLE of a Bernoulli parameter:
+	\begin{equation*}
+		\text{the MLE is }p\theta+(1-p)(1-\theta)=\frac{1}{n}\sum_{i=1}^{n}X_{i}.
+	\end{equation*}
+	So we solve for $\theta$ and by the invariance principle the MLE of $\theta$ is
+	\begin{equation*}
+		\widehat{\theta}_{n}=\frac{\frac{1}{n}\sum_{i=1}^{n}X_{i}-(1-p)}{2p-1}\qquad p\neq\unmezz.
+	\end{equation*}
+	But... this means that the coin cannot be fair and it must be biased... which means that I could \textit{technically} recover information about the person telling me the answer. Yikes. This method is useless in real life.
+\end{itemize}
+This also means that we can have a version of the CLT for the function $\tau(\theta)$: this is called \textit{delta method}.
+\subsection{Consistency and other asymptotic properties for MLEs}
+\begin{definition}
+	Let $\rsampx$ be a random sample from a model $X\sim F_{\theta}$ with $\theta\in\Theta$. Let $T_{n}=T\rsampx$ be an estimator for $\theta$. Let $\theta_{0}\in\Theta$ be the ``true'' value for $\theta$ (also called the \textit{true generating mechanism}). We say that $T_{n}$ is \emph{weakly consistent for $\theta$} if
+	\begin{equation*}
+		T_{n}\convpr\theta_{0}\qquad n\to\infty
+	\end{equation*}
+	which in other words means
+	\begin{equation*}
+		\lim_{n\to\infty}\pr\left(|T_{n}-\theta_{0}|>\varepsilon;\theta_{0}\right)=0\qquad\every\varepsilon>0\text{ fixed}.
+	\end{equation*}
+\end{definition}
+We also have a strong version with almost sure convergence instead of convergence in probability.
+\begin{definition}
+	Let $\rsampx$ be a random sample from a model $X\sim F_{\theta}$ with $\theta\in\Theta$. Let $T_{n}=T\rsampx$ be an estimator for $\theta$. Let $\theta_{0}\in\Theta$ be the true generating mechanism for $\theta$. We say that $T_{n}$ is \emph{strongly consistent for $\theta$} if
+	\begin{equation*}
+		T_{n}\convas\theta_{0}\qquad n\to\infty
+	\end{equation*}
+	which in other words means
+	\begin{equation*}
+		\pr\left(\left\{\lim_{n\to\infty}T_{n}=\theta_{0}\right\};\theta_{0}\right)=1
+	\end{equation*}
+	or alternatively
+	\begin{equation*}
+		\lim_{n\to\infty}\pr\left(|T_{m}-\theta_{0}|<\varepsilon\quad\every m>n;\theta_{0}\right)=1.
+	\end{equation*}
+\end{definition}
+For example, take $\rsampx$ from $X\distnorm{\theta,1}$ with $\theta$ unknown. Consider the MLE
+\begin{equation*}
+	\widehat{\theta}_{n}=\frac{1}{n}\sum_{i=1}^{n}X_{i}.
+\end{equation*}
+In this case it is very easy to check that $\widehat{\theta}_{n}$ is strongly consistent because it is written in a way that lets us apply the SLLN directly:
+\begin{equation*}
+	\widehat{\theta}_{n}\convas\theta_{0}.
+\end{equation*}
+\begin{remark}
+	In general, proving consistency (weak or strong) reduces to an application of the LLN.
+\end{remark}
+Consider $\rsampx$ from $X\sim f_{X}(x;\theta)$ with $\theta\in\Theta$. The log-likelihood is
+\begin{equation*}
+	\log\like(\theta;\ulx)=\sum_{i=1}^{n}\log f_{X_{i}}(x_{i};\theta).
+\end{equation*}
+Consider the sequence
+\begin{equation*}
+	{\left(\log_{n}\like(\theta;\ulx)\right)}_{n\geq 1}.
+\end{equation*}
+Let $\theta_{0}$ be the true generating mechanism such that $\theta\in\Theta$.
+\begin{align*}
+	\unmezz\left(\log_{n}\like(\theta;\ulx)-\log_{n}\like(\theta_{0},\ulx)\right)&=\frac{1}{n}\sum_{i=1}^{n}\log\frac{f_{X_{i}}(x_{i};\theta)}{f_{X_{i}}(x_{i},\theta_{0})}\\
+	&\convas\ev{\log\frac{f_{X_{i}}(x_{i};\theta)}{f_{X_{i}}(x_{i},\theta_{0})};\theta_{0}}\\
+	\text{\footnotesize Jensen's inequality}\qquad&<\log\ubracketthin{\ev{\frac{f_{X_{i}}(x_{i},\theta)}{f_{X_{i}}(x_{i},\theta_{0})};\theta_{0}}}_{\claptext{$=1$ since this is the full density}}=0.
+\end{align*}
+\begin{remark}
+	Heuristically, we can think of $\theta_{0}$ as a very likely point, in a certain sense the ``best'' point. When I accumulate many data points (when $n\to\infty$) the likelihood function in $\theta_{0}$ is much more larger than the likelihood function for any other $\theta\neq\theta_{0}$. This intuitively tells us that my MLE is converging on $\theta_{0}$.
+\end{remark}
+Consider the parameter space $\Theta=\left\{\theta_{0},\theta_{1},\ldots,\theta_{n}\right\}$ being a finite space of dimension $m\N$. Take $\varepsilon>0$ and for $j=1,\ldots,m$ we define the event $A_{j}$ as
+\begin{equation*}
+	A_{j}=\left\{\log_{n}\like(\theta_{0})-\log_{n}\like(\theta_{j})>\varepsilon\quad \every n>n_{0}\right\}.
+\end{equation*}
+We can take $n_{0}$ sufficently large such that
+\begin{equation*}
+	\pr(A_{j})>1-\delta\qquad\every j=1,\ldots, m
+\end{equation*}
+for a fixed (arbitrary) $\delta>0$. We know that 
+\begin{align*}
+	\pr\left(\bigcap_{j=1}^{m}A_{j}\right)&=1-\pr\left(\bigcup_{j=1}^{n}A_{j}^{c}\right)\\
+	&\geq 1-\sum_{j=1}^{m}\pr\left(A_{j}^{c}\right)\\
+	&=1-\sum_{i=1}^{n}\left(1-\pr\left(A_{T}\right)\right)\\
+	&\geq 1-\cancel{m}+\cancel{m}+m\delta\\
+	&=1-m\delta.
+\end{align*}
+So we proved that 
+\begin{equation*}
+	\pr\left(\lim_{n}(\theta_{0})-\log_{n}(\theta_{j})>\varepsilon\quad \every j\in\{1,\ldots,m\}\right)
+\end{equation*}
+and $n>n_{0}\geq 1-m\delta$. $f$ can be arbitrarily small. \par
+Another important asymptotic property is the Gaussian limit (a sort of CLT for estimators). To understand it we need to revise some definitions.
+\begin{definition}
+	Let ${(X_{n})}_{n\geq 1}$ be a sequence of \rv s and let ${(r_{n})}_{n\geq 1}$ be a sequence of positive real numbers.
+	\begin{enumerate}[\circnum]
+		\item $X_{n}$ is of \emph{smaller order than $r_{n}$ \ul{in probability}} ($X_{n}=\mathcal{o}_{\pr}(r_{n})$) if
+		\begin{equation*}
+			\frac{X_{n}}{r_{n}}\convpr0\qquad n\to\infty;
+		\end{equation*} 
+		\item $X_{n}$ is \emph{at most of the same order than $r_{n}$ \ul{in probability}} ($X_{n}=\mathscr{O}_{\pr}(r_{n})$) if $\every\varepsilon>0,\exists M_{\varepsilon}$ such that
+		\begin{equation*}
+			\pr\left(\left|\frac{X_{n}}{r_{n}}\right|>M_{\varepsilon}\right)<\varepsilon
+		\end{equation*}
+		for each $n>N_{\varepsilon}$ (with $N_{\varepsilon}$ depending on $\varepsilon$).
+	\end{enumerate}
+\end{definition}
+\begin{remark}
+	If $r_{n}$ is a constant sequence (for example if $r_{n}=1$) then $X_{n}=\mathcal{o}_{\pr}(1)$ is equivalent to 
+	\begin{equation*}
+		X_{n}\convpr 0,\qquad n\to\infty.
+	\end{equation*}
+	Similarly, $X_{n}=\mathscr{O}_{\pr}(1)$ means that $X_{n}$ does not \faBomb explode \faBomb in probability.
+\end{remark}
+\begin{theorem}
+	Take two sequences of positive real numbers ${(r_{n})}_{n\geq1}$ and ${(s_{n})}_{n\geq1}$. Take two sequences of \rv s ${(X_{n})}_{n\geq1}$ and ${(Y_{n})}_{n\geq1}$. Then
+	\begin{enumerate}
+		\item \begin{align*}
+			X_{n}&=\mathcal{o}_{\pr}(r_{n})\wedge Y_{n}=\mathcal{o}_{\pr}(s_{n})\\
+			&\implies X_{n}Y_{n}=\mathcal{o}_{\pr}(r_{n}s_{n})\\
+			&\implies X_{n}+Y_{n}=\mathcal{o}_{\pr}\left(\max\{r_{n},s_{n}\}\right);
+		\end{align*}
+		\item \begin{align*}
+			X_{n}&=\mathscr{O}_{\pr}(r_{n})\wedge Y_{n}=\mathscr{O}_{\pr}(s_{n})\\
+			&\implies X_{n}Y_{n}=\mathscr{O}_{\pr}(r_{n}s_{n})\\
+			&\implies X_{n}+Y_{n}=\mathscr{O}_{\pr}\left(\max\{r_{n},s_{n}\}\right);
+		\end{align*}
+		\item \begin{align*}
+			X_{n}&=\mathscr{O}_{\pr}(r_{n})\wedge Y_{n}=\mathcal{o}_{\pr}(s_{n})\\
+			&\implies X_{n}Y_{n}=\mathcal{o}_{\pr}(r_{n}s_{n})
+		\end{align*}
+	\end{enumerate}
+\end{theorem}
+\begin{fancyproof}
+	We will prove just the first statement. Given $\varepsilon>0$ and $\delta>0$ then there exists $N_{\varepsilon}$ such that
+	\begin{equation*}
+		\begin{larray}
+			\pr\left(\left|\frac{X_{n}}{r_{n}}\right|>\varepsilon\right)<\delta\\
+			\pr\left(\left|\frac{Y_{n}}{s_{n}}\right|>\varepsilon\right)<\delta.
+		\end{larray}
+	\end{equation*}
+	I want to control the probability of the product:
+	\begin{align*}
+		\pr\left(\left|\frac{X_{n}Y_{n}}{r_{n}s_{n}}\right|>\varepsilon^{2}\right)&\leq\pr\left(\left\{\left|\frac{X_{n}}{r_{n}}\right|>\varepsilon\right\}\cup\left\{\left|\frac{Y_{n}}{s_{n}}\right|>\varepsilon\right\}\right)\\
+		&\leq\pr\left(\left\{\left|\frac{X_{n}}{r_{n}}\right|>\varepsilon\right\}\right)+\pr\left(\left\{\left|\frac{Y_{n}}{s_{n}}\right|>\varepsilon\right\}\right)\\
+		&<2\delta\qquad\every n>N_{\varepsilon}.
+	\end{align*}
+	Set $q=\max\left\{r_{n},s_{n}\right\}$. For the same $\varepsilon,\delta>0$ and $N_{\varepsilon}$ we have 
+	\begin{equation*}
+		\begin{carray}
+			\pr\left(\left\{\left|\frac{X_{n}}{r_{n}}\right|>\varepsilon\right\}\right)<\delta\qquad\pr\left(\left\{\left|\frac{Y_{n}}{s_{n}}\right|>\varepsilon\right\}\right)<\delta.
+		\end{carray}
+	\end{equation*}
+	So
+	\begin{align*}
+		\pr\left(\left|\frac{X_{n}+Y_{n}}{q_{n}}\right|>2\varepsilon\right)&\leq\pr\left(\left|\frac{X_{n}}{q_{n}}\right|+\left|\frac{Y_{n}}{q_{n}}\right|>2\varepsilon\right)\\
+		&\leq\pr\left(\left\{\left|\frac{X_{n}}{q_{n}}\right|>\varepsilon\right\}\cup\left\{\left|\frac{Y_{n}}{q_{n}}\right|>\varepsilon\right\}\right)\\
+		&\leq\pr\left(\left\{\left|\frac{X_{n}}{q_{n}}\right|>\varepsilon\right\}\right)+\pr\left(\left\{\left|\frac{Y_{n}}{q_{n}}\right|>\varepsilon\right\}\right)\\
+		&<2\delta\qquad\every n>N_{\varepsilon}.
+	\end{align*}
+\end{fancyproof}
+\begin{theorem}
+	Let ${(X_{n})}_{n}$ be a sequence of \rv s and let $\seqn{r}$ be a sequence of (positive) reals such that
+	\begin{equation*}
+		r_{n}(X_{n}-c)\convw Z\qquad n\to\infty
+	\end{equation*}
+	where $c$ is a constant and $Z$ is a non degenerate \rv. Then
+	\begin{equation*}
+		X_{n}=c+\mathscr{O}_{\pr}\left(r_{n}\right).
+	\end{equation*}
+\end{theorem}
+\begin{fancyproof}
+	Denote by $F(\cdot)$ the c.d.f. of $Z$. Let $t$ be a point of continuity of this function $F(\cdot)$. The there exist a sequence of positive reals $\seqn{s}$ such that $s_{n}\to0$ and
+	\begin{align*}
+		G(t)-s_{n}<\pr\left(\left|r_{n}(X_{n}-c)\right|>t\right)<G(t)+\varepsilon
+	\end{align*}
+	where $G(t)=\pr(|Z|>t)$ and $\varepsilon>0$. Remember that we are dealing with a sequence of distributions, which is basically a sequence of numbers (not \rv s!) Since $Z$ is non-degenerate then taking $\varepsilon>0$ we can find a value $t_{\varepsilon}$ such that 
+	\begin{equation*}
+		G(t_{\varepsilon})<\varepsilon.
+	\end{equation*}
+	Since $s_{n}\to0$ then there exists a value $n_{0}$ such that for all $n>n_{0}$ such that
+	\begin{equation*}
+		\ubracketthin{\pr\left(\left|
+		r_{n}(X_{n}-c)\right|>t_{\varepsilon}\right)}_{\claptext{but this is the definition of $\mathscr{O}_{\pr}$}}<G(t_{
+		\varepsilon})+s_{n}<\varepsilon
+	\end{equation*}
+	so we have that 
+	\begin{equation*}
+		X_{n}-c=\mathscr{O}_{\pr}\left(r_{n}\right).
+	\end{equation*}
+\end{fancyproof}
+\begin{theorem}
+	Let $\seqn{X}$ be a sequence of \rv s such that 
+	\begin{equation*}
+		X_{n}=c+\mathscr{O}_{\pr}(r_{n})
+	\end{equation*}
+	where $x$ is a constant and $\seqn{r}$ is a sequence of (positive) real numbers with $r_{n}\to0.$ If $g(\cdot)$ is a function with $k$ (continuous) derivatives then
+	\begin{equation*}
+		g(X_{n})=g(c)+g'(c)(X_{n}-c)+\ldots+\frac{g^{(k)}(c)}{k!}(X_{n}-c)^{k}+\mathcal{o}_{\pr}\left(r_{n}^{k}\right).
+	\end{equation*}
+\end{theorem}
+So this is something similar to a Taylor expansion for functions of \rv s.
+\begin{fancyproof}
+	Take the Taylor expansion for $g(\cdot)$ around $c$ up to the order $k$ such that the remainder is
+	\begin{equation*}
+		\frac{\left(X_{n}-c\right)^{k}}{k!}\left(g^{(k)}\left(Z_{n}\right)-g^{(k)}(c)\right)
+	\end{equation*}
+	with $Z_{n}\in(c,X_{n})$; but this is equivalent to saying $Z_{n}\in(c,c+\mathscr{O}_{\pr}(r_{n}))$ by the assumption of the theorem. Since $r_{n}\to0$ then $Z_{n}$ converges in distribution, but \ul{since the limit it constant} I can also say it converges in probability to the constant (this is true \textit{only because $c$ is a constant}\footnote{This is true \textbf{just because} $c$ is a constant}):
+	\begin{equation*}
+		X_{n}\convw c\ubracketthin{\implies}_{\claptext{what makes this true is that $c$ is a \textsc{constant}}} Z_{n}\convpr c\implies Z_{n}-c=\mathcal{o}_{\pr}(1).
+	\end{equation*}
+	Then I use the fact that all derivatives are continuous functions to say that 
+	\begin{equation*}
+		\begin{carray}
+			(X_{n}-c)^{k}=\mathscr{O}_{\pr}\left(r_{n}^{k}\right)\\\Downarrow\\\left(g^{(n)}(Z_{n})-g^{(n)}(c)\right)\left(X_{n}-c\right)^{k}=\mathcal{o}_{\pr}\left(r^{k}_{n}\right).
+		\end{carray}
+	\end{equation*}
+\end{fancyproof}
+\begin{theorem}
+	\emph{Delta Method}.	Let $\seqn{X}$ be a sequence of \rv s such that 
+	\begin{equation*}
+		\sqrt{n}\left(X_{n}-c\right)\convw Z\qquad n\to\infty
+	\end{equation*}
+	where $c$ is a constant and $Z$ is a non-degenerate \rv. Take a function $g(\cdot)$ with continuous derivatives. Then
+	\begin{equation*}
+		\sqrt{n}(g(X_{n})-g(c))\convw Zg'(c)\qquad n\to\infty.
+	\end{equation*}
+\end{theorem}
+The proof is just a replica of the proof of the previous theorem, where we have to take the Taylor expansion of $g(\cdot)$ at $c$.\par
+We can now look at the Cramer theorem. But first remember the most important features of regularity:
+\begin{itemize}
+	\item $\exists$ derivatives up to order 3;
+	\item $\exists$ the integrable functions $g(\cdot),h(\cdot),H(\cdot)$ such that 
+	\begin{equation*}
+		\begin{carray}
+			\left|\deriv{\theta}f_{X}(x;\theta)\right|\leq g(x)\qquad\text{for all }x\\
+			\left|\dderiv{\theta}f_{X}(x;\theta)\right|\leq h(x)\qquad\text{for all }x\\
+			\left|\ddderiv{\theta}\log f_{X}(x;\theta)\right|\leq H(x).\\
+		\end{carray}
+	\end{equation*}
+\end{itemize}
+\begin{theorem}
+	\emph{Gaussian limit / Cramer theorem}\footnotemark.
+	Let $\rsampx$ be a sample from a regular model $X\sim f_{X}(x;\theta)$. We assume regularity for the model (all the conditions above apply) and moreover we assume
+	\begin{equation*}
+		\ev{H(x);\theta}<M_{0}<+\infty\qquad\every\theta\in\Theta.
+	\end{equation*} If $\widehat{\theta}_{n}$ is the MLE for $\theta$  such that
+	\begin{equation*}
+		\widehat{\theta}_{n}\convpr\theta_{0}\qquad\theta_{0}\in\Theta
+	\end{equation*}then as $n\to\infty$
+	\begin{equation*}
+		\sqrt{n}(\widehat{\theta}_{n}-\theta_{0})\convw R\distnorm{0,\frac{1}{I(\theta)}}
+	\end{equation*}
+	where $I(\theta)$ is the Fisher information of the model.
+\end{theorem}
+\footnotetext{If you are interested in the proof you can find it in \textit{A Course on Large Sample Theory}, Ferguson 1995.}
+The proof uses what we have seen so far plus the Slutsky theorem.
+\begin{fancyproof}
+	Let 
+	\begin{equation*}
+		l(\theta)=\log\like(\theta;\ulx).
+	\end{equation*}
+	Take $\theta_{0}\in\Theta$ . We have
+	\begin{equation*}
+		l'(\theta)=l'(\theta_{0})+l''(\theta_{0})(\theta-\theta_{0})+\unmezz l'''\left(\widetilde{\theta}\right)(\theta-\theta_{0})^{2}
+	\end{equation*}
+	where $\widetilde{\theta}\in\left(\theta,\theta_{0}\right)$. Replace $\theta$ with the MLS $T_{n}:=\widehat{\theta}_{n}$.
+	We have
+	\begin{equation*}
+		l'(\theta)=l'(\theta_{0})+l''(\theta_{0})\left(\widehat{\theta}_{n}-\theta_{0}\right)+\unmezz l'''\left(\widetilde{\theta}\right)\left(\widehat{\theta}_{n}-\theta_{0}\right)^{2}
+	\end{equation*}
+	where $\widetilde{\theta}\in\left(\widehat{\theta}_{n},\theta_{0}\right)$. Set 
+	\begin{equation*}
+		\begin{carray}
+			0=l'(\theta_{0})+l''(\theta_{0})\left(\widehat{\theta}_{n}-\theta_{0}\right)+\unmezz l'''\left(\widetilde{\theta}\right)\left(\widehat{\theta}_{n}-\theta_{0}\right)^{2}\\
+			\Downarrow\\
+			\sqrt{n}\left(\widehat{\theta}_{n}-\theta_{0}\right)=\frac{-\frac{1}{\sqrt{n}}l'(
+				\theta_{0})}{\frac{1}{n}l''(\theta_{0})+\frac{l'''\left(\widetilde{\theta}\right)}{2n}\left(\widehat{\theta}_{n}-\theta_{0}\right)}.
+		\end{carray}
+	\end{equation*}
+	The rest of the proof revolves around doing the CLT on the l.h.s. of this last equation. \begin{itemize}
+	\item 	Start with the numerator:
+	\begin{align*}
+		-\frac{1}{\sqrt{n}}l'(\theta_{0})&=-\frac{1}{\sqrt{n}}\deriv{\theta_{0}}\log\like(\theta_{0};\ulx)\\
+		&=-\frac{1}{\sqrt{n}}\deriv{\theta_{0}}\sum_{i=1}^{n}\log f_{X_{i}}(X_{i};\theta)\\
+		&=-\frac{1}{\sqrt{n}}\sum_{i=1}^{n}\deriv{\theta_{0}}\log f_{X_{i}}(X_{i};\theta)\\
+		&=-\frac{1}{\sqrt{n}}\sum_{i=1}^{n}\ubracketthin{\frac{\deriv{\theta_{0}}f_{X_{i}}(X_{i};\theta_{0})}{f_{X_{i}}(X_{i};\theta_{0})}}_{W_{i}}\\
+		&=-\frac{1}{\sqrt{n}}\sum_{i=1}^{n}W_{i}\\
+		&=-\sqrt{n}\left(\frac{1}{n}\sum_{i=1}^{n}W_{i}\right)
+	\end{align*}
+	but $W_{i}$ is just the score function so 
+	\begin{equation*}
+		\ev{W_{i}}=0\qquad\var(W_{i})=I(\theta_{0}).
+	\end{equation*}
+	But this is just a sum of i.i.d. \rv s so by CLT we have
+	\begin{equation*}
+		-\sqrt{n}\left(\frac{1}{n}\sum_{i=1}^{n}W_{i}\right)\convw\mathsf{N}\left(0;I(\theta_{0})\right)\qquad n\to\infty
+	\end{equation*}
+	where the $-$ sign is not a problem (Gaussian distribution is symmetric around 0) and the variance comes from the fact that $W_{i}$ is the score function.
+	\item Now analyze the denominator:
+	\begin{align*}
+		\frac{1}{n}l''(\theta_{0})&=\frac{1}{n}\deriv{\theta_{0}}\sum_{i=1}^{n}\frac{\deriv{\theta_{0}}f_{X_{i}}(x_{i};\theta_{0})}{f_{X_{i}}(x_{i};\theta_{0})}\\
+		&=\frac{1}{n}\sum_{i=1}^{n}\left[\frac{\dderiv{\theta_{0}}f_{X_{i}}(x_{i};\theta_{0})f_{X_{i}}(x_{i};\theta_{0})}{\left(f_{X_{i}}(x_{i};\theta_{0})\right)^{2}}-\frac{\deriv{\theta_{0}}f_{X_{i}}(x_{i};\theta_{0})\deriv{\theta_{0}}f_{X_{i}}(x_{i};\theta_{0})}{\left(f_{X_{i}}(x_{i};\theta_{0})\right)^{2}}\right]\\
+		&=\ubracketthin{\frac{1}{n}\sum_{i=1}^{n}\frac{\left(\dderiv{\theta_{0}}f_{X_{i}}(x_{i};\theta_{0})\right)}{f_{X_{i}}(x_{i};\theta_{0})}}_{\claptext{sum of i.i.d. \rv s}}-\ubracketthin{\frac{1}{n}\sum_{i=1}^{n}\left(\frac{\deriv{\theta_{o}}f_{X_{i}}(x_{i};\theta_{0})}{f_{X_{i}}(x_{i};\theta_{0})}\right)^{2}}_{\claptext{sum of i.i.d. \rv s}}.
+	\end{align*}
+	We analyze the two components applying the LLN:
+	\begin{itemize}
+		\item $\frac{1}{n}\sum_{i=1}^{n}\frac{\left(\dderiv{\theta_{0}}f_{X_{i}}(x_{i};\theta_{0})\right)}{f_{X_{i}}(x_{i};\theta_{0})}\to0$
+		\item $\frac{1}{n}\sum_{i=1}^{n}\left(\frac{\deriv{\theta_{o}}f_{X_{i}}(x_{i};\theta_{0})}{f_{X_{i}}(x_{i};\theta_{0})}\right)^{2}\convas -I(\theta_{0})$ as $n\to\infty$.
+	\end{itemize}
+	so up to now we have 
+	\begin{enumerate}
+		\item $-\frac{1}{\sqrt{n}}l'(\theta_{0})\convw R\distnorm{0,I(\theta_{0})}$ as $n\to\infty$
+		\item $\frac{1}{n}l''(\theta_{0})\convw-I(\theta)$ as $n\to\infty$.
+	\end{enumerate}
+	We still have to analyze one more term from the denominator. We know that 
+	\begin{equation*}
+		\left(\widehat{\theta_{n}}-\theta_{0}\right)\convpr 0\implies \widehat{\theta}_{n}-\theta_{0}=\mathcal{o}_{\pr}(1).
+	\end{equation*}
+	Using triangular inequality we get
+	\begin{align*}
+		\frac{1}{n}\left|l'''\left(\widetilde{\theta}\right)\right|&\leq\frac{1}{n}\sum_{i=1}^{n}\left|\ddderiv{\theta}\log f_{X_{i}}(x_{i};\theta)\right|\Bigg|_{\theta=\widetilde{\theta}}\\
+		&<\frac{1}{n}\sum_{i=1}^{n}H(X_{i}).
+	\end{align*}
+	So as $n\to\infty$ for the LLN we get
+	\begin{equation*}
+		\frac{1}{n}\sum_{i=1}^{n}H(X_{i})\convas\ev{H(X)}<N_{0}<\infty
+	\end{equation*}
+	so this is a $\mathscr{O}_{\pr}(1)$. So this means that
+	\begin{equation*}
+	\begin{larray}
+		\frac{l'''\left(\widehat{\theta}\right)}{2n}\left(\widehat{\theta}_{n}-\theta_{0}\right)\qquad\text{is}\;\mathcal{o}_{\pr}(1)\\
+		\implies\frac{l'''\left(\widehat{\theta}\right)}{2n}\left(\widehat{\theta}_{n}-\theta_{0}\right)\convpr0\\
+		\implies\frac{l'''\left(\widehat{\theta}\right)}{2n}\left(\widehat{\theta}_{n}-\theta_{0}\right)\convw0
+	\end{larray}
+	\end{equation*}
+	and this ultimately means
+	\begin{equation*}
+		\frac{1}{n}l''\left(\theta_{0}\right)+\frac{l'''\left(\widehat{\theta}\right)}{2n}\left(\widehat{\theta}_{n}-\theta_{0}\right)\convw-I(\theta_{0}).
+	\end{equation*}
+	So we now have the complete convergence:
+	\begin{equation*}
+		\frac{\overbracket[0.6pt]{-\frac{1}{\sqrt{n}}l'(\theta_{0})}^{\claptext{convergence to a Gaussian $R\distnorm{0,I(\theta_{0})}$}}}{\ubracketthin{\frac{1}{n}l''\left(\theta_{0}\right)+\frac{l'''\left(\widehat{\theta}\right)}{2n}\left(\widehat{\theta}_{n}-\theta_{0}\right)\convw-I(\theta_{0})}_{\claptext{convergence to a constant (not 0)}}}\convw R^{\star}\distnorm{0,\frac{1}{I(\theta_{0})}}.
+	\end{equation*}
+	\end{itemize}
+\end{fancyproof}
+So we have shown that 
+\begin{equation*}
+	\sqrt{n}\left(\widehat{\theta}_{n}-\theta_{0}\right)\convw R\distnorm{0,\frac{1}{I(\theta_{0})}}.
+\end{equation*}
+So what we found is that MLE is both:
+\begin{itemize}
+	\item asymptotically unbiased (the mean goes to $\theta_{0}$);
+	\item asymptotically efficient (the variace goes to the lower Cramer-Rao bound).
+\end{itemize}
+\subsection{How large is an asymptote?}
+We have seen that 
+\begin{equation*}
+	\widehat{\theta}_{n}\approx \mathsf{N}\left(\theta_{0},\frac{n}{I(\theta_{0})}\right)\qquad\text{ for $n$ large}.
+\end{equation*}
+But what does it mean ``large enough''? This is a very recent field of research so probably in next years we will have more satisfactory results. We can still get an idea: we proved that
+\begin{equation*}
+	\sqrt{nI(\theta_{0})}\left(\widehat{\theta}_{n}-\theta_{0}\right)\convw Z\distnorm{0,1}.
+\end{equation*}
+We want to quantify a distance between the object and the target distributions which in our case are:
+\begin{itemize}
+	\item $F_{n}(x)=\pr\left(\sqrt{nI(\theta_{0})}\left(\widehat{\theta}_{n}-\theta_{0}\right)\leq x\right)$;
+	\item $\Phi(x)=\pr\left(Z\leq x\right)$.
+\end{itemize}
+To quantify the distance between distribution we usually use the \emph{Kolmogorov distance}:
+\begin{equation*}
+	d_{k}(F,G)=\sup_{x}\left|F(x)-G(x)\right|.
+\end{equation*}
+If we try to bound this distance for our case we find that the distance between $F_{n}$ and $\Phi$ is bounded by a (horrible) constant which does not depend on $n$ divided by $\sqrt[4]{n}$:
+\begin{equation*}
+	d_{k}(F_{n},\Phi)\leq \frac{c}{n^{\frac{1}{4}}}.
+\end{equation*}
+This rate is very slow (we typically expect $n^{\frac{1}{2}}$) but the problem is that working with the Kolmogorov distance is hard so we usually work with the weaker distance and then try to bring it to the strong distance. This is why no one bothered doing this research on 80 years old math until recently. \par
+Once we have results like this we can build convergence intervals and we apply the delta method to Cramer's theorem: indeed by Cramer we have
+\begin{equation*}
+	\sqrt{n}\left(\widehat{\theta}_{n}-\theta_{0}\right)\convw R\distnorm{0,\frac{1}{I(\theta_{0})}}
+\end{equation*}
+and we saw that if $g$ is continuous then
+\begin{equation*}
+	\sqrt{n}\left(g\left(\widehat{\theta}\right)-g(\theta_{0})\right)\convw g'(\theta_{0})R.
+\end{equation*}
+\section{Exercises from past exams}
+\begin{exercise}
+	Let $\rsampx$ be a random sample from $X\distunif{\theta,\theta+|\theta|}$ with $\theta\in\R$. Find the MLE of $\theta$ when:
+	\begin{enumerate}
+		\item $\theta\in(0,+\infty)$;
+		\item $\theta\in(-\infty,0)$;
+		\item $\theta\in\R\setminus\{0\}$.
+	\end{enumerate}
+\end{exercise}
+\begin{exercise}
+	Let $(X_{1},\ldots,X_{n})$ from $X\sim p_{X}(x;\theta)$ with $\theta>0$. Let
+	\begin{equation*}
+		p_{X}(x;\theta)=\frac{\theta^{x}e^{-\theta}}{x!\left(1-e^{-\theta}\right)}\int_{\N}(x)\qquad\text{Poisson without 0 in the support}.
+	\end{equation*}
+	Show that the likelihood equation has a unique root when $\Xbar_{n}>1$. Show whether this is root is MLE for $\theta$. This is not solvable in closed form. \faSmile[regular]
+\end{exercise}
+\begin{exercise}
+	Let $\rsampx$ be a random sample from $X$ such that
+	\begin{equation*}
+		\log X\sim N(\theta,\theta)\qquad\theta>0.
+	\end{equation*}
+	Prove that MLE for $\theta$ exists and it is unique. Find the asymptotic distribution of the MLE (apply Cramer).
+\end{exercise}
+\begin{exercise}
+	Let $\rsampx$ be a sample from $X\distnorm{\mu,1}$ with $\mu\in\R$. Let
+	\begin{equation*}
+		\theta=\pr\left(X_{1}<c\right)
+	\end{equation*}
+	where $c$ is some known constant. Find the MLE for $\theta$ and compare the efficiency of the MLE (asymptotically) with respect to the efficiency of the following estimators:
+	\begin{enumerate}
+		\item $\widetilde{\theta}_{n}=\Phi\left(\frac{c-\Xbar_{n}}{\sqrt{1-\frac{1}{n}}}\right)$;
+		\item $\theta^{\star}_{n}=\frac{1}{n}\sum_{i=1}^{n}\indi_{(-\infty,c)}(x_{i})$,
+	\end{enumerate}
+\end{exercise}
+\begin{exercise}
+	Let $X_{ij}$ with $j=1,\ldots,r>1$ and $i=1,\ldots,n$ be independent and distributed as $\mathsf{N}\left(\mu_{i},\sigma^{2}\right)$. Find the MLE of 
+	\begin{equation*}
+		\theta=(\mu_{1},\ldots,\mu_{n},\sigma^{2}).
+	\end{equation*}
+	Show that the MLE of $\sigma^{2}$ is not consistent for $n\to\infty$.
+\end{exercise}
+\chapter{Testing}
+\section{General approach}
+\subsection{Introduction to testing}
+This is a different approach to the same problem of statistical inference, that is learning about the parameters starting from the data. We still have our random sample $\rsampx$ from $X\sim F_{\theta}$ with $\theta\in\Theta$. So far we assigned values (in various ways) to our parameter $\theta$ and in particular we chose the MLE
+\begin{equation*}
+	\theta^{\star}=\argmax_{\Theta}\log\like(\theta;\ulx).
+\end{equation*}
+Differently from point estimation we can learn about $\theta$ by performing a test: this means that we want to test an \textit{hypotesis} like
+\begin{equation*}
+	\theta=\unmezz\quad\text{against}\quad\theta\neq\unmezz.
+\end{equation*}
+Testing comes from decision theory and statistical testing it's just an adaptation of decision theory tests with the addition of randomness. There are many ways to perform this test but we will use (again) the likelihood function. We need some terminology for this:
+\begin{itemize}
+	\item \emph{statistical hypothesis}: this is any sentence that specifies a value or a collection of values for the parameter. We can have:
+	\begin{itemize}
+		\item \textit{simple hypothesis}: $\theta=\theta^{\star}$;
+		\item \textit{composite hypothesis}: $\theta\in\Theta^{\star}\subseteq\Theta$.
+	\end{itemize}
+	Composite hypothesis can also be of the form
+	\begin{equation*}
+		\begin{carray}
+			\theta>\theta^{\star}\\
+			\theta<\theta^{\star}\\
+			\theta\neq\theta^{\star}.
+		\end{carray}
+	\end{equation*}
+	The standard setting consists in the specification of two hypotheses:
+	\begin{itemize}
+		\item \textit{null hypothesis} $H_{0}$;
+		\item \textit{alternative hypothesis} $H_{1}$.
+	\end{itemize}
+	How do we decide which hypothesis is the null and which is the alternative? We usually select as null hypothesis as the one that we believe it's actually true and that we don't \textit{really want} to reject. In other words, what we hope is the true one. This is actually important because the null hypothesis is the one that we are less likely to reject by error, that is to reject the hypothesis just because of noise in the data;
+	\item \emph{random sample} $\rsampx$ from $X\sim F_{\theta}$;
+	\item \emph{decision rule} (statistic or a function of the random sample).
+\end{itemize}
+A test is an object that verifies the interaction between hypotheses and decision rule. If we specify 
+\begin{equation*}
+	\begin{larray}
+		H_{0}:\theta\in\Theta_{0}\subseteq\Theta\\
+		H_{1}:\theta\notin\Theta_{0}
+	\end{larray}
+\end{equation*}
+then we are specifying a partition of the parametric space $\Theta$ in two areas. 
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[line width=1.5pt]
+		%The empty ellipse node with minimum width 6cm and minimum height 4cm
+		\node [ellipse,draw,minimum width=6cm, minimum height=4cm] (ep) at (0,0) {};
+		
+		%Draw the Bézier curve and the horizontal line to make segments inside the ellipse
+		\draw ([shift={(0.5\pgflinewidth,0.5\pgflinewidth)}]ep.215)
+		.. controls ++(2,-0.5) and ++ (0,0)
+		.. node (mp) [pos=0.485] {}  ([yshift=0\pgflinewidth]ep.65);
+		
+		%Draw label omega outside the ellipse
+		\node (lb) [draw,circle] at ([shift={(-0.5,0.5)}]ep.155) {$\Theta$};
+		\draw (ep.155) -- (lb);
+		
+		%Draw the labels for each segment
+		\node at ([shift={(-0.75cm,1cm)}]ep.center) {$H_{0}$};
+		\node at ([shift={(0.9cm,-0.7cm)}]ep.center) {$H_{1}$};
+	\end{tikzpicture}
+\end{figure} If we specify the decision rule $T_{n}=T\rsampx$ then our sample space that lives in $\R_{n}$ will have a region $R_{0}\in\R^{n}$ for which if
+\begin{equation*}
+	\rsampx\in\R_{0}
+\end{equation*}
+then I take a decision and in particular I decide to reject $H_{0}$. Of course we can also find the complement $R_{0}^{c}$ for which I do not reject $H_{0}$. 
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[line width=1.5pt]
+		%The empty ellipse node with minimum width 6cm and minimum height 4cm
+		\node [ellipse,draw,minimum width=6cm, minimum height=4cm] (ep) at (0,0) {};
+		
+		%Draw the Bézier curve and the horizontal line to make segments inside the ellipse
+		\draw ([shift={(0.5\pgflinewidth,0.5\pgflinewidth)}]ep.-115)
+		.. controls ++(-2,2.5) and ++ (0,0) 
+		.. node (mp) [pos=0.485] {}  ([yshift=0\pgflinewidth]ep.32);
+		
+		%Draw label omega outside the ellipse
+		\node (lb) [draw,circle] at ([shift={(0.5,0.5)}]ep.5) {$\R^{n}$};
+		\draw (ep.5) -- (lb);
+		
+		%Draw the labels for each segment
+		\node at ([shift={(-0.75cm,1cm)}]ep.center) {$R_{0}$};
+		\node at ([shift={(0.9cm,-0.7cm)}]ep.center) {$R_{0}^{c}$};
+	\end{tikzpicture}
+\end{figure} 
+So take $\rsampx$ from $X\sim f_{X}(\cdot;\theta)$ with $\theta\in\Theta$. We have our null and alternative hypothesis with our partitions at sample and parameter level. Let's see all the possible combinations. 
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[line width=1.5pt]
+		%The empty ellipse node with minimum width 6cm and minimum height 4cm
+		\node [ellipse,draw,minimum width=6cm, minimum height=4cm] (ep) at (5,0) {};
+		
+		%Draw the Bézier curve and the horizontal line to make segments inside the ellipse
+		\draw ([shift={(0.5\pgflinewidth,0.5\pgflinewidth)}]ep.215)
+		.. controls ++(2,-0.5) and ++ (0,0) 
+		.. node (mp) [pos=0.485] {}  ([yshift=0\pgflinewidth]ep.65);
+		
+		%Draw label omega outside the ellipse
+		\node (lb) [draw,circle] at ([shift={(-0.5,0.5)}]ep.155) {$\Theta$};
+		\draw (ep.155) -- (lb);
+		
+		%Draw the labels for each segment
+		\node at ([shift={(-0.75cm,1cm)}]ep.center) {$\Theta_{0}$};
+		\node at ([shift={(0.9cm,-0.7cm)}]ep.center) {$\Theta_{0}^{c}$};
+		%The empty ellipse node with minimum width 6cm and minimum height 4cm
+		\node [ellipse,draw,minimum width=6cm, minimum height=4cm] (ep) at (-3,2) {};
+		
+		%Draw the Bézier curve and the horizontal line to make segments inside the ellipse
+		\draw ([shift={(0.5\pgflinewidth,0.5\pgflinewidth)}]ep.-115)
+		.. controls ++(-2,2.5) and ++ (0,0) 
+		.. node (mp) [pos=0.485] {}  ([yshift=0\pgflinewidth]ep.32);
+		
+		%Draw label omega outside the ellipse
+		\node (lb) [draw,circle] at ([shift={(0.5,0.5)}]ep.5) {$\R^{n}$};
+		\draw (ep.5) -- (lb);
+		
+		%Draw the labels for each segment
+		\node at ([shift={(-0.75cm,1cm)}]ep.center) {$\ulx\in R_{0}$};
+		\node at ([shift={(0.9cm,-0.7cm)}]ep.center) {$\ulx\in R_{0}^{c}$};
+		  \draw [SpringGreen3, thick] (6,-1) edge[Stealth-, bend left=30] (-5,1);
+		  \draw [SpringGreen3, thick] (3,-0.5) edge[Stealth-, bend left=15] (-3,1);
+		  \draw [red, thick] (5, 1.4) edge[Stealth-, bend right=30] (-4,3.5);
+		  \draw [red, thick] (6, 0.3) edge[Stealth-, bend right=15] (-2,2);
+	\end{tikzpicture}
+\end{figure}  Just because the sample is in $R_{0}$ this is \textit{not} enough to say that $H_{0}$ is false: it is \textit{very likely} that it is false, but it's not a clear cut.
+So whenever we take a decision we make a mistake. This is different than decision theory, where we only have one arrow for partition because in that context we do not have to take into account randomness. The problem here is to control the probability to make those mistakes. So we have different scenarios:
+\begin{itemize}
+	\item $C_{1}$: decision of \textcolor{SpringGreen3}{accepting} $H_{0}$ (based on $\ulX$) and $H_{0}$ is \textcolor{SpringGreen3}{true};
+	\item $C_{2}$: decision of \textcolor{red}{rejecting} $H_{0}$ (based on $\ulX$) and $H_{0}$ is \textcolor{red}{false};
+	\item $E_{1}$: decision of \textcolor{red}{rejecting} $H_{0}$ (based on $\ulX$) and $H_{0}$ is \textcolor{SpringGreen3}{true};
+	\item $E_{2}$: decision of \textcolor{SpringGreen3}{accepting} $H_{0}$ (based on $\ulX$) and $H_{0}$ is \textcolor{red}{false}.
+\end{itemize}
+I now need to assign probability to these events, in particular to the errors. We have
+\begin{equation*}
+	\begin{larray}
+		\alpha=\pr\left(\{E_{1}\}\right)=\pr\left(\ulX\in R_{0};H_{0}:\theta\in\Theta_{0}\right)\\
+			\beta=\pr\left(\{E_{2}\}\right)=\pr\left(\ulX\in R_{0}^{c};H_{1}:\theta\notin\Theta_{0}\right)
+	\end{larray}
+\end{equation*}
+and then I have the complements
+\begin{equation*}
+	\begin{larray}
+		1-\alpha=\pr\left(\{C_{1}\}\right)=\pr\left(\ulX\in R_{0}^{c};H_{0}:\theta\in\Theta_{0}\right)\\
+		1-\beta=\gamma=\pr\left(\{C_{2}\}\right)=\pr\left(\ulX\in R_{0};H_{1}:\theta\notin\Theta_{0}\right).
+	\end{larray}
+\end{equation*}
+We call: \begin{itemize}
+\item $\alpha$ the probability of type-I error or \emph{size of the test};
+\item $\beta$ the probability of type-II error;
+\item $\gamma$ the \emph{power of the test}.
+\end{itemize}
+\subsection{Defining a decision rule}
+We have three possibilities:
+\begin{itemize}
+	\item fix $\alpha$ and look for a decision rule that minimizes $\beta$;
+	\item fix $\beta$ and look for a decision rule that minimizes $\alpha$;
+	\item find a function of $\alpha$ and $\beta$ (but that's very difficult and we won't use this).
+\end{itemize}
+We choose the first one because ``it's better not to put in jail an innocent rather''. $\alpha$ is more ``dangerous'' because how we specify $H_{0}$ as the hypothesis we really trust on. Therefore if we reject $H_{0}$ I want to be sure that it doesn't happen by mistake (for example because I took a bad sample).
+\begin{exercise}
+	Prove that if you reduce $\alpha$ then $\beta$ increases. 
+\end{exercise}
+To find a way to define rejection regions we need some terminology. Fix $\alpha\in(0,1)$ and find a decision rule that minimizes $\beta$ (or equivalently maximizes the power $\gamma$). This decision rule is called \emph{optimal decision rule of size $\alpha$}. 
+\begin{definition}
+	For $\alpha\in[0,1]$ a test with power function $\gamma(\theta)$ is a \emph{size $\alpha$} test if 
+	\begin{equation*}
+		\sup_{\theta\in\Theta_{0}}\gamma(\theta)=\alpha.
+	\end{equation*}
+\end{definition}
+\begin{definition}
+	For $\alpha\in[0,1]$ a test with power function $\gamma(\theta)$ is a \emph{level $\alpha$} test if
+	\begin{equation*}
+		\sup_{\theta\in\Theta_{0}}\gamma(\theta)\leq\alpha.
+	\end{equation*}
+\end{definition}
+Of course the set of level $\alpha$ tests contains the set of size $\alpha$ tests. We usually use the levels because we cannot achieve the exact size $\alpha$.
+\begin{remark}
+	We said that 
+	\begin{equation*}
+		\begin{larray}
+			\alpha=\pr\left(\ulX\in R_{0};H_{0}:\theta\in\Theta_{0}\right)\\
+		\gamma=\pr\left(\ulX\in R_{0};H_{1}:\Theta\in\Theta^{c}_{0}\right).
+		\end{larray}
+	\end{equation*}
+	Since these two probabilities are defined on the same event, the difference lies in the parametrization. When we write $\gamma(\theta)$ we mean that when $\theta\in\Theta$ we call it the \emph{power function}, otherwise it is the type II error.
+\end{remark}
+\begin{definition}
+	Let $C$ be a class of tests for testing
+	\begin{equation*}
+		\begin{larray}
+			H_{0}:\theta\in\Theta_{0}\\
+			H_{1}:\theta\in\Theta_{0}^{c}.
+		\end{larray}
+	\end{equation*}
+	A test in class $C$ with power function $\gamma(\theta)$ is \emph{uniformly most powerful} (UMP) class $C$ test if 
+	\begin{equation*}
+		\gamma(\theta)\geq\gamma'(\theta)
+	\end{equation*}
+	For every $\theta\in\Theta_{0}^{c}$ and every $\gamma'(\theta)$ that is the power function of a test in class $C$.
+\end{definition}
+For us $C$ will be the class of all level $\alpha$ tests. So we have the following goals:
+\begin{itemize}
+	\item find a UMP level $\alpha$ test (we will see that it is possible only if the two hypotheses are point-wise);
+	\item find a UMP level $\alpha$ test with unidirectional hypotheses (and lose number of models on which I can use this test) with 
+	\begin{equation*}
+		H_{0}:\theta\geq\Theta_{0}
+	\end{equation*}
+	\item get even a more general approach (but lose optimality) with hypotheses of the kind 
+		\begin{align*}
+			H_{0}:\theta\in\Theta_{0}\\
+			H_{1}:\theta\notin\Theta_{0}.
+		\end{align*}
+\end{itemize}
+\begin{theorem}
+	Consider the problem of $H_{0}:\theta=\theta_{0}$ versus $H_{1}:\theta=\theta_{1}$ where we denote by $f_{\ulX}(\ulx;\theta_{i})$ for $i=0,1$ the density function of the distribution of $\ulX$ under $H_{0}$ and $H_{1}$. Assume that
+	\begin{equation*}
+		\ulX\in R\quad\text{if }f_{\ulX}(\ulx;\theta_{1})>kf_{\ulX}(\ulx;\theta_{0})
+	\end{equation*} 
+	and
+	\begin{equation*}
+		\ulX\in R^{c}\quad\text{if }f_{\ulX}(\ulx;\theta_{1})<kf_{\ulX}(\ulx;\theta_{0})
+	\end{equation*} 
+	(\emph{shape condition of the rejection region}) for some $k\geq0$ and the constraint
+	\begin{equation*}
+		\alpha=\pr\left(\ulX\in R;\theta_{0}\right)
+	\end{equation*}
+	(\emph{size condition of the rejection region}). Then:
+	\begin{enumerate}[\circnum]
+		\item any test that satisfies shape and size conditions is UMP of level $\alpha$;
+		\item if there exists a test that satisfies shape and size conditions with $k>0$ then every UMP level $\alpha$ test is a size $\alpha$ test and every UMP level $\alpha$ test satisfies the shape condition except on a set $A$ of probability 0.
+	\end{enumerate}
+\end{theorem}
+\begin{fancyproof}
+	Remember the difference between size and level $\alpha$ tests. We have that any test that satisfies the size condition is a size $\alpha$ test (by definition) and it is also a level $\alpha$ test because the hypotheses are point-wise (we take the supremum over $\Theta_{0}$ which is a single point):
+	\begin{equation*}
+		\sup_{\theta\in\Theta_{0}}\pr\left(x\in R;\theta\right)=\pr\left(X\in R;\theta_{0}\right)=\alpha.
+	\end{equation*}
+	Consider the test function (on the sample space) such that it takes value 1 if $\ulx\in R$ (that is, if the sample is in the rejection region) and value 0 if $\ulx\in R^{c}$. Denote this function by $\phi(\ulx)$. Now we assume that $\phi(\cdot)$ satisfies shape and size conditions and consider another test function $\phi'$ of any other test of level $\alpha$. Consider:
+	\begin{itemize}
+		\item $\gamma(\theta)$ the power function of $\phi(\cdot)$;
+		\item $\gamma'(\theta)$ the power function of $\phi'(\cdot)$
+	\end{itemize} 
+	This functions $\phi$ and $\phi'$ can take values 0 or 1 then by the shape conditions if I consider the quantity
+	\begin{equation*}
+		\left[\phi(\ulx)-\phi'(\ulx)\right]\left(f_{\ulX}(\ulx;\theta_{1})-kf_{\ulX}(\ulx;\theta_{0})\right)\tag*{\faDumpsterFire}\label{dumpfire}
+	\end{equation*}
+	I notice that 
+	\begin{equation*}
+		\phi(\ulx)=1\implies f_{\ulX}(\ulx;\theta_{1})>kf_{\ulX}(\ulx;\theta_{0})
+	\end{equation*}
+	and
+	\begin{equation*}
+		\phi(\ulx)=0\implies\cdots
+	\end{equation*}
+	and this is important because we know that \ref{dumpfire} is a non negative quantity and therefore
+	\begin{align*}
+		0\leq&\int	\left[\phi(\ulx)-\phi'(\ulx)\right]\left(f_{\ulX}(\ulx;\theta_{1})-kf_{\ulX}(\ulx;\theta_{0})\right)\dif\ulx\\
+		=&\int\phi(\ulx)f_{\ulX}(\ulx;\theta_{1})\dif\ulx-\int\phi'(\ulx)f_{\ulX}(\ulx,\theta_{1})\dif\ulx-\\
+		&-k\left(\int\phi(\ulx)f_{\ulX}(\ulx;\theta_{0})\dif\ulx-\int\phi'(\ulx)f_{\ulX}(\ulx,\theta_{0})\dif\ulx\right)\\
+		=&\gamma(\theta_{1})+\gamma'(\theta_{1})-l\left(\gamma(\theta_{1})-\gamma'(\theta_{0})\right)	\end{align*}
+	Since $\phi'$ is a level $\alpha$ test then
+	\begin{equation*}
+		\gamma(\theta_{0})-\gamma'(\theta_{0})=\alpha-\gamma'(\theta_{0})\geq0
+	\end{equation*}
+	\begin{equation*}
+		0\leq\gamma(\theta_{1})-\gamma'(\theta_{1})-k\left(\gamma(\theta_{0})-\gamma(\theta_{0})\right)
+	\end{equation*}
+	but we know that $\gamma'(\theta_{0})\leq\alpha$ and that $\gamma(\theta_{0})=\alpha$. Substituting we get
+	\begin{equation*}
+		0\leq\gamma(\theta_{1})-\gamma'(\theta_{1})-k(\alpha-\gamma'(\theta_{0}))
+	\end{equation*}
+	and since $\gamma'(\theta_{0})\leq\alpha$ we know that 
+	\begin{equation*}
+		\alpha-\gamma'(\theta_{0})\geq0.
+	\end{equation*}
+	Now let $\phi'$ be the thest function of an UMP level $\alpha$ test . $\phi$, a test that satisfies shape and size conditions is also UMP level $\alpha$. Let $\gamma$ and $\gamma'$ be the power functions associated to $\phi$ and $\phi'$. We have
+	\begin{equation*}
+		\gamma(\theta_{1})=\gamma'(\theta_{1}).
+	\end{equation*}
+	Recall the inequality
+	\begin{equation*}
+		0\leq\gamma(\theta_{1})-\gamma'(\theta_{1})-k\left(\gamma(\theta_{0})-\gamma'(\theta_{0})\right).
+	\end{equation*}
+	Since $k>0$
+	\begin{equation*}
+		\ubracketthin{\alpha-\gamma'(\theta_{0})=\gamma(\theta_{0})-\gamma'(\theta_{0})\leq 0}_{\alpha-\gamma'(\theta_{0})\leq0}.
+	\end{equation*}
+	Since $\phi'$ is of level $\alpha$ then $\gamma'(\theta_{0})\leq\alpha$. So
+	\begin{equation*}
+		\begin{carray}
+			\alpha-\gamma'(\theta_{0})\leq0\\
+			\Downarrow\\
+			\gamma'(\theta_{0})\leq \alpha
+		\end{carray}\implies\gamma'(\theta_{0})\alpha.
+	\end{equation*}
+	so $\phi'$ is a size $\alpha$ test.
+\end{fancyproof}
+\begin{lemma}
+	\emph{Neyman-Pearson lemma}. The likelihood ratio provides an optimal test of level $\alpha$.
+\end{lemma}
+Let's try an example. I have $X_{1}\ldots X_{n}$ from $X\distnorm{\theta,\sigma^{2}}$ with $\theta$ unknown and $\sigma^{2}$ fixed. I have
+\begin{equation*}
+	\begin{larray}
+		H_{0}:\theta=\theta_{0}\\
+		H_{1}:\theta=\theta_{1}>\theta_{0}.
+	\end{larray}
+\end{equation*}
+I must find a constant $c$ such that
+\begin{equation*}
+	\frac{\like\left(\theta_{1};\ulx\right)}{\like\left(\theta_{0};\ulx\right)}\geq c
+\end{equation*}
+to reject the hypothesis. We have that the ratio is 
+\begin{align*}
+	\begin{carray}
+		\frac{\cancel{\left(\frac{1}{\sqrt{2\pi\sigma^{2}}}\right)^{n}}\expg{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}(x_{i}-\theta_{1})^{2}}}{\cancel{\left(\frac{1}{\sqrt{2\pi\sigma^{2}}}\right)^{n}}\expg{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}(x_{i}-\theta_{0})^{2}}}\geq0\\
+		\Downarrow\\
+		\expg{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}(x_{i}-\theta_{1})^{2}+\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}(x_{i}-\theta_{0})^{2}}\geq x\\
+		\Downarrow\\
+		\expg{-\frac{1}{2\sigma^{2}}\left[\sum_{i=1}^{n}x_{i}^{2}-2\theta_{1}\sum_{i=1}^{n}+n\theta_{i}^{2}-\sum_{i=1}^{n}x_{i}^{n}+2\theta_{0}\sum_{i=1}^{n}x_{i}-n\theta^{2}_{0}\right]}\\
+		\Downarrow\\
+		\expg{-\frac{1}{2\sigma^{2}}\left[n(\theta_{1}^{2}-\theta^{2}_{0})-2\sum_{i=1}^{n}x_{i}(\theta_{1}-\theta_{0})\right]}\geq c\\
+		\Downarrow\\
+		\expg{-\frac{1}{2\sigma^{2}}(\theta_{1}-\theta_{0})\left[(\theta_{0}+\theta_{1})n-2\sum_{i=1}^{n}x_{i}\right]}\geq c\\
+		\Downarrow\\
+		-\frac{1}{2\sigma^{2}}(\theta_{1}-\theta_{0})\left[(\theta_{0}+\theta_{1})n-2\sum_{i=1}^{n}x_{i}\right]\geq c\\
+		\Downarrow\\
+		\left(\theta_{0}+\theta_{1}\right)n-2\sum_{i=1}^{n}x_{i}\leq c\\
+		\Downarrow\\
+		-2\sum_{i=1}^{n}\leq0\implies\sum_{i=1}^{n}x_{i}\geq c\\
+		\Downarrow\\
+		\frac{1}{n}\sum_{i=1}^{n}x_{i}\geq c.
+	\end{carray}
+\end{align*}
+So we reject if $\Xbar_{n}\geq x$. We know that
+\begin{equation*}
+	\Xbar_{n}\distnorm{\theta_{0};\frac{\sigma^{2}}{n}}
+\end{equation*} 
+and
+\begin{align*}
+	\alpha&=\pr\left(\Xbar_{n}\geq c\right)\\
+	&=\pr\left(\frac{\Xbar_{n}-\theta_{0}}{\frac{\sigma}{\sqrt{n}}}\geq\frac{c-\theta_{0}}{\frac{\sigma}{\sqrt{n}}}\right).
+	\end{align*}
+	We know that
+	\begin{equation*}
+		\frac{\Xbar_{n}-\theta_{0}}{\frac{\sigma}{\sqrt{n}}}\distnorm{0,1}
+	\end{equation*}
+	so
+	\begin{equation*}
+		\alpha=\pr\left(Z\geq\frac{c-\theta_{0}}{\frac{\sigma}{\sqrt{n}}}\right).
+	\end{equation*}
+	But since $\alpha$ is fixed we have 
+	\begin{equation*}
+		\Phi\left(\frac{x-\theta_{0}}{\sfrac{\sigma}{\sqrt{n}}}\right)=1-\alpha.
+	\end{equation*}
+	This gives us 
+	\begin{equation*}
+		\frac{c-\theta_{0}}{\sfrac{\sigma}{\sqrt{n}}}=z_{\alpha}\implies c=\theta_{0}+z_{\alpha}\frac{\sigma}{\sqrt{n}}.
+	\end{equation*}
+	So our rejection region is
+	\begin{equation*}
+		\left\{\Xbar\geq\theta_{0}+z_{\alpha}\frac{\sigma}{\sqrt{n}}\right\}.
+	\end{equation*}
+\begin{remark}
+	\begin{itemize}
+		\item The rejection region is a function of the sufficient statistic (and we like this).
+		\item This example was easy but look how we had to solve a quantile problem to find this constant $c$. This is not always easy (even with Gaussian we need the tables).
+		\item We need to refer the problem to a distribution that is tabulated.
+		\item By remark 3 we need asymptotic testing.
+		\item Can we always solve the quantile problem perfectly? No, we only can do this in the continuous distribution (for each $\alpha$) where I can always find a point in the distribution for every value of $\alpha$.
+	\end{itemize}
+\end{remark}
+Let's look to another example. Let $\rsampx$ from $X\distbernoulli{\theta}$. Our hypotheses are
+\begin{equation*}
+	\begin{larray}
+		H_{0}:\theta=\theta_{0}\\
+		H_{1}:\theta=\theta_{1}\geq\theta_{0}.
+	\end{larray}
+\end{equation*}
+We have
+\begin{align*}
+	\frac{\like(\theta_{0};\ulx)}{\like(\theta_{1};\ulx)}\geq c&\iff\frac{\theta_{0}^{\sum_{i=1}^{n}x_{i}}(1-\theta_{0})^{n-\sum_{i=1}^{n}x_{i}}}{\theta_{1}^{\sum_{i=1}^{n}x_{i}}(1-\theta_{1})^{n-\sum_{i=1}^{n}x_{i}}}\leq c\\
+	&\iff\left(\sum_{i=1}^{n}x_{i}\right)\log\frac{\theta_{0}}{\theta_{1}}+\left(n-\sum_{i=1}^{n}x_{i}\right)\log\frac{1-\theta_{0}}{1-\theta_{1}}\leq c\\
+	&\iff\left(\sum_{i=1}^{n}x_{i}\right)\log\frac{\theta_{0}}{\theta_{1}}-\left(\sum_{i=1}^{n}x_{i}\right)\log\frac{1-\theta_{0}}{1-\theta_{1}}+m\log\frac{1-\theta_{0}}{1-\theta_{1}}\leq c\\
+	&=\iff\left(\sum_{i=1}^{n}x_{i}\right)\ubracketthin{\bigg[\ubracketthin{\log\frac{\theta_{0}}{\theta_{1}}}_{<0}-\ubracketthin{\log\frac{1-\theta_{0}}{1-\theta_{1}}}_{>0}\bigg]}_{<0}+n\log\frac{1-\theta_{0}}{1-\theta_{1}}\leq c
+\end{align*}
+and so we get the shape condition
+\begin{equation*}
+	\sum_{i=1}^{n}x_{n}\geq\widetilde{c}.
+\end{equation*}
+We are now interested in finding $c$ such that
+\begin{equation*}
+	\alpha=\pr\left(\left\{\sum_{i=1}^{n}x_{i}\geq c;\theta_{0}\right\}\right).
+\end{equation*}
+Define the statistic under the null hypothesis
+\begin{equation*}
+	T:=\sum_{i=1}^{n}X_{i}\sim\mathsf{Binom}(n,\theta_{0}).
+\end{equation*}
+In general $\not\exists c\in\left\{0,1,\ldots,n\right\}$ such that $\pr\left(T\geq c;\theta_{0}\right)=\alpha$. We need a lucky combination for that, so we usually find
+\begin{equation*}
+	\min\left\{c>0:\pr\left(T\geq c;\theta_{0}\right)\leq\alpha\right\}.
+\end{equation*}
+So we have just seen that as a consequence of the Neyman-Pearson lemma the Gaussian and Bernoulli distributions have a test that is a function of the sufficient statistic for $\theta$. We must remember that the Gaussian and the Bernoulli model are part of the exponential family whose density function is in the form
+\begin{equation*}
+	p_{X}(x;\theta)=\expg{A(x)Q(\theta)+c(x)-k(\theta)}.
+\end{equation*}
+We compute the likelihood ratio under 
+\begin{equation*}
+	\frac{\like\left(\theta_{1};\ulx\right)}{\like\left(\theta_{0};\ulx\right)}\geq c
+\end{equation*}
+and we get
+\begin{align*}
+	\frac{\like(\theta_{0};\ulx)}{\like(\theta_{1};\ulx)}&=\frac{\prod_{i=1}^{n}\expg{A(x)Q(\theta_{0})+c(x)-k(\theta_{0})}}{\prod_{i=1}^{n}\expg{A(x)Q(\theta_{1})+c(x)-k(\theta_{1})}}\\
+	&=\expg{Q(\theta_{0})\sum_{i=1}^{n}A(x_{i})-nk(\theta_{0}-Q(\theta_{1})\sum_{i=1}^{n}A(x_{i})+nk(\theta_{1})}\leq k\\
+	&\iff\expg{\sum_{i=1}^{n}A(x_{i})\left[Q(\theta_{0})-Q(\theta_{1})\right]-n\left[k(\theta_{0})-k(\theta_{i})\right]}\leq k\\
+	&\iff\left[Q(\theta_{0})-Q(\theta_{1})\right]\sum_{i=1}^{n}A(x_{i})-n\left[k(\theta_{0})-k(\theta_{1})\right]\leq k\\
+	&\iff\sum_{i=1}^{n}A(x_{i})\leq c.
+\end{align*}
+So from this we see that the shape of the rejection region is a function of $\sum_{i=1}^{n}A(x_{i})$ which is a sufficient statistic. This is a more general result that allows us to extend the Neyman-Pearson lemma.
+\begin{corollary}
+	Consider the same setting of the Neyman-Pearson lemma. Suppose that $T(X_{1},\ldots,X_{n})$ is a sufficient statistic for the parameter $\theta$. Denote by $g(t;\theta_{i})$ as the density/mass function of the distribution of the sufficient statistic $T$ under $H_{i}$ for $i=0,1$. Then any test based on $T$ with rejection region $S$ is UMP level $\alpha$ if it satisfies
+	\begin{equation*}
+		t\in S\quad\text{if}\quad g(t;\theta_{1})>kg(t;\theta_{0})
+	\end{equation*}
+	and \begin{equation*}
+		t\in S^{c}\quad\text{if}\quad g(t;\theta_{1})<kg(t;\theta_{0})
+	\end{equation*}
+	for some $k>0$, where
+	\begin{equation*}
+		\alpha=\pr\left(T\in S;\theta_{0}\right).
+	\end{equation*}
+\end{corollary}
+So when we have a situation like 
+\begin{equation*}
+	H_{1}:\theta=\theta_{0}\qquad\text{vs}\qquad H_{1}:\theta=\theta_{1}
+\end{equation*}
+I can use this result, but something different... it's not so easy.
+\subsection{Rubin Test}
+In the Neyman-Pearson lemma there were no assumptions. In the Rubin test we find a way to find level $\alpha$ UMP test even for non point-wise hypotheses, but the price we will pay is that we cannot use it with all kinds of models.
+\begin{definition}
+	A family of density functions or mass function $\left\{g(t,\theta);\theta\in\Theta\right\}$ for a univariate random variable $T$ has \emph{monotone likelihood ratio} if for every $\theta_{2}>\theta_{1}$ we have
+	\begin{equation*}
+		\frac{g(t;\theta_{2})}{g(t;\theta_{1})}
+	\end{equation*}
+	is a monotone (non-increasing or non-decreasing) function of $t$ on
+	\begin{equation*}
+		\begin{larray}
+			\left\{t:g(t;\theta_{1})>0\right\}\\
+			\left\{t:g(t;\theta_{0})>0\right\}.
+		\end{larray}
+	\end{equation*}
+\end{definition}
+\begin{theorem}
+	Consider the problem of testing
+	\begin{equation*}
+		H_{0}:\theta:\theta_{0}\qquad\text{vs}\qquad H_{1}:\theta>\theta_{0}.
+	\end{equation*}
+	Assume that $T$ is a sufficient statistic for $\theta$ and the density (or mass) function of $T$ has the MLR property. Then the test that reject $H_{0}$ if and only if $T>t_{0}$ (for any $t_{0}$) is UMP level $\alpha$ where
+	\begin{equation*}
+		\alpha=\pr\left(T>t_{0};\theta_{0}\right).
+	\end{equation*}
+\end{theorem}
+The proof is just applying over and over the NP lemma. We are not interested in getting the general result.
+\begin{proposition}
+	\emph{Likelihood ratio test}. Let $\rsampx$ be a random sample from $X\sim F_{\theta}$ with $\theta\in\Theta$. Consider the hypotheses
+	\begin{equation*}
+		H_{0}:\theta\in\Theta_{0}\subseteq\Theta\qquad\text{vs}\qquad H_{1}:\theta\in\Theta^{c}_{0}.
+	\end{equation*}
+	We define the LRT statistic as 
+	\begin{equation*}
+		\lambda(X_{1},\ldots,X_{n})=\frac{\sup_{\theta\in\Theta_{0}}\like(\theta;\ulx)}{\sup_{\theta\in\Theta}\like(\theta;\ulx)}.
+	\end{equation*}
+	The LRT is any test that has a rejection region of the form 
+	\begin{equation*}
+		\{\rsampx:\lambda\rsampx\leq c\}\every c\in[0,1].
+	\end{equation*}
+	for any $c\in[0,1]$. We determine so point as a quantile problem:
+	\begin{equation*}
+		\pr\left(\lambda\rsampx\leq c\right)\leq\alpha
+	\end{equation*}
+\end{proposition}
+The problem, as anticipated, is that we lose optimality? Why? Take $\rsampx$ form $x\distnorm{(0
+	\theta,\sigma^{2})}$ where $(\theta,\sigma^{2})$ is unknown.
+	\begin{equation*}
+		H_{0}:\theta=\theta_{0}\qquad\text{vs}\qquad H_{1}:\theta\neq 1.
+	\end{equation*}
+	The numerator of the LRT is
+	\begin{align*}
+		\sup_{\theta,\sigma^{2}\in\Theta}\like\left(\theta,\sigma^{2},\ulx\right)=\like\left(\ulX_{n},\tilde{s}^{2}_{n}\right)&=\left(\frac{1}{\sqrt{2\pi\widetilde{s}^{2}_{n}}}\right)^{n}\expg{-\frac{n}{2\cancel{\widetilde{s}^{2}_{n}}}\cancel{\frac{1}{n}\sum_{i=1}^{n}(x_{i}-\theta_{i})^{2}}}\\
+		&=\left(\frac{1}{\sqrt{2\pi\widetilde{s}^{2}_{n}}}\right)^{n}\expg{-\frac{n}{2}}\propto\left(\widetilde{s}^{2}_{n}\right)^{-\frac{n}{2}}\\
+		&\propto\left(\theta_{0},\widetilde{s}^{2}_{0}\right)
+	\end{align*}
+	We set
+	\begin{equation*}
+		\widehat{\theta}_{n}=\theta_{0}\qquad \tilde{s}^{2}_{0}=\ubracketthin{\frac{1}{n}\sum_{i=1}^{n}(X_{i}-\theta_{0})^{2}}_{\claptext{MLE of $\sigma^{2}$ in $\Theta_{0}$}}.
+	\end{equation*}
+	Again, repeating the computation for the denominator we get
+	\begin{equation*}
+		\like\left(\theta_{0},\tilde{s}^{2}_{0}\right)\propto\left(\tilde{s}^{2}_{0}\right)^{-\frac{n}{2}}
+	\end{equation*}
+	so our problem is 
+	\begin{equation*}
+		\lambda\left(X_{1},\ldots,X_{n}\right)=\left(\frac{\widetilde{s}^{2}_{n}}{\widetilde{s}^{2}_{0}}\right)^{\frac{n}{2}}\leq c
+	\end{equation*}
+	and we want to find the distribution of $\lambda\rsampx$. Write
+	\begin{align*}
+		\tilde{s}^{2}_{0}&=\frac{1}{n}\sum_{i=1}^{n}\left(X_{i}-\theta_{0}\right)^{2}\\
+		&=\frac{1}{n}\sum_{i=1}^{n}\left(X_{i}-\Xbar_{n}+\Xbar_{n}-\theta_{0}\right)^{2}\\
+		&=\tilde{s}^{2}_{n}+\left(\Xbar_{n}-\theta_{0}\right)^{2}.
+	\end{align*}
+	The ratio becomes
+	\begin{align*}
+		\lambda\rsampx&=\left(\frac{\tilde{s}^{2}_{n}}{\tilde{s}^{2}_{n}+\left(\Xbar_{n}-\theta^{0}\right)^{2}}\right)^{\frac{n}{2}}\leq c\\
+		&\implies \left(\frac{\tilde{s}^{2}_{n}+\left(\Xbar_{n}-\theta^{0}\right)^{2}}{\tilde{s}^{2}_{n}}\right)^{-\frac{n}{2}}\leq c\\
+		&\implies \frac{\left(\Xbar_{n}-\theta_{0}\right)^{2}}{den}\\
+		&\implies\frac{\left(\Xbar_{n}-\theta_{0}\right)^{2}}{\frac{n-1}{n}s^{2}_{n}}\geq c\\
+		&\implies\frac{\sqrt{n}\left|\Xbar_{n}-\theta_{0}\right|}{s_{n}}\geq c\\
+		&\implies\left|T_{n}\right|>c
+	\end{align*}
+	with $T_{n}=\frac{\sqrt{n}(\Xbar_{n}-\theta_{0})}{s_{n}}$ so
+	\begin{equation*}
+		T_{n}=\frac{\frac{\Xbar_{n}-\theta_{0}}{\frac{\sigma}{\sqrt{n}}}}{\sqrt{\frac{s^{2}_{n}}{\sigma^{2}}}}=\frac{Z}{\sqrt{\frac{Y}{n-1}}}
+	\end{equation*}
+	but this is the definition of the \emph{T-student distribution}:
+	\begin{equation*}
+		T_{n}\sim t_{n-1}
+	\end{equation*}
+	and we have
+	\begin{equation*}
+		\alpha=\pr\left(\left|T_{n}\right|>c;\theta_{0}\right)
+	\end{equation*}
+	and
+	\begin{equation*}
+		(1-\alpha)=\pr\left(-t_{\sfrac{\alpha}{2}}\leq t_{n-1}\leq t_{\sfrac{\alpha}{2}}\right).
+	\end{equation*}
+	Testing the mean of a gaussian model when the variance is unknown implies using the t-test. Take $\rsampx$ from $X\distnorm{\theta_{x};\sigma^{2}}$ and $\rsampy$ from $Y\distnorm{\theta_{y}l\sigma^{2}}$. I want to test whether the two groups are the same. Typically this is called homogeneity test and this gives
+	\begin{equation*}
+		H_{0}:\theta_{x}-\theta_{y}=0\\
+		H_{1}:\theta_{x}-\theta_{y}\neq 0.
+	\end{equation*}
+	In this case $\sigma^{2}$ is unknown and $(X_{1},\ldots,X_{n})$ is independent of $(Y_{1},\ldots,Y_{m})$. We write
+	\begin{align*}
+		\lambda(X_{1},\ldots,X_{n},Y_{1},\ldots,Y_{m})&=\frac{\sup_{\theta_{x}=\theta_{y},\sigma^{2}}\like\left(\overline{\underline{X}\underline{Y}}\right)}{\sup_{\theta_{x},\theta_{y},\sigma^{2}}\like(\overline{\underline{X},\underline{Y}})}\sim t_{n-1\cdot m-1}.
+	\end{align*}
+	One more example:
+Take $\rsampx$ from $X\distnorm{\theta_{x},\sigma^{2}_{x}}$ and $\rsampy$ from $Y\distnorm{\theta_{y},\sigma^{2}_{y}}$ with $\rsampx\indep\rsampy$. Here we want to test the equality of the variances:
+\begin{equation*}
+	H_{0}:\sigma^{2}_{x}=\sigma^{2}_{y}\qquad H_{1}:\sigma^{2}_{x}\neq\sigma^{2}_{y}.
+\end{equation*}
+Again, we do the likelihood ratio and get
+\begin{equation*}
+	\lambda\left(X_{1},\ldots,X_{n},Y_{1},\ldots,Y_{m}\right)\sim \mathsf{F}_{n-1,m-1}.
+\end{equation*}
+So, to recap: the LRT works by taking
+\begin{equation*}
+	\lambda\left(\ulx\right)=\frac{\sup_{\theta\in\Theta_{0}}\like(\theta;\ulx)}{\sup_{\theta\in\Theta}\like(\theta;\ulx)}<c
+\end{equation*}
+which defines a rejection region
+\begin{equation*}
+	\left\{\ulX:\lambda(\ulx)\leq0\right\}.
+\end{equation*}
+\begin{remark}
+	If I assume gaussianity ($X\distnorm{\mu,\sigma^{2}}$) then we can find the distribution of $\lambda\left(x\right)$ which is the $T$-student distribution. The same distribution applies for the equality of means while for the equality of variances we need to use the $F$-test distribution.\par
+	This is the main advantage of staying in the Gaussian framework.
+\end{remark}
+\subsection{Asymptotic testing}
+This is very important because we technically need the distribution of $\lambda$ to get the quantile $c:\pr\left(\lambda\left(\ulx\right)\leq c\right)\leq\alpha$. Not only that, we need the distribution of $\lambda$ to be tabulated (for example, the Gamma distribution is not) or use numerical methods. For all the other cases, we need to go asymptotic.
+\begin{theorem}
+	\emph{Wilks' theorem (Asymptotic for LRT)}. Let $\ulX=\rsampx$ from a regular model (since this theorem is based on the Cramer theorem) with $X\sim F_{\theta}$ with $\theta\in\Theta$. Consider testing 
+	\begin{equation*}
+		H_{0}: \theta=\theta_{0}\qquad\text{vs}\qquad H_{1}:\theta\neq\theta_{0}.
+	\end{equation*}
+	Und $H_{0}$, as $n\to\infty$ we have that 
+	\begin{equation*}
+		2\log\lambda\left(\ulX\right)\convw C\qquad C\sim\chi^{2}_{n}.
+	\end{equation*}
+\end{theorem}
+This is good because the $\chi^{2}$ distribution is tabulated!
+\begin{fancyproof}
+	We have 
+	\begin{equation*}
+		\ell(\theta;\ulx)=\log\like(\theta;\ulx)
+	\end{equation*}
+	and $\widehat{\theta}_{n}$ is the MLE for $\theta$. We expand the log likelihood around $\widehat{\theta}_{n}$:
+	\begin{align*}
+		\ell(\theta;\ulx)=&\ell\left(\widehat{\theta}_{n};\ulx\right)+\ell'\left(\widehat{\theta}_{n};\ulx\right)\left(\theta-\widehat{\theta}_{n}\right)+\ell''\left(\widehat{\theta}_{n};\ulx\right)\left(\theta-\widehat{\theta}_{n}\right)^{2}\unmezz+\ldots\\
+		-2\log\lambda\left(\ulx\right)=&-2\ell\left(\theta_{0};\ulx\right)+2\ell\left(\widehat{\theta}_{n};\ulx\right)\\
+		=&-\cancel{2}\left[\cancel{\ell\left(\widehat{\theta}_{n};\ulx\right)}+\ell'\left(\widehat{\theta}_{n};\ulx\right)\left(\theta_{0}-\widehat{\theta}_{n}\right)+\ell''\left(\widehat{\theta}_{n};\ulx\right)\left(\theta_{0}-\widehat{\theta}_{n}\right)^{2}\unmezz\right]+\\
+		&+2\left[\cancel{\ell\left(\widehat{\theta}_{n};\ulx\right)}+\cancel{\ell'\left(\widehat{\theta}_{n};\ulx\right)\left(\theta-\widehat{\theta}_{n}\right)}+\cancel{\ell''\left(\widehat{\theta}_{n};\ulx\right)\left(\theta-\widehat{\theta}_{n}\right)^{2}}\unmezz\right]\\
+		=&-\ell''\left(\widehat{\theta}_{n},\ulx\right)\left(\theta_{0}-\widehat{\theta}_{n}\right)^{2}\\
+		=&-\frac{1}{n}\ell''\left(\widehat{\theta}_{n};\ulx\right)\left(\sqrt{n}\left(\theta_{0}-\widehat{\theta}_{n}\right)\right)^{2}
+	\end{align*}
+	but by LLN we know that
+	\begin{equation*}
+		-\frac{1}{n}\ell''(\theta_{0},\ulx)\convpr I(\theta_{0})\qquad n\to\infty
+	\end{equation*}
+	and by Cramer's theorem we know that
+	\begin{equation*}
+		\sqrt{n}\left(\theta_{0}-\widehat{\theta}_{n}\right)\convw H\distnorm{0,\frac{1}{I(\theta_{0})}}
+	\end{equation*}
+	so combining those result we get
+	\begin{equation*}
+		-2\log\lambda\left(\ulx\right)\convw\left(\sqrt{I(\theta_{0})}H\right)^{2}\sim\chi^{2}_{1}\qquad\text{as }n\to\infty
+	\end{equation*}
+	since we get the square of a $\mathsf{N}(0,1)$ \rv.
+\end{fancyproof}
+For example, let's try to see what happens with the Poisson distribution. Take $\rsampx$ from $X\sim\mathsf{Pois}(\lambda)$ with $\lambda>0$. We want to test
+\begin{equation*}
+	H_{0}: \lambda=\lambda_{0}\qquad\text{vs}\qquad H_{1}:\lambda\neq\lambda_{0}.
+\end{equation*}
+We know that the MLE is $\widehat{\lambda}_{n}=n^{-1}\sum_{i=1}^{n}X_{i}$. We get
+\begin{align*}
+	-2\log\lambda\left(\ulx\right)&=-2\log\frac{e^{-2\lambda_{0}}\lambda_{0}^{\sum_{i=1}^{n}x_{i}}\cancel{\prod_{i=1}^{n}\frac{1}{x_{i}!}}}{e^{-n\widehat{\lambda}_{n}}\widehat{\lambda}_{n}^{\sum_{i=1}^{n}x_{i}}\cancel{\prod_{i=1}^{n}\frac{1}{x_{i}!}}}\\
+	&=2n\left[\left(\lambda_{0}-\widehat{\lambda}_{n}\right)-\widehat{\lambda}_{n}\log\left(\frac{\lambda_{0}}{\widehat{\lambda}_{n}}\right)\right].
+\end{align*}
+This is a strange distribution. Even if I found it analytically for sure there is no tabulation for this. And this was not some obscure Russian model, it was just a Poisson model. But we can use Wilks' theorem:
+\begin{equation*}
+	-2\log\lambda\left(\ulx\right)\convw C\sim\chi^{2}_{1}\qquad\text{as }n\to\infty.
+\end{equation*}
+So our rejection reason is
+\begin{equation*}
+	R=\left\{-2\log\lambda\left(\ulx\right)>\chi^{2}_{1,\alpha}\right\}
+\end{equation*}
+which is the quantile of order $\alpha$ of $\chi^{2}_{1}$. This means that
+\begin{equation*}
+	\lim_{n\to\infty} \pr\left(\ulx\in\R,H_{0}\right)\to\alpha.
+\end{equation*}
+The need for regularity, however, is the price to pay: look what happens when we force Wilks' theorem on a non regular model. Take a random sample $\rsampx$ from $X\sim f_{X}(x;\theta)=\expg{-(x-\theta)}\indi_{\left(\theta,+\infty\right)}(x)$: this is like taking $Y\sim\mathsf{NegExp}(1)$ and $X=Y+\theta$. We have $T_{n}=\min\left\{X_{1}\right\}$ as the MLE. We want to test
+\begin{equation*}
+	H_{0}: \theta=\theta_{0}\qquad\text{vs}\qquad H_{1}:\theta\neq\theta_{0}.
+\end{equation*}  We have eerie questions\footnote{Someone rightfully asked where $\indi_{(0,+\infty)}$ went. Favaro replied that we don't need it anyway because we are part the process of optimization.} but we get
+\begin{align*}
+	\lambda\rsampx&=\frac{\expg{-\sum_{i=1}^{1}(X_{i}-\theta_{0})}}{\expg{-\sum_{i=1}^{1}\left(X_{i}-T_{n}\right)}}\\
+	&=\expg{-n\left(T_{n}-\theta_{0}\right)}.
+\end{align*}
+At this point we want to both compute the distribution and apply Wilks' theorem. Start with
+\begin{equation*}
+	-2\log\lambda\rsampx=2n(T_{n}-\theta_{0}).
+\end{equation*}
+We know that $T_{n}=X_{(1)}$ and in particular that $T^{\star}_{n}=\min\left\{\left(X_{1}-\theta_{0}\right),\ldots,\left(X_{n}-\theta_{0}\right)\right\}$ and we want to compute the distribution of the minimum. Typically we must use the anti-cdf:
+\begin{align*}
+	\pr\left(X_{(i)}>x\right)&=\pr\left(\left\{X_{1}>x\right\}\cap\ldots\cap\left\{X_{n}>x\right\}\right)\\
+	&=\pr\left(\left\{X_{1}-\theta_{0}>x\right\}\cap\ldots\cap\left\{X_{n}-\theta_{0}>x\right\}\right)\\
+	&=\prod_{i=1}^{n}\expg{-x}\\
+	&=\expg{-nx}
+\end{align*}
+and this tells us that 
+\begin{equation*}
+	T^{\star}_{n}\sim\mathsf{NegExp}(n).
+\end{equation*}
+Now that we have the distribution of $T^{\star}_{n}$ we need to compute the distribution of $H=2nT^{\star}_{n}$. We get
+\begin{align*}
+	\pr\left(H\leq h\right)&=\pr\left(2nT^{\star}_{n}\leq h\right)\\
+	&=\pr\left(T^{\star}_{n}\leq\frac{h}{2n}\right)\\
+	&=1-\expg{-\frac{h}{2}}.
+\end{align*}
+So  $H\sim\mathsf{NegExp}\left(\unmezz\right)$. But remember that negative exponential distributions and $\chi^{2}$ distributions are actually just Gamma distributions, so we can rewrite the distribution of $H$ as 
+\begin{equation*}
+	H=-2\log\lambda\rsampx\sim\chi^{2}_{2}.
+\end{equation*}
+But if we used Wilks' we would have gotten
+\begin{equation*}
+	-2\log\lambda\rsampx\sim\chi^{2}_{\mathcolor{Magenta3}{1}}
+\end{equation*}
+so the two results would have been in contradiction! This is why we cannot use Wilks' with non regular models.
+\subsection{Asymptotic testing but we are uncomfortable}
+\begin{theorem}
+	\emph{Wilks' theorem (multidimensional)}. Take $\rsampx$ from a regular model $F_{\theta}$ with $\theta\in\Theta$. If $\theta\in\Theta_{0}$ then the statistic
+	\begin{equation*}
+		-2\log\lambda\left(\ulX\right)\convw C\sim\chi^{2}_{g}\qquad\text{as }n\to\infty.
+	\end{equation*}
+	The parameter $g$ (degrees of freedom) is the difference between the number of parameters specified by $\Theta_{0}$ and the number of parameters specified in $\Theta$.
+\end{theorem}
+Take for example the roll of a dice. We have $\theta=\left(p_{1},p_2,p_3,p_4,p_5\right)$. We have in general $p_{j}=\pr\left(X_{i}=j\right)$ for $j=1,\ldots,5$. Take the number of successes
+\begin{equation*}
+	Y_{j}=\sum_{i=1}^{n}\indi\left(X_{i}=j\right)\qquad j=1,\ldots,5.
+\end{equation*}
+This is simply the multinomial model where
+\begin{equation*}
+	\pr\left(\left\{Y_{1}=y_{1}\right\}\cap\ldots\cap\left\{Y_{5}=y_{5}\right\}\right)=\prod_{i=1}^{5}p_{j}^{y_{i}}\frac{n!}{y_{1}!\ldots y_{5}!}
+\end{equation*}and the likelihood is
+\begin{align*}
+	\pr\left((Y_{1},\ldots Y_{5})=(y_{1},\ldots,y_{5})\right)&=p_{1}^{y_{1}}\cdot\ldots \cdot p_{5}^{y_{5}}\frac{n!}{y_{1}!\ldots y_{5}!}
+\end{align*}
+where
+\begin{equation*}
+	\sum_{i=1}^{5}p_{j}=1\wedge\sum_{i=1}^{5}y_{j}=n.
+\end{equation*}
+Consider the problem
+\begin{equation*}
+	H_{0}: p_{1}=p_{2}=p_{3}\wedge p_{4}=p_{5}\qquad\text{vs}\qquad H_{1}:\text{$H_{0}$ is false}.
+\end{equation*}
+The dimension of $\Theta$ is 4 (because $p_{j}$ must sum up to 1 so one of them is "forced" and I can write it in terms of the other 4) and the dimension of $\Theta_{0}$ is 1 (see below). 
+So we have to maximize
+\begin{align*}
+	\lambda\left(\uly\right)=\frac{\sup_{\Theta_{0}}\like(\theta;\uly)}{\sup_{\Theta}\like(\theta;\uly)}\qquad \theta=\left(p_{1},\ldots, p_{5}\right).
+\end{align*}
+It can be helpful to write the likelihood with the constraint baked in:
+\begin{align*}
+	\like\left(\theta,\uly\right)&\propto\left(\prod_{i=1}^{4}p_{j}^{y_{j}}\right)\left(1-\sum_{i=1}^{1}p_{j}\right)^{n-\sum_{i=1}^{4}y_{j}}\\
+	\log\like\left(\theta,\uly\right)&=\sum_{i=1}^{4}y_{j}\log p_{j}+\left(n-\sum_{i=j}^{4}y_{j}\right)\log\left(1-\sum_{i=j}^{4}p_{j}\right)
+\end{align*}
+and taking the derivative yields
+\begin{align*}
+	\deriv{\theta}\log\like\left(\theta;\uly\right)=0\iff \ubracketthin{\widehat{p}_{j}}_{\claptext{MLE}}=\frac{y_{j}}{n}.
+\end{align*}
+But if I fix $p_{1}$ and then by consequence also $p_{2}$ and $p_{3}$. But then $p_{5}=p_{4}$ must be equal to $\frac{1-3p_{1}}{2}$, so I actually only have \ul{one} free parameter. So I can write all the other parameters in function of $p_{1}$:
+\begin{align*}
+	\like\left(\theta;\uly\right)&\propto p_{1}^{y_{1}+y_{2}+y_{3}}\left(\frac{1-3p_{1}}{2}\right)^{y_{4}+y_{5}}
+\end{align*} 
+so now just take the derivative with respect to $p_{1}$:
+\begin{align*}
+	\deriv{p_{1}}\log\like\left(\theta;\uly\right)&\implies \widehat{p}_{1,0}=\frac{y_{1}+y_{2}+y_{3}}{2n}=\widehat{p}_{2,0}=\widehat{p}_{3,0}\\
+	&\implies\widehat{p}_{4,0}=\widehat{p}_{5,0}=\frac{1-3\widehat{p}_{1,0}}{2}.
+\end{align*}
+Now I can write the LRT as
+\begin{align*}
+	\lambda\left(\uly\right)&=\prod_{j=1}^{3}\left(\frac{y_{1}+y_{2}+y_{3}}{3y_{j}}\right)^{y_{j}}\prod_{l=1}^{5}\left(\frac{y_{4}+y_{5}}{2y_{l}}\right)^{y_{l}}.
+\end{align*}
+Finding the distribution of this shit is pretty much impossible. We know the single distribution of the single $y$ but finding the joint and then compute the quantile? Absolutely a horrible way to spend an afternoon. So we turn to asymptotic testing and apply Wilks' theorem:
+\begin{equation*}
+	-2\log\lambda\left(\ulx\right)\convw\chi^{2}_{3}\qquad n\to\infty.
+\end{equation*}
+But what about non regularity? The idea is that if I want to prove something like
+\begin{equation*}
+	\frac{T_{n}-\theta}{\sigma_{n}}\convw Z\distnorm{0,1}
+\end{equation*}
+so that we can compare the test $	\frac{T_{n}-\theta}{\sigma_{n}}$ with $Z$.
+\begin{theorem}
+	\emph{Wald test}. Let $\rsampx$ be a random sample from $F_{\theta}$, $\theta\in\Theta$. Let $T_{n}=T(X_{1},\ldots,X_{n})$ be an estimator for $\theta$ (for instance, the MLE). Denote
+	\begin{equation*}
+		\sigma^{2}=\var(T_{n}).
+	\end{equation*}
+	Le $s_{n}$ be an estimator of $\sigma_{n}$ such that
+	\begin{equation*}
+		\frac{s_{n}}{\sigma_{n}}\convpr 1\qquad\text{as }n\to\infty.
+	\end{equation*}
+	Then 
+	\begin{equation*}
+	\ubracketthin{	\frac{T_{n}-\theta}{s_{n}}}_{\claptext{\emph{Wald's statistic}}}\convw Z\distnorm{0,1}\qquad\text{as }n\to\infty.
+	\end{equation*}
+\end{theorem}
+We can now define the shape of the rejection region and the power of the test. We want to test
+\begin{equation*}
+	H_{0}:\theta=\theta_{0}\qquad\text{vs}\qquad H_{1}:\theta\neq\theta_{0}.
+\end{equation*}
+We define \begin{equation*}
+	Z_{n}=\frac{T_{n}-\theta_{0}}{s_{n}}.
+\end{equation*}
+We reject $H_{0}$ if 
+\begin{equation*}
+	Z_{n}<-z_{\sfrac{\alpha}{2}}\vee Z_{n}>z_{\sfrac{\alpha}{2}}.
+\end{equation*}
+So using the convergence we get
+\begin{equation*}
+	\pr\left(Z_{n}<-z_{\frac{\alpha}{2}}\vee Z_{n}>z_{\frac{\alpha}{2}}\right)\to\pr\left(Z<-z_{\frac{\alpha}{2}}\vee Z>z_{\frac{\alpha}{2}}\right)=\alpha.
+\end{equation*}
+For the power of the test (which, recall, is the probability of correctly staying in the rejection region) we need to take $\theta\neq\theta_{0}$ and see where it brings us:
+\begin{align*}
+	Z_{n}&=\frac{T_{n}-\theta_{0}}{s_{n}}\\
+	&=\ubracketthin{\frac{T_{n}-\theta}{s_{n}}}_{\to\mathsf{N}(0,1)}+\frac{\theta-\theta_{0}}{s_{n}}=\begin{cases}
+		\convpr+\infty\\
+		\convpr-\infty
+	\end{cases}
+\end{align*}
+Under $H_{1}$ (that is under $\theta\neq\theta_{0}$) then 
+\begin{equation*}
+	Z_{n}\convpr\pm\infty\qquad n\to\infty.
+\end{equation*}
+Then 
+\begin{equation*}
+	\pr\left(Z_{n}<-z_{\frac{\alpha}{2}}\vee Z_{n}>z_{\frac{\alpha}{2}};H_{1}\right)\to 1
+\end{equation*}
+which tells us that Wald test has asymptotic power = 1. \par
+As an example, let's look at $\rsampx\distbernoulli{\theta}$. We already have an UMP test (the Rubin test) for this, but let's try Wald. I need an estimator for $\theta$ and I take the empirical mean:
+\begin{equation*}
+	\widehat{\theta}_{n}=\frac{1}{n}\sum_{i=1}^{n}x_{i}\qquad (\text{the MLE})
+\end{equation*}
+and I take the variance 
+\begin{equation*}
+	\var(T_{n})=\frac{\theta(1-\theta)}{n}.
+\end{equation*}
+The MLE for variance is 
+\begin{equation*}
+	\widehat{s}_{n}=\sqrt{n^{-1}\widehat{\theta}_{n}\left(1-\widehat{\theta}_{n}\right)}.
+\end{equation*}
+The \textit{actual} variance is 
+\begin{equation*}
+	\sigma_{n}=\sqrt{\var(T_{n})}.
+\end{equation*}
+To apply Wald's test we need to show that 
+\begin{equation*}
+	\frac{\sigma_{n}}{s_{n}}=\frac{\left[\theta(1-\theta)\right]^{\unmezz}}{\left[\widehat{\theta}_{n}\left(1-\widehat{\theta}_{n}\right)\right]^{\unmezz}}\convpr1\qquad\text{as }n\to\infty.
+\end{equation*}
+This is like checking
+\begin{equation*}
+	\widehat{\theta}_{n}\left(1-\widehat{\theta}_{n}\right)\convpr\theta(1-\theta).
+\end{equation*}
+This means that $\every\varepsilon>0$ we must have
+\begin{align*}
+	\pr\left(\left|\sqrt{\widehat{s}_{n}}-\sqrt{\theta(1-\theta)}\right|>\varepsilon\right)
+	&=\pr\left(\left|\widehat{s}^{2}_{n}-\theta(1-\theta)\right|>\varepsilon\left(\widehat{s}_{n}+\sqrt{\theta(1-\theta)}\right)\right)\\
+	&\leq\pr\left(\left|\widehat{s}^{2}_{n}-\theta(1-\theta)\right|>\varepsilon\sqrt{\theta(1-\theta)}\right)\\
+	&=\pr\left(\left|\frac{\widehat{s}^{2}_{n}}{\theta(1-\theta)}-1\right|>\varepsilon\right)\\
+	&=\pr\left(\frac{\theta(1-\theta)}{1+\varepsilon}\leq\widehat{s}^{2}_{n}\leq\frac{\theta(1-\theta)}{1-\varepsilon}\right)\\
+	&=\pr\left(\theta(1-\theta)-\frac{2\theta(1-\theta)}{1+\varepsilon}\leq\widehat{s}^{2}_{n}\leq\theta(1-\theta)+\frac{\theta(1-\theta)}{1-\varepsilon}\right)
+\end{align*}
+But we know that
+\begin{equation*}
+	\theta(1-\theta)+\frac{\varepsilon(1-\theta)\theta}{1+\varepsilon}<\theta(1-\theta)-\frac{\theta(1-\theta)\varepsilon}{1-\varepsilon}
+\end{equation*}
+so 
+\begin{align*}
+	&\leq\pr\left(\theta(1-\theta)-\frac{\varepsilon\left(1-\theta\right)\theta}{1+\varepsilon}\leq\widehat{s}^{2}_{n}\leq\theta(1-\theta)+\frac{\theta(1-\theta)\varepsilon}{1-\varepsilon}\right)\\
+	&=\pr\left(\left|\widetilde{s}^{2}_{n}-\theta(1-\theta)\right|\leq\frac{\theta(1-\theta)\varepsilon}{1+\varepsilon}\right)
+\end{align*}
+So 
+\begin{equation*}
+	Z_{n}=\frac{\widehat{\theta}_{n}-\theta_{0}}{\widehat{s}_{n}}\convw Z\sim\mathsf{N}(0,1)\qquad n\to\infty.
+\end{equation*}
+We didn't actually need all this: since for Bernoulli we know that the MLE $\convpr$ to the actual parameter and for the delta method then any plug-in estimator of a MLE also converges to its actual parameter.
+
+\section{Some exercises}
+So the total probability of correct classification is
+\begin{equation*}
+	C(R_{1},\ldots,R_{n})=\sum_{i=1}^{n}p_{i}\int_{R}f_{i}(x)\dx.
+\end{equation*}
+The goal is finding the classification rule $(R_{1},\ldots,R_{n})$ in such a way to maximize $C(R_{1},\ldots,R_{k})$. For $k=2$ this is just the normal Neyman-Pearson testing. We can define the regions as
+\begin{equation*}
+	R_{1}=\left\{x:\frac{f_{1}(x)}{f_{2}(x)}>\frac{p_{2}}{p_{1}}\right\}\qquad R_{2}=\left\{x:\frac{f_{1}(x)}{f_{2}(x)}<\frac{p_{1}}{p_{2}}\right\}.
+\end{equation*}
+The conditions are
+\begin{equation*}
+	\begin{larray}
+		p_{1}+p_{2}=1\\
+		\indi_{R_{1}}+\indi_{R_{2}}=1.
+	\end{larray}
+\end{equation*}
+So we have 
+\begin{align*}
+	C(R_{1},R_{2})&=\int p_{1}f_{1}(x)\indi_{R_{1}}(x)\dx+\int p_{2}f_{2}(x)\indi_{R_{2}}(x)\dx\qquad\left(\pm\int p_{2}f_{2}(x)\indi_{R_{2}}(x)\dx\right)\\
+	&=\int\left[\left(p_{1}f_{1}(x)-p_{2}f_{2}(x)\right)\indi_{R_{1}}(x)+p_{2}f_{2}(x)\right]\tag*{\faGasPump}\label{gasp}.\\
+\end{align*}
+Now take two other classification rules $R^{\star}_{1}$ and $R^{\star}_{2}$ being two disjoint sets of $\R$ with union equal to $\R$. For $k=\frac{p_{1}}{p_{2}}$:
+\begin{equation*}
+	\left(\indi_{R_{1}}(x)-\indi_{R^{\star}_{1}}(x)\right)\left(f_{1}(x)-f_{2}(x)k\right)\geq0 \every k.
+\end{equation*}
+Therefore
+\begin{align*}
+	&\int	\left(\indi_{R_{1}}(x)-\indi_{R^{\star}_{1}}(x)\right)\left(f_{1}(x)-f_{2}(x)k\right)\dx\geq0\\
+	\iff&\int	\left(\indi_{R_{1}}(x)-\indi_{R^{\star}_{1}}(x)\right)\left(p_{1}f_{1}(x)-f_{2}(x)p_{1}\right)\dx\geq0\\
+	\iff&\int\indi_{R_{1}}(x)\left[p_{1}f_{1}(x)-p_{2}f_{2}(x)\right]\dx\geq\int\indi_{R^{\star}_{1}}\left[p_{1}f_{1}(x)-p_{2}f_{2}(x)\right]\dx\\
+	\iff&\int\left[\left(p_{1}f_{1}(x)-p_{2}f_{2}(x)\right)\indi_{R_{1}}(x)+p_{2}f_{(x)}\right]\geq\int\left[\left(p_{1}f_{1}(x)-p_{2}f_{2}(x)\right)\indi_{R^{\star}_{1}}(x)+p_{2}f_{(x)}\right]
+\end{align*}
+so 
+we get that
+\begin{equation*}
+	C(R_{1},R_{2})\geq C\left(R^{\star}_{1},R^{\star}_{2}\right).
+\end{equation*}
+For example: solve the classification problem for gaussian population. For example, we have two populations and we want to classify a new individual as belonging to one or the other populations. We have in this case
+\begin{equation*}
+	f_{i}(x)=\frac{1}{\sqrt{2\pi\sigma^{2}}}\expg{-\left(x-\mu_{i}\right)^{2}\frac{1}{2\sigma^{2}}}\qquad \begin{larray}
+		i=1,2\\
+		\mu_{1}\neq\mu_{2}.
+	\end{larray}
+\end{equation*}
+Now consider $X_{i1},\ldots,X_{in_{i}}$ for $i=1,2$ being two independent random samples from $\mathsf{Unif}(0,\theta_{i})$ and $i=1,2$. Here $\theta_{i}>0$ is unknown. What can we do?
+\begin{enumerate}
+	\item The LRT test $H_{0}:\theta_{1}=\theta_{2}$ vs $H_{1}=\theta_{1}\neq\theta_{2}$. With the gaussian model we saw that this test would be distributed as a chi squared \rv.
+	\item The asymptotic for the LRT $-2\log \lambda$, when $\frac{n_{1}}{n_{2}}\to k$ and $n_{1}\to\infty$ and $n_{2}\to\infty$ and $k>0$.
+\end{enumerate}
+In the general space the MLE for $\theta_{1}$ is:
+\begin{equation*}\begin{carray}
+	Y_{1}=\max\left\{X_{11},\ldots,X_{1n_{1}}\right\}\\
+	Y_{2}=\max\left\{X_{21},\ldots,X_{2n_{2}}\right\}.
+	\end{carray}
+\end{equation*}
+We have the likelihood funtion
+\begin{equation*}
+	\like\left(\theta_{1},\theta_{1};\ulx\right)=\theta_{1}^{-n_{1}}\theta_{2}^{-n_{2}}\indi_{(0,\theta_{1})}(Y)\indi_{(0,\theta_{2})}(Y_{2}).
+\end{equation*}
+in particolar $Y_{1}$ is the MLE of $\theta_{1}$ and $Y_{2}$ is the MLE of $\theta_{2}$. But under $H_{0}:\theta_{1}=\theta_{2}$ then the MLE will be
+\begin{equation*}
+	Y=\max\{Y_{1},Y_{2}\}.
+\end{equation*}
+Our likelihood then becomes
+\begin{equation*}
+	\like\left(\theta_{1},\ulx\right)=\theta_{1}^{-n_{1}-n_{2}}.
+\end{equation*}
+The LRT will be
+\begin{align*}
+	\lambda\left(\ulx\right)=\frac{Y_{1}^{n_{1}}Y_{2}^{n_{2}}}{Y^{n_{1}+n_{2}}}.
+\end{align*}
+The denominator is not nice, since it introduces some nasty dependence between the terms.
+Of course Wilks does not apply; we could use Wald or, as we will do now, try to compute it exactly. Assume $\theta_{1}=\theta_{2}$. For some $t\in(0,1)$
+\begin{align*}
+	\pr\left(\lambda\left(\ulx\right)\leq t\right)&=\pr\left[\lambda(\ulx)\leq t, Y_{1}\leq Y_{2}\right]+\pr\left(\lambda\left(\ulx\right)\leq t, Y_{1}<Y_{2}\right)\\
+	&=\pr\left(Y_{2}<t^{\frac{1}{n_{2}}}Y_{1},Y_{1}\geq Y_{2}\right)+\pr\left(Y_{1}<t^{\frac{1}{n_{1}}}, Y_{1}<Y_{2}\right)\\
+	&=\pr\left(Y_{2}<t^{\frac{1}{n_{2}}}Y_{1}\right)+\pr\left(Y_{1}<t^{\frac{1}{n_{1
+	}}}Y_{2}\right).
+\end{align*}
+If $U_{1},\ldots, U_{n}$ are i.i.id from $\mathsf{U}(0,\theta)$ then
+\begin{equation*}
+	\pr\left(U_{(n)}\leq n\right)=u^{n}
+\end{equation*}
+and its density function is 
+\begin{equation*}
+	f_{U_{(n)}}(u)=nu^{n-1}.
+\end{equation*}
+At this point we we do
+\begin{align*}
+	\pr\left(\lambda\left(\ulx\right)\leq t\right)=&n_{1}n_{2}\int_{0}^{1}\int_{0}^{t^{\frac{1}{n_{2}}}y_{2}}y_{2}^{n_{2}-1}y_{1}^{n_{1}-1}\dif y_{2}\dif y_{1}+\\
+	&+n_{1}n_{2}\int_{0}^{1}\int_{0}^{t^{\frac{1}{n_{1}}y_{2}}}y_{1}^{n_{2}-1}y_{2}^{n_{1}-1}\dif y_{2}\dif y_{1}\\
+	=&n_{1}t\int_{0}^{1}y_{1}^{n_{1}+n_{2}-1}\dif y_{1}+n_{2}t\int_{0}^{1}y_{2}^{n_{1}+n_{2}-1}\dif y_{2}\\
+	=&(n_{1}+n_{2})t\int_{0}^{1}y^{n_{1}+n_{2}-1}\dy\\
+	=&\frac{\left(n_{1}+n_{2}\right)t}{\left(n_{1}+n_{2}\right)}=t.
+\end{align*}
+So we have 
+\begin{equation*}
+	\alpha=\pr\left(\lambda\left(\ulx\right)<t\right)=\alpha\qquad t=\alpha.
+\end{equation*}
+This, however, is a rare case. We found that $\lambda\left(\ulx\right)$ is independent of $n_{1}$ and $n_{2}$ under $H_{1}.$ Consider $\theta_{1}<\theta_{2}$ (under $H_{1}$). If we want to use Wald's test we need to study the distribution of 
+\begin{equation*}
+	-2\log\lambda\left(\ulX\right)=-2\log\frac{Y_{1}^{n_{1}}}Y_{2}^{n_{2}}{Y^{n_{1}+n_{2}}}.
+\end{equation*}
+We have the same problem as before, we write
+\begin{align*}
+	\pr\left(Y_{1}>Y_{2}\right)=\pr\left(Y_{2}-Y_{1}-(\theta_{2}-\theta_{1})<-\left(\theta_{2}-\theta_{1}\right)\right).
+\end{align*}
+We know that
+\begin{equation*}\begin{carray}
+		Y_{1}=\max\left\{X_{11},\ldots,X_{1n_{1}}\right\}\\
+		Y_{2}=\max\left\{X_{21},\ldots,X_{2n_{2}}\right\}
+	\end{carray}
+\end{equation*}
+so
+\begin{align*}
+	\pr\left(Y_{1}\leq x\right)&=\left(\frac{x}{\theta_{1}}\right)^{n_{1}}\qquad\pr\left(Y_{2}\leq x\right)=\left(\frac{x}{\theta_{2}}\right)^{n_{2}}.
+\end{align*}
+The expected value is
+\begin{equation*}
+	\ev{Y_{i}}=\frac{n_{i}}{n_{i}+1}\theta_{i}
+\end{equation*}
+and the variance is
+\begin{equation*}
+	\var(Y_{i})=\theta_{1}^{2}\frac{n_{i}}{(n_{i}+2)(n_{i}+1)^{2}}
+\end{equation*}
+and as $n_{i}\to\infty$ we have 
+\begin{equation*}
+	\pr\left(Y_{1}>Y_{2}\right)\to0.
+\end{equation*}
+Now consider $Y_{1}\leq Y_{2}$:
+\begin{equation*}
+	-2\log\lambda\left(\ulX\right)=2n_{1}\left(\log Y_{2}-\log Y_{1}\right)\to \chi^{2}_{2}.
+\end{equation*}
+Now consider a population with 3 types:
+\begin{equation*}
+	\begin{rcases}
+		\pr\left(\text{Type I}\right)&=\theta^{2}\\
+		\pr\left(\text{Type II}\right)&=2\theta(1-\theta)\\
+		\pr\left(\text{Type III}\right)&=(1-\theta)^{2}\\
+	\end{rcases}\theta\in(0,1).
+\end{equation*}
+Take a sample of size $n$ from the population. Define as $N_{i}$ the number of individuals in the sample that belong to population $i$. The likelihood is
+\begin{equation*}
+	\like\left(\theta;n_{1},n_{2},n_{3}\right)=\frac{n!}{n_{1}!n_{2}!n_{3}!}\theta^{2n_{1}}\left(2\theta(1-\theta)\right)^{n_{2}}\left(1-\theta\right)^{2n_{3}}.
+\end{equation*}
+Now take the derivative
+\begin{align*}
+	\deriv{\theta}\log\like\left(\theta;n_{1},n_{2},n_{3}\right)&=\frac{2n_{1}+n_{2}}{\theta}-\frac{2n_{3}+n_{2}}{1-\theta}=0.
+\end{align*}
+The MLE is 
+\begin{equation*}
+	\widehat{\theta}=\frac{2n_{1}+n_{2}}{2n}
+\end{equation*}
+and this also gives us the sufficient statistic which is
+\begin{equation*}
+	2N_{i}+N_{2}.
+\end{equation*}
+Why are we saying this? We said that the sufficient statistic with monotonicity allows us to use Rubin's test for
+\begin{equation*}
+	H_{1}:\theta\geq\theta_{0}\qquad\text{vs}\qquad H_{1}:\theta<\theta_{0}.
+\end{equation*}
+We have the sufficient statistic and we just need to prove monotonicity for the distribution of $T=2N_{1}+N_{2}$. For $\theta_{2}>\theta_{1}$ we have
+\begin{align*}
+	V_{\theta_{1},\theta_{2}}&=\frac{\theta_{2}^{2n_{1}}\left(2\theta_{2}(1-\theta_{3})\right)^{n_{2}}\left(2-\theta_{2}\right)^{2n_{3}}}{\theta_{1}^{2n_{1}}\left(2\theta_{1}\left(1-\theta_{1}\right)\right)^{n_{1}}\left(1-\theta_{1}\right)^{2n_{1}}}\\
+	&=\left(\frac{\theta_{2}}{\theta_{1}}\right)^{2n_{1}+n_{2}}\left(2^{n_{2}-n_{1}}\right)\left(\frac{1-\theta_{2}}{1-\theta_{1}}\right)^{2n_{3}+n_{2}}\\
+	&=\left(\frac{\theta_{2}}{\theta}\right)^{2n_{1}+n_{2}}\left(\frac{1-\theta_{2}}{1-\theta_{1}}\right)^{2n-\left(2n_{1}+n_{2}\right)}\\
+	&=\ldots\\
+\end{align*}
+So we get
+\begin{equation*}
+\ubracketthin{	\left(\frac{\theta_{2}}{\theta_{1}}\right)^{t}}_{\text{monotone increasing}}\qquad\ubracketthin{	\left(\frac{1-\theta_{2}}{1-\theta_{1}}\right)^{2n-t}}_{\text{monotone increasing}}.
+\end{equation*}
+So by Ruin test $\{T=2N_{1}+N_{2}\geq c\}$ is UMP level $\alpha$.
+\chapter{Linear Models}
+\section{Introduction to linear models}
+We call $\varepsilon$ the error component (noise).
+We call $y$ a \emph{regression model}:
+\begin{equation*}
+	y=r\left(x_{1},\ldots,x_{p}\right)+\varepsilon.
+\end{equation*}
+The idea is that $y$ is the measurement that we observe (like $x_{1},\ldots,x_{p}$) while $\varepsilon$ is not observed and we want to use it to learn about the mapping part. We assume a special case of the function $r(\cdot)$. In particular, we assume $r(\cdot)$ to be a \emph{linear function} depending on a finite number of unknown parameters
+\begin{equation*}
+	\left\{\beta_{1},\ldots,\beta_{p}\right\}.
+\end{equation*}
+So the complete regression model is
+\begin{equation*}
+	y=\beta_{1}x_{1}+\ldots+\beta_{p}x_{p}+\varepsilon.
+\end{equation*}
+Typically the goal is making assumptions about the noise to learn something about the parameters. The modeling assumption is on the noise $\varepsilon$ and we have two main classes of assumptions:
+\begin{itemize}
+	\item \emph{second order assumptions};
+	\item \emph{Gaussian assumption}.
+\end{itemize}
+The first assumption is something akin to the method of moments: imagine we have $\rsampx$ from $X\sim F_{\theta}$ and we know that $\ev{X}=\theta$. Using the method of moments we can say that $\widehat{\theta}=\frac{1}{n}\sum_{i=1}^{n}X_{i}$. This of course has the advantage that we just need to know the moment (which is a much weaker assumption to using MLE, which requires knowing the distribution function). Second order assumptions, similarly, do not need any assumption about the distribution of the noise.
+\subsection{Second order assumptions}
+I assume that $\varepsilon$ is random and that $\left(y_{1},\ldots,y_{n}\right)$ are observations (responses) that are sampled from the random variables $\rsampy$ Such that
+\begin{equation*}
+	Y_{i}=\beta_{1}x_{i1}+\ldots+\beta_{p}+x_{ip}+\varepsilon\qquad i=1,\ldots,n
+\end{equation*} 
+where the first index identifies which response and the second identifies which feature. In matrix notation:
+\begin{equation*}
+	\mathbf{Y}=\mathbf{X}\beta+\varepsilon.
+\end{equation*}
+\begin{itemize}
+	\item $Y=\rsampy^{\trsp}$ is the (random) vector with the $n$ components of the response and $\mathbf{X}=\left(x_{ij}\right)$ is the \textit{map matrix} (non random) called the \emph{design matrix} or \emph{regression matrix} containing all the values of $p$ explanatory variables (with $n\geq p$).
+	\item $\varepsilon=\left(\varepsilon_{1},\ldots,\varepsilon_{n}\right)^{\trsp}$ is the (random) vector of the erratic components.
+	\item $\beta=\left(\beta_{1},\ldots,\beta_{n}\right)^{\trsp}$ is the vector (non random) of explanatory variables.
+\end{itemize}
+Assume that:
+\begin{equation*}
+	\begin{carray}
+		\ev{\varepsilon}=0\\
+		\var(\varepsilon)=\sigma^{2}\mathbf{I}_{n}\qquad\text{with $\sigma^{2}$ unknown and positive}\\
+		\mathbf{X}\qquad\text{matrix of non-random elements with full rank }p. 
+	\end{carray}
+\end{equation*}
+We suppose that the \rv s are uncorrelated (which means $Y_{i}\indep Y_{j}$) but they do \textit{not} have the same distribution. Our goal is to learn the $p+1$ parameters
+\begin{equation*}
+	\beta_{1},\ldots,\beta_{p},\sigma^{2}.
+\end{equation*}
+Based on the second order assumptions
+\begin{equation*}
+	\mathbf{Y}=\mathbf{X}\beta+\varepsilon\tag*{\faModx}\label{modx}
+\end{equation*}
+we know that:
+\begin{itemize}
+	\item $\ev{\varepsilon}=\ev{X\beta+\varepsilon}=X\beta$;
+	\item $\var\left(\mathbf{Y}\right)=\var\left(X\beta+\varepsilon\right)=\sigma^{2}\mathbf{I}_{n}$.
+\end{itemize}
+Under model \ref{modx} then $y=\left(y_{1},\ldots,y_{n}\right)^{\trsp}$ are the observations. A reasonable way is to think of minimizing the distance
+\begin{equation*}
+	\norm{y-\mu}.
+\end{equation*}
+Equivalently, we can minimize the square of the euclidean distance:
+\begin{align*}
+	Q(\beta)&=\norm{y-\mu}^{2}\\
+	&=\left(y-\mu\right)^{\trsp}\left(y-\mu\right)\\
+	&=\left(y-\mathbf{X}\beta\right)^{\trsp}\left(y-\mathbf{X}\beta\right).
+\end{align*}
+This is called the \emph{Least square approach}. Consider the vector $y$ with the elements $x_{1},\ldots,x_{p}\in\R^{n}$. When $\beta$ varies in $\R^{p}$ the quantity $\mathbf{X}\beta$ provides a parametric equation of the linear subspace of $\R^{n}$ generated by the columns of $\mathbf{X}$. We denote this subspace as $C(\mathbf{X})$ (of dimension $p$). To identify $\widehat{\beta}$ we minimize the function
+\begin{equation*}
+	Q(\beta)=\left(y-\mathbf{X}\beta\right)^{\trsp}\left(y-\mathbf{X}\beta\right).
+\end{equation*}
+We need to differentiate with respect to the column vector:
+\begin{revise}
+	Recall that if $x$ is a column vector of a matrix $\mathbf{A}$ then
+	\begin{equation*}
+		\deriv{x}\mathbf{A}x=\mathbf{A}^{\trsp}
+	\end{equation*}
+	and if $\mathbf{B}$ is $p\times p$ symmetric matrix
+	\begin{equation*}
+		\deriv{x}x^{\trsp}\mathbf{B}x=2\mathbf{B}x.
+	\end{equation*}
+\end{revise}
+So in our case we have
+\begin{align*}
+	\deriv{\beta}Q(\beta)&=\deriv{\beta}\left(y^{\trsp}y-2y^{\trsp}\mathbf{X}\beta+\beta^{\trsp}\mathbf{X}^{\trsp}\mathbf{X}\beta\right)\\
+	&=\deriv{\beta}\left(-2y^{\trsp}\mathbf{X}\beta\right)+\deriv{\beta}\left(\beta^{\trsp}\mathbf{X}^{\trsp}\mathbf{X}\beta\right)\\
+	&=-2\left(y^{\trsp}\mathbf{X}\right)^{\trsp}+2\mathbf{X}^{\trsp}\mathbf{X}\beta\\
+	&=-2\mathbf{X}^{\trsp}y+2\mathbf{X}^{\trsp}\mathbf{X}\beta\\
+	&=2\left(\mathbf{X}^{\trsp}\mathbf{X}\beta-\mathbf{X}^{\trsp}-y\right)
+\end{align*}
+which implies
+\begin{equation*}
+	\mathbf{X}^{\trsp}\mathbf{X}\beta=\mathbf{X}^{\trsp}y
+\end{equation*}
+which is called the \emph{normal equation} whose solution is
+\begin{equation*}
+	\widehat{\beta}=\left(\mathbf{X}^{\trsp}\mathbf{X}\right)^{-1}\mathbf{X}^{\trsp}y.
+\end{equation*}
+\subsection{Estimates of the regression coefficients}
+So we have
+\begin{align*}
+	\dderivm{\beta}Q(\beta)=2\mathbf{X}^{\trsp}\mathbf{X}
+\end{align*}
+which is positive definite, so I can estimate
+\begin{equation*}
+	\mu=\mathbf{X}\beta\implies\widehat{\mu}=\mathbf{X}\widehat{\beta}\qquad\text{as the \emph{fitted value}}
+\end{equation*}
+and
+\begin{align*}
+	\widehat{\mu}=&\mathbf{X}\widehat{\beta}\\&=\mathbf{X}\left(\mathbf{X}^{\trsp}\mathbf{X}\right)^{-1}\mathbf{X}y\\
+	&=\mathbf{P}{y}
+\end{align*}
+where 
+\begin{equation*}
+	\mathbf{P}=\mathbf{X}\left(\mathbf{X}^{\trsp}\mathbf{X}\right)^{-1}\mathbf{X}^{\trsp}
+\end{equation*}
+is the \emph{projection matrix on the space $C(x)$}.
 \input{tutorials}
 \end{document}
-%THIS IS THE DARK AGE OF LOVE  
+%THIS IS TH\feqE DARK AGE OF LOVE  

@@ -272,3 +272,688 @@ In conclusion, $(\xbar,s^{2})$ is a sufficient statistic for $\mu,\sigma^{2}$.
 \begin{remark}
 	This exercise shows that for the normal model the common practice of summarizing a dataset by reporting only the sample mean and the variance is justified. The sufficient statistic $(\xbar,s^{2})$ contains all the information about $(\mu,\sigma^{2})$ that is available in the sample. This is, in a certain sense, a lossless compression. The experimenter should remember however that the definition of sufficient statistic is model dependent. For another model the sample mean and variance may not be a sufficient statistic. The experimenter who computes only $\xbar$ and $s^{2}$ and totally ignores the rest of the data is an asshole and should be killed unless 100\% sure about the normality of the model.
 \end{remark}
+\section{Tutorial class 4}
+\begin{revise}
+	Are there sufficient statistics better than other sufficient statistics? Yes, \emph{minimal sufficient statistics}.
+	\begin{definition}
+		A sufficient statistic $T(x)$ is called \emph{minimal} sufficient statistic if for any other sufficient statistic $T'(x)$ then $T(x)$ is a function of $T'(x)$.
+	\end{definition}
+	\begin{remark}
+		To say that $T$ is a function of $T'$ simply means that
+		\begin{equation*}
+			T'(x)=T'(y)\implies T(x)=T(y).
+		\end{equation*}
+		In other words the partition of the sample space $\mathcal{X}$ associated with a minimal sufficient statistic is the \textit{coarsest} possible partition.
+	\end{remark}
+	\begin{theorem}
+		\emph{Lehmann-Scheffè theorem}. Let $f(x|\theta)$ be the p.d.f./p.m.f. of a sample $X$. Suppose that there exists a function $T(x)$ such that for every two sample points $x,y$ the following holds: the function 
+		\begin{equation*}
+			\theta\mapsto\frac{f(x|\theta)}{f(y|\theta)}
+		\end{equation*}
+		is constant \ul{if and only if}
+		\begin{equation*}
+			T(x)=T(y).
+		\end{equation*} 
+		Then $T(x)$ is a minimal sufficient statistic.
+	\end{theorem}
+	This relieves us from the burden of ``guessing'' the minimal sufficient statistic.
+	\begin{remark}
+		If the set of $X$ on which the p.d.f. is positive depends on $\theta$, then for the ratio $\frac{f(x|\theta)}{f(y|\theta)}$ to be constant as a function of $\theta$ then the numerator and the denominator must be positive for exactly the same values of $\theta$.
+	\end{remark}
+\end{revise}
+\begin{exercise}
+	Suppose a i.i.d. random sample $\rsampx$ from $X\iid\mathsf{Unif}(\theta,\theta+1)$ with $\theta\in\R$. Find a minimal sufficient statistic for $\theta$.
+\end{exercise}
+In this case the p.d.f. is given by
+\begin{align*}
+	f(x|\theta)&=\begin{cases}
+		1&\text{if }\theta<X_{i}<\theta+1\\
+		0&\text{otherwise}
+	\end{cases}\\
+	&=\begin{cases}
+		1&\text{if }\max_{i} X_{i}-1<\theta<\min_{i}X_{i}\\
+		0&\text{otherwise}.
+	\end{cases}
+\end{align*}
+We need two sample points to use the Lehmann-Scheffè theorem: $x$ and $y$. For $x$ and $y$ the numerator and denominator of the ratio $\frac{f(x|\theta)}{f(y|\theta)}$ will be positive for the same values of $\theta$ if and only if 
+\begin{equation*}
+	\begin{carray}
+		\min_{i}x_{i}=\min_{i}y_{i}\\
+		\max_{i}x_{i}=\max_{i}y_{i}.
+	\end{carray}
+\end{equation*}
+In this case we have 
+\begin{equation*}
+	\frac{f(x|\theta)}{f(y|\theta)}=1\qquad\every\theta\in\R,\;\every x,y\text{ s.t. }\begin{larray}
+		x_{(1)}=y_{(1)}\\
+		x_{(n)}=y_{(n)}
+	\end{larray}.
+\end{equation*}
+In other words the ratio if constant \ul{if and only if} $\begin{larray}
+	x_{(1)}=y_{(1)}\\
+	x_{(n)}=y_{(n)}
+\end{larray}$ and therefore we  can conclude that 
+\begin{equation*}
+	T(X)=\left(X_{(1)},X_{(n)}\right)
+\end{equation*}
+is a minimal sufficient statistic for $\theta$. Note that the dimension of $T(X)$ doesn't match the dimension of $\theta$ but it is larger! Interesting.
+\begin{remark}
+	\begin{itemize}
+	   	\item Typically when the support depends on $\theta$, order statistics are likely to come up sooner or later.
+	   	\item A minimal sufficient statistic is not unique! Any one-to-one function of a minimal sufficient statistic is also a minimal sufficient statistic.
+	\end{itemize}
+\end{remark}
+\begin{homework}
+	Show that $T'(X)=\left(X_{(n)}-X_{(1)};\unmezz(X_{(n)}+X_{(1)})\right)$ is also minimal for the exercise 1.
+\end{homework}
+\begin{exercise}
+	Let $N$ be a \rv{} taking values in $\N$ with known probabilities $p_{1},p_{n},\ldots$. Having observed that $N=n$ perform $n$ Bernoulli trials with success probability $\theta$, getting $X$ successes. 
+	\begin{enumerate}
+		\item Prove that $(X,N)$ is a minimal sufficient statistic for $\theta$.
+		\item Prove that the estimator $\frac{X}{N}$ is unbiased for $\theta$ and compute its variance.
+	\end{enumerate}
+\end{exercise}
+So here we have a classical situation of coin tosses where the number of tosses (i.e. the sample size) is random. Typically the dimensionality of the sample is fixed. What the fuck? As a good practice, everything that is random should be included in the likelihood; sometimes it simplifies (meaning you didn't really need it in the first place) but sometimes it does not. This means that we need
+\begin{equation*}
+	f(x,n|\theta,p)\text{ instead of }\xcancel{f(x|\theta)}.
+\end{equation*}
+\begin{enumerate}
+	\item We know that the distribution of $X|N=n$ is $\mathsf{Binom}(n,\theta)$ so we can write
+\begin{align*}
+	\frac{f(x,n|\theta,p)}{f(y,m|\theta,p)}&=\frac{f(n|\cancel{\theta},p)f(x|n,\theta,\cancel{p})}{f(m|\cancel{\theta},p)f(y|m,\theta,\cancel{p})}\\
+	&=\frac{p_{n}}{p_{m}}\cdot\frac{{n\choose x}\theta^{x}(1-\theta)^{n-x}}{{m\choose y}\theta^{y}(1-\theta)^{n-y}}.\\
+	&=\theta^{x-y}(1-\theta)^{(n-m)+(y-x)}\frac{{n\choose x}p_{n}}{{m\choose y}p_{m}}.
+\end{align*}
+Which is constant as a function of $\theta$ \ul{if and only if} $x=y$ and $m=n$. Therefore by Lehmann-Scheffè theorem $(X,N)$ is a minimal sufficient statistic for $\theta$. Again, $\theta$ is one dimensional but the sufficient statistic is two-dimensional. It is also curious that we need $N$ but $N$ does not depend on $\theta$ at all. Cool beans! We call $N$ an \emph{ancillary} statistic.
+	\item The expectation of the estimator is 
+	\begin{align*}
+		\evs_{(X,N)}\left[\frac{X}{N}\right]&=\evs_{N}\left[\evs_{X|N}\left[\left.\frac{X}{N}\right| N\right]\right]\\
+		&=\evs_{n}\left[\frac{1}{N}\evs_{X|N}\left[X|N\right]\right]\\
+		&=\evs_{n}\left[\frac{1}{\cancel{N}}\cancel{N}\theta\right]=\theta
+	\end{align*}
+	so the estimator is unbiased. We compute the variance:
+	\begin{align*}
+		\var_{(X,N)}\left[\frac{X}{N}\right]&=\var_{N}\left[\evs_{X|N}\left[\left.\frac{X}{N}\right|N\right]\right]+\evs_{N}\left[\var_{X|N}\left(\left.\frac{X}{N}\right|N\right)\right]\\
+		&=\var_{N}(\theta)+\evs_{N}\left[\frac{1}{N^{\cancel{2}}}\cancel{N}\theta(1-\theta)\right]\\
+		&=0+\evs_{N}\left[\frac{\theta(1-\theta)}{N}\right]\\
+		&=\theta(1-\theta)\evs_{N}\left[\frac{1}{N}\right].
+	\end{align*}
+	We can see a similarity with the variance of a normal Bernoulli.
+\end{enumerate}
+\begin{exercise}
+	For each of the following distribution let $\rsampx$ be a random sample. Find a minimal sufficient statistic for $\theta$.
+	\begin{enumerate}
+		\item \textit{Normal with known variance}.
+		\begin{equation*}
+			f(x|\theta)=\frac{1}{\sqrt{2\pi}}\expg{-\frac{(x-\theta)^{2}}{2}},\qquad\begin{larray}
+				\theta\in\R\\
+				x\in\R.
+			\end{larray}
+		\end{equation*}
+		\item \textit{Location exponential}.
+		\begin{equation*}
+			f(x|\theta)=\expg{-(x-\theta)}\qquad\begin{larray}
+				\theta\in\R\\
+				x>\theta.
+			\end{larray}
+		\end{equation*}
+		\item \textit{Logistic distribution}.
+		\begin{equation*}
+			f(x|\theta)=\frac{e^{-(x-\theta)}}{\left(1+e^{-(x-\theta)}\right)^{2}},\qquad\begin{larray}
+			\theta\in\R,\\
+			x\in\R.
+			\end{larray}
+		\end{equation*}
+	\end{enumerate}
+\end{exercise}
+\begin{enumerate}
+	\item Start, as always, from the ratio of distributions:
+	\begin{align*}
+		\frac{f(x|\theta)}{f(y|\theta)}&=\frac{(2\pi)^{-\frac{n}{2}}\expg{\sum_{i=1}^{n}\frac{(x_{i}-\theta)^{2}}{n}}}{(2\pi)^{-\frac{n}{2}}\expg{\sum_{i=1}^{n}\frac{(y_{i}-\theta)^{2}}{2}}}\\
+		&=\cdots\\
+		&=\expg{-\unmezz\left[\left(\sum_{i=1}^{n}x_{i}^{2}-\sum_{i=1}^{n}y^{2}_{i}\right)+2\mathcolor{Magenta2}{\theta} n\left(\ybar-\xbar\right)\right]}
+	\end{align*}
+	which is constant as a function $\theta$ if and only if $\ybar=\xbar$. Therefore $\xbar$ is a sufficient statistic.
+	\item Note that the support depends on $\theta$.
+	\begin{align*}
+		\frac{f(x|\theta)}{f(y|\theta)}&=\frac{\prod_{i=1}^{n}e^{-(x_{i}-\theta)}\indi_{(\theta,\infty)}(x_{i})}{\prod_{i=1}^{n}e^{-(y_{i}-\theta)}\indi_{(\theta,\infty)}(y_{i})}\\
+		&=\frac{\cancel{e^{n\theta}}e^{-\sum_{i=1}^{n}x_{i}}\prod_{i=1}^{n}\indi_{(\theta,\infty)}(x_{i})}{\cancel{e^{n\theta}}e^{-\sum_{i=1}^{n}y_{i}}\prod_{i=1}^{n}\indi_{(\theta,\infty)}(y_{i})}\\
+		&=\frac{e^{-\sum_{i=1}^{n}x_{i}}\indi_{(\mathcolor{Magenta2}{\theta},\infty)}(x_{(1)})}{e^{-\sum_{i=1}^{n}y_{i}}\indi_{(\mathcolor{Magenta2}{\theta},\infty)}(y_{(1)})}
+	\end{align*}
+	and this is independent of $\theta$ if and only if $x_{(1)}=y_{(1)}$. In conclusion, $X_{(1)}$ is a sufficient statistic for $\theta$.
+	\item Again, the ratio is
+	\begin{align*}
+		\frac{f(x|\theta)}{f(y|\theta)}&=\frac{e^{-\sum_{i=1}^{n}}(x_{i}-\theta)}{\prod_{i=1}^{n}\left(1+e^{-(x_{i}\theta)}\right)^{2}}\frac{\prod_{i=1}^{n}\left(1+e^{-(y_{i}-\theta)}\right)^{2}}{e^{-\sum_{i=1}^{n}(y_{i}-\theta)}}\\
+		&=e^{-\sum_{i=1}^{n}(x_{i}-y_{i})}\left[\frac{\prod_{i=1}^{n}\left(1+e^{-(y_{i}-\mathcolor{Magenta2}{\theta})}\right)}{\prod_{i=1}^{n}\left(1+e^{-(x_{i}-\mathcolor{Magenta2}{\theta})}\right)}\right]^{2}
+	\end{align*}
+	which is constant as a function of $\theta$ if and only if $x$ and $y$ have the same order statistics. This is not the same of saying $x=y$ but the theorem holds anyway\footnote{Why is that? I don't know, but it has to do with permutations.}. In conclusion, 
+	\begin{equation*}
+		\left(X_{(1)},X_{(2)},\ldots,X_{(n)}\right)
+	\end{equation*}
+	is a sufficient statistic.
+\end{enumerate}
+\begin{remark}
+	\begin{itemize}
+		\item Note that $\mathrm{dim}T=n\gg\mathrm{dim}\theta=1$.
+		\item It turns out that outside the exponential family it is rare to have a sufficient statistic of smaller dimensions than the size of the sample, so in many cases it turns out that the order statistic are the best we can do!
+	\end{itemize}
+\end{remark}
+\begin{homework}
+	\emph{Minimal sufficiency in a particular class of distributions (``curved exponential families'')}. For each of of the following distributions let $\rsampx$ be a random sample.
+	\begin{enumerate}
+		\item For $\mathsf{N}(\mu,\sigma^{2})$ show that $\left(\sum_{i=1}^{n}X_{i},\sum_{i=1}^{n}X_{i}^{2}\right)$ is a minimal sufficient statistic.
+		\item For $\mathsf{N}(\mu,\mu^{2})$ show that $\left(\sum_{i=1}^{n}X_{i},\sum_{i=1}^{n}X_{i}^{2}\right)$ is a minimal sufficient statistic (the sample space of the parameters here is a parabola!).
+		\item For $\mathsf{N}(\mu,\mu)$ show that $\left(\sum_{i=1}^{n}X_{i}^{2}\right)$ is a minimal sufficient statistic.
+		\item For $\mathsf{N}(\mu,\mu)$ show that $\left(\sum_{i=1}^{n}X_{i},\sum_{i=1}^{n}X_{i}^{2}\right)$ is a sufficient statistic but not a minimal one.
+	\end{enumerate} 
+\end{homework}
+\section{Tutorial class 5}
+\begin{revise}
+	\begin{definition}
+		\emph{Point estimation}: a point estimator is \textit{any} function $W(X)$ of the sample; that is, any statistic is a point estimator.
+	\end{definition}
+	\begin{remark}
+		\begin{itemize}
+			\item Being a function of $X$, an estimator is a random variable.
+			\item The estimate of $\theta$ is a realization of the estimator.
+		\end{itemize}
+	\end{remark}
+	
+	Recall that if $X_{1},\ldots,X_{n}$ is an i.i.d. sample from a population $f(x;\theta)$ the likelihood function is 
+	\begin{equation*}
+		\theta\mapsto \like(\theta|x_{1},\ldots,x_{n})=\prod_{i=1}^{n}f(x_{i};\theta).
+	\end{equation*}
+	\begin{definition}
+		For each sample point $x\in\mathcal{X}$ let $\widehat{\theta}(x)$ be a parameter value at which $\like(\theta;x)$ attains its maximum. A \emph{maximum likelihood estimator} (MLE) of the parameter $\theta$ is $\widehat{\theta}(X)$.
+	\end{definition}
+	\begin{remark}
+		\begin{itemize}
+			\item The MLE has man good properties but there are drawbacks as well:
+			\begin{itemize}
+				\item finding the maximum;
+				\item numerical sensitivity.
+			\end{itemize}
+		\end{itemize}
+		
+		\end{remark}
+		For example: we have samples from a Bernoulli $\rsampx\iid\mathsf{Bernoulli}(p)$ with $p\in[0,1]$. To find the MLE of $p$ we compute the likelihood:
+		\begin{align*}
+			\like(p;x)&=\prod_{i=1}^{n}p^{x_{i}}(1-p)^{1-x_{i}}\\
+			&=p^{y}(1-p)^{n-y};\qquad y=\sum_{i=1}^{n}x_{i}.
+		\end{align*}
+		Take the logarithm
+		\begin{equation*}
+			\ell(p;x)=\log\like(p;x)=y\log(p;x)=y\log p+(n-y)\log(1-p)
+		\end{equation*}
+		and take the derivatives:
+		\begin{equation*}
+		\begin{larray}
+				\deriv{p}\ell(p;x)=\frac{y}{p}-\frac{n-y}{1-p}=\ldots=0\iff\begin{larray}
+				y-np=0\\
+				p=\frac{y}{n}
+			\end{larray}\\
+			\dderiv{p}\ell(p;x)=-\frac{y}{p^{2}}-\frac{n-y}{1-p}^{2}<0\every p\in (0,1)
+		\end{larray}
+		\end{equation*}
+		so $\frac{y}{n}$ is actually a point of maximum.
+		\begin{itemize}
+			\item if $y=0$ then $\like(p;x)=(1-p)^{n}$ is maximized for $p=0=\frac{y}{n}$;
+			\item if $y=n$ then $\like(p;x)=p^{n}$ is maximized for $p=1=\frac{y}{n}$.
+		\end{itemize}
+		In conclusion, 
+		\begin{equation*}
+			\widehat{p}=\frac{1}{n}\sum_{i=1}^{n}X_{i}
+		\end{equation*}
+		is the MLE.
+		\begin{homework}
+			Is the MLE a function of a (perhaps minimal) sufficient statistic?
+		\end{homework}
+		Another popular method is the \emph{method of moments}. It yields estimators that can be improved but are easy to compute. We get it solving the system
+		\begin{equation*}
+			\begin{cases}
+				m_{1}=\ev{X^{1}|\theta}\\
+				\vdots\\
+				m_{n}=\ev{X^{n}|\theta}
+			\end{cases}
+		\end{equation*}
+		where $m_{j}=\frac{1}{n}\sum_{i=1}^{n}X^{j}_{i}$. For example, let $\rsampx\iid\mathsf{Gamma}(\alpha, \beta)$: we want to propose estimators for $\alpha$ and $\beta$. Let's try MLE:
+		\begin{align*}
+			\like(\alpha,\beta;x)&=\left(\frac{\beta^{\alpha}}{\Gamma(\alpha)}\right)^{n}\left(\prod_{i=1}^{n}X_{i}\right)^{\alpha-1}\expg{-\beta\sum_{i=1}^{n}X_{i}}\\
+			\ell(\alpha,\beta;x)&=n\alpha\log\beta-n\log\Gamma(\alpha)+(\alpha-1)\sum_{i=1}^{n}\log X_{i}.
+		\end{align*}
+		we need to solve the system
+		\begin{align*}
+			\deriv{\alpha}\ell(\alpha,\beta;x)&=n\log\beta-\frac{\Gamma'(\alpha)}{\Gamma(\alpha)}+\sum_{i=1}^{n}\log X_{i}=0\\
+			\deriv{\beta}\ell(\alpha,\beta;x)&=\frac{n\alpha}{\beta}-\sum_{i=1}^{n}x_{i}=0
+		\end{align*}
+		but the derivative of the gamma function is a mess and we don't want to solve it. Let's try the MME. We need to solve
+		\begin{equation*}
+			\begin{cases}
+				\frac{1}{n}\sum_{i=1}^{n}X_{i}=\ubracketthin{\ev{X;\alpha,\beta}}_{\frac{\alpha}{\beta}}\\
+				\frac{1}{n}\sum_{i=1}^{n}X_{i}^{2}=\ev{X^{2};\alpha,\beta}.
+			\end{cases}
+		\end{equation*}
+		Recall that 
+		\begin{equation*}
+			\var(X)=\frac{a}{\beta^{2}}=\ev{X^{2}}-\left(\ev{X}\right)^{2}
+		\end{equation*}
+		so
+		\begin{align*}
+			\ev{Y^{2}}&=\var(X)+\left(\ev{X}\right)^{2}\\
+			&=\frac{\alpha}{\beta^{2}}+\frac{\alpha^{2}}{\beta^{2}}=\frac{\alpha(\alpha+1)}{\beta^{2}}.
+		\end{align*}
+		From the first equation we get $\alpha=\beta m_{1}$ and by substitution we get
+		\begin{equation*}
+			\beta=\frac{m_{1}}{m_{2}-m_{1}^{2}}\implies\alpha=\frac{m_{1}^{2}}{\ubracketthin{m_{2}-m_{1}^{2}}_{s^{2}}}.
+		\end{equation*}
+		In conclusion, the estimator of $(\alpha,\beta)$ found with the MME is
+		\begin{equation*}
+			\widetilde{\alpha}=\frac{\xbar^{2}}{s^{2}},\qquad\widetilde{\beta}=\frac{\xbar}{s^{2}},
+		\end{equation*}
+		Is the MME function of some minimal sufficient statistics? No, it's not.
+\end{revise}
+\begin{exercise}
+	\emph{A MLE that either does not satisfy the likelihood equation or is not unique}. Let $\rsampx\iid\mathsf{Laplace}(\theta)$ whose density is
+	\begin{equation*}
+		f(x|\theta)=\unmezz e^{-|x-\theta|},\qquad\begin{larray}
+			x\in\R\\
+			\theta\in\R.
+		\end{larray}
+	\end{equation*}
+	Find the MLE of $\theta$.
+\end{exercise}
+\section{Tutorial class 6}
+\begin{revise}
+	More point estimation! An estimator $W$ of $\theta$ is \emph{unbiased} if
+	\begin{equation*}
+		\ev{W|\theta}=\theta\qquad\every\theta\in\Theta.
+	\end{equation*}
+	The bias is \\
+	\begin{equation*}
+		b(W|\theta)=\ev{W|\theta}-\theta.
+	\end{equation*}
+	The MSE is the function
+	\begin{equation*}
+		\ev{\left(W-\theta\right)^{2}|\theta}=\var(W|\theta)+b^{2}(W|\theta).
+	\end{equation*}
+	Remember that
+	\begin{equation*}
+		b(W|\theta)=0\;\every\theta\iff \MSE{W}=\var(W|\theta).
+	\end{equation*}
+\end{revise}
+\begin{exercise}
+	Let $\rsampx\iid f(x|\theta)$ with
+	\begin{equation*}
+		f(x|\theta)=\frac{4x^{2}}{\theta^{3}\sqrt{\pi}}e^{-\frac{x^{2}}{\theta^{2}}}\qquad\begin{larray}
+			x>0\\
+			\theta>0
+		\end{larray}.
+	\end{equation*}
+	\begin{enumerate}
+		\item Find the MLE $\widehat{\theta}_{n}$ of $\theta$ and a sufficient statistic for $\theta$.
+		\item Compute $\ev{\widehat{\theta}_{n}}$. Is $\widehat{\theta}_{n}$ unbiased?
+		\item Compute $\ev{X}$. Is it possible to deduce an unbiased estimator for $\theta$? What's its MLE?
+	\end{enumerate}
+\end{exercise}
+\begin{enumerate}
+	\item Take the likelihood
+	\begin{align*}
+		\like(\theta|x)&=\left(\frac{4}{\theta^{3}}\right)^{n}\pi^{-\frac{n}{2}}\prod_{i=1}^{n}x^{2}_{i}\expg{-\frac{\sum_{i=1}^{n}x_{i}^{2}}{\theta^{2}}}
+	\end{align*} and the log
+	\begin{equation*}
+		\ell(\theta|x)=-3n\log\theta-\frac{\sum_{i=1}^{n}x_{i}^{2}}{\theta^{2}}+\ubracketthin{\ldots}_{\text{does not depend on }\theta}.
+	\end{equation*}
+	Take the derivative
+	\begin{align*}
+		\deriv{\theta}\ell(\theta|x)&=-\frac{3n}{\theta}+\frac{2}{\theta^{2}}\sum_{i=1}^{n}x_{i}^{2}\\
+		&=\frac{2\sum_{i=1}^{n}x_{i}^{2}-3n\theta^{2}}{\theta^{2}}>0\iff \theta<\sqrt{\frac{2}{3n}\sum_{i=1}^{n}x^{2}_{i}}.
+	\end{align*}
+	We conclude that
+	\begin{equation*}
+		\widehat{\theta}_{n}=\sqrt{\frac{2}{3n}\sum_{i=1}^{n}x^{2}_{i}}.
+	\end{equation*}
+	By factorization theorem, we can say that the MLE is a function of the sufficient statistic $\sum_{i=1}^{n}x_{i}^{2}$.
+	\item Since the sample is i.i.d. we have
+	\begin{equation*}
+		\ev{\widehat{\theta}_{n}}=\frac{2}{3n}\ev{X^{2}_{1}+\ldots+X^{2}_{n}}=\frac{2}{3}\ev{X^{2}}.
+	\end{equation*}
+	Also
+	\begin{align*}
+		\ev{X^{2}}&=\int_{0}^{\infty}x^{2}f(x|\theta)\dx\\
+		&=\int_{0}^{\infty}\frac{4x^{4}}{\theta^{3}\sqrt{\pi}}e^{-\frac{x^{2}}{\theta^{2}}}\dx\\
+		&=\left.-\frac{2x^{3}}{\theta\sqrt{\pi}}e^{-\frac{x^{2}}{\theta^{2}}}\right|^{\infty}_{0}+\int_{0}^{\infty}\frac{6x^{2}}{\theta\sqrt{\pi}}e^{-\frac{x^{2}}{\theta^{2}}}\dx\\
+		&=\frac{6}{\theta\sqrt{\pi}}\int_{0}^{\infty}\ubracketthin{x^{2}e^{-\frac{x^{2}}{\theta^{2}}}}_{\claptext{kernel of $f(x|\theta)$}}\dx\\
+		&=\frac{6}{\theta\sqrt{\pi}}\frac{\theta^{3}\sqrt{\pi}}{4}\\
+		&=\frac{3}{2}\theta^{2}
+	\end{align*}
+	so in conclusion
+	\begin{equation*}
+		\ev{\widehat{\theta}_{n}}=\frac{2}{3}\ev{X^{2}}=\theta^{2}
+	\end{equation*}
+	so $\widehat{\theta}_{n}$ is an unbiased estimator of $\tau(\theta)=\theta^{2}$. But can we conclude that $\widehat{\theta}_{n}$ is an unbiased estimator of $\theta$? No we can't and if you thought that you should KILL YOURSELF. It is not true in general that 
+	\begin{equation*}
+		\ev{\tau(x)}=\tau\left(\ev{x}\right).
+	\end{equation*}
+	\begin{revise}
+		Recall the Jensen's Inequality:
+		\begin{equation*}
+			\theta=\sqrt{\ev{\widehat{\theta}_{n}^{2}}}>\ev{\sqrt{\widehat{\theta}^{2}_{n}}}=\ev{\widehat{\theta}_{n}}.
+		\end{equation*}
+	\end{revise}
+	So the MLE in this case overestimates! Let's try another estimator which is unbiased.
+	\item Again, integration by parts:
+	\begin{align*}
+		\ev{X}&=\int_{0}^{\infty}\frac{4x^{3}}{\theta^{3}\sqrt{\pi}}e^{-\frac{x^{2}}{\theta^{2}}}\dx\\
+		&=\left.-\frac{2x^{2}}{\theta\sqrt{\pi}}e^{-\frac{x^{2}}{\theta^{2}}}\right|^{\infty}_{0}+\frac{4}{\theta\sqrt{\pi}}\int_{0}^{\infty}xe^{-\frac{x^{2}}{\theta^{2}}}\dx\\
+		&=-\frac{2\theta}{\sqrt{\pi}}\left.e^{-\frac{x^{2}}{\theta^{2}}}\right|^{\infty}_{0}\\
+		&=\frac{2\theta}{\sqrt{\pi}}.
+	\end{align*}
+	An unbiaed estimator of $\theta$ can be obtained with the MoM,  that is by solving
+	\begin{equation*}
+		\frac{1}{n}\sum_{i=1}^{n}X_{i}=\ev{X_{i}}=\frac{2\theta}{\sqrt{\pi}}\implies\widetilde{\theta}=\frac{\sqrt{\pi}}{2}\Xbar.
+	\end{equation*}
+	We can check that the MSE coincides with the variance.
+	\begin{align*}
+		\MSE{\widetilde{\theta}}&=\frac{1}{n}\left(\frac{3\pi}{8}-1\right)\theta^{2}.
+	\end{align*}
+\end{enumerate}
+\begin{exercise}
+	Let $\rsampx\iid\mathsf{Unif}(0,\theta)$ with $\theta>0$. Let $X_{(1)}<\ldots<X_{(n)}$ be its order statistics. Show that each
+	$Z_{k}=\frac{n+1}{k}X_{(k)};\qquad k=1,\ldots,b$
+	is an unbiased estimator of $\theta$. \par
+	\textbf{\textit{Hint}}: the p.d.f. of $X_{(n)}$ is given by 
+	\begin{equation*}
+		f_{(k)}(x|\theta)=\frac{n!}{(k-1)!(n-k)!}\left(\frac{x^{k-1}}{\theta^{k-1}}\right)\left(1-\frac{x}{\theta}\right)^{n-k}\frac{1}{\theta};\qquad 0\leq x\leq \theta.
+	\end{equation*}
+	\begin{revise}
+		Indeed recall that for the $k$-th order statistic of \textit{any} continuous \rv{} with CDF $F$ and pdf $f$, its density is given by
+	\begin{equation*}
+		f_{(k)}(x|\theta)=\frac{n!}{(k-1)!(n-k)!}F(x)^{k-1}\left(1-F(x)\right)^{n-k}\cdot f(x)
+	\end{equation*}
+	which can be shown by first proving that
+	\begin{equation*}
+		\pr\left(X_{(n)}<x\right)=\sum_{i=1}^{n}{n\choose i}F(x)^{i}(1-F(x))^{n-i}
+	\end{equation*}
+	and then differentiating to find $f_{(k)}(x)$.
+	\end{revise}
+\end{exercise}
+Consider 
+\begin{align*}
+	\ev{Z_{k}}&=\ev{\frac{n+1}{k}X_{(k)}}\\
+	&=\int_{0}^{\theta}\frac{n+1}{k}x f_{(k)}(x|\theta)\dx\\
+	&=\frac{n+1}{k}\frac{n!}{(k-1)!(n-k)!}\int_{0}^{\theta}x\left(\frac{x}{\theta}\right)^{k-1}\left(1-\frac{x}{\theta}\right)^{n-k}\frac{1}{\theta}\dx\\
+	 t=\frac{x}{\theta}\qquad&=\frac{(n+1)!}{k!(n-k)!}\theta\int_{0}^{1}\ubracketthin{t^{k+1-1}(1-t)^{n-k+1-1}}_{\text{beta kernel}}\dt\\
+	 &=\theta\frac{(n+1)!}{k!(n-k)!}\frac{\Gamma(k+1)\Gamma(n-k+1)}{\Gamma(k+1+n-k+1)}\\
+	 &=\theta\frac{(n+1)!}{k!(n-k)!}\frac{n!(n-k)!}{(n+1)!}=\theta.
+\end{align*}
+\begin{remark}
+	Equivalently one can define
+	\begin{equation*}
+		Y=\frac{X_{(k)}}{\theta}
+	\end{equation*}
+	and show that $Y\sim\mathsf{Beta}(k,n-k+1)$ whose mean is known! Then
+	\begin{equation*}
+		\ev{X_{(k)}}=\theta\ev{Y}=\theta\frac{k}{k+n-k+1}
+	\end{equation*}
+	which proves that $\frac{n+1}{k}X_{(k)}$ is unbiased.
+\end{remark}
+\begin{exercise}
+	\emph{Linear regression}. Let $Y_{1},\ldots,Y_{n}$ satisfy 
+	\begin{equation*}
+		Y_{i}=\beta X_{i}+\varepsilon_{i},\qquad i=1,\ldots,n
+	\end{equation*}
+	with 
+	\begin{equation*}
+		\varepsilon_{1},\ldots,\varepsilon_{n}\iid\mathsf{N}\left(0,\sigma^{2}\right)
+	\end{equation*}
+	with $\sigma^{2}$ unknown and $X_{1},\ldots,X_{n}$ fixed constants.\begin{enumerate}
+		 \item Find a sufficient statistic for $(\beta,\sigma^{2})$.
+		 \item Find the mle $\widehat{\beta}$ of $\beta$ and show it is unbiased. Is it a function of the sufficient statistic?
+		 \item Find the distribution of $\widehat{\beta}$. This is typically hard.
+		 \item Show that 
+		 \begin{equation*}
+		 	\beta'=\frac{\sum_{i=1}^{n}Y_{i}}{\sum_{i=1}^{n}X_{i}}
+		 \end{equation*}
+		 is also an estimator of $\beta$.
+		 \item Compute the variance of $\beta'$ and compare it to the variance of $\widehat{\beta}$.
+		 \item Show that $$\beta''=\frac{1}{n}\sum_{i=1}^{n}\ev{\frac{Y_{i}}{X_{i}}}$$ is also an unbiased estimator of $\beta$. 
+		 \item Compute the variance of $\beta''$ and compare it to the variance of $\widehat{\beta}$. 
+	\end{enumerate}
+\end{exercise}
+\begin{enumerate}
+	\item Note that $Y_{1},\ldots,Y_{n}\stackrel{\indep}{\sim}\mathsf{N}\left(\beta x_{i},\sigma^{2}\right)$. The likelihood is 
+\begin{align*}
+	\like(\beta,\sigma^{2}|y)&=\prod_{i=1}^{n}\left(2\pi\sigma^{2}\right)^{-\unmezz}\expg{-\frac{1}{2\sigma^{2}}\left(y_{i}-\beta x_{i}\right)^{2}}\\
+	&=\left(2\pi\sigma^{2}\right)^{-\frac{n}{2}}\expg{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}\left(y^{2}_{i}-2\beta x_{i}y_{i}+\beta^{2}x^{2}_{i}\right)}\\
+	&=\left(2\pi\sigma^{2}\right)^{-\frac{n}{2}}\expg{-\frac{\beta^{2}}{2\sigma^{2}}\sum_{i=1}^{n}x^{2}_{i}}\expg{-\frac{1}{2\sigma^{2}}\mathcolor{Magenta3}{\sum_{i=1}^{n}y^{2}_{i}}+\frac{\beta}{\sigma^{2}}\mathcolor{Magenta3}{\sum_{i=1}^{n}x_{i}y_{i}}}
+\end{align*}
+and the factorization theorem applies:
+\begin{equation*}
+	\left(\sum_{i=1}^{n}y_{i}^{2},\sum_{i=1}^{n}x_{i},y_{i}\right)
+\end{equation*}
+is a sufficient statistic for $(\beta,\sigma^{2})$.
+\item Start from the log likelihood
+\begin{align*}
+	\ell\left(\beta,\sigma^{2}|y\right)&=-\frac{n}{2}\log 2\pi\sigma^{2}-\frac{\beta^{2}}{2\sigma^{2}}\sum x_{i}^{2}-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}y^{2}_{i}+\frac{\beta}{\sigma^{2}}\sum_{i=1}^{n}x_{i}y_{i}\\
+\end{align*}
+and the derivative
+\begin{align*}
+	\deriv{\beta}\ell\left(\beta,\sigma^{2}|y\right)&=-\frac{\beta}{\sigma^{2}}\sum_{i=1}^{n}x_{i}^{2}+\frac{1}{\sigma^{2}}\sum_{i=1}^{n}x_{i}y_{i}\\
+	&=0\iff \beta=\frac{\sum_{i=1}^{n}x_{i}y_{i}}{\sum_{i=1}^{n}x_{i}^{2}}.
+\end{align*}
+We can say it is the MLE because it does not depend on $\sigma^{2}$. Now let's compute the bias:
+\begin{align*}
+	\ev{\widehat{\beta}}&=\sum_{i=1}^{n}\frac{x_{i}}{\sum_{i=1}^{n}x^{2}_{i}}\ubracketthin{\ev{Y_{i}}}_{\beta x_{i}}\\
+	&=\sum_{i=1}^{n}\frac{x_{i}}{\sum_{i=1}^{n}x_{i}}\beta x_{i}=\beta
+\end{align*}
+hence $\widehat{\beta}$ is unbiased.
+\begin{remark}
+	With the method of moments we get $\widetilde{\theta}=\frac{\sqrt{\pi}}{2}\Xbar$ which is unbiased. Note that sometimes the MME can be biased. For example take $\rsampx\iid\mathsf{Exp}(\theta)$ with
+	\begin{equation*}
+		\frac{1}{n}\sum_{i=1}^{n}X_{i}=\ev{X}=\frac{1}{\theta}\implies\widehat{\theta}=\frac{1}{\Xbar}
+	\end{equation*}
+	and we get
+	\begin{equation*}
+		\ev{\widehat{\theta}}=\ev{\frac{1}{\Xbar}}>\frac{1}{\ev{\Xbar}}=\frac{1}{\frac{1}{\theta}}=\theta.
+	\end{equation*}
+\end{remark}
+\item Find the distribution of
+\begin{equation*}
+	\widehat{\beta}=\frac{\sum_{i=1}^{n}X_{i}Y_{i}}{\sum_{i=1}^{n}X^{2}_{i}}=\sum_{i=1}^{n}a_{i}Y_{i}
+\end{equation*}
+where
+\begin{equation*}
+	a_{i}=\frac{X_{i}}{\sum_{i=1}^{n}X_{i}^{2}}
+\end{equation*}
+are constants. Also not that
+\begin{align*}
+	\var\left(\widehat{\beta}\right)&=\sum_{i=1}^{n}a_{i}^{2}\var\left(Y_{i}\right)\\&=\sum_{i=1}^{n}a_{i}^{2}\sigma^{2}\\
+	&=\sigma^{2}\sum_{i=1}^{n}a_{i}^{2}\\
+	&=\frac{\sigma^{2}}{\sum_{i=1}^{n}X_{i}^{2}}
+\end{align*}
+but this is a linear combination of independent Gaussians, so it is Gaussian; since a Gaussian \rv{} is characterized by mean and variance (which, at this point, we have) we get
+\begin{equation*}
+	\widehat{\beta}\distnorm{\beta,\frac{\sigma^{2}}{\sum_{i=1}^{n}X_{i^{2}}}}.
+\end{equation*}
+\item Take the expectation
+\begin{align*}
+	\ev{\frac{\sum_{i=1}^{n}Y_{i}}{\sum_{i=1}^{n}X_{i}}}&=\frac{1}{\sum_{i=1}^{n}X_{i}}\sum_{i=1}^{n}\ev{Y_{i}}\\
+	&=\frac{1}{\sum_{i=1}^{n}X_{i}}\sum_{i=1}^{n}\beta X_{i}=\beta.
+\end{align*}
+\item We compute the variance
+\begin{align*}
+	\var\left(\frac{\sum_{i=1}^{n}Y_{i}}{\sum_{i=1}^{n}X_{i}}\right)&=\frac{1}{\left(\sum_{i=1}^{n}X_{i}\right)^{2}}\sum_{i=1}^{n}\var\left(Y_{u}\right)\\
+	&=\frac{n\sigma^{2}}{\left(\sum_{i=1}^{n}X_{i}\right)^{2}}.
+\end{align*}
+We need to check whether
+\begin{equation*}
+	\var\left(\widehat{\beta}\right)\leq\var\left(\beta'\right).
+\end{equation*}
+Since we can decompose
+\begin{equation*}
+	\sum_{i=1}^{n}\left(x_{i}-a\right)^{2}=\sum_{i=1}^{n}\left(x_{i}-\xbar\right)^{2}+b\left(\xbar-a\right)^{2}\qquad\every a\in\R,
+\end{equation*}
+in particular for $a=0$ we get 
+\begin{equation*}
+	\sum_{i=1}^{n}x_{i}^{2}=\sum_{i=1}^{n}\left(x_{i}-\xbar\right)^{2}+n\xbar^{2}
+\end{equation*}
+which in turn tells us that
+\begin{align*}
+	\implies&\sum_{i=1}^{n}x_{i}^{2}-n\xbar^{2}=\sum_{i=1}^{n}(x_{i}-\xbar)^{2}\geq0\\
+	\implies&\ubracketthin{\sum_{i=1}^{n}x_{i}}_{\claptext{denominator of $\var\left(\widehat{\theta}\right)$}}\geq n\xbar^{2}=\ubracketthin{\frac{1}{n}\left(\sum_{i=1}^{n}x_{i}\right)^{2}}_{\claptext{denominator of $\var\left(\beta'\right)$}}
+\end{align*}
+so we conclude that
+\begin{equation*}
+	\var\left(\widehat{\beta}\right)=\frac{\sigma^{2}}{\sum_{i=1}^{n}x_{i}^{2}}\leq\frac{n\sigma^{2}}{\left(\sum_{i=1}^{n}x_{i}\right)^{2}}=\var\left(\beta'\right).
+\end{equation*}
+\item We have
+\begin{align*}
+	\ev{\frac{1}{n}\sum_{i=1}^{n}\frac{Y_{i}}{X_{i}}}&=\frac{1}{n}\sum_{i=1}^{n}\ev{\frac{Y_{i}}{X_{i}}}\\
+	&=\frac{1}{n}\sum_{i=1}^{n}\frac{1}{X_{i}}\ev{Y_{i}}\\
+	&=\frac{1}{n}\sum_{i=1}^{n}\frac{1}{X_{i}}\beta X_{i}\\
+	&=\frac{n\beta}{n}=\beta.
+\end{align*}
+\item We have
+\begin{align*}
+	\var\left(\frac{1}{n}\sum_{i=1}^{n}\frac{Y_{i}}{X_{i}}\right)&=\frac{1}{n^{2}}\sum_{i=1}^{n}\frac{1}{X_{i}^{2}}\var\left(Y_{i}\right)\\
+	&=\frac{\sigma^{2}}{n^{2}}\sum_{i=1}^{n}\frac{1}{x^{2}_{i}}.
+\end{align*}
+Recall the well-known\footnote{Really?} relation between harmonic, geometric and arithmetic means:
+\begin{equation*}
+	\text{harmonic $\leq$ geometric $\leq$ arithmetic}
+\end{equation*}
+that is
+\begin{equation*}
+	\frac{n}{\sum_{i=1}^{n}\frac{1}{x_{i}^{2}}}\leq\frac{1}{n}\sum_{i=1}^{n}x^{2}_{i}\implies \frac{n^{2}}{\sum_{i=1}^{n}\frac{1}{X^{2}_{i}}}\leq \sum_{i=1}^{n}X^{2}_{i}
+\end{equation*}
+so
+\begin{equation*}
+	\frac{1}{\sum_{i=1}^{n}X^{2}_{i}}\leq\frac{1}{n^{2}}\sum_{i=1}^{n}\frac{1}{X^{2}_{1}}.
+\end{equation*}
+In conclusion
+\begin{align*}
+	\var\left(\widehat{\beta}\right)=\frac{\sigma^{2}}{\sum_{i=1}^{n}X_{i}^{2}}\leq\frac{\sigma^{2}}{n^{2}}\sum_{i=1}^{n}\frac{1}{X^{2}_{i}}=\var\left(\beta''\right).
+\end{align*}
+\end{enumerate}
+\begin{remark}
+	We have 3 different unbiased estimators of $\beta$, but $\widehat{\beta}$ should be preferred having the smallest variance! However, there could be another estimator we haven't considered which is even better... In principle there could be infinitely many unbiased estimators and we don't have the possibility to check all of them. It is possible to show that $\widehat{\beta}$ is \textcolor{blue}{B.L.U.E.} (\textcolor{blue}{B}est \textcolor{blue}{L}inear \textcolor{blue}{U}nbiased \textcolor{blue}{E}stimator).
+\end{remark}
+\section{Tutorial class 7}
+\begin{revise}
+	MORE point estimation!! 
+	\begin{definition}
+		An estimator $W^{\star}$ is a best unbiased estimator of $\tau(\theta)$ if $\ev{W^{\star}|\theta}=\tau(\theta)$ for $\every\theta$ and, for any other unbiased estimator $W$ of $\tau(\theta)$,
+		\begin{equation*}
+			\var\left(W^{\star}|\theta\right)\leq\var\left(W|\theta\right)\every \theta.
+		\end{equation*}
+	\end{definition}
+	\begin{remark}
+		Finding a best unbiased (if one exists) is NOT an easy task!
+	\end{remark}
+	For example: let $\rsampx\iid\mathsf{Pois}(\lambda)$. Recall that
+	\begin{equation*}
+		\ev{X}=\lambda=\var\left(X\right).
+	\end{equation*}
+	Since $\Xbar$ and $S^{2}$ (the corrected sample variance) are unbiased estimators of $\ev{X}$ and $\var\left(X\right)$ respectively then it means that we have \textit{infinitely} many unbiased estimators of $\lambda$! 
+	\begin{theorem} \emph{Cramer Rao lower bound - i.i.d. case and unbiased}. Let $X=\rsampx\iid f(x|\theta)$ and let $W(X)$ be an estimator satisfying
+		\begin{equation*}
+			\pderiv{\theta}\int_{\mathcal{X}}W(x)f(x|\theta)\dx=\int_{\mathcal{X}}\pderiv{\theta}W(x)f(x|\theta)\dx\tag*{\faStaylinked}\label{linked}
+		\end{equation*}
+		with $\var\left(W(X)|\theta\right)<\infty$.
+	If $W(X)$ is unbiased then
+	\begin{equation*}
+		\var\left(W(X)|\theta\right)\geq\frac{1}{ni(\theta)}=\frac{1}{I_{n}(\theta)}
+	\end{equation*}
+	where $i(\theta)$ is the ``Fisher information'' of a \textit{single} observation:
+	\begin{equation*}
+		\begin{carray}
+			i(\theta)=\ev{\left(\pderiv{\theta}\log f(X_{1}|\theta)\right)^{2}}\\
+			I_{n}=\ev{\left(\pderiv{\theta}\log f(X_{1},\ldots,X_{n}|\theta)\right)^{2}}.
+		\end{carray}
+	\end{equation*}
+	
+	\end{theorem}
+	\begin{remark}
+		For an exponential family,
+		\begin{equation*}
+			i(\theta)=-\ev{\pdderiv{\theta}\log f(X|\theta)}.
+		\end{equation*}
+	\end{remark}
+	Some facts about the Fisher information:
+	\begin{itemize}
+		\item $\pderiv{\theta}\log f(X_{1},\ldots,X_{n}|\theta)$ is a random variable usually called \emph{score function}.
+		\item The score function satisfies 
+		\begin{equation*}
+			\ev{\pderiv{\theta}\log f(X_{1},\ldots,X_{n}|\theta)}=0.
+		\end{equation*}
+		It follows that the fisher information is the variance of the score!
+		\item The Fisher information is the curvature of the log-likelihood.
+	\end{itemize}
+	In the case of the Poisson \rv, we are in the exponential family, therefore
+	\begin{align*}
+		-i(\lambda)&=-\ev{\pdderiv{\lambda}\log f(X|\theta)}\\
+		&=-\ev{\pdderiv{\lambda}\log\frac{\lambda^{X}}{X!}e^{-\lambda}}\\
+		&=-\ev{\pdderiv{\lambda}\left(X\log \lambda-\log X!-\lambda\right)}\\
+		&=\ev{\frac{X}{\lambda^{2}}}\\
+		&=\frac{1}{\lambda^{2}}\ev{X}=\frac{1}{\lambda}.
+	\end{align*}
+	This can be interpreted as the information that a single \rv{} conveys about $\lambda$. Notice that this is a function of $\lambda$: for some $\lambda$ this information is larger and for other is smaller. Hence ofr any unbiased estimator $W\left(\xbar\right)$ of $\lambda$ we have
+	\begin{equation*}
+		\var\left(W\left(xbar\right)|\lambda\right)\geq\frac{1}{ni(\lambda)}=\frac{\lambda}{n}.
+	\end{equation*}
+	Since \begin{align*}
+		\var\left(W_{0}\left(X\right)|\lambda\right)&=\var\left(\Xbar\right)\\
+		&=\frac{\lambda}{n}.
+	\end{align*}
+	\begin{insult}
+		Matteo told us that if we don't know how to compute the variance of the sample mean Favaro will fucking kill us at the oral examination.
+	\end{insult}
+	So $\Xbar=W_{0}(X)$ is a best unbiased estimator of $\lambda$.
+\end{revise}
+\begin{exercise}
+	Let $\rsampx\distunif{0,\theta}$ so that 
+	\begin{equation*}
+		f(x|\theta)=\frac{1}{\theta}\indi_{(0,\theta)}(x).
+	\end{equation*} 
+	Find an estimator for $\theta$ with ``small'' variance. Be careful: this is not an exponential family!
+\end{exercise}
+The Fisher information is 
+\begin{align*}
+	i(\theta)&=\ev{\left(\pderiv{\theta}\log f(X|\theta)\right)^{2}}\\
+	&=\ldots\\
+	&=\frac{1}{\theta^{2}}.
+\end{align*}
+Therefore, by Cramer-Rao lower bound if $W(X)$ is any unbiased estimator of $\theta$, then
+\begin{equation*}
+	\var\left(W(X)|\theta\right)\geq\frac{1}{ni(\theta)}=\frac{\theta^{2}}{n}.
+\end{equation*}
+Recall from last tutorial class that for this distribution we found that
+\begin{equation*}
+	W(x)=\frac{n+1}{n}X_{(n)}
+\end{equation*}
+is an unbiased estimator of $\theta$. Let's compute the variance:
+\begin{align*}
+	\var\left(\frac{n+1}{n}X_{(n)}\right)&=\left(\frac{n+1}{n}\right)^{2}\var\left(X_{(n)}\right)\\
+	&=\left(\frac{n+1}{n}\right)^{2}\left(\ev{X^{2}_{(n)}}-\ev{X_{(n)}}^{2}\right)\\
+	&=\left(\frac{n+1}{n}\right)^{2}\left(\frac{n}{n+2}\theta^{2}-\left(\frac{n}{n+1}\theta\right)^{2}\right)\\
+	&=\frac{(n+1)^{2}}{n^{2}}\theta^{2}\frac{n(n+1)^{2}-n^{2}(n+2)}{(n+2)(n+1)^{2}}\\
+	&=\frac{\theta^{2}}{n(n+2)}.
+\end{align*}
+Note that
+\begin{equation*}
+	\var\left(\frac{n+1}{n}X_{(n)}\right)=\frac{\theta^{2}}{(n(n+2))}\leq\frac{\theta^{2}}{n}
+\end{equation*}
+What the fuck??? How is this possible? The answer is that we didn't check that assumption \ref{linked} holds! It does NOT (we cannot interchange integration and differentiation) so we CANNOT apply Cramer-Rao! Remember the Leibniz rule:
+\begin{align*}
+	\pderiv{\theta}\int_{0}^{\theta}W(x)f(W|\theta)\dx&=\pderiv{\theta}\int_{0}^{\theta}W(x)\frac{1}{\theta}\dx\\
+	&=\frac{W(\theta)}{\theta}+\int_{0}^{\theta}\pderiv{\theta}\frac{W(x)}{\theta}\dx\\
+	&\mathcolor{Magenta3}{\neq}\int_{0}^{\theta}\pderiv{\theta}\frac{W(x)}{\theta}\dx.
+\end{align*}
+Recall that this rule says that 
+\begin{align*}
+	\pderiv{\theta}\int_{a(\theta)}^{b(\theta)}g(x,\theta)\dx=&g(b(\theta),\theta)\pderiv{\theta}b(\theta)-g(a(\theta),\theta)\pderiv{\theta}a(\theta)+\int_{a(\theta)}^{b(\theta)}\pderiv{\theta}g(x,\theta)\dx.
+\end{align*}
+Is is the reason for the extra term $g(b(\theta),\theta)\pderiv{\theta}b(\theta)-g(a(\theta),\theta)\pderiv{\theta}a(\theta)$ which doesn't allow us to use the CRLB.
+\begin{remark}
+	If the support of the PDF depends on the parameter, CRLB doesn't apply! We cannot even compute the Fisher information!
+\end{remark}
