@@ -260,35 +260,7 @@
 							\end{tikzpicture}
 						}
 
-							\newcounter{exampl}
-							
-							\newtcbtheorem[number within=section]{exa}{Example}{
-								enhanced jigsaw, 
-								frame empty, breakable,
-								colframe=white, coltitle=black,
-								colback=white,
-								opacityback=0,
-								sharp corners,
-								borderline west={1mm}{0mm}{CadetBlue4},
-								attach boxed title to top left,  
-								boxed title style={boxrule=0.5mm,drop fuzzy shadow=gray, colframe=CadetBlue4, sharp corners, interior style={left color=white, right color=CadetBlue4!50}},
-								separator sign={:},
-								opacityframe=.5,
-								description formatter=\newline,
-								theorem hanging indent/.try=0pt,
-							}{}
-							
-							\newenvironment{example}[1][]{
-								\stepcounter{exampl}
-								\ifstrempty{#1}{%   
-									\begin{exa}{}{\theexer\theexampl}%                     
-									}{%       
-										\begin{exa}{}{\theexampl}%                 
-										}%
-									}{%
-									\end{exa}% 
-								}
-								
+						
 								\newcounter{exer}
 	\newenvironment{carray}[1][]{
 	\begin{array}{>{\displaystyle}c}
@@ -458,7 +430,7 @@
 									\newcommand{\prob}{\mathbb{P}}
 									\newcommand\indep{\protect\mathpalette{\protect\independenT}{\perp}}
 									\newcommand{\evs}{\mathbb{E}}
-									\newcommand{\ev}[1]{\mathbb{E}\left[#1\right]}
+									\newcommand{\ev}[1]{\mathbb{E}\kern-2pt\left[#1\right]}
 									\newcommand{\evBig}[1]{\mathbb{E}\Bigl[#1\Bigr]}
 									\newcommand{\evbigg}[1]{\mathbb{E}\biggl[#1\biggr]}
 									\newcommand{\evbig}[1]{\mathbb{E}\bigl[#1\bigr]}
@@ -578,7 +550,7 @@
 									\newcommand{\nN}{n \in \mathbb{N}}
 									\newcommand{\mmN}{\mathcal{N}}
 									\newcommand{\PX}{(X_t)_{t\geq 0}}
-									\newcommand{\var}{\mathbb{V}\!\mathrm{ar}\,}
+									\newcommand{\var}{\mathbb{V}\!\mathrm{ar}\kern-2pt}
 									\newcommand{\cov}{\mathbb{C}\mathrm{ov}\,}
 									\newcommand{\corr}{\mathbb{C}\mathrm{orr}\,}
 									\newcommand{\lp}{L^{p}}
@@ -587,7 +559,7 @@
 									\newcommand{\mFt}{\mathcal{F}_t}
 									\newcommand{\every}{\forall\,}
 									\newcommand{\dyadic}{\mathcal{d}}
-									\newcommand{\norm}[1]{\left|\negthinspace\left|#1\right|\negthinspace\right|}
+									\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
 									\newcommand{\trsp}{\mathsf{T}}
 		\newcommand{\pr}{\mathbb{P}}
 		\newcommand{\indi}{\mathbb{1}}
